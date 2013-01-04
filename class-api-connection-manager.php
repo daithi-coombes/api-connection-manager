@@ -694,7 +694,7 @@ class API_Connection_Manager{
 			$wp_plugins[plugin_basename($plugin_file)] = $plugin_data;
 			
 			//get params and options
-			$params = $this->_get_params( plugin_basename($plugin_file) );
+			$params = $this->_get_module( plugin_basename($plugin_file) );
 			$options = $this->_get_service_options( plugin_basename($plugin_file) );
 			$wp_plugins[plugin_basename($plugin_file)]['params'] = $params;
 			$wp_plugins[plugin_basename($plugin_file)]['options'] = $options;
@@ -788,22 +788,43 @@ class API_Connection_Manager{
 	 * for service aren't set.
 	 * @subpackage api-core
 	 */
-	private function _get_params($slug){
+	private function _get_module($slug){
 		
 		//vars
 		$errs = array();
 		$user = $this->user->ID; //wp_validate_auth_cookie();
 		
-		//try loading file
+		//reset module vars
+		if(isset($oauth1))
+			unset($oauth1);
+		if(isset($oauth2))
+			unset($oauth2);
+		if(isset($service))
+			unset($service);
+		
+		//try loading file to get current module var
 		require_once('class-api-con-mngr-module.php');
 		if(!include($this->dir_sub . "/" . $slug))
 			return $this->_error("No module file for serivce {$slug}");
-		//add slug
-		if(isset($oauth2)) $oauth2['slug'] = $slug;
+			
+		//check var is available (& add slug)
+		if(isset($oauth1)) $oauth1->slug = $slug;
+		elseif(isset($oauth2)) $oauth2['slug'] = $slug;
 		elseif(isset($service)) $service['slug'] = $slug;
 		else return $this->_error("No params set for service {$slug}");
 		
-		//add grant uri for oauth2
+		
+		/**
+		 * Parse Oauth1 data 
+		 */
+		if(@$oauth1){
+			ar_print($oauth1);
+		} // end parse Oauth1 data
+		
+		
+		/**
+		 * Parse Oauth2 data 
+		 */
 		if(@$oauth2){
 			
 			//get options
@@ -876,10 +897,10 @@ class API_Connection_Manager{
 			$oauth2['grant-uri'] = $uri;
 			
 			return $oauth2;
-		}
+		} // end parse Oauth2 data
 		
 		//default return WP_Error
-		return $this->_error("No service data found");
+		return $this->_error("No service data found for {$slug}");
 	}
 	
 	/**
@@ -1585,7 +1606,7 @@ class API_Connection_Manager{
 		$this->_set_option($current);
 		
 		//update the services array
-		$params = $this->_get_params( $slug );
+		$params = $this->_get_module( $slug );
 		$options = $this->_get_service_options( $slug );
 		foreach($this->services['active'] as $key=>$data){
 			$state = 'active';

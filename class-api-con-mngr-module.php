@@ -7,6 +7,9 @@
  */
 class API_Con_Mngr_Module{
 	
+	/** @var string The slug of the current login */
+	public $slug="";
+	
 	/**
 	 * Set the header.
 	 * 
