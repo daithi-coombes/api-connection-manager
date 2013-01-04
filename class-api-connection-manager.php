@@ -25,7 +25,7 @@
  * Although wordpress mixes and jumps between slugs and index files when working
  * with plugins, for this class the index file and the slug are the same and the
  * one. So the slug for a module stored at:
- * api-con-mng-modules/google-login/index.php
+ * api-con-mngr-modules/google-login/index.php
  * the slug would then be:
  * google-login/index.php
  * The reason for this is that the index file is the only definite unique item
@@ -80,19 +80,27 @@ class API_Connection_Manager{
 	
 	/**
 	 * Loads settings and set default params.
+	 * 
+	 * @see index.php for dependencies idea of code flow.
 	 */
 	public function __construct(){
+		
+		/**
+		 * dependencies 
+		 */
+		require_once( "class-api-con-mngr-module.php" ); //module, header and param classes
+		// end dependencies
 		
 		//get current user first
 		$this->user = $this->_get_current_user();
 		
 		//default params
-		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mng-modules";
+		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
 		$this->redirect_uri = admin_url('admin-ajax.php') . "?" . http_build_query(array(
 			'action' => 'api_con_mngr'
 		));
 		$this->services = $this->_get_installed_services();
-		$this->url_sub = WP_PLUGIN_URL . "/api-con-mng-modules";
+		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
 				
 		//make sure options array is set
 		$options = $this->_get_options();
@@ -787,13 +795,13 @@ class API_Connection_Manager{
 		$user = $this->user->ID; //wp_validate_auth_cookie();
 		
 		//try loading file
-		if(!@include($this->dir_sub . "/" . $slug))
+		require_once('class-api-con-mngr-module.php');
+		if(!include($this->dir_sub . "/" . $slug))
 			return $this->_error("No module file for serivce {$slug}");
-		
 		//add slug
 		if(isset($oauth2)) $oauth2['slug'] = $slug;
 		elseif(isset($service)) $service['slug'] = $slug;
-		else	return $this->_error("No params set for service {$slug}");
+		else return $this->_error("No params set for service {$slug}");
 		
 		//add grant uri for oauth2
 		if(@$oauth2){
@@ -869,6 +877,9 @@ class API_Connection_Manager{
 			
 			return $oauth2;
 		}
+		
+		//default return WP_Error
+		return $this->_error("No service data found");
 	}
 	
 	/**
@@ -1557,6 +1568,9 @@ class API_Connection_Manager{
 	/**
 	 * Set the options for a service.
 	 * 
+	 * @todo try not use ::_get_params. this method re-reads all the module
+	 * files using filesystem calls and is already called by 
+	 * ::_get_installed_services. 
 	 * @uses API_Connection_Manager::set_option()
 	 * @param string $slug Index file to service.
 	 * @param array $options An array of options.
