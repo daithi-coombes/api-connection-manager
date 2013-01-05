@@ -440,14 +440,27 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		$this->total_inactive = count($api->services['inactive']);
 		$this->total = (int)( (int)$this->total_active + (int)$this->total_inactive);
 		
+		/**
+		 * array based modules
+		 * @todo remove
+		 */
 		//get inactive services
 		if('inactive'==$status || 'all'==$status)
-			foreach($api->services['inactive'] as $service)
-				$data[] = array(
-					'ID' => $service['slug'],
-					'title' => $service['Name'],
-					'description' => $service['Description']
-				);
+			foreach($api->services['inactive'] as $service){
+			ar_print($service);
+				if(is_object($service))
+					$data[] = array(
+						'ID' => $service->slug,
+						'title' => $service->Name,
+						'description' => $service->Description
+					);
+				else
+					$data[] = array(
+						'ID' => $service['slug'],
+						'title' => $service['Name'],
+						'description' => $service['Description']
+					);
+			}
 		
 		//get active services
 		if('active'==$status || 'all'==$status)
