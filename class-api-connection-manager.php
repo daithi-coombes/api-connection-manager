@@ -61,6 +61,7 @@
  * @package api-connection-manager
  * @author daithi
  */
+session_start();
 class API_Connection_Manager{
 	
 	/** @var string The last error made */
@@ -1116,23 +1117,39 @@ class API_Connection_Manager{
 		if(is_wp_error($dto))
 			die( $dto->get_message() );
 		
+		(@$dto->response['slug']) ?
+			$slug = $dto->response['slug'] :
+			$slug = $_SESSION['api-con-module'];
+		
 		//get module
 		if(@$dto->response['slug'])
-			$module = $this->get_service($dto->response['slug']);
+			$module = $this->get_service($slug);
 		
 		
 		//if oauth1
 		if($module->protocol == 'oauth1'){
 			
-			ar_print($dto);
+			/**
+			 * Saving the access_token 
+			 */
+			if($dto->response['oauth_token']){
+				$module = $this->get_service($_SESSION['api-con-module']);
+				$module->oauth_token = $dto->response['oauth_token'];
+				
+				$this->_service_do_callback(false, $dto);
+			}
+			// end saving the access token
 			
 			/**
 			 * Get authorize url 
 			 */
-			$token = $module->get_request_token();
-			$url = $module->get_authorize_url( $token );
-			header("Location: {$url}");
-			exit;
+			else{
+				$token = $module->get_request_token();
+				$url = $module->get_authorize_url( $token );
+				$_SESSION['api-con-module'] = $dto->response['slug'];
+				header("Location: {$url}");
+				exit;
+			}
 			// end get autorize url
 		}
 		
@@ -1224,32 +1241,43 @@ class API_Connection_Manager{
 		//get callbacks
 		$callbacks = $this->_get_options_transient("-callbacks");
 		
-		//loop through them
-		foreach($callbacks as $data){
-			$unique = stripslashes( urldecode($unique));
-			$nonce = stripslashes( urldecode($data['nonce']));
-			
-			//if this matches state
-			if($nonce==$unique){
-				
-				//load file
-				require_once( $data['file'] );
+		/**
+		 * For object based modules 
+		 */
+		if(!$unique){
+			ar_print($callbacks);
+		}
+		
+		/**
+		 * For array based modules 
+		 */
+		else
+			//loop through them
+			foreach($callbacks as $data){
+				$unique = stripslashes( urldecode($unique));
+				$nonce = stripslashes( urldecode($data['nonce']));
 
-				//call a method
-				if(is_array($data['func'])){
-					$class = $data['func'][0];
-					$method = $data['func'][1];
-					$obj = new $class();
-					$obj->$method($dto);
+				//if this matches state
+				if($nonce==$unique){
+
+					//load file
+					require_once( $data['file'] );
+
+					//call a method
+					if(is_array($data['func'])){
+						$class = $data['func'][0];
+						$method = $data['func'][1];
+						$obj = new $class();
+						$obj->$method($dto);
+						break;
+					}
+
+					//call a function
+					$callback = $data['func'];
+					$callback($dto);
 					break;
 				}
-
-				//call a function
-				$callback = $data['func'];
-				$callback($dto);
-				break;
 			}
-		}
 	}
 	
 	/**

@@ -12,7 +12,9 @@ class API_Con_Mngr_Module{
 	/** @var string The uri for displaying a login link */
 	public $login_uri=false;
 	/** @var string The name of the module */
-	public $Name="";
+	public $Name=false;
+	/** @var string Oauth1 token */
+	public $oauth_token=false;
 	/** @var array An array of static params */
 	public $params=array();
 	/** @var string The current protocol used (oauth, custom, etc) */
