@@ -283,29 +283,21 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * WP Plugin method. Returns the html for a module's login link.
+	 * Returns the html for a module's login link.
 	 * 
 	 * This is a possible helper function that will return the button or html
 	 * for an oauth2 token url.
 	 * 
 	 * @todo allow button sizes (small|medium|large)
-	 * @todo remove file check. Get params from $this->services[]
 	 * @param string $slug The index filename of the sub-module.
+	 * @param string $file The location of the file to run the callback from
 	 * @param mixed $callback Callback function in same string|array format as
 	 * used by add_action.
 	 * @return string Returns the html.
 	 * @subpackage helper-methods
 	 */
 	public function get_login_button( $slug, $file, $callback ) {
-		
-		//check file exists
-		if ( ! include( "{$this->dir_sub}/{$slug}" ) )
-			return "<b>Invalid AutoFlow Module '{$this->dir_sub}/{$slug}'</b>";
-			
-		//check vars are defined
-		if ( !@ $oauth2 && !@ $service )
-			return "<b>No AutoFlow settings variable for Module '{$slug}'</b>";
-		
+				
 		//vars
 		$html = "<a href='";
 		$path = explode( "/", $slug );
@@ -315,31 +307,47 @@ class API_Connection_Manager{
 		$options = $options['services'];
 		$slug = trim($slug);	//clean slug just in case ;)
 		$service = $this->get_service($slug);
-		if(is_wp_error($service['params']))
-			return "ERROR: " . $service['params']->get_error_message();
-		
-		//add uri
-		if(@$service['params']['grant-uri'])
-			$html .= "{$service['params']['grant-uri']}'>\n";
-		else $html .= "#'>\n";
 		
 		/**
-		 * Set callback 
+		 * If module is object
 		 */
-		if(@$service['params']['grant-vars']['state'])
-			$callbacks = $this->_set_callback($file, $callback, $service['params']['grant-vars']['state']);
+		if(get_parent_class($service)=='API_Con_Mngr_Module'){
+			
+			$html .= "{$service->login_uri}'>";
+			$html .= "{$service->Name}\n";
+		} // end module is object
 		
 		/**
-		 * oauth2 link button image or text?
+		 * If module is array
 		 */
-		if ( @$service['params'][ 'button-image' ] )
-			$html .= "<img src='{$this->url_sub}/{$module_folder}/{$service['params']['button-image']}'
-				border='0' alt='{$service['params']['button-text']}'/>";
-		else
-			$html .= $service['params'][ 'button-text' ];
+		else{
+			if(is_wp_error($service['params']))
+				return "ERROR: " . $service['params']->get_error_message();
+
+			//add uri
+			if(@$service['params']['grant-uri'])
+				$html .= "{$service['params']['grant-uri']}'>\n";
+			else $html .= "#'>\n";
+
+			/**
+			* Set callback 
+			*/
+			if(@$service['params']['grant-vars']['state'])
+				$callbacks = $this->_set_callback($file, $callback, $service['params']['grant-vars']['state']);
+
+			/**
+			* oauth2 link button image or text?
+			*/
+			if ( @$service['params'][ 'button-image' ] )
+				$html .= "<img src='{$this->url_sub}/{$module_folder}/{$service['params']['button-image']}'
+					border='0' alt='{$service['params']['button-text']}'/>";
+			else
+				$html .= $service['params'][ 'button-text' ];
+
+			//close link and return
+			$html .= "</a>\n";
+		} // end module is array
 		
-		//close link and return
-		$html .= "</a>\n";
 		return $html;
 	} //end get_login_button()
 	
@@ -629,6 +637,7 @@ class API_Connection_Manager{
 	 *  - API_Connection_Manager::__construct()
 	 *  - API_Connection_Manager::get_services //only if no services loaded yet
 	 * 
+	 * @todo use API_Con_Mngr_Module for all services
 	 * @param boolean Default false. Whether to include downloadable modules.
 	 * @return array 
 	 * @subpackage api-core
@@ -642,7 +651,6 @@ class API_Connection_Manager{
 		/**
 		 * Get list of plugin index files 
 		 */
-		// Files in autoflow modules folder
 		$plugins_dir = @ opendir( $plugin_root );
 		$plugin_files = array();
 		if ( $plugins_dir ) {
@@ -693,17 +701,33 @@ class API_Connection_Manager{
 
 			$wp_plugins[plugin_basename($plugin_file)] = $plugin_data;
 			
+			/**
+			 * Use array (will be deprecated)
+			 */
 			//get params and options
 			$params = $this->_get_module( plugin_basename($plugin_file) );
 			$options = $this->_get_service_options( plugin_basename($plugin_file) );
+			
 			$wp_plugins[plugin_basename($plugin_file)]['params'] = $params;
 			$wp_plugins[plugin_basename($plugin_file)]['options'] = $options;
+			//end array
+			
+			/**
+			 * Use API_Con_Mngr_Module 
+			 */
+			if(isset($oauth1)) unset($oauth1);
+			include("{$plugin_root}/{$plugin_file}");
+			if(isset($oauth1)){
+				$module = $this->_get_module( plugin_basename($plugin_file) );
+				$module->protocol = 'oauth1';
+				$module->set_params($plugin_data);
+				$wp_plugins[plugin_basename($plugin_file)] = $module; //new API_Con_Mngr_Module($params, $options);
+			}
+			//end use API_Con_Mngr_Module
+			
 		}//end build of plugin[data]
 		
-		/**
-		 * Sort active|inactive and return result 
-		 */
-		uasort($wp_plugins, '_sort_uname_callback');
+		//build return array
 		$res = array(
 			'active' => array(),
 			'inactive' => $wp_plugins
@@ -781,8 +805,6 @@ class API_Connection_Manager{
 	 * If there is an error including the file a WP_Error is returned. Returns
 	 * params on success.
 	 *
-	 * @todo when no options set for service then the params are using the
-	 * shortcodes.
 	 * @param string $slug The sevice slug
 	 * @return array|WP_Error Returns error if file can't be loaded or options
 	 * for service aren't set.
@@ -818,7 +840,16 @@ class API_Connection_Manager{
 		 * Parse Oauth1 data 
 		 */
 		if(@$oauth1){
-			ar_print($oauth1);
+			
+			//build login uri
+			if(!$oauth1->login_uri)
+				$oauth1->login_uri = admin_url('admin-ajax.php') ."?". http_build_query(array(
+					'action' => 'api_con_mngr',
+					'slug' => urlencode($slug)
+				));
+			
+			//reutrn oauth object
+			return $oauth1;
 		} // end parse Oauth1 data
 		
 		
@@ -1085,8 +1116,28 @@ class API_Connection_Manager{
 		if(is_wp_error($dto))
 			die( $dto->get_message() );
 		
+		//get module
+		if(@$dto->response['slug'])
+			$module = $this->get_service($dto->response['slug']);
+		
+		
+		//if oauth1
+		if($module->protocol == 'oauth1'){
+			
+			ar_print($dto);
+			
+			/**
+			 * Get authorize url 
+			 */
+			$token = $module->get_request_token();
+			$url = $module->get_authorize_url( $token );
+			header("Location: {$url}");
+			exit;
+			// end get autorize url
+		}
+		
 		//if oauth2 get token
-		if(@$dto->response['code']){
+		elseif(@$dto->response['code']){
 			
 			$tokens = $this->_service_get_token($dto);
 			if(is_wp_error($tokens))
