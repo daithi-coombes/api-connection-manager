@@ -1123,7 +1123,7 @@ class API_Connection_Manager{
 			true!==@DOING_AJAX ||
 			@$_GET['action']!='api_con_mngr'
 		) return;
-		ar_print($_REQUEST);
+
 		//get dto
 		$dto = $this->_service_parse_dto( $_GET );
 		if(is_wp_error($dto))
@@ -1157,9 +1157,8 @@ class API_Connection_Manager{
 			else{
 				$token = $module->get_request_token();
 				$url = $module->get_authorize_url( $token );
-				ar_print($url);
 				$_SESSION['api-con-module'] = $dto->response['slug'];
-				//header("Location: {$url}");
+				header("Location: {$url}");
 				exit;
 			}
 			// end get autorize url

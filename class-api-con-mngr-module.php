@@ -57,6 +57,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The token */
 		public $token = NULL;
 
+		/** @var string The authorize url */
+		public $url_authorize;
+		
 		/** @var string The request token url */
 		public $url_request_token;
 
@@ -97,8 +100,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 			;
 		}
 
-		public function get_authorize_url() {
-			;
+		/**
+		 * Returns the authorize url for oauth1
+		 * @param string $token The request token
+		 * @return string 
+		 */
+		public function get_authorize_url( $token ) {
+			return $this->url_authorize . "?oauth_token=" . $token;
 		}
 
 		/**
