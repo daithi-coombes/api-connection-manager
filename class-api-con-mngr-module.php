@@ -63,6 +63,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The request token url */
 		public $url_request_token;
 
+		/** @var boolean Flag to set whether provider will return nonce or not */
+		public $use_nonce = true;
+		
 		/** @var string The user agent to send with requests */
 		public $useragent = "TwitterOAuth v0.2.0-beta2";
 
@@ -96,8 +99,32 @@ if (!class_exists("API_Con_Mngr_Module")):
 			return $request;
 		}
 		
-		public function do_callback() {
-			;
+		/**
+		 * Do callback. Will check $_SESSION for callback details.
+		 * @param stdClass $dto The response dto.
+		 */
+		public function do_callback( stdClass $dto ) {
+			
+			//get callback from sessions
+			if(!$this->use_nonce){
+				$callback = $_SESSION['callback'];
+				
+				require_once( $callback['file'] );
+				
+				//call a method
+				if(is_array($callback['func'])){
+					$class = $callback['func'][0];
+					$method = $callback['func'][1];
+					$obj = new $class();
+					$obj->$method($dto);
+				}
+
+				//call a function
+				else{
+					$func = $callback['func'];
+					$func($dto);
+				}
+			}
 		}
 
 		/**
@@ -132,8 +159,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$this->oauth_nonce = $state;
 
 			//set callback
-			$API_Connection_Manager->_set_callback($file, $callback, $state);
-			//$_SESSION['callbacks'][ $this->slug ];
+			$API_Connection_Manager->_set_callback($file, $callback, $state, $this->use_nonce);
+			
+			//if not using nonces in request, append nonce to login uri
+			if(!$this->use_nonce)
+				$this->login_uri .= "&nonce=".  urlencode($state);
+			
 			//switch through protocols. These login uri's are set in API_Connection_Manager::_get_module();
 			switch ($this->protocol) {
 				case 'oauth1':

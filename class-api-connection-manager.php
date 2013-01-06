@@ -1144,9 +1144,7 @@ class API_Connection_Manager{
 			 * Saving the access_token 
 			 */
 			if(@$dto->response['oauth_token']){
-				$module = $this->get_service($_SESSION['api-con-module']);
-				
-				$module->do_callback( );
+				$module->do_callback( $dto );
 				//$this->_service_do_callback($dto->repsonse['oauth_nonce'], $dto);
 			}
 			// end saving the access token
@@ -1158,6 +1156,14 @@ class API_Connection_Manager{
 				$token = $module->get_request_token();
 				$url = $module->get_authorize_url( $token );
 				$_SESSION['api-con-module'] = $dto->response['slug'];
+				
+				//if nonce in request then set it as session var
+				if($_REQUEST['nonce']){
+					$_SESSION['callback'] = $_SESSION['callbacks'][stripslashes($_REQUEST['nonce']) ];
+					unset($_SESSION['callbacks'][ stripslashes($_REQUEST['nonce'])]);
+				}
+				
+				//redirect to url and exit
 				header("Location: {$url}");
 				exit;
 			}
@@ -1254,7 +1260,7 @@ class API_Connection_Manager{
 		
 		//get callbacks
 		$callbacks = $this->_get_options_transient("-callbacks");
-		ar_print($callbacks);
+		
 		//loop through them
 		foreach($callbacks as $data){
 			$unique = stripslashes( urldecode($unique));
@@ -1585,28 +1591,35 @@ class API_Connection_Manager{
 	 * function name as string.
 	 * @param string $unique Unique string that will be returned by the response
 	 * to match up with the right callback.
-	 * @return array Returns the current callbacks that are set.
+	 * @return string Returns the unique parameter
 	 * @subpackage api-core
 	 */
-	public function _set_callback( $file, $func, $unique ){
+	public function _set_callback( $file, $func, $unique, $db=true ){
 		
 		//if object passed get class name
 		if(is_object(@$func[0]))
 			$func[0] = get_class($func[0]);
 		
-		//build new callbacks array
-		$callbacks = array();
-		$callbacks = $this->_get_options_transient("-callbacks");
-		$callbacks[ $unique ] = array(
+		$data = array(
 			'file' => $file,
 			'nonce' => $unique,
 			'func' => $func
 		);
 		
-		//update and return actions
-		$this->_set_option_transient( "-callbacks", $callbacks);
+		//build new callbacks array
+		$callbacks = array();
+		$callbacks = $this->_get_options_transient("-callbacks");
+		$callbacks[ $unique ] = $data;
 		
-		return $callbacks;
+		//if using nonces in requests update db
+		if($db)
+			$this->_set_option_transient( "-callbacks", $callbacks);
+		//if not update session array
+		else
+			$_SESSION['callbacks'][$unique] = $data;
+		
+		//return unique key
+		return $unique;
 	}
 	
 	/**
