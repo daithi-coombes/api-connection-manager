@@ -46,9 +46,9 @@ require_once( "debug.func.php" );
  * settings pages are loaded.
  */
 require_once( $PLUGIN_DIR . "/class-api-connection-manager.php");
-require_once( $PLUGIN_DIR . "/class-api-con-mngr-module.php" ); //module, header and param classes
 global $API_Connection_Manager;
 $API_Connection_Manager = new API_Connection_Manager();
+require_once( $PLUGIN_DIR . "/class-api-con-mngr-module.php" ); //module, header and param classes
 require_once( $PLUGIN_DIR . "/class-api-connection-manager-setup.php");
 require_once( $PLUGIN_DIR . "/class-api-connection-manager-user.php");
 

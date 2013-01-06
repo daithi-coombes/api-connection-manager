@@ -284,12 +284,21 @@ class API_Connection_Manager{
 	}
 	
 	/**
+	 * Get the current user the api class is working off.
+	 * @return WP_User
+	 */
+	public function get_current_user(){
+		return $this->user;
+	}
+	
+	/**
 	 * Returns the html for a module's login link.
 	 * 
 	 * This is a possible helper function that will return the button or html
 	 * for an oauth2 token url.
 	 * 
-	 * @todo allow button sizes (small|medium|large)
+	 * @deprecated use API_Con_Mngr_Module::get_login_button()
+	 * @todo remove this method when modules are all oop
 	 * @param string $slug The index filename of the sub-module.
 	 * @param string $file The location of the file to run the callback from
 	 * @param mixed $callback Callback function in same string|array format as
@@ -879,6 +888,9 @@ class API_Connection_Manager{
 			 * End nonce 
 			 */
 			
+			/**
+			 * @todo remove when modules all object. Now in module::get_login_button() 
+			 */
 			//set the state {$nonce}-{$slug}-{$userID}
 			$oauth2[ 'grant-vars' ][ 'state' ] = serialize(array( 
 				$nonce,
@@ -1111,19 +1123,18 @@ class API_Connection_Manager{
 			true!==@DOING_AJAX ||
 			@$_GET['action']!='api_con_mngr'
 		) return;
-		
+		ar_print($_REQUEST);
 		//get dto
 		$dto = $this->_service_parse_dto( $_GET );
 		if(is_wp_error($dto))
 			die( $dto->get_message() );
 		
+		//get module from slug
 		(@$dto->response['slug']) ?
 			$slug = $dto->response['slug'] :
 			$slug = $_SESSION['api-con-module'];
-		
-		//get module
-		if(@$dto->response['slug'])
-			$module = $this->get_service($slug);
+		$module = $this->get_service($slug);
+		$module->parse_dto($dto);
 		
 		
 		//if oauth1
@@ -1132,11 +1143,11 @@ class API_Connection_Manager{
 			/**
 			 * Saving the access_token 
 			 */
-			if($dto->response['oauth_token']){
+			if(@$dto->response['oauth_token']){
 				$module = $this->get_service($_SESSION['api-con-module']);
-				$module->oauth_token = $dto->response['oauth_token'];
 				
-				$this->_service_do_callback(false, $dto);
+				$module->do_callback( );
+				//$this->_service_do_callback($dto->repsonse['oauth_nonce'], $dto);
 			}
 			// end saving the access token
 			
@@ -1146,14 +1157,18 @@ class API_Connection_Manager{
 			else{
 				$token = $module->get_request_token();
 				$url = $module->get_authorize_url( $token );
+				ar_print($url);
 				$_SESSION['api-con-module'] = $dto->response['slug'];
-				header("Location: {$url}");
+				//header("Location: {$url}");
 				exit;
 			}
 			// end get autorize url
 		}
 		
-		//if oauth2 get token
+		/**
+		 * if oauth2 get token
+		 * @todo remove array module code
+		 */
 		elseif(@$dto->response['code']){
 			
 			$tokens = $this->_service_get_token($dto);
@@ -1240,44 +1255,34 @@ class API_Connection_Manager{
 		
 		//get callbacks
 		$callbacks = $this->_get_options_transient("-callbacks");
-		
-		/**
-		 * For object based modules 
-		 */
-		if(!$unique){
-			ar_print($callbacks);
-		}
-		
-		/**
-		 * For array based modules 
-		 */
-		else
-			//loop through them
-			foreach($callbacks as $data){
-				$unique = stripslashes( urldecode($unique));
-				$nonce = stripslashes( urldecode($data['nonce']));
+		ar_print($callbacks);
+		//loop through them
+		foreach($callbacks as $data){
+			$unique = stripslashes( urldecode($unique));
+			$nonce = stripslashes( urldecode($data['nonce']));
 
-				//if this matches state
-				if($nonce==$unique){
+			//if this matches state
+			if($nonce==$unique){
 
-					//load file
-					require_once( $data['file'] );
+				//load file
+				if(!file_exists($data['file'])) continue;
+				require_once( $data['file'] );
 
-					//call a method
-					if(is_array($data['func'])){
-						$class = $data['func'][0];
-						$method = $data['func'][1];
-						$obj = new $class();
-						$obj->$method($dto);
-						break;
-					}
-
-					//call a function
-					$callback = $data['func'];
-					$callback($dto);
+				//call a method
+				if(is_array($data['func'])){
+					$class = $data['func'][0];
+					$method = $data['func'][1];
+					$obj = new $class();
+					$obj->$method($dto);
 					break;
 				}
+
+				//call a function
+				$callback = $data['func'];
+				$callback($dto);
+				break;
 			}
+		}
 	}
 	
 	/**
@@ -1581,11 +1586,10 @@ class API_Connection_Manager{
 	 * function name as string.
 	 * @param string $unique Unique string that will be returned by the response
 	 * to match up with the right callback.
-	 * @todo use nonce created in service link as key for callback
 	 * @return array Returns the current callbacks that are set.
 	 * @subpackage api-core
 	 */
-	private function _set_callback( $file, $func, $unique ){
+	public function _set_callback( $file, $func, $unique ){
 		
 		//if object passed get class name
 		if(is_object(@$func[0]))
