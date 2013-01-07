@@ -7,7 +7,7 @@
  */
 if (!class_exists("API_Con_Mngr_Module")):
 
-	class API_Con_Mngr_Module {
+	abstract class API_Con_Mngr_Module {
 
 		/** @var string Oauth1 autorize url */
 		public $autorize_url = false;
@@ -63,6 +63,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The request token url */
 		public $url_request_token;
 
+		/** @var string The url to verify an access token */
+		public $url_verify_token;
+		
 		/** @var boolean Flag to set whether provider will return nonce or not */
 		public $use_nonce = true;
 		
@@ -201,8 +204,34 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function request($url, $method, $parameters = array()) {
 
+			//create HTTP object
 			$http = new WP_Http();
 			$method = strtoupper($method);
+			
+			//check tokens
+			switch ($this->protocol) {
+				
+				//oauth1
+				case 'oauth1':
+					
+					//if not signed in
+					if(!$this->token || empty($this->token))
+						return "no oauth token";
+
+					//validate token
+					
+					break;
+				
+				//oauth2
+				case 'oauth2':
+					break;
+				
+				//custom
+				default:
+					break;
+			}
+			
+			//make request
 			switch ($method) {
 				case 'POST':
 					break;
@@ -245,7 +274,17 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//set raw param array
 			$this->params = $params;
 		}
-
+		
+		/**
+		 * This method must be declared in the child class.
+		 * Use the field $this->token to check against. It must verify a token 
+		 * and return boolean true|false.
+		 * @uses $this->token
+		 * @param string $token The access token to check
+		 * @return boolean 
+		 */
+		abstract public function verify_token();
+		
 		/**
 		 * Error handling
 		 * @param string $msg
