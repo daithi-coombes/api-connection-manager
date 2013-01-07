@@ -23,9 +23,19 @@ Activate the API Connection Manager in your dashboard plugins page
 
 Usage
 =====
+Make sure the class-api-connection-manager.php file is included at the top of your plugin
 ```php
 $data = API_Connection_Manager::request(
 	'service-slug',
 	array()		//this array is the same format as the WP_HTTP class
 );
+```
+
+If you need to print login buttons for a service, you will need to provide a callback function as well
+```php
+global $API_Connection_Manager;
+
+//get the module object
+$module = $API_Connection_Manager->get_service('slug/index.php');
+print $module->get_login_button( __FILE__, array('my_callback_class', 'parse_dto') );
 ```

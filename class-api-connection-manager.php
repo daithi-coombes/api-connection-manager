@@ -1511,6 +1511,10 @@ class API_Connection_Manager{
 			$res->slug = @urldecode($vars[1]);
 			$res->user = @urldecode($vars[2]);
 		}
+		//parse slug and userID from $_SESSION
+		else{
+			$res->slug = $_SESSION['api-con-module'];
+		}
 		
 		//what ever vars are left is the services response struct
 		foreach($response as $key=>$val)
