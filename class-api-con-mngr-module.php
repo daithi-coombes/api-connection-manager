@@ -153,6 +153,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 				'secret' => $this->oauth_token_secret
 			);
 			
+			//if user_id
+			if(!empty($this->user_id))
+				$params['user_id'] = $this->user_id;
+			
 			$request = OAuthRequest::from_consumer_and_token($this->consumer, $token, $method, $url, $params);
 			$request->sign_request($this->sha1_method, $this->consumer, $token);
 			return $request;
@@ -206,15 +210,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		public function get_access_token( $oauth_verifier ){
-				$request = $this->request( $this->url_access_token, 'GET', array(
-					'oauth_verifier' => $oauth_verifier
-				));
-				$token = OAuthUtil::parse_parameters($request['body']);
-				ar_print($token);
-				$this->token = new OAuthConsumer( $this->oauth_token, $this->oauth_token_secret);
-				ar_print($dto);
-				ar_print($this->token);
-			
+			$request = $this->request( $this->url_access_token, 'GET', array(
+				'oauth_verifier' => $oauth_verifier
+			));
+			$token = OAuthUtil::parse_parameters($request['body']);
+			$this->token = new OAuthConsumer( $this->oauth_token, $this->oauth_token_secret);
 		}
 		
 		/**
@@ -310,12 +310,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function get_params(){
 			
 			global $API_Connection_Manager;
-			$user_id = $API_Connection_Manager->get_current_user()->ID;
+			$user_id = API_Connection_Manager::_get_current_user()->ID;
 			$meta = get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
 			
-			foreach($meta as $key=>$val)
-				if(isset($this->{$key}))
-					$this->{$key} = $val;
+			if(is_array($meta))
+				foreach($meta as $key=>$val)
+					if(isset($this->{$key}))
+						$this->{$key} = $val;
 			
 			return $meta;
 		}
@@ -344,16 +345,20 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function request($url, $method, $parameters = array()) {
 
-			//create HTTP object
+			//vars
+			$method = strtoupper($method);
 			$original_url = $url;	//used for error reporting
 			$errs=false;
 			
 			//make request
 			switch ($method) {
 				case 'POST':
+					$response = wp_remote_post($url, array('body'=>$parameters));
 					break;
 				default:
 					
+					if(count($parameters))
+						$url .= "?" . http_build_query($parameters);
 					$response = wp_remote_get($url);
 					break;
 			}//end request

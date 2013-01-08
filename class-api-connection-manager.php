@@ -626,7 +626,7 @@ class API_Connection_Manager{
 	 * @return WP_User if no user then returns WP_User(0) else will return
 	 * current users WP_User object.
 	 */
-	private function _get_current_user(){
+	public function _get_current_user(){
 		require_once( ABSPATH . "/wp-includes/pluggable.php" );
 		wp_cookie_constants();
 		$user_id = wp_validate_auth_cookie();
