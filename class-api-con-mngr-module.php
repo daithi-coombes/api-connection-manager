@@ -10,8 +10,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 	abstract class API_Con_Mngr_Module {
 
 		/** @var string Oauth1 autorize url */
-		public $autorize_url = false;
+		public $autorize_url = "";
 
+		/** @var string The callback url */
+		public $callback_url = "";
+		
 		/** @var integer The connection timeout */
 		public $connecttimeout = 30;
 
@@ -25,23 +28,31 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $consumer_secret;
 
 		/** @var string The uri for displaying a login link */
-		public $login_uri = false;
+		public $login_uri = "";
 
 		/** @var string The name of the module */
-		public $Name = false;
+		public $Name = "";
 
 		/** @var string The nonce for this instance of the module */
-		public $oauth_nonce = false;
+		public $oauth_nonce = "";
 
 		/** @var string Oauth1 token */
-		public $oauth_token = false;
+		public $oauth_token = "";
 
+		/** @var string Oauth1 token secret */
+		public $oauth_token_secret = "";
+		
 		/** @var array An array of static params */
 		public $params = array();
 
 		/** @var string The current protocol used (oauth, custom, etc) */
 		public $protocol = "";
 
+		/** @var boolean Flag whether server allows sessions or not. Some
+		 * modules need sessions and will be disabled on servers without 
+		 * sessions enabled */
+		public $sessions = true;
+		
 		/** @var string The signature encoding method */
 		public $sha1_method = "";
 
@@ -55,13 +66,16 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $timeout = 30;
 
 		/** @var string The token */
-		public $token = NULL;
+		public $token = "";
 
 		/** @var string The authorize url */
 		public $url_authorize;
 		
+		/** @var string The access token url */
+		public $url_access_token;
+		
 		/** @var string The request token url */
-		public $url_request_token;
+		public $url_request_token = "";
 
 		/** @var string The url to verify an access token */
 		public $url_verify_token;
@@ -74,18 +88,53 @@ if (!class_exists("API_Con_Mngr_Module")):
 
 		/** @var API_Connection_Manager The main api class */
 		private $api;
+		
+		/** @var string The prefix for the user meta keys */
+		private $option_name = "API_Con_Mngr_Module";
 
-		function __construct($params = array(), $options = array()) {
+		function __construct() {
 
 			global $API_Connection_Manager;
 			$this->api = $API_Connection_Manager;
-			$this->consumer = new OAuthConsumer($this->consumer_key, $this->consumer_secret);
-			$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
+			
+			//if oauth1
+			if($this->protocol=='oauth1'){
+				$this->consumer = new OAuthConsumer($this->consumer_key, $this->consumer_secret, $this->callback_url);
+				$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
+			}
 
-			$this->set_params($params);
-			$this->set_options($options);
+			//if sessions enabled (default is true)
+			$id = session_id();
+			if(!$id || $id=="")
+				$this->sessions = false;
 		}
 
+		/**
+		 * This method checks a response from the service for an error and must
+		 * be declared by your class.
+		 * 
+		 * If you find an error then return $this->error("error message") and if
+		 * not then return true.
+		 * 
+		 * @uses $this->error()
+		 * @param array $response The response in the same format as returned by
+		 * the WP_HTTP class.
+		 * @return mixed Returns WP_Error if error or true if none.
+		 */
+		abstract public function check_error( array $response );
+		
+		/**
+		 * This method must be declared in the child class.
+		 * Use the field $this->token to check against. It must verify a token 
+		 * and return boolean true|false.
+		 * @uses $this->token
+		 * @param string $token The access token to check
+		 * @return boolean 
+		 * @deprecated Use check_error to check for errors and validate
+		abstract public function verify_token();
+		 * 
+		 */
+		
 		/**
 		 * Builds and signs a request object.
 		 * 
@@ -97,8 +146,15 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return OAuthRequest Returns an oauth request object 
 		 */
 		public function build_request( $url, $method='GET', $params=array()){
-			$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->token, $method, $url, $params);
-			$request->sign_request($this->sha1_method, $this->consumer, $this->token);
+			
+			//token must be stdClass
+			$token = (object) array(
+				'key' => $this->oauth_token,
+				'secret' => $this->oauth_token_secret
+			);
+			
+			$request = OAuthRequest::from_consumer_and_token($this->consumer, $token, $method, $url, $params);
+			$request->sign_request($this->sha1_method, $this->consumer, $token);
 			return $request;
 		}
 		
@@ -131,16 +187,56 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
+		 * This method gets called after a successfull login.
+		 * Handy for grabbing other information like user id's etc
+		 * @param stdClass $dto The data transport object created by
+		 * API_Connection_Manager::_service_parse_dto()
+		 */
+		public function do_login( stdClass $dto ){
+			;
+		}
+		
+		/**
+		 * Error handling
+		 * @param string $msg
+		 * @return \WP_Error 
+		 */
+		public function error($msg) {
+			return new WP_Error('API_Con_Mngr_Module', $msg);
+		}
+
+		public function get_access_token( $oauth_verifier ){
+				$request = $this->request( $this->url_access_token, 'GET', array(
+					'oauth_verifier' => $oauth_verifier
+				));
+				$token = OAuthUtil::parse_parameters($request['body']);
+				ar_print($token);
+				$this->token = new OAuthConsumer( $this->oauth_token, $this->oauth_token_secret);
+				ar_print($dto);
+				ar_print($this->token);
+			
+		}
+		
+		/**
 		 * Returns the authorize url for oauth1
 		 * @param string $token The request token
 		 * @return string 
 		 */
-		public function get_authorize_url( $token ) {
-			return $this->url_authorize . "?oauth_token=" . $token;
+		public function get_authorize_url( array $token ) {
+			return $this->url_authorize . "?oauth_token={$token['oauth_token']}&oauth_token_secret={$token['oauth_token_secret']}";
 		}
 
 		/**
 		 * Returns a link to login to this service.
+		 * 
+		 * Covers two scenario's:
+		 * 1) If there is no wordpress user logged in, then it will print a
+		 * login with $service link.
+		 * 2) If wp user is logged in then it will print the login link and die.
+		 * The accept app will open in a new tab and will then refresh the
+		 * window.opener object.
+		 * 
+		 * @see API_Connection_Manager::_response_listener() for more.
 		 * @param string The full url to the file with the callback, if one is
 		 * required.
 		 * @param mixed Either an array or string of the function/method if a
@@ -153,33 +249,77 @@ if (!class_exists("API_Con_Mngr_Module")):
 			global $API_Connection_Manager;
 			$i = wp_nonce_tick();
 			$user = $API_Connection_Manager->get_current_user()->ID;
-			$nonce = substr(wp_hash($i . $this->slug . $user, 'nonce'), -12, 10);
-			$state = serialize(array(
-				$nonce,
-				urlencode($this->slug),
-				$user
-					));
-			$this->oauth_nonce = $state;
-
-			//set callback
-			$API_Connection_Manager->_set_callback($file, $callback, $state, $this->use_nonce);
 			
-			//if not using nonces in request, append nonce to login uri
-			if(!$this->use_nonce)
-				$this->login_uri .= "&nonce=".  urlencode($state);
 			
-			//switch through protocols. These login uri's are set in API_Connection_Manager::_get_module();
-			switch ($this->protocol) {
-				case 'oauth1':
-					return "<a href=\"{$this->login_uri}\">{$this->Name}</a>";
-					break;
+			/**
+			 * If no user id
+			 * Then this will be a sign in with $service link 
+			 */
+			if(!$user || $user==='0'){
+				$nonce = substr(wp_hash($i . $this->slug . $user, 'nonce'), -12, 10);
+				$state = serialize(array(
+					$nonce,
+					urlencode($this->slug),
+					$user
+						));
+				$this->oauth_nonce = $state;
 
-				default:
-					return $this->_error("Please override API_Con_Mngr_Module::get_login_button in you plugin");
-					break;
+				//set callback
+				$API_Connection_Manager->_set_callback($file, $callback, $state, $this->use_nonce);
+
+				//if not using nonces in request, append nonce to login uri
+				if(!$this->use_nonce)
+					$this->login_uri .= "&nonce=".  urlencode($state);
+
+				//switch through protocols. These login uri's are set in API_Connection_Manager::_get_module();
+				switch ($this->protocol) {
+					case 'oauth1':
+						return "<a href=\"{$this->login_uri}\">{$this->Name}</a>";
+						break;
+
+					default:
+						return $this->_error("Please override API_Con_Mngr_Module::get_login_button in you plugin");
+						break;
+				}
 			}
+			//end no user id
+			
+			/**
+			 * If user id
+			 * then login new tab and refresh window.parent 
+			 */
+			else{
+				switch($this->protocol){
+					
+					case 'oauth1':
+						print "<br/><em>You are not signed into {$this->Name}</em><br/>
+							<a href=\"{$this->login_uri}&login=true\" target=\"_new\">Sign into {$this->Name}</a>
+							";
+						break;
+				}
+				exit;
+			}
+			//end if user id
 		}
 
+		/**
+		 * Returns array of params for this module
+		 * @global type $API_Connection_Manager To get the current user_id
+		 * @return array $array[key=>val] 
+		 */
+		public function get_params(){
+			
+			global $API_Connection_Manager;
+			$user_id = $API_Connection_Manager->get_current_user()->ID;
+			$meta = get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
+			
+			foreach($meta as $key=>$val)
+				if(isset($this->{$key}))
+					$this->{$key} = $val;
+			
+			return $meta;
+		}
+		
 		/**
 		 * Get oauth1 request token 
 		 */
@@ -205,42 +345,62 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function request($url, $method, $parameters = array()) {
 
 			//create HTTP object
-			$http = new WP_Http();
-			$method = strtoupper($method);
-			
-			//check tokens
-			switch ($this->protocol) {
-				
-				//oauth1
-				case 'oauth1':
-					
-					//if not signed in
-					if(!$this->token || empty($this->token))
-						return "no oauth token";
-
-					//validate token
-					
-					break;
-				
-				//oauth2
-				case 'oauth2':
-					break;
-				
-				//custom
-				default:
-					break;
-			}
+			$original_url = $url;	//used for error reporting
+			$errs=false;
 			
 			//make request
 			switch ($method) {
 				case 'POST':
 					break;
 				default:
-					return wp_remote_get($url);
+					
+					$response = wp_remote_get($url);
 					break;
+			}//end request
+			
+			//if http body
+			if(is_wp_error($response))
+				$errs = $response;
+			elseif(is_wp_error($response['body']))
+				$errs = $response['body'];
+			
+			//check for errors
+			if(!$errs)
+				$errs = $this->check_error($response);
+			if(is_wp_error($errs)){
+				$msg = $errs->get_error_message();
+				print $msg;
+				$msg = addslashes( "Error: {$original_url}\\n".$msg);
+				print "
+					<script>
+						if(window.opener){
+							alert('{$msg}');
+							//window.opener.location.reload();
+							//window.close();
+						}
+					</script>
+					";
+				print "<em>\n" . str_replace("\n", "<br/>", $msg) . "</em>\n";
+				$this->get_login_button();
 			}
+			
+			return $response;
 		}
 
+		/**
+		 * Set the module details fields such as Name and Description.
+		 * Called in API_Connection_Manager::_get_installed_services()
+		 * @param array $data 
+		 */
+		public function set_details( array $data ){
+			
+			//if param is a field
+			foreach ($data as $key => $val)
+				if (isset($this->{$key}))
+					$this->{$key} = $val;
+
+		}
+		
 		/**
 		 * Set the header.
 		 * 
@@ -265,35 +425,18 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param array $params An associative array of parameters for this module
 		 */
 		public function set_params(array $params) {
+			
+			global $API_Connection_Manager;
+			$user_id = $API_Connection_Manager->get_current_user()->ID;
+			
+			$meta = $this->get_params(); //get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
+			foreach($params as $key=>$val)
+				$meta[$key] = $val;
 
-			//if param is a field
-			foreach ($params as $key => $val)
-				if (isset($this->{$key}))
-					$this->{$key} = $val;
-
-			//set raw param array
-			$this->params = $params;
+			update_user_meta($user_id, $this->option_name."-{$this->slug}", $meta);
+			return $this->get_params();
 		}
 		
-		/**
-		 * This method must be declared in the child class.
-		 * Use the field $this->token to check against. It must verify a token 
-		 * and return boolean true|false.
-		 * @uses $this->token
-		 * @param string $token The access token to check
-		 * @return boolean 
-		 */
-		abstract public function verify_token();
-		
-		/**
-		 * Error handling
-		 * @param string $msg
-		 * @return \WP_Error 
-		 */
-		private function _error($msg) {
-			return new WP_Error('API_Con_Mngr_Module', $msg);
-		}
-
 	}
 
 	/**

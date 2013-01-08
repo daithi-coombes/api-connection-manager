@@ -568,6 +568,7 @@ class API_Connection_Manager{
 	/**
 	 * Prints a login link for a service to the screen and dies
 	 * 
+	 * @todo remove this method. Been moved to API_Con_Mngr_Module
 	 * @param string $slug The service slug
 	 * @param boolean $die Default true. Return the login link or die()
 	 */
@@ -643,10 +644,14 @@ class API_Connection_Manager{
 	 * lot of system calls and working with files. Overuse of this method would
 	 * not be advised.
 	 * 
+	 * N.B. if a module requires session and it is not enabled then that module
+	 * will always be set as inactive.
+	 * 
 	 * Currently this method is used in:
 	 *  - API_Connection_Manager::__construct()
 	 *  - API_Connection_Manager::get_services //only if no services loaded yet
 	 * 
+	 * @todo add error message is sessions disabled and module needs it
 	 * @todo use API_Con_Mngr_Module for all services
 	 * @param boolean Default false. Whether to include downloadable modules.
 	 * @return array 
@@ -730,7 +735,7 @@ class API_Connection_Manager{
 			if(isset($oauth1)){
 				$module = $this->_get_module( plugin_basename($plugin_file) );
 				$module->protocol = 'oauth1';
-				$module->set_params($plugin_data);
+				$module->set_details($plugin_data);
 				$wp_plugins[plugin_basename($plugin_file)] = $module; //new API_Con_Mngr_Module($params, $options);
 			}
 			//end use API_Con_Mngr_Module
@@ -758,6 +763,8 @@ class API_Connection_Manager{
 				$res['active'][$slug] = $wp_plugins[$slug];
 				unset($res['inactive'][$slug]);
 			}
+			
+			//disable if sessions required
 		}
 		
 		//return result
@@ -858,7 +865,12 @@ class API_Connection_Manager{
 					'slug' => urlencode($slug)
 				));
 			
-			//reutrn oauth object
+			//set the access token
+			$tokens = $this->_get_user_options();
+			if(@$tokens[$slug]['access'])
+				$oauth1->oauth_token = $tokens[$slug]['access'];
+			
+			//return oauth object
 			return $oauth1;
 		} // end parse Oauth1 data
 		
@@ -1123,11 +1135,11 @@ class API_Connection_Manager{
 			true!==@DOING_AJAX ||
 			@$_GET['action']!='api_con_mngr'
 		) return;
-
+		
 		//get dto
 		$dto = $this->_service_parse_dto( $_GET );
 		if(is_wp_error($dto))
-			die( $dto->get_message() );
+			die( $dto->get_error_message() );
 		
 		//get module from slug
 		(@$dto->response['slug']) ?
@@ -1141,11 +1153,28 @@ class API_Connection_Manager{
 		if($module->protocol == 'oauth1'){
 			
 			/**
-			 * Saving the access_token 
+			 * Get the access_token 
 			 */
 			if(@$dto->response['oauth_token']){
-				$module->do_callback( $dto );
-				//$this->_service_do_callback($dto->repsonse['oauth_nonce'], $dto);
+				
+				/**
+				 * use request token to get access token 
+				 *
+				$parameters = array();
+				$parameters['oauth_verifier'] = $dto->response['oauth_verifier'];
+				$request = $module->request( $module->url_access_token, 'GET', $parameters);
+				$token = OAuthUtil::parse_parameters($request['body']);
+				$module->set_params( $token );
+				*/
+				//end get access token
+
+				//if callback
+				if(!$this->user->ID || ($this->user->ID==0))
+					$module->do_callback( $dto );
+				
+				//helper method module can override to add actions to login
+				//success
+				$module->do_login( $dto );
 			}
 			// end saving the access token
 			
@@ -1153,12 +1182,18 @@ class API_Connection_Manager{
 			 * Get authorize url 
 			 */
 			else{
-				$token = $module->get_request_token();
-				$url = $module->get_authorize_url( $token );
+				
+				//get and set tokens
+				$tokens = $module->get_request_token();
+				$url = $module->get_authorize_url( $tokens );
 				$_SESSION['api-con-module'] = $dto->response['slug'];
+				$module->set_params(array(
+					'oauth_token' => $tokens['oauth_token'],
+					'oauth_token_secret' => $tokens['oauth_token_secret']
+				));
 				
 				//if nonce in request then set it as session var
-				if($_REQUEST['nonce']){
+				if(@$_REQUEST['nonce']){
 					$_SESSION['callback'] = $_SESSION['callbacks'][stripslashes($_REQUEST['nonce']) ];
 					unset($_SESSION['callbacks'][ stripslashes($_REQUEST['nonce'])]);
 				}
@@ -1511,10 +1546,15 @@ class API_Connection_Manager{
 			$res->slug = @urldecode($vars[1]);
 			$res->user = @urldecode($vars[2]);
 		}
-		//parse slug and userID from $_SESSION
-		else{
+		//parse slug from get var
+		elseif(@$response['slug'])
+			$res->slug = $response['slug'];
+		//parse slug from sessions
+		elseif(@$_SESSION['api-con-module'])
 			$res->slug = $_SESSION['api-con-module'];
-		}
+		//return error
+		else
+			return $this->_error ("::_service_parse_dto() No module slug found");
 		
 		//what ever vars are left is the services response struct
 		foreach($response as $key=>$val)
@@ -1533,6 +1573,8 @@ class API_Connection_Manager{
 	/**
 	 * Set the access token for a user.
 	 * 
+	 * @todo method moved to module::set_param( array );
+	 * @deprecated
 	 * @param string $slug The service slug
 	 * @param string $token The token
 	 * @param string $type 'access'|'refresh'. Whether storing access or refresh
