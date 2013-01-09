@@ -24,7 +24,7 @@ class API_Con_Mngr_Log {
 		
 		($location) ?
 			$this->location = $location :
-			$this->location = dirname(dirname(dirname(__FILE__))) . "/uploads/api-con-mngr.txt" ;
+			$this->location = dirname(__FILE__) . "/api-con-mngr.txt" ;
 		($mode) ?
 			$this->mode = $mode :
 			$this->mode = "a+";
