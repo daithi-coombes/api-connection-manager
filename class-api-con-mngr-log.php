@@ -15,7 +15,8 @@ class API_Con_Mngr_Log {
 	
 	/**
 	 * Constructor
-	 * @param string $location Full path including filename. Default is log.txt
+	 * @param string $location Full path including filename. Default is:
+	 * wp-content/uploads/api-con-mngr.txt
 	 * in the same folder as this class.
 	 * @param string $mode Default a+ The mode to open the log file
 	 */
@@ -23,7 +24,7 @@ class API_Con_Mngr_Log {
 		
 		($location) ?
 			$this->location = $location :
-			$this->location = dirname(__FILE__) . "/log.txt" ;
+			$this->location = dirname(dirname(dirname(__FILE__))) . "/uploads/api-con-mngr.txt" ;
 		($mode) ?
 			$this->mode = $mode :
 			$this->mode = "a+";
@@ -53,7 +54,9 @@ class API_Con_Mngr_Log {
 	}
 	
 	/**
-	 * Writes to the log file
+	 * Writes to the log file.
+	 * Lines are in the format:
+	 * [$time] \t $code: $message \n
 	 * @param string $msg The message to write
 	 * @param string $code Default 0. The error code to log
 	 * @return mixed Returns the num of bytes written on success or FALSE on
@@ -62,7 +65,7 @@ class API_Con_Mngr_Log {
 	public function write( $msg, $code="0" ){
 		
 		$time = time();
-		$line = "{$time}\t{$code}\t{$msg}\n";
+		$line = "[{$time}]\t{$code}: {$msg}\n";
 		return fwrite($this->fp, $line);
 	}
 	
