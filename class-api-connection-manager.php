@@ -1194,23 +1194,12 @@ class API_Connection_Manager{
 			 */
 			else{
 				
-				//clear any redundant params before getting authorize url
-				$module->set_params(array(
-					'oauth_token' => null,
-					'oauth_token_secret' => null,
-					'token' => null
-				));
-				
-				//get and set tokens
+				//get request tokens and authorize url
 				$tokens = $module->get_request_token();
-				$url = $module->get_authorize_url( $tokens );
-				$_SESSION['api-con-module'] = $dto->response['slug'];
-				$module->set_params(array(
-					'oauth_token' => $tokens['oauth_token'],
-					'oauth_token_secret' => $tokens['oauth_token_secret']
-				));
+				$url = $module->get_authorize_url( $tokens );				
 				
 				//if nonce in request then set it as session var
+				$_SESSION['api-con-module'] = $dto->response['slug'];
 				if(@$_REQUEST['nonce']){
 					$_SESSION['callback'] = $_SESSION['callbacks'][stripslashes($_REQUEST['nonce']) ];
 					unset($_SESSION['callbacks'][ stripslashes($_REQUEST['nonce'])]);

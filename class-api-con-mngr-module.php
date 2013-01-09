@@ -315,27 +315,28 @@ if (!class_exists("API_Con_Mngr_Module")):
 		
 		/**
 		 * Get oauth1 request token.
-		 * You may need to override this to suit. It must return an array
+		 * You may need to override this to suit.
 		 * @param string $method Default GET. The http method to use.
 		 * @return array
 		 */
 		public function get_request_token( $method='GET' ) {
 			
+			//clear any redundant params before getting authorize url
+			$this->set_params(array(
+				'oauth_token' => null,
+				'oauth_token_secret' => null,
+				'token' => null
+			));
+			
+			//make request
 			$res = $this->request($this->url_request_token, $method);
+			$ret = $this->parse_response($res);
 			
-			$ret = array();
-			
-			switch($res['headers']['content-type']){
-				
-				case 'application/x-www-form-urlencoded':
-					parse_str($res['body'], $ret);
-					break;
-				
-				default:
-					$ret = (array) json_decode($res['body']);
-					break;
-			}
-			
+			//store tokens and return
+			$this->set_params(array(
+				'oauth_token' => $ret['oauth_token'],
+				'oauth_token_secret' => $ret['oauth_token_secret']
+			));
 			return $ret;
 		}
 
@@ -361,6 +362,33 @@ if (!class_exists("API_Con_Mngr_Module")):
 					$this->$key = $val;
 		}
 
+		/**
+		 * Parse a response body
+		 * @param array $response The response in the format returned from
+		 * WP_HTTP
+		 * @return mixed Will return either an array or object based on the
+		 * response header content-type
+		 */
+		public function parse_response( array $response ){
+			
+			//vars
+			$content_type = strtolower($response['headers']['content-type']);
+			$ret = array();
+			
+			//parse string
+			if(
+				(strpos($content_type, "text/html") !== false) ||
+				(strpos($content_type, "application/x-www-form-urlencoded") !== false)
+			) parse_str($response['body'], $ret);
+			
+			//default to json
+			else
+				$ret = json_decode($response['body']);
+			
+			//return result
+			return $ret;
+		}
+		
 		/**
 		 * Format and sign an OAuth / API request
 		 */
