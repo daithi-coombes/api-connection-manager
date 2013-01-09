@@ -76,6 +76,8 @@ class API_Connection_Manager{
 	protected $option_name = "api-connection-manager";
 	/** @var string The url to the submodules dir */
 	protected $url_sub = "";
+	/** @var API_Con_Mngr_Log The log class */
+	private $log_api;
 	/** @var WP_User The current user */
 	private $user;
 	
@@ -97,6 +99,7 @@ class API_Connection_Manager{
 		
 		//default params
 		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
+		$this->log_api = new API_Con_Mngr_Log();
 		$this->redirect_uri = admin_url('admin-ajax.php') . "?" . http_build_query(array(
 			'action' => 'api_con_mngr'
 		));
@@ -441,6 +444,15 @@ class API_Connection_Manager{
 	 */
 	public function get_services( $type='active' ){		
 		return $this->services[$type];
+	}
+	
+	/**
+	 * Log a message
+	 * @param string $msg The message to log
+	 * @return mixed Returns num of bytes written if success or FALSE if fail. 
+	 */
+	public function log($msg){
+		return $this->log_api->write($msg, "API Con Mngr");
 	}
 	
 	/**
