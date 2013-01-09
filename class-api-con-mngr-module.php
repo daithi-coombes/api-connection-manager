@@ -390,9 +390,15 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Format and sign an OAuth / API request
+		 * Send requests to the provider.
+		 * 
+		 * @param string $uri The full endpoint url.
+		 * @param string $method Default GET. The http method to user.
+		 * @param array $parameters Optional. An array of parameters in key
+		 * value pairs
+		 * @return array Returns the response array in the WP_HTTP format. 
 		 */
-		public function request($url, $method, $parameters = array()) {
+		public function request($url, $method='GET', $parameters = array()) {
 
 			//vars
 			$method = strtoupper($method);
@@ -492,53 +498,5 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 	}
-
-	/**
-	 * The header datatype for the API Connection Manager. 
-	 */
-	class API_Con_Mngr_Header {
-
-		//the current header params
-		public $headers;
-
-		/**
-		 * Return the current $headers as an array
-		 * @return array 
-		 */
-		public function header_to_array() {
-			
-		}
-
-		/**
-		 * Return the current $headers as string
-		 * @return string 
-		 */
-		public function array_to_header() {
-			
-		}
-
-	}
-
-	/**
-	 * The param datatype, will include methods for formating/encoding and parsing
-	 * parameters for the service. This datatype forms the body of the DTO sent to
-	 * the service. 
-	 */
-	class API_Con_Mngr_Param {
-
-		public $params = array();
-
-		function __construct(array $params) {
-			$this->params = $params;
-		}
-
-	}
-
-	
-
-	
-
-	
-
 	
 endif;
