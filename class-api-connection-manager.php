@@ -1221,7 +1221,8 @@ class API_Connection_Manager{
 			
 			$tokens = $this->_service_get_token($dto);
 			if(is_wp_error($tokens))
-				die("Error: " . $tokens->get_error_message());
+				ar_print($tokens);
+				//die("Error: " . $tokens->get_error_message());
 			$dto->access_token = $tokens->access_token;
 			if(@$tokens->refresh_token)
 				$dto->refresh_token = $tokens->refresh_token;

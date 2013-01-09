@@ -428,9 +428,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(!$errs)
 				$errs = $this->check_error($response);
 			if(is_wp_error($errs)){
-				$msg = $errs->get_error_message();
-				print $msg;
-				$msg = addslashes( "Error: {$original_url}\\n".$msg);
+				$msg = addslashes( $errs->get_error_message() );
+				//print addslashes( "Error: <small>{$original_url}</small><br/>");
 				print "
 					<script>
 						if(window.opener){
