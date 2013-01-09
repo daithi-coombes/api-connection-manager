@@ -1166,25 +1166,13 @@ class API_Connection_Manager{
 			 * Get the access_token 
 			 */
 			if(@$dto->response['oauth_token']){
-				ar_print($dto);
-				debug_print();
-				/**
-				 * use request token to get access token 
-				 *
-				$parameters = array();
-				$parameters['oauth_verifier'] = $dto->response['oauth_verifier'];
-				$request = $module->request( $module->url_access_token, 'GET', $parameters);
-				$token = OAuthUtil::parse_parameters($request['body']);
-				$module->set_params( $token );
-				*/
-				//end get access token
 
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
 					$module->do_callback( $dto );
 				
 				//helper method module can override to add actions to login
-				//success
+				//such as get request token for oauth1
 				$module->do_login( $dto );
 			}
 			// end saving the access token
