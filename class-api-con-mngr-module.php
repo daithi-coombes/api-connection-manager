@@ -114,13 +114,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * This method checks a response from the service for an error and must
 		 * be declared by your class.
 		 * 
-		 * If you find an error then return $this->error("error message") and if
-		 * not then return true.
+		 * If you find an error in the response return the error string else
+		 * return false for no error.
 		 * 
-		 * @uses $this->error()
 		 * @param array $response The response in the same format as returned by
 		 * the WP_HTTP class.
-		 * @return mixed Returns WP_Error if error or true if none.
+		 * @return mixed Returns false if no error or string if error found.
 		 */
 		abstract public function check_error( array $response );
 		
@@ -134,14 +133,17 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param type $params
 		 * @return OAuthRequest Returns an oauth request object 
 		 */
-		public function build_request( $url, $method='GET', $params=array()){
+		public function oauth_sign_request( $url, $method='GET', $params=array()){
 			
 			//token must be stdClass
+			/**
 			$token = (object) array(
 				'key' => $this->oauth_token,
-				'secret' => $this->oauth_token_secret,
-				'uid' => $this->user_id
+				'secret' => $this->oauth_token_secret
 			);
+			 * 
+			 */
+			$token = new OAuthConsumer($this->oauth_token, $this->oauth_token_secret);
 			
 			$request = OAuthRequest::from_consumer_and_token($this->consumer, $token, $method, $url, $params);
 			$request->sign_request($this->sha1_method, $this->consumer, $token);
