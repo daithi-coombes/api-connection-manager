@@ -7,7 +7,7 @@
 	<title>Package api-connection-manager</title>
 
 	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
-	<script type="text/javascript" src="elementlist.js?1663450502"></script>
+	<script type="text/javascript" src="elementlist.js?3766833873"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
 
 </head>
@@ -25,6 +25,8 @@
 						</li>
 				<li><a href="package-david.coombes.html">david-coombes</a>
 						</li>
+				<li><a href="package-None.html">None</a>
+						</li>
 			</ul>
 		</div>
 
@@ -34,8 +36,9 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></li>
+				<li><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></li>
 				<li><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></li>
+				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
 			</ul>
 
 
@@ -45,6 +48,8 @@
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></li>
+				<li><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></li>
+				<li><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></li>
 			</ul>
 		</div>
 	</div>
@@ -91,13 +96,20 @@
 <table class="summary" id="classes">
 <caption>Classes summary</caption>
 <tr>
-	<td class="name"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
-	<td>class-wp-services-api</td>
+	<td class="name"><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></td>
+	<td>Modules should extend this class. e.g.: &lt;code&gt; class My_Class extends
+API_Con_Mngr_Module{ function __construct(){ parent::__construct(); } function
+check_error( $response ){ return false; } } $oauth1 = new My_Class();
+&lt;/code&gt;</td>
 </tr>
 <tr>
 	<td class="name"><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></td>
 	<td>Class for handling the dashboard and network admin pages for the API Connection
 Manager</td>
+</tr>
+<tr>
+	<td class="name"><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></td>
+	<td>Class for displaying the user options in the dashboard of blogs.</td>
 </tr>
 </table>
 
@@ -109,7 +121,15 @@ Manager</td>
 <caption>Functions summary</caption>
 <tr>
 	<td class="name"><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></td>
-	<td>Function for displaying the html for the admin pages.</td>
+	<td>Function for displaying service activation/deactivation table.</td>
+</tr>
+<tr>
+	<td class="name"><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></td>
+	<td>Function for displaying the service options</td>
+</tr>
+<tr>
+	<td class="name"><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></td>
+	<td>Function for displaying service activation/deactivation table.</td>
 </tr>
 </table>
 </div>

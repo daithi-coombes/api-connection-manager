@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class OAuthSignatureMethod_PLAINTEXT</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3766833873"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-api.connection.manager.html">api-connection-manager</a>
+						</li>
+				<li><a href="package-david.coombes.html">david-coombes</a>
+						</li>
+				<li class="active"><a href="package-None.html">None</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-API_Con_Mngr_Log.html">API_Con_Mngr_Log</a></li>
+				<li><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></li>
+				<li><a href="class-OAuthConsumer.html">OAuthConsumer</a></li>
+				<li><a href="class-OAuthDataStore.html">OAuthDataStore</a></li>
+				<li><a href="class-OAuthRequest.html">OAuthRequest</a></li>
+				<li><a href="class-OAuthServer.html">OAuthServer</a></li>
+				<li><a href="class-OAuthSignatureMethod.html">OAuthSignatureMethod</a></li>
+				<li><a href="class-OAuthSignatureMethod_HMAC_SHA1.html">OAuthSignatureMethod_HMAC_SHA1</a></li>
+				<li class="active"><a href="class-OAuthSignatureMethod_PLAINTEXT.html">OAuthSignatureMethod_PLAINTEXT</a></li>
+				<li><a href="class-OAuthSignatureMethod_RSA_SHA1.html">OAuthSignatureMethod_RSA_SHA1</a></li>
+				<li><a href="class-OAuthToken.html">OAuthToken</a></li>
+				<li><a href="class-OAuthUtil.html">OAuthUtil</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-OAuthException.html">OAuthException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-None.html" title="Summary of None"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class OAuthSignatureMethod_PLAINTEXT</h1>
+
+
+	<div class="description">
+	
+<p>The PLAINTEXT method does not provide any security protection and SHOULD only
+be used over a secure channel such as HTTPS. It does not use the Signature Base
+String. - Chapter 9.4 ("PLAINTEXT")</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-OAuthSignatureMethod.html"><span>OAuthSignatureMethod</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>OAuthSignatureMethod_PLAINTEXT</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-OAuthSignatureMethod_PLAINTEXT.html#120" title="Go to source code">includes/OAuth.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="get_name" id="_get_name">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_name">#</a>
+		<code><a href="source-class-OAuthSignatureMethod_PLAINTEXT.html#126" title="Go to source code">get_name</a>( )</code>
+
+		<div class="description short">
+			
+<p>Needs to return the name of the Signature Method (ie HMAC-SHA1)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Needs to return the name of the Signature Method (ie HMAC-SHA1)</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="build_signature" id="_build_signature">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_build_signature">#</a>
+		<code><a href="source-class-OAuthSignatureMethod_PLAINTEXT.html#130" title="Go to source code">build_signature</a>( <span><code><a href="class-OAuthRequest.html">OAuthRequest</a></code> <var>$request</var></span>, <span><code><a href="class-OAuthConsumer.html">OAuthConsumer</a></code> <var>$consumer</var></span>, <span><code><a href="class-OAuthToken.html">OAuthToken</a></code> <var>$token</var></span> )</code>
+
+		<div class="description short">
+			
+<p>oauth_signature is set to the concatenated encoded values of the Consumer
+Secret and Token Secret, separated by a '&amp;' character (ASCII code 38), even
+if either secret is empty. The result MUST be encoded again.<br />
+- Chapter 9.4.1 ("Generating Signatures")</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>oauth_signature is set to the concatenated encoded values of the Consumer
+Secret and Token Secret, separated by a '&amp;' character (ASCII code 38), even
+if either secret is empty. The result MUST be encoded again. - Chapter 9.4.1
+("Generating Signatures")</p>
+
+<p>Please note that the second encoding MUST NOT happen in the SignatureMethod,
+as OAuthRequest handles this!</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$request</var></dt>
+					<dd><code><code><a href="class-OAuthRequest.html">OAuthRequest</a></code></code></dd>
+					<dt><var>$consumer</var></dt>
+					<dd><code><code><a href="class-OAuthConsumer.html">OAuthConsumer</a></code></code></dd>
+					<dt><var>$token</var></dt>
+					<dd><code><code><a href="class-OAuthToken.html">OAuthToken</a></code></code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-OAuthSignatureMethod.html#methods">OAuthSignatureMethod</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-OAuthSignatureMethod.html#_">check_signature()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

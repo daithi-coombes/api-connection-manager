@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class OAuthSignatureMethod_RSA_SHA1</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3766833873"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-api.connection.manager.html">api-connection-manager</a>
+						</li>
+				<li><a href="package-david.coombes.html">david-coombes</a>
+						</li>
+				<li class="active"><a href="package-None.html">None</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-API_Con_Mngr_Log.html">API_Con_Mngr_Log</a></li>
+				<li><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></li>
+				<li><a href="class-OAuthConsumer.html">OAuthConsumer</a></li>
+				<li><a href="class-OAuthDataStore.html">OAuthDataStore</a></li>
+				<li><a href="class-OAuthRequest.html">OAuthRequest</a></li>
+				<li><a href="class-OAuthServer.html">OAuthServer</a></li>
+				<li><a href="class-OAuthSignatureMethod.html">OAuthSignatureMethod</a></li>
+				<li><a href="class-OAuthSignatureMethod_HMAC_SHA1.html">OAuthSignatureMethod_HMAC_SHA1</a></li>
+				<li><a href="class-OAuthSignatureMethod_PLAINTEXT.html">OAuthSignatureMethod_PLAINTEXT</a></li>
+				<li class="active"><a href="class-OAuthSignatureMethod_RSA_SHA1.html">OAuthSignatureMethod_RSA_SHA1</a></li>
+				<li><a href="class-OAuthToken.html">OAuthToken</a></li>
+				<li><a href="class-OAuthUtil.html">OAuthUtil</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-OAuthException.html">OAuthException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-None.html" title="Summary of None"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class OAuthSignatureMethod_RSA_SHA1</h1>
+
+
+	<div class="description">
+	
+<p>The RSA-SHA1 signature method uses the RSASSA-PKCS1-v1_5 signature algorithm
+as defined in [RFC3447] section 8.2 (more simply known as PKCS#1), using SHA-1
+as the hash function for EMSA-PKCS1-v1_5. It is assumed that the Consumer has
+provided its RSA public key in a verified way to the Service Provider, in a
+manner which is beyond the scope of this specification. - Chapter 9.3
+("RSA-SHA1")</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-OAuthSignatureMethod.html"><span>OAuthSignatureMethod</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by" />
+<b><span>OAuthSignatureMethod_RSA_SHA1</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		<b>Abstract</b><br />
+		
+		
+		
+
+		<b>Located at</b> <a href="source-class-OAuthSignatureMethod_RSA_SHA1.html#153" title="Go to source code">includes/OAuth.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="get_name" id="_get_name">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_name">#</a>
+		<code><a href="source-class-OAuthSignatureMethod_RSA_SHA1.html#162" title="Go to source code">get_name</a>( )</code>
+
+		<div class="description short">
+			
+<p>Needs to return the name of the Signature Method (ie HMAC-SHA1)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Needs to return the name of the Signature Method (ie HMAC-SHA1)</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fetch_public_cert" id="_fetch_public_cert">
+
+		<td class="attributes"><code>
+			abstract protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_fetch_public_cert">#</a>
+		<code><a href="source-class-OAuthSignatureMethod_RSA_SHA1.html#172" title="Go to source code">fetch_public_cert</a>( <span> <var>&amp; $request</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fetch_private_cert" id="_fetch_private_cert">
+
+		<td class="attributes"><code>
+			abstract protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_fetch_private_cert">#</a>
+		<code><a href="source-class-OAuthSignatureMethod_RSA_SHA1.html#178" title="Go to source code">fetch_private_cert</a>( <span> <var>&amp; $request</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="build_signature" id="_build_signature">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_build_signature">#</a>
+		<code><a href="source-class-OAuthSignatureMethod_RSA_SHA1.html#180" title="Go to source code">build_signature</a>( <span><code><a href="class-OAuthRequest.html">OAuthRequest</a></code> <var>$request</var></span>, <span><code><a href="class-OAuthConsumer.html">OAuthConsumer</a></code> <var>$consumer</var></span>, <span><code><a href="class-OAuthToken.html">OAuthToken</a></code> <var>$token</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Build up the signature NOTE: The output of this function MUST NOT be
+urlencoded. the encoding is handled in OAuthRequest when the final request is
+serialized</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Build up the signature NOTE: The output of this function MUST NOT be
+urlencoded. the encoding is handled in OAuthRequest when the final request is
+serialized</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$request</var></dt>
+					<dd><code><code><a href="class-OAuthRequest.html">OAuthRequest</a></code></code></dd>
+					<dt><var>$consumer</var></dt>
+					<dd><code><code><a href="class-OAuthConsumer.html">OAuthConsumer</a></code></code></dd>
+					<dt><var>$token</var></dt>
+					<dd><code><code><a href="class-OAuthToken.html">OAuthToken</a></code></code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="check_signature" id="_check_signature">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_check_signature">#</a>
+		<code><a href="source-class-OAuthSignatureMethod_RSA_SHA1.html#199" title="Go to source code">check_signature</a>( <span><code><a href="class-OAuthRequest.html">OAuthRequest</a></code> <var>$request</var></span>, <span><code><a href="class-OAuthConsumer.html">OAuthConsumer</a></code> <var>$consumer</var></span>, <span><code><a href="class-OAuthToken.html">OAuthToken</a></code> <var>$token</var></span>, <span>string <var>$signature</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Verifies that a given signature is correct</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Verifies that a given signature is correct</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$request</var></dt>
+					<dd><code><code><a href="class-OAuthRequest.html">OAuthRequest</a></code></code></dd>
+					<dt><var>$consumer</var></dt>
+					<dd><code><code><a href="class-OAuthConsumer.html">OAuthConsumer</a></code></code></dd>
+					<dt><var>$token</var></dt>
+					<dd><code><code><a href="class-OAuthToken.html">OAuthToken</a></code></code></dd>
+					<dt><var>$signature</var></dt>
+					<dd><code>string</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-OAuthSignatureMethod.html#_">OAuthSignatureMethod::check_signature</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

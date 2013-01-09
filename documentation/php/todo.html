@@ -7,7 +7,7 @@
 	<title>Todo</title>
 
 	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
-	<script type="text/javascript" src="elementlist.js?1663450502"></script>
+	<script type="text/javascript" src="elementlist.js?3766833873"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
 
 </head>
@@ -25,6 +25,8 @@
 						</li>
 				<li><a href="package-david.coombes.html">david-coombes</a>
 						</li>
+				<li><a href="package-None.html">None</a>
+						</li>
 			</ul>
 		</div>
 
@@ -34,20 +36,40 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-API_Con_Mngr_Log.html">API_Con_Mngr_Log</a></li>
+				<li><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></li>
 				<li><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></li>
 				<li><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></li>
+				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
+				<li><a href="class-OAuthConsumer.html">OAuthConsumer</a></li>
+				<li><a href="class-OAuthDataStore.html">OAuthDataStore</a></li>
+				<li><a href="class-OAuthRequest.html">OAuthRequest</a></li>
+				<li><a href="class-OAuthServer.html">OAuthServer</a></li>
+				<li><a href="class-OAuthSignatureMethod.html">OAuthSignatureMethod</a></li>
+				<li><a href="class-OAuthSignatureMethod_HMAC_SHA1.html">OAuthSignatureMethod_HMAC_SHA1</a></li>
+				<li><a href="class-OAuthSignatureMethod_PLAINTEXT.html">OAuthSignatureMethod_PLAINTEXT</a></li>
+				<li><a href="class-OAuthSignatureMethod_RSA_SHA1.html">OAuthSignatureMethod_RSA_SHA1</a></li>
+				<li><a href="class-OAuthToken.html">OAuthToken</a></li>
+				<li><a href="class-OAuthUtil.html">OAuthUtil</a></li>
 			</ul>
 
 
 
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-OAuthException.html">OAuthException</a></li>
+			</ul>
 
 
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></li>
+				<li><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></li>
+				<li><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></li>
 				<li><a href="function-ar_print.html">ar_print</a></li>
 				<li><a href="function-ar_to_string.html">ar_to_string</a></li>
 				<li><a href="function-debug_print.html">debug_print</a></li>
+				<li><a href="function-get_current_url.html">get_current_url</a></li>
 				<li><a href="function-log_file.html">log_file</a></li>
 				<li><a href="function-rand_md5.html">rand_md5</a></li>
 				<li><a href="function-url_query_append.html">url_query_append</a></li>
@@ -95,24 +117,14 @@
 	<table class="summary" id="classes">
 	<caption>Classes summary</caption>
 	<tr>
-		<td class="name" rowspan="8"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
-		<td>localization
-<!-- by Texy2! --></td></tr><tr>
-		<td>refresh token</td></tr><tr>
-		<td>research google's AuthSub or ClientLogin api's. Might have something to help
-building for custom services.</td></tr><tr>
-		<td>move query_append() from debug.func.php to method in this class</td></tr><tr>
-		<td>look into a sevices datatype/object that plugins would request and work of.
-Something like WP_Service. WP_Service-&gt;get_grant_uri or
-WP_Service-&gt;get_btn</td></tr><tr>
-		<td>create a DTO object to return from calls to the api. The DTO would therefore
-always be based on a server response. This helps keep with the wordpress norm of
-accepting strings and returning objects. ie where calls to get_user* functions
-return a WP_User object, calls to this api would return a WP_DTO object for the
-plugin dev's to work with.</td></tr><tr>
-		<td>write up standard for module index.php files. Clean out old vars and allow for
-more header options.</td></tr><tr>
-		<td>activation/deactivation of services</td>
+		<td class="name" rowspan="1"><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></td>
+		<td>add nonces to forms
+<!-- by Texy2! --></td>
+	</tr>
+	<tr>
+		<td class="name" rowspan="1"><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></td>
+		<td>make sure subscribers can access this, ie anybody that has basic enough rights
+to edit their profiles should have access.</td>
 	</tr>
 	</table>
 
@@ -122,9 +134,25 @@ more header options.</td></tr><tr>
 	<table class="summary" id="methods">
 	<caption>Methods summary</caption>
 	<tr>
+		<td class="name" rowspan="2"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
+		<td class="name" rowspan="2"><code><a href="class-API_Connection_Manager.html#_">_get_installed_services()</a></code></td>
+		<td>add error message is sessions disabled and module needs it</td></tr><tr>
+		<td>use API_Con_Mngr_Module for all services</td>
+	</tr>
+	<tr>
 		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
 		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">_get_options()</a></code></td>
 		<td>this method is being called too much</td>
+	</tr>
+	<tr>
+		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
+		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">_get_user_options()</a></code></td>
+		<td>maybe method shoudl be renamed _get_refresh_states() ?</td>
+	</tr>
+	<tr>
+		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
+		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">_print_login()</a></code></td>
+		<td>remove this method. Been moved to API_Con_Mngr_Module</td>
 	</tr>
 	<tr>
 		<td class="name" rowspan="3"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
@@ -136,32 +164,30 @@ if wp_ajax_nopriv_(this_func) was requested?</td></tr><tr>
 		<td>should be private?</td>
 	</tr>
 	<tr>
-		<td class="name" rowspan="2"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
-		<td class="name" rowspan="2"><code><a href="class-API_Connection_Manager.html#_">_service_get_account_emails()</a></code></td>
-		<td>change so always returns an array instead of string|array</td></tr><tr>
-		<td>use oauth2's token checking calls instead</td>
+		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
+		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">_service_get_token()</a></code></td>
+		<td>allow refresh tokens</td>
 	</tr>
 	<tr>
 		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
-		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">_set_callback()</a></code></td>
-		<td>use nonce created in service link as key for callback</td>
+		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">_service_logout()</a></code></td>
+		<td>finish this.</td>
 	</tr>
 	<tr>
-		<td class="name" rowspan="2"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
-		<td class="name" rowspan="2"><code><a href="class-API_Connection_Manager.html#_">get_login_button()</a></code></td>
-		<td>allow button sizes (small|medium|large)</td></tr><tr>
-		<td>remove file check. Get params from $this-&gt;services[]</td>
+		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
+		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">_set_service_options()</a></code></td>
+		<td>try not use ::_get_params. this method re-reads all the module files using
+filesystem calls and is already called by ::_get_installed_services.</td>
+	</tr>
+	<tr>
+		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
+		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">get_logout_button()</a></code></td>
+		<td>finish the logout params in the module index.php file</td>
 	</tr>
 	<tr>
 		<td class="name" rowspan="1"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
 		<td class="name" rowspan="1"><code><a href="class-API_Connection_Manager.html#_">get_services()</a></code></td>
 		<td>change default to active.</td>
-	</tr>
-	<tr>
-		<td class="name" rowspan="2"><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></td>
-		<td class="name" rowspan="2"><code><a href="class-API_Connection_Manager.html#_">request()</a></code></td>
-		<td>change params array to match the WP_HTTP class for requests.</td></tr><tr>
-		<td>this method</td>
 	</tr>
 	</table>
 

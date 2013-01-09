@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class API_Con_Mngr_Module</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?3766833873"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li class="active"><a href="package-api.connection.manager.html">api-connection-manager</a>
+						</li>
+				<li><a href="package-david.coombes.html">david-coombes</a>
+						</li>
+				<li><a href="package-None.html">None</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></li>
+				<li><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></li>
+				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></li>
+				<li><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></li>
+				<li><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-api.connection.manager.html" title="Summary of api-connection-manager"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class API_Con_Mngr_Module</h1>
+
+
+	<div class="description">
+	
+<p>Modules should extend this class. e.g.:</p>
+
+<pre>
+<span class="php-keyword1">class</span> My_Class <span
+class="php-keyword1">extends</span> API_Con_Mngr_Module{
+        <span
+class="php-keyword1">function</span> __construct(){
+                parent::__construct();
+        }
+        <span
+class="php-keyword1">function</span> check_error( <span
+class="php-var">$response</span> ){
+                <span
+class="php-keyword1">return</span> <span
+class="php-keyword1">false</span>;
+        }
+}
+<span
+class="php-var">$oauth1</span> = <span
+class="php-keyword1">new</span> My_Class();
+</pre>
+
+<p>You module class should be saved in a file called <code>index.php</code> in a
+sub-folder in <code>wp-content/plugins/api-con-mngr-modules</code> If this
+folder is not created yet make sure you have installed and activated the API
+Manager Core <a href="https://github.com/david-coombes/api-connection-manager">https://github.com/david-coombes/api-connection-manager</a></p>
+
+<h1>Class definition file</h1>
+
+<p>Your class should extend this and also construct it at the bottom of the
+class file as one of the following:</p>
+
+<ul>
+	<li>$oauth1 = new My_Class()</li>
+
+	<li>$oauth2 = new My_Class()</li>
+
+	<li>$service = new My_Class() //custom services</li>
+</ul>
+
+<h1>Oauth1</h1>
+
+<p>As well as providing methods declared abstract the following is required:
+Methods:</p>
+
+<ul>
+	<li>::__construct() //this must call parent::__construct()</li>
+
+	<li>::do_login() //use this to process request tokens</li>
+</ul>
+
+<p>Fields:</p>
+
+<ul>
+	<li>::consumer_key //required by the oauth1 spec</li>
+
+	<li>::consumer_secret //required by the oauth1 spec</li>
+</ul>
+
+<h1>Oauth2</h1>
+
+<p>No oauth2 documentation yet</p>
+
+<h1>Service (provider's custom api)</h1>
+
+<p>No service documentation yet</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		<b>Abstract</b><br />
+		
+		
+		<b>Package:</b> <a href="package-api.connection.manager.html">api-connection-manager</a><br />
+
+				<b>Author:</b>
+				daithi<br />
+		<b>Located at</b> <a href="source-class-API_Con_Mngr_Module.html#4" title="Go to source code">class-api-con-mngr-module.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#142" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			
+<p>Make sure you call this from your child class.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Make sure you call this from your child class.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="check_error" id="_check_error">
+
+		<td class="attributes"><code>
+			abstract public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_check_error">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#165" title="Go to source code">check_error</a>( <span>array <var>$response</var></span> )</code>
+
+		<div class="description short">
+			
+<p>This method checks a response from the service for an error and must be
+declared by your class.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>This method checks a response from the service for an error and must be
+declared by your class.</p>
+
+<p>If you find an error in the response return the error string else return
+false for no error.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$response</var></dt>
+					<dd><code>array</code><br> The response in the same format as returned by the WP_HTTP class.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>Returns false if no error or string if error found.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="oauth_sign_request" id="_oauth_sign_request">
+
+		<td class="attributes"><code>
+			 public 
+			<code><a href="class-OAuthRequest.html">OAuthRequest</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_oauth_sign_request">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#178" title="Go to source code">oauth_sign_request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Builds and signs a request object.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Builds and signs a request object.</p>
+
+<p>Uses the field $this-&gt;sha1_method to sign the request which must be type
+OAuthSignatureMethod_HMAC_SHA1</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br> The end point url.</dd>
+					<dt><var>$method</var></dt>
+					<dd><code>string</code><br> Default GET. The http method</dd>
+					<dt><var>$params</var></dt>
+					<dd><code>array</code><br> Array of params in key value pairs</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-OAuthRequest.html">OAuthRequest</a></code></code><br>Returns an oauth request object<br />
+				</div>
+
+
+				<h4>Uses</h4>
+				<div class="list">
+						<code><code><a href="class-API_Con_Mngr_Module.html#$sha1_method">API_Con_Mngr_Module::<var>$sha1_method</var></a></code></code><br>OAuthSignatureMethod_HMAC_SHA1<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="do_callback" id="_do_callback">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_do_callback">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#199" title="Go to source code">do_callback</a>( <span>stdClass <var>$dto</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Do callback.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Do callback.</p>
+
+<p>This is called from API_Connection_Manager::_response_listener() The callback
+is set when the login button is printed</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dto</var></dt>
+					<dd><code>stdClass</code><br> The response dto.</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-API_Con_Mngr_Module.html#_">API_Con_Mngr_Module::get_login_button()</a></code></code><br />
+						<code><code><a href="class-API_Connection_Manager.html#_">API_Connection_Manager::_response_listener()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="do_login" id="_do_login">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_do_login">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#233" title="Go to source code">do_login</a>( <span>stdClass <var>$dto</var></span> )</code>
+
+		<div class="description short">
+			
+<p>This method gets called after a successfull login. It is called after:<br />
+- oauth1 successfull app authorization and request tokens<br />
+- oauth2</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>This method gets called after a successfull login. It is called after: -
+oauth1 successfull app authorization and request tokens - oauth2</p>
+
+<p>Override this method to parse results.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dto</var></dt>
+					<dd><code>stdClass</code><br> The data transport object created by
+API_Connection_Manager::_service_parse_dto()</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="error" id="_error">
+
+		<td class="attributes"><code>
+			 public 
+			WP_Error
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_error">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#248" title="Go to source code">error</a>( <span>string <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Error handling.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Error handling.</p>
+
+<p>Will return a WP_Error object with 'API_Con_Mngr_Module' as the code.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$msg</var></dt>
+					<dd><code>string</code><br> The error message.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>WP_Error</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_authorize_url" id="_get_authorize_url">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_authorize_url">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#260" title="Go to source code">get_authorize_url</a>( <span>array <var>$tokens</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns the authorize url for oauth1.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns the authorize url for oauth1.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$tokens</var></dt>
+					<dd><code>array</code><br> The request tokens</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_login_button" id="_get_login_button">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_login_button">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#270" title="Go to source code">get_login_button</a>( <span>string <var>$file</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$callback</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Returns a link to login to this service.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns a link to login to this service.</p>
+
+<p>Covers two scenario's:</p>
+
+<ol>
+	<li>If there is no wordpress user logged in, then it will print a</li>
+</ol>
+
+<p>login with $service link.</p>
+
+<ol start="2">
+	<li>If wp user is logged in then it will print the login link and die.</li>
+</ol>
+
+<p>The accept app will open in a new tab and will then refresh the window.opener
+object.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd><code>string</code><br>The full url to the file with the callback, if one is required.</dd>
+					<dt><var>$callback</var></dt>
+					<dd><code>mixed</code><br>Either an array or string of the function/method if a callback is required.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Html anchor<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_params" id="_get_params">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_params">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#345" title="Go to source code">get_params</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns array of params for this module.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns array of params for this module.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>$array[key=&gt;val]<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_request_token" id="_get_request_token">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_request_token">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#365" title="Go to source code">get_request_token</a>( <span>string <var>$method</var> = <span class="php-quote">'GET'</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>Get oauth1 request token. You may need to override this to suit.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get oauth1 request token. You may need to override this to suit.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$method</var></dt>
+					<dd><code>string</code><br> Default GET. The http method to use.</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="log" id="_log">
+
+		<td class="attributes"><code>
+			 public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_log">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#393" title="Go to source code">log</a>( <span>string <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Log a message to the log file.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Log a message to the log file.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$msg</var></dt>
+					<dd><code>string</code><br>The message to log</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>Returns num of bytes if success or FALSE on fail.<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="class-API_Con_Mngr_Log.html#_">API_Con_Mngr_Log::write()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parse_dto" id="_parse_dto">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_parse_dto">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#405" title="Go to source code">parse_dto</a>( <span>stdClass <var>$dto</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Sets any class fields in this instance that in the dto-&gt;response
+array.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sets any class fields in this instance that in the dto-&gt;response
+array.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dto</var></dt>
+					<dd><code>stdClass</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="parse_response" id="_parse_response">
+
+		<td class="attributes"><code>
+			 public 
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_parse_response">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#419" title="Go to source code">parse_response</a>( <span>array <var>$response</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Parse a response body.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Parse a response body.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$response</var></dt>
+					<dd><code>array</code><br> The response in the format returned from WP_HTTP</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code><br>Will return either an array or object based on the response header content-type<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="request" id="_request">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_request">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#447" title="Go to source code">request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$parameters</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Send requests to the provider.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Send requests to the provider.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$url</var></dt>
+					<dd><code>string</code><br>$uri The full endpoint url.</dd>
+					<dt><var>$method</var></dt>
+					<dd><code>string</code><br> Default GET. The http method to user.</dd>
+					<dt><var>$parameters</var></dt>
+					<dd><code>array</code><br> Optional. An array of parameters in key value pairs</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns the response array in the WP_HTTP format.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_details" id="_set_details">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_details">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#504" title="Go to source code">set_details</a>( <span>array <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set this instance details fields such as Name and Description.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set this instance details fields such as Name and Description.</p>
+
+<p>Called in API_Connection_Manager::_get_installed_services()</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd><code>array</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="set_params" id="_set_params">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_params">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#519" title="Go to source code">set_params</a>( <span>array <var>$params</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Set params. Will set fields that have the same param name and update the
+db.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Set params. Will set fields that have the same param name and update the
+db.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$params</var></dt>
+					<dd><code>array</code><br> An associative array of parameters for this module</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns the new params db values.<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="callback_url" id="$callback_url">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#56" title="Go to source code"><var>$callback_url</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$callback_url" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The callback url</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The callback url</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="connecttimeout" id="$connecttimeout">
+
+		<td class="attributes"><code>
+			public 
+			integer
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#59" title="Go to source code"><var>$connecttimeout</var></a>
+		</td>
+		<td class="value"><code><span class="php-num">30</span></code></td>
+		<td class="description"><div>
+			<a href="#$connecttimeout" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The connection timeout</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The connection timeout</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="consumer" id="$consumer">
+
+		<td class="attributes"><code>
+			public 
+			<code><a href="class-OAuthConsumer.html">OAuthConsumer</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#62" title="Go to source code"><var>$consumer</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$consumer" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The consumer object</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The consumer object</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="consumer_key" id="$consumer_key">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#65" title="Go to source code"><var>$consumer_key</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$consumer_key" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The consumer key</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The consumer key</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="consumer_secret" id="$consumer_secret">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#68" title="Go to source code"><var>$consumer_secret</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$consumer_secret" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The consumer secret</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The consumer secret</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="Description" id="$Description">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#71" title="Go to source code"><var>$Description</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$Description" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The module description</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The module description</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="login_uri" id="$login_uri">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#74" title="Go to source code"><var>$login_uri</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$login_uri" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The uri for displaying a login link</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The uri for displaying a login link</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="Name" id="$Name">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#77" title="Go to source code"><var>$Name</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$Name" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The name of the module</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The name of the module</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="oauth_nonce" id="$oauth_nonce">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#80" title="Go to source code"><var>$oauth_nonce</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$oauth_nonce" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The nonce for this instance of the module</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The nonce for this instance of the module</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="oauth_token" id="$oauth_token">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#83" title="Go to source code"><var>$oauth_token</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$oauth_token" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Oauth1 token</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Oauth1 token</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="oauth_token_secret" id="$oauth_token_secret">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#86" title="Go to source code"><var>$oauth_token_secret</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$oauth_token_secret" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Oauth1 token secret</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Oauth1 token secret</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="params" id="$params">
+
+		<td class="attributes"><code>
+			public 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#89" title="Go to source code"><var>$params</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$params" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>An array of static params</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>An array of static params</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="protocol" id="$protocol">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#92" title="Go to source code"><var>$protocol</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$protocol" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The current protocol used (oauth, custom, etc)</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The current protocol used (oauth, custom, etc)</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="sessions" id="$sessions">
+
+		<td class="attributes"><code>
+			public 
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#95" title="Go to source code"><var>$sessions</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">true</span></code></td>
+		<td class="description"><div>
+			<a href="#$sessions" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Flag whether server allows sessions or not. Some modules need sessions and
+will be disabled on servers without sessions enabled</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Flag whether server allows sessions or not. Some modules need sessions and
+will be disabled on servers without sessions enabled</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="sha1_method" id="$sha1_method">
+
+		<td class="attributes"><code>
+			public 
+			<code><a href="class-OAuthSignatureMethod_HMAC_SHA1.html">OAuthSignatureMethod_HMAC_SHA1</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#100" title="Go to source code"><var>$sha1_method</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$sha1_method" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The signature encoding method</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The signature encoding method</p>
+
+
+					<h4>Used by</h4>
+					<div class="list">
+							<code><code><a href="class-API_Con_Mngr_Module.html#_">API_Con_Mngr_Module::oauth_sign_request()</a></code></code><br>OAuthSignatureMethod_HMAC_SHA1<br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="slug" id="$slug">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#103" title="Go to source code"><var>$slug</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$slug" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The slug of the current login</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The slug of the current login</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ssl_verifypeer" id="$ssl_verifypeer">
+
+		<td class="attributes"><code>
+			public 
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#106" title="Go to source code"><var>$ssl_verifypeer</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">FALSE</span></code></td>
+		<td class="description"><div>
+			<a href="#$ssl_verifypeer" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Verify SSL Cert.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Verify SSL Cert.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="timeout" id="$timeout">
+
+		<td class="attributes"><code>
+			public 
+			integer
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#109" title="Go to source code"><var>$timeout</var></a>
+		</td>
+		<td class="value"><code><span class="php-num">30</span></code></td>
+		<td class="description"><div>
+			<a href="#$timeout" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Set timeout default.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Set timeout default.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="token" id="$token">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#112" title="Go to source code"><var>$token</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$token" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The token</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The token</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="url_authorize" id="$url_authorize">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#115" title="Go to source code"><var>$url_authorize</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$url_authorize" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The authorize url</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The authorize url</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="url_access_token" id="$url_access_token">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#118" title="Go to source code"><var>$url_access_token</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$url_access_token" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The access token url</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The access token url</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="url_request_token" id="$url_request_token">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#121" title="Go to source code"><var>$url_request_token</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$url_request_token" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The request token url</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The request token url</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="url_verify_token" id="$url_verify_token">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#124" title="Go to source code"><var>$url_verify_token</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$url_verify_token" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The url to verify an access token</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The url to verify an access token</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="use_nonce" id="$use_nonce">
+
+		<td class="attributes"><code>
+			public 
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#127" title="Go to source code"><var>$use_nonce</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">true</span></code></td>
+		<td class="description"><div>
+			<a href="#$use_nonce" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Flag to set whether provider will return nonce or not</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Flag to set whether provider will return nonce or not</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="useragent" id="$useragent">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#130" title="Go to source code"><var>$useragent</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;TwitterOAuth v0.2.0-beta2&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$useragent" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The user agent to send with requests</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The user agent to send with requests</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="api" id="$api">
+
+		<td class="attributes"><code>
+			private 
+			<code><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#133" title="Go to source code"><var>$api</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$api" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The main api class</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The main api class</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="log_api" id="$log_api">
+
+		<td class="attributes"><code>
+			private 
+			<code><a href="class-API_Con_Mngr_Log.html">API_Con_Mngr_Log</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#136" title="Go to source code"><var>$log_api</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$log_api" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The log class</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The log class</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="option_name" id="$option_name">
+
+		<td class="attributes"><code>
+			private 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#139" title="Go to source code"><var>$option_name</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;API_Con_Mngr_Module&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$option_name" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The prefix for the user meta keys</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The prefix for the user meta keys</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

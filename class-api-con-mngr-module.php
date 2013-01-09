@@ -1,13 +1,56 @@
 <?php
-
-/**
- * Modules should extend this class.
- * 
- * Allows the over-riding of headers and the parsing of parameters. 
- */
 require_once('includes/OAuth.php');
 if (!class_exists("API_Con_Mngr_Module")):
-
+	/**
+	* Modules should extend this class.
+	* e.g.:
+	* <code>
+	* class My_Class extends API_Con_Mngr_Module{
+	*		function __construct(){
+	*			parent::__construct();
+	*		}
+	*		function check_error( $response ){
+	*			return false;
+	*		}
+	* }
+	* $oauth1 = new My_Class();
+	* </code>
+	* 
+	 * You module class should be saved in a file called <code>index.php</code>
+	 * in a sub-folder in <code>wp-content/plugins/api-con-mngr-modules</code>
+	 * If this folder is not created yet make sure you have installed and
+	 * activated the API Manager Core
+	 * {@link https://github.com/david-coombes/api-connection-manager}
+	 * 
+	* Class definition file
+	* =====================
+	* Your class should extend this and also construct it at the bottom of the
+	* class file as one of the following:
+	*	- $oauth1 = new My_Class()
+	*	- $oauth2 = new My_Class()
+	*	- $service = new My_Class() //custom services
+	* 
+	* Oauth1
+	* ======
+	* As well as providing methods declared abstract the following is required:
+	* Methods:
+	*	- ::__construct() //this must call parent::__construct()
+	*	- ::do_login() //use this to process request tokens
+	* Fields:
+	*	- ::consumer_key //required by the oauth1 spec
+	*	- ::consumer_secret //required by the oauth1 spec
+	* 
+	* Oauth2
+	* ======
+	* No oauth2 documentation yet
+	* 
+	* Service (provider's custom api)
+	* ===============================
+	* No service documentation yet
+	* 
+	* @package api-connection-manager
+	* @author daithi
+	*/
 	abstract class API_Con_Mngr_Module {
 
 		/** @var string The callback url */
@@ -54,7 +97,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * sessions enabled */
 		public $sessions = true;
 		
-		/** @var string The signature encoding method */
+		/** @var OAuthSignatureMethod_HMAC_SHA1 The signature encoding method */
 		public $sha1_method = "";
 
 		/** @var string The slug of the current login */
@@ -96,6 +139,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The prefix for the user meta keys */
 		private $option_name = "API_Con_Mngr_Module";
 
+		/**
+		 * Make sure you call this from your child class.
+		 * 
+		 * @global API_Connection_Manager $API_Connection_Manager 
+		 */
 		function __construct() {
 
 			global $API_Connection_Manager;
@@ -130,23 +178,17 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/**
 		 * Builds and signs a request object.
 		 * 
-		 * Uses the field $this->sha1_method to sign the request.
+		 * Uses the field $this->sha1_method to sign the request which must be
+		 * type OAuthSignatureMethod_HMAC_SHA1
 		 *
-		 * @param string $url Def
-		 * @param type $method
-		 * @param type $params
+		 * @uses API_Con_Mngr_Module::sha1_method OAuthSignatureMethod_HMAC_SHA1
+		 * @param string $url The end point url.
+		 * @param string $method Default GET. The http method
+		 * @param array $params Array of params in key value pairs
 		 * @return OAuthRequest Returns an oauth request object 
 		 */
 		public function oauth_sign_request( $url, $method='GET', $params=array()){
 			
-			//token must be stdClass
-			/**
-			$token = (object) array(
-				'key' => $this->oauth_token,
-				'secret' => $this->oauth_token_secret
-			);
-			 * 
-			 */
 			$token = new OAuthConsumer($this->oauth_token, $this->oauth_token_secret);
 			
 			$request = OAuthRequest::from_consumer_and_token($this->consumer, $token, $method, $url, $params);
@@ -155,7 +197,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Do callback. Will check $_SESSION for callback details.
+		 * Do callback.
+		 * 
+		 * This is called from API_Connection_Manager::_response_listener() The
+		 * callback is set when the login button is printed
+		 * 
+		 * @see API_Con_Mngr_Module::get_login_button()
+		 * @see API_Connection_Manager::_response_listener()
 		 * @param stdClass $dto The response dto.
 		 */
 		public function do_callback( stdClass $dto ) {
@@ -184,7 +232,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 
 		/**
 		 * This method gets called after a successfull login.
-		 * Handy for grabbing other information like user id's etc
+		 * It is called after:
+		 *  - oauth1 successfull app authorization and request tokens
+		 *  - oauth2
+		 * 
+		 * Override this method to parse results.
+		 * 
 		 * @param stdClass $dto The data transport object created by
 		 * API_Connection_Manager::_service_parse_dto()
 		 */
@@ -193,29 +246,25 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Error handling
-		 * @param string $msg
+		 * Error handling.
+		 * 
+		 * Will return a WP_Error object with 'API_Con_Mngr_Module' as the code.
+		 * 
+		 * @param string $msg The error message.
 		 * @return \WP_Error 
 		 */
 		public function error($msg) {
 			return new WP_Error('API_Con_Mngr_Module', $msg);
 		}
 
-		public function get_access_token( $oauth_verifier ){
-			$request = $this->request( $this->url_access_token, 'GET', array(
-				'oauth_verifier' => $oauth_verifier
-			));
-			$token = OAuthUtil::parse_parameters($request['body']);
-			$this->token = new OAuthConsumer( $this->oauth_token, $this->oauth_token_secret);
-		}
-		
 		/**
-		 * Returns the authorize url for oauth1
-		 * @param string $token The request token
+		 * Returns the authorize url for oauth1.
+		 * 
+		 * @param array $tokens The request tokens
 		 * @return string 
 		 */
 		public function get_authorize_url( array $tokens ) {
-			return $this->url_authorize . "?" . http_build_query($tokens); //oauth_token={$token['oauth_token']}&oauth_token_secret={$token['oauth_token_secret']}";
+			return $this->url_authorize . "?" . http_build_query($tokens);
 		}
 
 		/**
@@ -228,7 +277,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * The accept app will open in a new tab and will then refresh the
 		 * window.opener object.
 		 * 
-		 * @see API_Connection_Manager::_response_listener() for more.
 		 * @param string The full url to the file with the callback, if one is
 		 * required.
 		 * @param mixed Either an array or string of the function/method if a
@@ -295,7 +343,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
-		 * Returns array of params for this module
+		 * Returns array of params for this module.
+		 * 
 		 * @global type $API_Connection_Manager To get the current user_id
 		 * @return array $array[key=>val] 
 		 */
@@ -316,6 +365,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/**
 		 * Get oauth1 request token.
 		 * You may need to override this to suit.
+		 * 
 		 * @param string $method Default GET. The http method to use.
 		 * @return array
 		 */
@@ -342,6 +392,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 
 		/**
 		 * Log a message to the log file.
+		 * 
+		 * @see API_Con_Mngr_Log::write()
 		 * @param string The message to log
 		 * @return mixed Returns num of bytes if success or FALSE on fail.
 		 */
@@ -351,7 +403,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Sets any class fields that in the dto->response array
+		 * Sets any class fields in this instance that in the dto->response 
+		 * array.
+		 * 
 		 * @param stdClass $dto 
 		 */
 		public function parse_dto($dto) {
@@ -363,7 +417,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
-		 * Parse a response body
+		 * Parse a response body.
+		 * 
 		 * @param array $response The response in the format returned from
 		 * WP_HTTP
 		 * @return mixed Will return either an array or object based on the
@@ -447,7 +502,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
-		 * Set the module details fields such as Name and Description.
+		 * Set this instance details fields such as Name and Description.
+		 * 
 		 * Called in API_Connection_Manager::_get_installed_services()
 		 * @param array $data 
 		 */
@@ -461,27 +517,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Set the header.
-		 * 
-		 * @param API_Con_Mngr_Header $header
-		 * @return \API_Con_Mngr_Header 
-		 */
-		public function set_header(API_Con_Mngr_Header $header) {
-			return $header;
-		}
-
-		/**
-		 * Set the module options.
-		 * @param array $options Associative array of options
-		 */
-		public function set_options(array $options) {
-			$this->options = $options;
-		}
-
-		/**
 		 * Set params.
-		 * Will set fields that have the same param name.
-		 * @param array $params An associative array of parameters for this module
+		 * Will set fields that have the same param name and update the db.
+		 * 
+		 * @param array $params An associative array of parameters for this 
+		 * module
+		 * @return array Returns the new params db values.
 		 */
 		public function set_params(array $params) {
 			
@@ -494,8 +535,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 
 			update_user_meta($user_id, $this->option_name."-{$this->slug}", $meta);
 			return $this->get_params();
-		}
-		
+		}		
 	}
 	
 endif;

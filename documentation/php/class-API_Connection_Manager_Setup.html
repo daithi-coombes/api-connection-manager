@@ -7,7 +7,7 @@
 	<title>Class API_Connection_Manager_Setup</title>
 
 	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
-	<script type="text/javascript" src="elementlist.js?1663450502"></script>
+	<script type="text/javascript" src="elementlist.js?3766833873"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
 
 </head>
@@ -25,6 +25,8 @@
 						</li>
 				<li><a href="package-david.coombes.html">david-coombes</a>
 						</li>
+				<li><a href="package-None.html">None</a>
+						</li>
 			</ul>
 		</div>
 
@@ -34,8 +36,9 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></li>
+				<li><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></li>
 				<li class="active"><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></li>
+				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
 			</ul>
 
 
@@ -45,6 +48,8 @@
 			<h3>Functions</h3>
 			<ul>
 				<li><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></li>
+				<li><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></li>
+				<li><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></li>
 			</ul>
 		</div>
 	</div>
@@ -124,6 +129,8 @@ WP_List_Table
 
 				<b>Author:</b>
 				daithi<br />
+				<b>Todo:</b>
+				add nonces to forms<br />
 		<b>Located at</b> <a href="source-class-API_Connection_Manager_Setup.html#3" title="Go to source code">class-api-connection-manager-setup.php</a><br />
 	</div>
 
@@ -141,7 +148,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#19" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#20" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			
@@ -153,6 +160,35 @@ WP_List_Table
 			
 <p>Construct.</p>
 
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="__construct_wp_list" id="___construct_wp_list">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct_wp_list">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#43" title="Go to source code">__construct_wp_list</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
 
 
 
@@ -174,7 +210,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_activate">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#49" title="Go to source code">activate</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#52" title="Go to source code">activate</a>( )</code>
 
 		<div class="description short">
 			
@@ -185,39 +221,6 @@ WP_List_Table
 		<div class="description detailed hidden">
 			
 <p>Activate modules.</p>
-
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="deactivate" id="_deactivate">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_deactivate">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#58" title="Go to source code">deactivate</a>( )</code>
-
-		<div class="description short">
-			
-<p>Deactivate modules.</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Deactivate modules.</p>
 
 
 
@@ -240,7 +243,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_admin_head">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#67" title="Go to source code">admin_head</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#64" title="Go to source code">admin_head</a>( )</code>
 
 		<div class="description short">
 			
@@ -255,6 +258,97 @@ WP_List_Table
 
 
 
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="column_default" id="_column_default">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_column_default">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#95" title="Go to source code">column_default</a>( <span>array <var>$item</var></span>, <span>array <var>$column_name</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Defines the default columns</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Defines the default columns</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$item</var></dt>
+					<dd><code>array</code><br> A singular item (one full row's worth of data)</dd>
+					<dt><var>$column_name</var></dt>
+					<dd><code>array</code><br> The name/slug of the column to be processed</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Text or HTML to be placed inside the column &lt;td&gt;
+************************************************************************<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						WP_List_Table::single_row_columns()<br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="column_title" id="_column_title">
+
+		<td class="attributes"><code>
+			 public 
+			type
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_column_title">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#114" title="Go to source code">column_title</a>( <span>type <var>$item</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Add actions to the title column.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Add actions to the title column.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$item</var></dt>
+					<dd><code>type</code></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>type</code><br />
+				</div>
 
 
 
@@ -273,7 +367,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_dash_menu">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#84" title="Go to source code">dash_menu</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#126" title="Go to source code">dash_menu</a>( )</code>
 
 		<div class="description short">
 			
@@ -295,6 +389,119 @@ WP_List_Table
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="deactivate" id="_deactivate">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_deactivate">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#134" title="Go to source code">deactivate</a>( )</code>
+
+		<div class="description short">
+			
+<p>Deactivate modules.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Deactivate modules.</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_bulk_actions" id="_get_bulk_actions">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_bulk_actions">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#144" title="Go to source code">get_bulk_actions</a>( )</code>
+
+		<div class="description short">
+			
+<p>Defines bulk actions for the WP_List_Table class.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Defines bulk actions for the WP_List_Table class.</p>
+
+<p>Overrides WP_List_Table::get_bulk actions.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_service_options" id="_get_service_options">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_service_options">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#171" title="Go to source code">get_service_options</a>( )</code>
+
+		<div class="description short">
+			
+<p>Build html form for setting service options.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Build html form for setting service options.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>Returns the html list of forms.<br />
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						<code><code><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options()</a></code></code><br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="prepare_items" id="_prepare_items">
 
 		<td class="attributes"><code>
@@ -306,7 +513,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_prepare_items">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#91" title="Go to source code">prepare_items</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#252" title="Go to source code">prepare_items</a>( )</code>
 
 		<div class="description short">
 			
@@ -332,7 +539,7 @@ WP_List_Table
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="set_service_settings" id="_set_service_settings">
+	<tr data-order="save_service" id="_save_service">
 
 		<td class="attributes"><code>
 			 public 
@@ -342,21 +549,63 @@ WP_List_Table
 		</td>
 
 		<td class="name"><div>
-		<a class="anchor" href="#_set_service_settings">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#145" title="Go to source code">set_service_settings</a>( )</code>
+		<a class="anchor" href="#_save_service">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#306" title="Go to source code">save_service</a>( )</code>
 
 		<div class="description short">
 			
-<p>Callback function for service settings form.</p>
+<p>Saves a services options.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Callback function for service settings form.</p>
+<p>Saves a services options.</p>
 
 
 
+
+
+
+				<h4>Uses</h4>
+				<div class="list">
+						<code><code><a href="class-API_Connection_Manager.html#_">API_Connection_Manager::_set_service_options()</a></code></code> <br />
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="single_row" id="_single_row">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_single_row">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#369" title="Go to source code">single_row</a>( <span>type <var>$item</var></span> )</code>
+
+		<div class="description short">
+			
+<p>To show inline-edit as in posts table.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>To show inline-edit as in posts table.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$item</var></dt>
+					<dd><code>type</code></dd>
+				</dl></div>
 
 
 
@@ -376,7 +625,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_column_cb">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#172" title="Go to source code">column_cb</a>( <span>array <var>$item</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#406" title="Go to source code">column_cb</a>( <span>array <var>$item</var></span> )</code>
 
 		<div class="description short">
 			
@@ -416,94 +665,6 @@ own method.</p>
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="column_default" id="_column_default">
-
-		<td class="attributes"><code>
-			 public 
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_column_default">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#189" title="Go to source code">column_default</a>( <span>array <var>$item</var></span>, <span>array <var>$column_name</var></span> )</code>
-
-		<div class="description short">
-			
-<p>Defines the default columns</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Defines the default columns</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$item</var></dt>
-					<dd><code>array</code><br> A singular item (one full row's worth of data)</dd>
-					<dt><var>$column_name</var></dt>
-					<dd><code>array</code><br> The name/slug of the column to be processed</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br>Text or HTML to be placed inside the column &lt;td&gt;
-************************************************************************<br />
-				</div>
-
-
-				<h4>See</h4>
-				<div class="list">
-						WP_List_Table::single_row_columns()<br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="get_bulk_actions" id="_get_bulk_actions">
-
-		<td class="attributes"><code>
-			 public 
-			string
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_get_bulk_actions">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#208" title="Go to source code">get_bulk_actions</a>( )</code>
-
-		<div class="description short">
-			
-<p>Defines bulk actions for the WP_List_Table class.</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Defines bulk actions for the WP_List_Table class.</p>
-
-<p>Overrides WP_List_Table::get_bulk actions.</p>
-
-
-
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string</code><br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="get_data" id="_get_data">
 
 		<td class="attributes"><code>
@@ -515,7 +676,7 @@ own method.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_data">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#235" title="Go to source code">get_data</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#423" title="Go to source code">get_data</a>( )</code>
 
 		<div class="description short">
 			
@@ -554,7 +715,7 @@ WP_List_Tables class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_process_bulk_actions">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#276" title="Go to source code">process_bulk_actions</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#483" title="Go to source code">process_bulk_actions</a>( )</code>
 
 		<div class="description short">
 			
@@ -594,7 +755,7 @@ WP_List_Tables class</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Connection_Manager_Setup.html#12" title="Go to source code"><var>$total</var></a>
+				<a href="source-class-API_Connection_Manager_Setup.html#13" title="Go to source code"><var>$total</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -622,7 +783,7 @@ WP_List_Tables class</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Connection_Manager_Setup.html#14" title="Go to source code"><var>$total_active</var></a>
+				<a href="source-class-API_Connection_Manager_Setup.html#15" title="Go to source code"><var>$total_active</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -650,7 +811,7 @@ WP_List_Tables class</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Connection_Manager_Setup.html#16" title="Go to source code"><var>$total_inactive</var></a>
+				<a href="source-class-API_Connection_Manager_Setup.html#17" title="Go to source code"><var>$total_inactive</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
