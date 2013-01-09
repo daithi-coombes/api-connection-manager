@@ -407,16 +407,26 @@ class API_Connection_Manager{
 	 */
 	public function get_service( $slug ){
 		
+		$ret = null;
+		
 		//look in active
 		foreach($this->services['active'] as $index_file => $service)
 			if($index_file==$slug)
-				return $service;
+				$ret = $service;
 		
 		//look in inactive
 		foreach($this->services['inactive'] as $index_file => $service){
 			if($index_file==$slug)
-				return $service;
+				$ret = $service;
 		}
+		
+		//load params on objects
+		/**
+		if(is_object($ret))
+			$ret->get_params();
+		*/
+		return $ret;
+			
 	} //end get_service()
 	
 	/**
@@ -1156,7 +1166,8 @@ class API_Connection_Manager{
 			 * Get the access_token 
 			 */
 			if(@$dto->response['oauth_token']){
-				
+				ar_print($dto);
+				debug_print();
 				/**
 				 * use request token to get access token 
 				 *
@@ -1183,6 +1194,13 @@ class API_Connection_Manager{
 			 */
 			else{
 				
+				//clear any redundant params before getting authorize url
+				$module->set_params(array(
+					'oauth_token' => null,
+					'oauth_token_secret' => null,
+					'token' => null
+				));
+				
 				//get and set tokens
 				$tokens = $module->get_request_token();
 				$url = $module->get_authorize_url( $tokens );
@@ -1207,6 +1225,7 @@ class API_Connection_Manager{
 		
 		/**
 		 * if oauth2 get token
+		 * 
 		 * @todo remove array module code
 		 */
 		elseif(@$dto->response['code']){

@@ -447,7 +447,6 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		//get inactive services
 		if('inactive'==$status || 'all'==$status)
 			foreach($api->services['inactive'] as $service){
-			ar_print($service);
 				if(is_object($service))
 					$data[] = array(
 						'ID' => $service->slug,
@@ -465,11 +464,18 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		//get active services
 		if('active'==$status || 'all'==$status)
 			foreach($api->services['active'] as $service)
-				$data[] = array(
-					'ID' => $service['slug'],
-					'title' => $service['Name'],
-					'description' => $service['Description']
-				);
+				if(is_object($service))
+					$data[] = array(
+						'ID' => $service->slug,
+						'title' => $service->Name,
+						'description' => $service->Description
+					);
+				else
+					$data[] = array(
+						'ID' => $service['slug'],
+						'title' => $service['Name'],
+						'description' => $service['Description']
+					);
 		
 		return $data;
 	}

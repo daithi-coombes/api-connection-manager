@@ -5,12 +5,10 @@
  * 
  * Allows the over-riding of headers and the parsing of parameters. 
  */
+require_once('includes/OAuth.php');
 if (!class_exists("API_Con_Mngr_Module")):
 
 	abstract class API_Con_Mngr_Module {
-
-		/** @var string Oauth1 autorize url */
-		public $autorize_url = "";
 
 		/** @var string The callback url */
 		public $callback_url = "";
@@ -26,6 +24,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 
 		/** @var string The consumer secret */
 		public $consumer_secret;
+		
+		/** @var string The module description */
+		public $Description;
 
 		/** @var string The uri for displaying a login link */
 		public $login_uri = "";
@@ -124,18 +125,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		abstract public function check_error( array $response );
 		
 		/**
-		 * This method must be declared in the child class.
-		 * Use the field $this->token to check against. It must verify a token 
-		 * and return boolean true|false.
-		 * @uses $this->token
-		 * @param string $token The access token to check
-		 * @return boolean 
-		 * @deprecated Use check_error to check for errors and validate
-		abstract public function verify_token();
-		 * 
-		 */
-		
-		/**
 		 * Builds and signs a request object.
 		 * 
 		 * Uses the field $this->sha1_method to sign the request.
@@ -150,12 +139,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//token must be stdClass
 			$token = (object) array(
 				'key' => $this->oauth_token,
-				'secret' => $this->oauth_token_secret
+				'secret' => $this->oauth_token_secret,
+				'uid' => $this->user_id
 			);
-			
-			//if user_id
-			if(!empty($this->user_id))
-				$params['user_id'] = $this->user_id;
 			
 			$request = OAuthRequest::from_consumer_and_token($this->consumer, $token, $method, $url, $params);
 			$request->sign_request($this->sha1_method, $this->consumer, $token);
@@ -222,8 +208,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $token The request token
 		 * @return string 
 		 */
-		public function get_authorize_url( array $token ) {
-			return $this->url_authorize . "?oauth_token={$token['oauth_token']}&oauth_token_secret={$token['oauth_token_secret']}";
+		public function get_authorize_url( array $tokens ) {
+			return $this->url_authorize . "?" . http_build_query($tokens); //oauth_token={$token['oauth_token']}&oauth_token_secret={$token['oauth_token_secret']}";
 		}
 
 		/**
@@ -322,10 +308,29 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Get oauth1 request token 
+		 * Get oauth1 request token.
+		 * You may need to override this to suit. It must return an array
+		 * @param string $method Default GET. The http method to use.
+		 * @return array
 		 */
-		public function get_request_token() {
-			;
+		public function get_request_token( $method='GET' ) {
+			
+			$res = $this->request($this->url_request_token, $method);
+			
+			$ret = array();
+			
+			switch($res['headers']['content-type']){
+				
+				case 'application/x-www-form-urlencoded':
+					parse_str($res['body'], $ret);
+					break;
+				
+				default:
+					$ret = (array) json_decode($res['body']);
+					break;
+			}
+			
+			return $ret;
 		}
 
 		/**
