@@ -53,8 +53,20 @@ if (!class_exists("API_Con_Mngr_Module")):
 	*/
 	abstract class API_Con_Mngr_Module {
 
+		/** @var string Oauth2 access token */
+		public $access_token = "";
+		
+		/** @var string The oauth2 access type parameter */
+		public $access_type = "";
+	
 		/** @var string The callback url */
 		public $callback_url = "";
+		
+		/** @var string The client id. Mainly used for oauth2 */
+		public $client_id = "";
+		
+		/** @var string The client secret. Mainly used for oauth2  */
+		public $client_secret = "";
 		
 		/** @var integer The connection timeout */
 		public $connecttimeout = 30;
@@ -92,6 +104,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The current protocol used (oauth, custom, etc) */
 		public $protocol = "";
 
+		/** @var string The redirect uri. Mainly used for oauth2 */
+		public $redirect_uri = "";
+		
+		/** @var string The scope parameter, usually for oauth2 */
+		public $scope = "";
+		
 		/** @var boolean Flag whether server allows sessions or not. Some
 		 * modules need sessions and will be disabled on servers without 
 		 * sessions enabled */
@@ -138,6 +156,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		
 		/** @var string The prefix for the user meta keys */
 		private $option_name = "API_Con_Mngr_Module";
+		
+		/** @var WP_User The current user. Makes static call to the api core
+		 *	method to build user from cookies & wp authentication
+		 * @uses API_Connection_Manager::_get_current_user()
+		 */
+		private $user;
 
 		/**
 		 * Make sure you call this from your child class.
@@ -145,9 +169,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @global API_Connection_Manager $API_Connection_Manager 
 		 */
 		function __construct() {
-
-			global $API_Connection_Manager;
-			$this->api = $API_Connection_Manager;
+			
+			//make sure we have user id
+			$this->user = API_Connection_Manager::_get_current_user();
 			$this->log_api = new API_Con_Mngr_Log();
 			
 			//if oauth1
@@ -160,6 +184,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$id = session_id();
 			if(!$id || $id=="")
 				$this->sessions = false;
+			
+			//load db params
+			$params = $this->get_params();
 		}
 
 		/**
@@ -200,7 +227,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * Do callback.
 		 * 
 		 * This is called from API_Connection_Manager::_response_listener() The
-		 * callback is set when the login button is printed
+		 * callback is set when the connecting tab is opened. The dto must have
+		 * the module slug set.
 		 * 
 		 * @see API_Con_Mngr_Module::get_login_button()
 		 * @see API_Connection_Manager::_response_listener()
@@ -228,6 +256,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 					$func($dto);
 				}
 			}
+			
+			
 		}
 
 		/**
@@ -254,92 +284,104 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return \WP_Error 
 		 */
 		public function error($msg) {
-			return new WP_Error('API_Con_Mngr_Module', $msg);
+			return new WP_Error('API_Con_Mngr_Module', "Error: " . $msg);
 		}
 
+		/**
+		 * Oauth2. Get the access tokens from a token request and sets the 
+		 * requests results using $this->set_params()
+		 * @param array $response The response code.
+		 * @return stdClass Returns the tokens 
+		 */
+		public function get_access_token( array $response ){
+			
+			//make request for access tokens
+			$res = $this->request( $this->url_access_token, "POST", array(
+				'grant_type' => 'authorization_code',
+				'client_id' => $this->client_id,
+				'client_secret' => $this->client_secret,
+				'code' => $response['code'],
+				'redirect_uri' => $this->redirect_uri
+			) );
+			
+			//parse response and set tokens in db
+			$tokens = (array) $this->parse_response($res);
+			ar_print($this);
+			$set_params = $this->set_params($tokens);
+			ar_print($set_params);
+			die();
+			return $tokens;
+		}
+		
 		/**
 		 * Returns the authorize url for oauth1.
 		 * 
 		 * @param array $tokens The request tokens
 		 * @return string 
 		 */
-		public function get_authorize_url( array $tokens ) {
-			return $this->url_authorize . "?" . http_build_query($tokens);
+		public function get_authorize_url( $tokens=array() ) {
+			
+			switch($this->protocol){
+				
+				//oauth1
+				case 'oauth1':
+					return $this->url_authorize . "?" . http_build_query($tokens);
+					break;
+				//end oauth1
+				
+				case 'oauth2':
+					
+					$fields = array_merge(array(
+						'client_id' => $this->client_id,
+						'redirect_uri' => rawurlencode($this->redirect_uri),
+						'response_type' => 'code'
+					), $tokens);
+					if(!empty($this->scope)) $fields['scope'] = $this->scope;
+					return $this->url_authorize . "?" . http_build_query($fields);
+					break;
+				//end oauth2
+			}
 		}
 
 		/**
 		 * Returns a link to login to this service.
 		 * 
-		 * Covers two scenario's:
-		 * 1) If there is no wordpress user logged in, then it will print a
-		 * login with $service link.
-		 * 2) If wp user is logged in then it will print the login link and die.
-		 * The accept app will open in a new tab and will then refresh the
-		 * window.opener object.
+		 * Sets the slug in callbacks then prints the link and dies
 		 * 
-		 * @param string The full url to the file with the callback, if one is
-		 * required.
-		 * @param mixed Either an array or string of the function/method if a
-		 * callback is required.
 		 * @return string Html anchor
 		 */
-		public function get_login_button($file = '', $callback = '') {
+		public function get_login_button(){
 
 			//nonce
 			global $API_Connection_Manager;
-			$i = wp_nonce_tick();
-			$user = $API_Connection_Manager->get_current_user()->ID;
-			
-			
+
 			/**
-			 * If no user id
-			 * Then this will be a sign in with $service link 
-			 */
-			if(!$user || $user==='0'){
-				$nonce = substr(wp_hash($i . $this->slug . $user, 'nonce'), -12, 10);
-				$state = serialize(array(
-					$nonce,
-					urlencode($this->slug),
-					$user
-						));
-				$this->oauth_nonce = $state;
+			 * @deprecated all login links now open in new tab to check if
+			 * sessions needed or not
+			switch($this->protocol){
 
-				//set callback
-				$API_Connection_Manager->_set_callback($file, $callback, $state, $this->use_nonce);
+				case 'oauth1':
+					$url = $this->login_uri;
+					break;
 
-				//if not using nonces in request, append nonce to login uri
-				if(!$this->use_nonce)
-					$this->login_uri .= "&nonce=".  urlencode($state);
-
-				//switch through protocols. These login uri's are set in API_Connection_Manager::_get_module();
-				switch ($this->protocol) {
-					case 'oauth1':
-						return "<a href=\"{$this->login_uri}\">{$this->Name}</a>";
-						break;
-
-					default:
-						return $this->_error("Please override API_Con_Mngr_Module::get_login_button in you plugin");
-						break;
-				}
+				case 'oauth2':
+					$this->key = $this->client_id;
+					$url = $this->url_authorize .= "?" . http_build_query(array(
+						'response_type' => 'code',
+						'client_id' => $this->client_id,
+						'redirect_uri' => $this->redirect_uri
+					));
+					break;				
 			}
-			//end no user id
+			$API_Connection_Manager->_set_callback( $this );
+			 * 
+			 */
 			
-			/**
-			 * If user id
-			 * then login new tab and refresh window.parent 
-			 */
-			else{
-				switch($this->protocol){
-					
-					case 'oauth1':
-						print "<br/><em>You are not signed into {$this->Name}</em><br/>
-							<a href=\"{$this->login_uri}&login=true\" target=\"_new\">Sign into {$this->Name}</a>
-							";
-						break;
-				}
-				exit;
-			}
-			//end if user id
+			//using sessions
+			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);			
+			die("<br/><em>You are not signed into {$this->Name}</em><br/>
+				<a href=\"{$url}\" target=\"_new\">Sign into {$this->Name}</a>
+				");
 		}
 
 		/**
@@ -350,9 +392,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function get_params(){
 			
-			global $API_Connection_Manager;
-			$user_id = API_Connection_Manager::_get_current_user()->ID;
-			$meta = get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
+			$user_id = $this->user->ID;
+			$key = $this->option_name."-{$this->slug}";
+			$meta = get_user_meta($user_id, $key, true);
 			
 			if(is_array($meta))
 				foreach($meta as $key=>$val)
@@ -403,12 +445,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Sets any class fields in this instance that in the dto->response 
+		 * Sets any fields in this instance that in the dto->response 
 		 * array.
 		 * 
-		 * @param stdClass $dto 
+		 * @param stdClass $dto
+		 * @deprecated
 		 */
-		public function parse_dto($dto) {
+		public function parse_dto(stdClass $dto) {
 
 			//looks for fields that are in dto response
 			foreach ($dto->response as $key => $val)
@@ -457,7 +500,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 
 			//vars
 			$method = strtoupper($method);
-			$original_url = $url;	//used for error reporting
 			$errs=false;
 			
 			//make request
@@ -484,7 +526,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$errs = $this->check_error($response);
 			if(is_wp_error($errs)){
 				$msg = addslashes( $errs->get_error_message() );
-				//print addslashes( "Error: <small>{$original_url}</small><br/>");
 				print "
 					<script>
 						if(window.opener){
@@ -527,13 +568,17 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function set_params(array $params) {
 			
 			global $API_Connection_Manager;
-			$user_id = $API_Connection_Manager->get_current_user()->ID;
-			
+			$user_id = $this->user->ID;
+			$key = $this->option_name."-{$this->slug}";
 			$meta = $this->get_params(); //get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
 			foreach($params as $key=>$val)
 				$meta[$key] = $val;
-
-			update_user_meta($user_id, $this->option_name."-{$this->slug}", $meta);
+			
+			ar_print($key);
+			ar_print($this->user);
+			if(!update_user_meta($user_id, $key, $meta)){
+				die("unable to set params");
+			}
 			return $this->get_params();
 		}		
 	}
