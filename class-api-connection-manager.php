@@ -473,12 +473,13 @@ class API_Connection_Manager{
 	 *  'headers'
 	 * );
 	 * 
+	 * @deprecated Requests made from module class
 	 * @param string $slug The service slug to connect to.
 	 * @param array $req The request array
 	 * @return response|$this->_print_link() Returns the response in the same 
 	 * format as WP_HTTP class or dies(login_link) if error
 	 * @subpackage helper-methods
-	 */
+	 *
 	public function request( $slug, $req, $headers=null ){	
 		
 		//vars
@@ -540,6 +541,12 @@ class API_Connection_Manager{
 		
 		return $res;
 	}
+	 *
+	 * @param string $slug
+	 * @param type $token
+	 * @param type $type
+	 * @param type $user 
+	 */
 	
 	public function set_user_token( $slug, $token, $type='access', $user=null){
 		$this->_set_token($slug, $token, $type, $user);
@@ -766,6 +773,7 @@ class API_Connection_Manager{
 				$module = $this->_get_module( plugin_basename($plugin_file) );
 				$module->protocol = 'oauth2';
 				$module->set_details($plugin_data);
+				$module->get_params();
 				$module->slug = plugin_basename($plugin_file);
 				$wp_plugins[plugin_basename($plugin_file)] = $module; //new API_Con_Mngr_Module($params, $options);
 			}
@@ -1169,6 +1177,7 @@ class API_Connection_Manager{
 	 */
 	public function _response_listener( ){
 		
+		
 		/**
 		 * BOOTSTRAP
 		 */
@@ -1182,17 +1191,26 @@ class API_Connection_Manager{
 		/**
 		 * get module slug
 		 */
-		//session
-		if(@$_SESSION['API_Con_Mngr_Module'])
-			$slug = $_SESSION['API_Con_Mngr_Module'];
-		//$_GET
-		elseif(@$_GET['slug'])
+		if(@$_GET['slug'])
 			$slug = urldecode($_GET['slug']);
-		//nonce
-		
-		//no slug
+		elseif(@$_SESSION['API_Con_Mngr_Module']){
+			$slug = $_SESSION['API_Con_Mngr_Module'];
+			unset($_SESSION['API_Con_Mngr_Module']);
+		}
 		else 
 			die("Error: No slug found");
+		//end get module slug
+		
+		/**
+		 * get callback 
+		 */
+		if(@$_SESSION['callback']){
+			$callback = $_SESSION['callback'];
+			unset($_SESSION['callback']);
+		}
+		else
+			$callback = false;
+		//end get callback
 		
 		//get dto (will also set the current user)
 		$dto = $this->_service_parse_dto( $_GET, $slug );
@@ -1217,6 +1235,7 @@ class API_Connection_Manager{
 		 * Connecting... screen
 		 * set sessions
 		 * register callbacks
+		 * redirect to authorize url
 		 */
 		if(@$dto->response['login'])
 			$this->_service_login_authorize( $module, $dto );
@@ -1277,10 +1296,12 @@ class API_Connection_Manager{
 			$tokens = $module->get_access_token( $dto->response );			
 			if(is_wp_error($tokens))
 				die("Error: " . $tokens->get_error_message());
-			ar_print($tokens);
-			die();
+			
+			//reset dto response to tokens recieved
+			$dto->response = $tokens;
+			
 			//do callback
-			$module->do_callback($dto);
+			$module->do_callback( $callback, $dto );
 		}
 		//end oauth2 service response
 		
@@ -1398,9 +1419,16 @@ class API_Connection_Manager{
 	 */
 	private function _service_login_authorize( API_Con_Mngr_Module $module, stdClass $dto ){
 		
-		//sessions?
-		if($module->sessions)
-			$_SESSION['API_Con_Mngr_Module'] = $dto->slug;
+		/**
+		 * set callback
+		 */
+		$_SESSION['API_Con_Mngr_Module'] = $dto->slug;
+		if(@$dto->response['file'] && @$dto->response['callback'])
+			$_SESSION['callback'] = array(
+				'file' => @$dto->response['file'],
+				'callback' => @$dto->response['callback']
+			);
+		//end set callback
 		
 		switch($module->protocol){
 			

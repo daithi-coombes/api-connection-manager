@@ -35,6 +35,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* As well as providing methods declared abstract the following is required:
 	* Methods:
 	*	- ::__construct() //this must call parent::__construct()
+	 *  - ::check_error //check the service responses for error
 	*	- ::do_login() //use this to process request tokens
 	* Fields:
 	*	- ::consumer_key //required by the oauth1 spec
@@ -42,7 +43,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* 
 	* Oauth2
 	* ======
-	* No oauth2 documentation yet
+	* The following must be declared by your child class
+	* Methods:
+	*  - ::__constrcut() //must construct parent class
+	*  - ::check_error() //check the server responses for errors
+	*  - ::get_authorize_url //only the client_id and redirect_url are
+	* required by the spec, you may need to add additional params here
 	* 
 	* Service (provider's custom api)
 	* ===============================
@@ -112,8 +118,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		
 		/** @var boolean Flag whether server allows sessions or not. Some
 		 * modules need sessions and will be disabled on servers without 
-		 * sessions enabled */
-		public $sessions = true;
+		 * sessions enabled. Default false */
+		public $sessions = false;
 		
 		/** @var OAuthSignatureMethod_HMAC_SHA1 The signature encoding method */
 		public $sha1_method = "";
@@ -161,7 +167,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 *	method to build user from cookies & wp authentication
 		 * @uses API_Connection_Manager::_get_current_user()
 		 */
-		private $user;
+		public $user='';
 
 		/**
 		 * Make sure you call this from your child class.
@@ -203,6 +209,38 @@ if (!class_exists("API_Con_Mngr_Module")):
 		abstract public function check_error( array $response );
 		
 		/**
+		 * Do callback.
+		 * 
+		 * This is called from API_Connection_Manager::_response_listener() The
+		 * callback is set when the connecting tab is opened. The dto must have
+		 * the module slug set.
+		 * 
+		 * @see API_Con_Mngr_Module::get_login_button()
+		 * @see API_Connection_Manager::_response_listener()
+		 * @param stdClass $dto The response dto.
+		 */
+		public function do_callback( array $callback, stdClass $dto ) {
+			
+			//load file parse callback
+			require_once( $callback['file'] );
+			$callback['func'] = unserialize($callback['callback']);
+			
+			//call a method
+			if(is_array($callback['func'])){
+				$class = $callback['func'][0];
+				$method = $callback['func'][1];
+				$obj = new $class();
+				$obj->$method($dto);
+			}
+
+			//call a function
+			else{
+				$func = $callback['func'];
+				$func($dto);
+			}
+		}
+
+		/**
 		 * Builds and signs a request object.
 		 * 
 		 * Uses the field $this->sha1_method to sign the request which must be
@@ -223,43 +261,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 			return $request;
 		}
 		
-		/**
-		 * Do callback.
-		 * 
-		 * This is called from API_Connection_Manager::_response_listener() The
-		 * callback is set when the connecting tab is opened. The dto must have
-		 * the module slug set.
-		 * 
-		 * @see API_Con_Mngr_Module::get_login_button()
-		 * @see API_Connection_Manager::_response_listener()
-		 * @param stdClass $dto The response dto.
-		 */
-		public function do_callback( stdClass $dto ) {
-			
-			//get callback from sessions
-			if(!$this->use_nonce){
-				$callback = $_SESSION['callback'];
-				
-				require_once( $callback['file'] );
-				
-				//call a method
-				if(is_array($callback['func'])){
-					$class = $callback['func'][0];
-					$method = $callback['func'][1];
-					$obj = new $class();
-					$obj->$method($dto);
-				}
-
-				//call a function
-				else{
-					$func = $callback['func'];
-					$func($dto);
-				}
-			}
-			
-			
-		}
-
 		/**
 		 * This method gets called after a successfull login.
 		 * It is called after:
@@ -306,37 +307,38 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//parse response and set tokens in db
 			$tokens = (array) $this->parse_response($res);
-			ar_print($this);
 			$set_params = $this->set_params($tokens);
-			ar_print($set_params);
-			die();
 			return $tokens;
 		}
 		
 		/**
-		 * Returns the authorize url for oauth1.
+		 * Returns the authorize url for oauth1 and oauth2
+		 * 
+		 * Override this method and provide any optional params your service
+		 * requires.
 		 * 
 		 * @param array $tokens The request tokens
 		 * @return string 
 		 */
-		public function get_authorize_url( $tokens=array() ) {
+		public function get_authorize_url( $params=array() ) {
 			
 			switch($this->protocol){
 				
 				//oauth1
 				case 'oauth1':
-					return $this->url_authorize . "?" . http_build_query($tokens);
+					return $this->url_authorize . "?" . http_build_query($params);
 					break;
 				//end oauth1
 				
+				//oauth2
 				case 'oauth2':
 					
-					$fields = array_merge(array(
-						'client_id' => $this->client_id,
-						'redirect_uri' => rawurlencode($this->redirect_uri),
-						'response_type' => 'code'
-					), $tokens);
-					if(!empty($this->scope)) $fields['scope'] = $this->scope;
+					//fields
+					$fields = array_merge($params, array(
+						'client_id' => $this->client_id,	//oauth2 required
+						'response_type' => 'code'			//oauth2 required
+					));
+					
 					return $this->url_authorize . "?" . http_build_query($fields);
 					break;
 				//end oauth2
@@ -346,42 +348,38 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/**
 		 * Returns a link to login to this service.
 		 * 
-		 * Sets the slug in callbacks then prints the link and dies
+		 * Builds the link and dies. If the request is for a signin button then 
+		 * provide the callback params and the link will be returned.
 		 * 
+		 * @param string $file Optional. Full path to callback file.
+		 * @param mixed $callback Optional. Callback func name or array of 
+		 * class, method names.
 		 * @return string Html anchor
 		 */
-		public function get_login_button(){
+		public function get_login_button( $file='', $callback='' ){
 
 			//nonce
 			global $API_Connection_Manager;
 
-			/**
-			 * @deprecated all login links now open in new tab to check if
-			 * sessions needed or not
-			switch($this->protocol){
-
-				case 'oauth1':
-					$url = $this->login_uri;
-					break;
-
-				case 'oauth2':
-					$this->key = $this->client_id;
-					$url = $this->url_authorize .= "?" . http_build_query(array(
-						'response_type' => 'code',
-						'client_id' => $this->client_id,
-						'redirect_uri' => $this->redirect_uri
-					));
-					break;				
-			}
-			$API_Connection_Manager->_set_callback( $this );
-			 * 
-			 */
-			
 			//using sessions
-			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);			
-			die("<br/><em>You are not signed into {$this->Name}</em><br/>
-				<a href=\"{$url}\" target=\"_new\">Sign into {$this->Name}</a>
-				");
+			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);
+			
+			//if not a sign on button
+			if(empty($file) && empty($callback))
+				die("<br/><em>You are not signed into {$this->Name}</em><br/>
+					<a href=\"{$url}\" target=\"_new\">Sign into {$this->Name}</a>
+					");
+					
+			//if a sign on button
+			else{
+				if(is_array($callback))
+					$clbk = serialize(array(
+						get_class($callback[0]),
+						$callback[1]
+					));
+				$url .= "&file=" .urlencode($file) . "&callback=" . urlencode($clbk);
+				return $url;
+			}
 		}
 
 		/**
@@ -467,7 +465,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return mixed Will return either an array or object based on the
 		 * response header content-type
 		 */
-		public function parse_response( array $response ){
+		public function parse_response(  $response=array() ){
 			
 			//vars
 			$content_type = strtolower($response['headers']['content-type']);
@@ -561,26 +559,74 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * Set params.
 		 * Will set fields that have the same param name and update the db.
 		 * 
+		 * @global wpdb $wpdb
 		 * @param array $params An associative array of parameters for this 
 		 * module
 		 * @return array Returns the new params db values.
 		 */
 		public function set_params(array $params) {
 			
-			global $API_Connection_Manager;
+			global $wpdb;
+			
+			//if no user logged as in sign in buttons then return
+			if(empty($this->user))
+				$this->user = API_Connection_Manager::_get_current_user();
 			$user_id = $this->user->ID;
-			$key = $this->option_name."-{$this->slug}";
+			if($user_id==0 || empty($user_id))
+				return false;
+			
+			//vars
+			$option_name = $this->option_name."-{$this->slug}";
 			$meta = $this->get_params(); //get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
 			foreach($params as $key=>$val)
 				$meta[$key] = $val;
 			
-			ar_print($key);
-			ar_print($this->user);
-			if(!update_user_meta($user_id, $key, $meta)){
-				die("unable to set params");
-			}
+			/**
+			 * manually update user_meta 
+			 */
+			if($wpdb->get_row("SELECT * FROM {$wpdb->usermeta} WHERE user_id={$user_id} AND meta_key='{$option_name}'"))
+				$wpdb->update($wpdb->usermeta, array(
+					'meta_value' => serialize($meta)
+				), array(
+					'user_id' => $user_id,
+					'meta_key' => $option_name
+				), array('%s'), array('%d','%s'));
+			else
+				$wpdb->insert($wpdb->usermeta, array(
+					'user_id' => $user_id,
+					'meta_key' => $option_name,
+					'meta_value' => serialize($meta)
+				), array('%d','%s','%s'));
+			//end manual update
+			
+			//return params
 			return $this->get_params();
-		}		
+		}	
+		
+		/**
+		 * Helper method to login user using an email provided by a service. On
+		 * success will redirect to $redirect on fail will die() with error
+		 * message.
+		 * @param string $email The email to use
+		 * @param string $redirect Default will redirect to admin_url()
+		 */
+		public function wp_login( $email, $redirect='' ){
+			
+			$user_id = email_exists($email);
+			if(empty($redirect)) $redirect = admin_url();
+			
+			//if no email match
+			if(!$user_id){
+				die("Sorry the email <em>{$email}</em> is not on our system");
+			}
+			
+			//
+			$user = get_userdata($user_id);
+			wp_set_current_user( $user->data->ID );
+			wp_set_auth_cookie( $user->data->ID );
+			wp_redirect("{$redirect}");
+			die();
+		}
 	}
 	
 endif;

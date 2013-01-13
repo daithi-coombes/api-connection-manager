@@ -525,92 +525,6 @@ service login link by then calling: $slug=&gt;WP_Error::get_error_message()</p>
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="request" id="_request">
-
-		<td class="attributes"><code>
-			 public 
-			response|$this-&gt;_print_link()
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_request">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#458" title="Go to source code">request</a>( <span>string <var>$slug</var></span>, <span>array <var>$req</var></span>, <span> <var>$headers</var> = <span class="php-keyword1">null</span> </span> )</code>
-
-		<div class="description short">
-			
-<p>Makes a request to a service.</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Makes a request to a service.</p>
-
-<p>Uses the native wordpress wp_response_* wrappers for the WP_HTTP class to
-make requests. Any variables that are need across different service either come
-from the params in the module file or are set using the API settings page.
-Defaults to using the 'post' method unless $req['method'] is set to 'get'.</p>
-
-<p>The $req array takes the same format as the WP_HTTP methods: $req = array(
-'uri' //required 'method' //defaults to post 'body' //params to send for both
-GET and POST requests. If the access token is needed here you must define it.
-'headers' );</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$slug</var></dt>
-					<dd><code>string</code><br> The service slug to connect to.</dd>
-					<dt><var>$req</var></dt>
-					<dd><code>array</code><br> The request array</dd>
-					<dt><var>$headers</var></dt>
-					<dd></dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>response|$this-&gt;_print_link()</code><br>Returns the response in the same format as WP_HTTP class or dies(login_link) if
-error<br />
-				</div>
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
-	<tr data-order="set_user_token" id="_set_user_token">
-
-		<td class="attributes"><code>
-			 public 
-			
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#_set_user_token">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#544" title="Go to source code">set_user_token</a>( <span> <var>$slug</var></span>, <span> <var>$token</var></span>, <span> <var>$type</var> = <span class="php-quote">'access'</span></span>, <span> <var>$user</var> = <span class="php-keyword1">null</span></span> )</code>
-
-		<div class="description short">
-			
-		</div>
-
-		<div class="description detailed hidden">
-			
-
-
-
-
-
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="_check_modules_dir" id="__check_modules_dir">
 
 		<td class="attributes"><code>
@@ -622,7 +536,7 @@ error<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__check_modules_dir">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#548" title="Go to source code">_check_modules_dir</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager.html#555" title="Go to source code">_check_modules_dir</a>( )</code>
 
 		<div class="description short">
 			
@@ -667,7 +581,7 @@ called from the dashboard/network admin settings page.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__print_login">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#590" title="Go to source code">_print_login</a>( <span>string <var>$slug</var></span>, <span>boolean <var>$die</var> = <span class="php-keyword1">true</span></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#597" title="Go to source code">_print_login</a>( <span>string <var>$slug</var></span>, <span>boolean <var>$die</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
@@ -711,7 +625,7 @@ called from the dashboard/network admin settings page.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__error">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#611" title="Go to source code">_error</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#618" title="Go to source code">_error</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			
@@ -760,7 +674,7 @@ WP_Error object. Sets the last_error param to error message.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_current_url">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#632" title="Go to source code">_get_current_url</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager.html#639" title="Go to source code">_get_current_url</a>( )</code>
 
 		<div class="description short">
 			
@@ -797,7 +711,7 @@ WP_Error object. Sets the last_error param to error message.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_current_user">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#644" title="Go to source code">_get_current_user</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager.html#651" title="Go to source code">_get_current_user</a>( )</code>
 
 		<div class="description short">
 			
@@ -809,7 +723,7 @@ WP_Error object. Sets the last_error param to error message.</p>
 			
 <p>Get current user.</p>
 
-<p>Get this as early as possible for some calls.</p>
+<p>Get this as early as possible for some calls when using admin ajax.</p>
 
 
 
@@ -821,6 +735,10 @@ object.<br />
 				</div>
 
 
+				<h4>Used by</h4>
+				<div class="list">
+						<code><code><a href="class-API_Con_Mngr_Module.html#$user">API_Con_Mngr_Module::<var>$user</var></a></code></code> <br />
+				</div>
 
 
 		</div>
@@ -837,7 +755,7 @@ object.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_installed_services">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#662" title="Go to source code">_get_installed_services</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager.html#669" title="Go to source code">_get_installed_services</a>( )</code>
 
 		<div class="description short">
 			
@@ -889,7 +807,7 @@ API_Connection_Manager::get_services //only if no services loaded yet</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_options">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#796" title="Go to source code">_get_options</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager.html#813" title="Go to source code">_get_options</a>( )</code>
 
 		<div class="description short">
 			
@@ -933,7 +851,7 @@ defaults to get_option()</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_options_transient">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#817" title="Go to source code">_get_options_transient</a>( <span>string <var>$key</var> = <span class="php-quote">''</span> </span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#834" title="Go to source code">_get_options_transient</a>( <span>string <var>$key</var> = <span class="php-quote">''</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -978,7 +896,7 @@ get_transient()</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_module">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#836" title="Go to source code">_get_module</a>( <span>string <var>$slug</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#853" title="Go to source code">_get_module</a>( <span>string <var>$slug</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1030,7 +948,7 @@ the file a WP_Error is returned. Returns params on success.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_user_options">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#984" title="Go to source code">_get_user_options</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1010" title="Go to source code">_get_user_options</a>( )</code>
 
 		<div class="description short">
 			
@@ -1079,7 +997,7 @@ the file a WP_Error is returned. Returns params on success.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_service_options">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1002" title="Go to source code">_get_service_options</a>( <span>string <var>$slug</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1028" title="Go to source code">_get_service_options</a>( <span>string <var>$slug</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1121,7 +1039,7 @@ the file a WP_Error is returned. Returns params on success.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__get_token">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1018" title="Go to source code">_get_token</a>( <span>string <var>$slug</var></span>, <span>string <var>$type</var> = <span class="php-quote">'access'</span> </span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1044" title="Go to source code">_get_token</a>( <span>string <var>$slug</var></span>, <span>string <var>$type</var> = <span class="php-quote">'access'</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -1165,7 +1083,7 @@ the file a WP_Error is returned. Returns params on success.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__module_activate">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1046" title="Go to source code">_module_activate</a>( <span>string|array <var>$slugs</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1074" title="Go to source code">_module_activate</a>( <span>string|array <var>$slugs</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1203,7 +1121,7 @@ the file a WP_Error is returned. Returns params on success.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__module_deactivate">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1090" title="Go to source code">_module_deactivate</a>( <span>string|array <var>$slugs</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1118" title="Go to source code">_module_deactivate</a>( <span>string|array <var>$slugs</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1241,7 +1159,7 @@ the file a WP_Error is returned. Returns params on success.<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__response_listener">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1134" title="Go to source code">_response_listener</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1162" title="Go to source code">_response_listener</a>( )</code>
 
 		<div class="description short">
 			
@@ -1288,7 +1206,7 @@ if wp_ajax_nopriv_(this_func) was requested?<br />
 
 		<td class="name"><div>
 		<a class="anchor" href="#__set_refresh_state">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1247" title="Go to source code">_set_refresh_state</a>( <span>array <var>$slugs</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1322" title="Go to source code">_set_refresh_state</a>( <span>array <var>$slugs</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1330,7 +1248,7 @@ $slugs[$slug] = boolean</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__url_query_append">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1271" title="Go to source code">_url_query_append</a>( <span>string <var>$url</var></span>, <span>array <var>$vars</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1346" title="Go to source code">_url_query_append</a>( <span>string <var>$url</var></span>, <span>array <var>$vars</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -1374,7 +1292,7 @@ $slugs[$slug] = boolean</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__service_do_callback">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1291" title="Go to source code">_service_do_callback</a>( <span>string <var>$unique</var></span>, <span>stdClass <var>$dto</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1366" title="Go to source code">_service_do_callback</a>( <span>string <var>$unique</var></span>, <span>stdClass <var>$dto</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1410,6 +1328,48 @@ and function|class to call. The dto is passed to the callback.</p>
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="_service_login_authorize" id="__service_login_authorize">
+
+		<td class="attributes"><code>
+			 private 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#__service_login_authorize">#</a>
+		<code><a href="source-class-API_Connection_Manager.html#1412" title="Go to source code">_service_login_authorize</a>( <span><code><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></code> <var>$module</var></span>, <span>stdClass <var>$dto</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Authorize login method.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Authorize login method.</p>
+
+<p>Set sessions/callbacks and redirect to authorize url</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$module</var></dt>
+					<dd><code><code><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></code></code></dd>
+					<dt><var>$dto</var></dt>
+					<dd><code>stdClass</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="_service_logout" id="__service_logout">
 
 		<td class="attributes"><code>
@@ -1421,7 +1381,7 @@ and function|class to call. The dto is passed to the callback.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__service_logout">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1337" title="Go to source code">_service_logout</a>( <span>string <var>$slug</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1458" title="Go to source code">_service_logout</a>( <span>string <var>$slug</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1463,7 +1423,7 @@ and function|class to call. The dto is passed to the callback.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__service_get_error">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1366" title="Go to source code">_service_get_error</a>( <span>mixed <var>$response</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1487" title="Go to source code">_service_get_error</a>( <span>mixed <var>$response</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1494,59 +1454,6 @@ and function|class to call. The dto is passed to the callback.</p>
 		</div>
 		</div></td>
 	</tr>
-	<tr data-order="_service_get_token" id="__service_get_token">
-
-		<td class="attributes"><code>
-			 private 
-			string|WP_Error
-			
-			</code>
-		</td>
-
-		<td class="name"><div>
-		<a class="anchor" href="#__service_get_token">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1381" title="Go to source code">_service_get_token</a>( <span>stdClass <var>$dto</var></span> )</code>
-
-		<div class="description short">
-			
-<p>Takes a dto object returned from an oauth2 grant request and requests a
-token.</p>
-
-		</div>
-
-		<div class="description detailed hidden">
-			
-<p>Takes a dto object returned from an oauth2 grant request and requests a
-token.</p>
-
-<p>Uses the params set in the services modules index file to request a
-token.</p>
-
-<p>Will return WP_Error on failure.</p>
-
-
-
-				<h4>Parameters</h4>
-				<div class="list"><dl>
-					<dt><var>$dto</var></dt>
-					<dd><code>stdClass</code><br> a dto object returned by $this-&gt;parse_dto()</dd>
-				</dl></div>
-
-				<h4>Returns</h4>
-				<div class="list">
-					<code>string|WP_Error</code><br>returns the access token or WP_Error<br />
-				</div>
-
-
-				<h4>Todo</h4>
-				<div class="list">
-						allow refresh tokens<br />
-				</div>
-
-
-		</div>
-		</div></td>
-	</tr>
 	<tr data-order="_service_parse_dto" id="__service_parse_dto">
 
 		<td class="attributes"><code>
@@ -1558,21 +1465,21 @@ token.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__service_parse_dto">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1527" title="Go to source code">_service_parse_dto</a>( <span>array <var>$response</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1651" title="Go to source code">_service_parse_dto</a>( <span>array <var>$response</var></span>, <span> <var>$slug</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Parses an array to a DTO for use with this class.</p>
+<p>Parses a http request and returns a stdClass dto.</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Parses an array to a DTO for use with this class.</p>
+<p>Parses a http request and returns a stdClass dto.</p>
 
 <p>The format of the returned DTO is:</p>
 
-<p>$res = new stdClass(); $res-&gt;response = array(); //the module defined dto
+<p>$res = new stdClass(); $res-&gt;response = array(); //the $_REQUEST array
 $res-&gt;slug = ""; $res-&gt;user = "";</p>
 
 
@@ -1581,6 +1488,8 @@ $res-&gt;slug = ""; $res-&gt;user = "";</p>
 				<div class="list"><dl>
 					<dt><var>$response</var></dt>
 					<dd><code>array</code><br> An array to parse. Generally a $_REQUEST</dd>
+					<dt><var>$slug</var></dt>
+					<dd></dd>
 				</dl></div>
 
 				<h4>Returns</h4>
@@ -1598,55 +1507,45 @@ $res-&gt;slug = ""; $res-&gt;user = "";</p>
 
 		<td class="attributes"><code>
 			 public 
-			string
+			type
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__set_callback">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1632" title="Go to source code">_set_callback</a>( <span>string <var>$file</var></span>, <span>mixed <var>$func</var></span>, <span>string <var>$unique</var></span>, <span> <var>$db</var> = <span class="php-keyword1">true</span> </span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1740" title="Go to source code">_set_callback</a>( <span><code><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></code> <var>$module</var></span> )</code>
 
 		<div class="description short">
 			
-<p>Allows a function hook into the login process.</p>
+<p>Sets the slug for module as a callback var</p>
 
 		</div>
 
 		<div class="description detailed hidden">
 			
-<p>Allows a function hook into the login process.</p>
+<p>Sets the slug for module as a callback var</p>
 
-<p>In order for situations where the plugin may want to hook into the login
-process after a login is successfull. Using normal wordpress's actions won't
-work here because a successfull login from one request will trigger all
-callbacks.</p>
-
-<p>The callbacks therefore need to be unique and also stored in the database
-This also means that there has to be a unique variable that can sent/recieved to
-identify which callback should handle what request.</p>
+<p>For oauth2 the key in the callbacks array is the client_id.</p>
 
 
 
 				<h4>Parameters</h4>
 				<div class="list"><dl>
-					<dt><var>$file</var></dt>
-					<dd><code>string</code><br> The full location to the file with the function.</dd>
-					<dt><var>$func</var></dt>
-					<dd><code>mixed</code><br> Either array of object &amp; method string pair or a function name as string.</dd>
-					<dt><var>$unique</var></dt>
-					<dd><code>string</code><br> Unique string that will be returned by the response to match up with the right
-callback.</dd>
-					<dt><var>$db</var></dt>
-					<dd></dd>
+					<dt><var>$module</var></dt>
+					<dd><code><code><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></code></code></dd>
 				</dl></div>
 
 				<h4>Returns</h4>
 				<div class="list">
-					<code>string</code><br>Returns the unique parameter<br />
+					<code>type</code><br />
 				</div>
 
 
+				<h4>See</h4>
+				<div class="list">
+						API_Connection_Manager::do_callback()<br />
+				</div>
 
 
 		</div>
@@ -1663,7 +1562,7 @@ callback.</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__set_option_transient">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1680" title="Go to source code">_set_option_transient</a>( <span>string <var>$key</var> = <span class="php-quote">''</span></span>, <span>array <var>$options</var></span>, <span>integer <var>$expiration</var> = <span class="php-num">10</span></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1758" title="Go to source code">_set_option_transient</a>( <span>string <var>$key</var> = <span class="php-quote">''</span></span>, <span>array <var>$options</var></span>, <span>integer <var>$expiration</var> = <span class="php-num">10</span></span> )</code>
 
 		<div class="description short">
 			
@@ -1708,7 +1607,7 @@ login hooks.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__set_option">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1702" title="Go to source code">_set_option</a>( <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1780" title="Go to source code">_set_option</a>( <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			
@@ -1749,7 +1648,7 @@ Will update the services member with the new options.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__set_service_options">#</a>
-		<code><a href="source-class-API_Connection_Manager.html#1739" title="Go to source code">_set_service_options</a>( <span>string <var>$slug</var></span>, <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager.html#1817" title="Go to source code">_set_service_options</a>( <span>string <var>$slug</var></span>, <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			
