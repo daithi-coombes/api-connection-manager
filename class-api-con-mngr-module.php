@@ -315,7 +315,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * Returns the authorize url for oauth1 and oauth2
 		 * 
 		 * Override this method and provide any optional params your service
-		 * requires.
+		 * requires. Only client_id and response_type are required by oauth2
+		 * spec.
 		 * 
 		 * @param array $tokens The request tokens
 		 * @return string 
@@ -474,6 +475,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//parse string
 			if(
 				(strpos($content_type, "text/html") !== false) ||
+				(strpos($content_type, "text/plain") !== false) ||
 				(strpos($content_type, "application/x-www-form-urlencoded") !== false)
 			) parse_str($response['body'], $ret);
 			
