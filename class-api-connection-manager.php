@@ -367,10 +367,11 @@ class API_Connection_Manager{
 	/**
 	 * Get the login out link for a servie.
 	 * 
+	 * @deprecated
 	 * @todo finish the logout params in the module index.php file
 	 * @param string $slug The service slug.
 	 * @return string 
-	 */
+	 *
 	public function get_logout_button( $slug ){
 		
 		$service = $this->get_service($slug);
@@ -390,7 +391,7 @@ class API_Connection_Manager{
 		
 		/**
 		 * Print logout link 
-		 */
+		 *
 		if(!@$_REQUEST['api-con-mngr-logout']){
 			if(!@$params['app-token-revoke'])
 				return "<em>please logout using your {$service['Name']} account";
@@ -398,6 +399,8 @@ class API_Connection_Manager{
 		}
 		
 	}
+	 * 
+	 */
 	
 	/**
 	 * Returns the details for a service.
@@ -455,99 +458,6 @@ class API_Connection_Manager{
 		return $this->log_api->write($msg, "API Con Mngr");
 	}
 	
-	/**
-	 * Makes a request to a service.
-	 * 
-	 * Uses the native wordpress wp_response_* wrappers for the WP_HTTP class to
-	 * make requests. Any variables that are need across different service
-	 * either come from the params in the module file or are set using the API
-	 * settings page. Defaults to using the 'post' method unless $req['method']
-	 * is set to 'get'.
-	 * 
-	 * The $req array takes the same format as the WP_HTTP methods:
-	 * $req = array(
-	 *	'uri'		//required
-	 *  'method'	//defaults to post
-	 *  'body'	//params to send for both GET and POST requests. If the access
-	 * token is needed here you must define it.
-	 *  'headers'
-	 * );
-	 * 
-	 * @deprecated Requests made from module class
-	 * @param string $slug The service slug to connect to.
-	 * @param array $req The request array
-	 * @return response|$this->_print_link() Returns the response in the same 
-	 * format as WP_HTTP class or dies(login_link) if error
-	 * @subpackage helper-methods
-	 *
-	public function request( $slug, $req, $headers=null ){	
-		
-		//vars
-		if(!@$req['method']) $req['method'] = 'post';
-		if(!@$req['body']) $req['body'] = array();
-		if(!@$req['headers']) $req['headers'] = array();
-		$body = $req['body'];
-		$service = $this->get_service($slug);
-		
-		//add token to body if needed
-		if(@$req['body']['access_token']===true){
-			$body['access_token'] = $this->_get_token($slug);
-		}
-		
-		//add token to uri if needed
-		if(preg_match("/<\!--\[--access-token--\]-->/", $req['uri'], $matches))
-			$req['uri'] = str_replace("<!--[--access-token--]-->", $this->_get_token($slug), $req['uri']);
-		
-		//if token passed, then store it
-		if(is_string(@$req['access_token'])){
-			$this->_set_token($slug, $req['access_token']);
-		}
-		
-		//add token to header if required
-		if(is_array($req['headers']))
-			foreach($req['headers'] as $key=>$val)
-				if(preg_match("/<\!--\[--access-token--\]-->/", $val, $matches))
-					$req['headers'][$key] = str_replace("<!--[--access-token--]-->", $this->_get_token($slug), $val);
-		
-		//GET request
-		if("get"==strtolower($req['method'])){
-			if(is_array($body))
-				$req['uri'] = trim($req['uri'], "/");
-				$url = $this->_url_query_append($req['uri'], $body);
-			$res = wp_remote_get($url, array(
-				'headers'=> $req['headers']
-			));
-		}
-		
-		//POST request
-		else{
-			$url = $this->_url_query_append($req['uri'], $body);
-			$res = wp_remote_post($url, array(
-				'headers'=>$req['headers'],
-				'body' => $body
-			));
-		}
-		$ret = json_decode($res['body']);
-		
-		//check response http code
-		if($res['response']['code']=='401')
-			$this->_print_login($service['slug']);
-		
-		//if error returned
-		if($this->_service_get_error($ret)){
-			print "<b>".$this->_service_get_error($ret)."</b><br/>\n";
-			$this->_print_login($service['slug']);
-		}
-		
-		return $res;
-	}
-	 *
-	 * @param string $slug
-	 * @param type $token
-	 * @param type $type
-	 * @param type $user 
-	 */
-	
 	public function set_user_token( $slug, $token, $type='access', $user=null){
 		$this->_set_token($slug, $token, $type, $user);
 	}
@@ -597,11 +507,13 @@ class API_Connection_Manager{
 	/**
 	 * Prints a login link for a service to the screen and dies
 	 * 
+	 * @deprecated
 	 * @todo remove this method. Been moved to API_Con_Mngr_Module
 	 * @param string $slug The service slug
 	 * @param boolean $die Default true. Return the login link or die()
 	 */
 	private function _print_login($slug, $die=true){
+		return;
 		
 		//vars
 		$service = $this->get_service($slug);
@@ -1208,7 +1120,7 @@ class API_Connection_Manager{
 			unset($_SESSION['callback']);
 		}
 		else
-			$callback = false;
+			$callback = array();
 		//end get callback
 		
 		//get dto (will also set the current user)

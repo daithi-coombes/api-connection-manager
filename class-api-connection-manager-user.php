@@ -23,8 +23,12 @@ class API_Connection_Manager_User {
 		
 		//look for actions in form submits
 		if(@$_REQUEST['action'])
-			if(method_exists($this, $_REQUEST['action']))
-				add_action('admin_init', array(&$this, $_REQUEST['action']));
+			if(method_exists($this, $_REQUEST['action'])){
+				$method = $_REQUEST['action'];
+				$this->$method();
+			}
+				
+				//add_action('admin_init', array(&$this, $_REQUEST['action']));
 	}
 	
 	public function admin_head(){
@@ -57,10 +61,16 @@ class API_Connection_Manager_User {
 		
 		//get the main class
 		global $API_Connection_Manager;
-		if( "API_Connection_Manager"!=get_class($API_Connection_Manager))
-			$API_Connection_Manager = new API_Connection_Manager();
+		$module = $API_Connection_Manager->get_service($_REQUEST['slug']);
 		
-		$API_Connection_Manager->delete_token($_REQUEST['slug']);
+		$module->set_params(array(
+			'access_token' => null,
+			'oauth_token' => null,
+			'oauth_token_secret' => null,
+			'token' => null
+		));
+		
+		$API_Connection_Manager->services['active'][$_REQUEST['slug']] = $module;
 	}
 	
 	/**
@@ -73,38 +83,36 @@ class API_Connection_Manager_User {
 		
 		//get the main class
 		global $API_Connection_Manager;
-		if( "API_Connection_Manager"!=get_class($API_Connection_Manager))
-			$API_Connection_Manager = new API_Connection_Manager();
 		
 		//vars
 		$count=1;
 		$html = "<div id=\"dashboard-widgets\" class=\"metabox-holder columns-1\">\n";
-		$options = $API_Connection_Manager->_get_user_options();
-		$states = $API_Connection_Manager->get_service_states();
+		$services = $API_Connection_Manager->get_services();
 
 		/**
 		 * loop through services and build html form
 		 */
-		foreach($states as $slug => $service){
+		foreach($services as $slug => $module){
 			
 			/**
 			 * get status icon and params
 			 */
-			if(!is_wp_error($service)){
+			if($module->verify_token()){
+				$valid = true;
 				$status = "status_icon_green_12x12.png";
-				$data = $service;
 			}
 			else{
-				$data = $API_Connection_Manager->get_service($slug);
+				$valid = false;
 				$status = "status_icon_red_12x12.png";
-			}//end get status icona  and params
+			}
+			//end get status icona  and params
 			
 			//vars
 			$slug_safe = preg_replace("/[\s\W]+/", "_", $slug);
 			(@$options[$slug]['refresh_on']) ?
 				$offline=true :
 				$offline=false;
-			$logout = $API_Connection_Manager->get_logout_button($slug);
+			$logout = "<em>please logout using your {$module->Name} account";
 			
 			/**
 			 * Html container for this service 
@@ -114,7 +122,7 @@ class API_Connection_Manager_User {
 					<div class=\"postbox\">
 						<h3>
 							<img src=\"".WP_PLUGIN_URL."/api-connection-manager/images/{$status}\" width=\"12\" height=\"12\"/>
-							{$data['Name']}</h3>
+							{$module->Name}</h3>
 						<div class=\"inside\">";
 			
 			//if offline access is allowed
@@ -126,15 +134,16 @@ class API_Connection_Manager_User {
 			//end if offline access is allowed
 									
 			//print delete access tokens / show login link
-			if(is_wp_error($service))
-				$html .= $service->get_error_message();
-			else $html .= "
-				<form method=\"post\">
-					<input type=\"hidden\" name=\"action\" value=\"delete_tokens\"/>
-					<input type=\"hidden\" name=\"slug\" value=\"{$slug}\"/>
-					<input type=\"submit\" value=\"Delete Tokens\"/>
-				</form>
-				$logout";
+			if($valid)
+				$html .= "
+					<form method=\"post\">
+						<input type=\"hidden\" name=\"action\" value=\"delete_tokens\"/>
+						<input type=\"hidden\" name=\"slug\" value=\"{$slug}\"/>
+						<input type=\"submit\" value=\"Delete Tokens\"/>
+					</form>
+					$logout";
+			else
+				$html .= $module->get_login_button(null,null,false);
 			//end delete tokens / show login link
 					
 			//close container

@@ -232,6 +232,14 @@ if (!class_exists("API_Con_Mngr_Module")):
 		abstract public function check_error( array $response );
 		
 		/**
+		 * Make a request to verify a token. If no token then return false, if
+		 * service provides no call to test token then make request for profile
+		 * etc as a test.
+		 * @return boolean 
+		 */
+		abstract public function verify_token();
+		
+		/**
 		 * Do callback.
 		 * 
 		 * This is called from API_Connection_Manager::_response_listener() The
@@ -243,6 +251,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param stdClass $dto The response dto.
 		 */
 		public function do_callback( array $callback, stdClass $dto ) {
+			
+			if(!count($callback))
+				return;
 			
 			//load file parse callback
 			require_once( $callback['file'] );
@@ -385,10 +396,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $file Optional. Full path to callback file.
 		 * @param mixed $callback Optional. Callback func name or array of 
 		 * class, method names.
+		 * @param boolean $die Default true. If true and sign on button
+		 * required will die(button_html);
 		 * @return string Html anchor
 		 */
-		public function get_login_button( $file='', $callback='' ){
-
+		public function get_login_button( $file='', $callback='', $die=true ){
+			
 			//nonce
 			global $API_Connection_Manager;
 
@@ -396,10 +409,16 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);
 			
 			//if not a sign on button
-			if(empty($file) && empty($callback))
-				die("<br/><em>You are not signed into {$this->Name}</em><br/>
-					<a href=\"{$url}\" target=\"_new\">Sign into {$this->Name}</a>
-					");
+			if(empty($file) && empty($callback)){
+				$msg = "<br/><em>You are not signed into {$this->Name}</em><br/>
+						<a href=\"{$url}\" target=\"_new\">Sign into {$this->Name}</a>
+						";
+				if($die)
+					die($msg);
+				else 
+					return $msg;
+			}
+			//end not a sign on button
 					
 			//if a sign on button
 			else{
@@ -413,6 +432,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 			}
 		}
 
+		/**
+		 * Returns module options such as client_id, scope etc.
+		 * Sets the fields with their relevant option values.
+		 * @return array 
+		 */
 		public function get_options(){
 			
 			//multisite install
@@ -553,9 +577,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $method Default GET. The http method to user.
 		 * @param array $parameters Optional. An array of parameters in key
 		 * value pairs
+		 * @param boolean $die Default true. Whether to die with a login button
+		 * if an error occurs
 		 * @return array Returns the response array in the WP_HTTP format. 
 		 */
-		public function request($url, $method='GET', $parameters = array()) {
+		public function request($url, $method='GET', $parameters = array(), $die=true) {
 
 			//vars
 			$method = strtoupper($method);
@@ -584,18 +610,20 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(!$errs)
 				$errs = $this->check_error($response);
 			if(is_wp_error($errs)){
-				$msg = addslashes( $errs->get_error_message() );
-				print "
-					<script>
-						if(window.opener){
-							alert('{$msg}');
-							//window.opener.location.reload();
-							//window.close();
-						}
-					</script>
-					";
-				print "<em>\n" . str_replace("\n", "<br/>", $msg) . "</em>\n";
-				$this->get_login_button();
+				if($die){
+					$msg = addslashes( $errs->get_error_message() );
+					print "
+						<script>
+							if(window.opener){
+								alert('{$msg}');
+								//window.opener.location.reload();
+								//window.close();
+							}
+						</script>
+						";
+					print "<em>\n" . str_replace("\n", "<br/>", $msg) . "</em>\n";
+				}
+				$this->get_login_button(null, null, $die);
 			}
 			
 			return $response;
