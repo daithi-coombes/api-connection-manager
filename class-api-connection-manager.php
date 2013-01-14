@@ -1254,35 +1254,14 @@ class API_Connection_Manager{
 
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
-					$module->do_callback( $dto );
+					$module->do_callback( $callback, $dto );
 				
 				//helper method module can override to add actions to login
 				//such as get request token for oauth1
 				$module->do_login( $dto );
 			}
 			// end saving the access token
-			
-			/**
-			 * Get authorize url 
-			 */
-			else{
-				
-				//get request tokens and authorize url
-				$tokens = $module->get_request_token();
-				$url = $module->get_authorize_url( $tokens );				
-				
-				//if nonce in request then set it as session var
-				$_SESSION['API_Con_Mngr_Module'] = $dto->response['slug'];
-				if(@$_REQUEST['nonce']){
-					$_SESSION['callback'] = $_SESSION['callbacks'][stripslashes($_REQUEST['nonce']) ];
-					unset($_SESSION['callbacks'][ stripslashes($_REQUEST['nonce'])]);
-				}
-				
-				//redirect to url and exit
-				header("Location: {$url}");
-				exit;
-			}
-			// end get autorize url
+
 		}
 		//end oauth1 service response
 		
@@ -1434,7 +1413,21 @@ class API_Connection_Manager{
 			
 			//oauth1
 			case 'oauth1':
-				break;
+				
+				//get request tokens and authorize url
+				$tokens = $module->get_request_token();
+				$url = $module->get_authorize_url( $tokens );				
+				
+				//if nonce in request then set it as session var
+				$_SESSION['API_Con_Mngr_Module'] = $dto->response['slug'];
+				if(@$_REQUEST['nonce']){
+					$_SESSION['callback'] = $_SESSION['callbacks'][stripslashes($_REQUEST['nonce']) ];
+					unset($_SESSION['callbacks'][ stripslashes($_REQUEST['nonce'])]);
+				}
+				
+				//redirect to url and exit
+				header("Location: {$url}");
+				exit;
 			//end oauth1
 			
 			//oauth2

@@ -327,6 +327,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 				
 				//oauth1
 				case 'oauth1':
+					
+					$vars = array_merge(array(
+						'oauth_consumer_key' => $this->consumer_key,
+						'oauth_token' => $params['oauth_token']
+					), $params);
+					//$url = $this->
+					
 					return $this->url_authorize . "?" . http_build_query($params);
 					break;
 				//end oauth1
