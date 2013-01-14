@@ -763,19 +763,19 @@ class API_Connection_Manager{
 			if(isset($oauth2)) unset($oauth2);
 			include("{$plugin_root}/{$plugin_file}");
 			if(isset($oauth1)){
-				$module = $this->_get_module( plugin_basename($plugin_file) );
+				$slug = plugin_basename($plugin_file);
+				$module = $this->_get_module( $slug );
 				$module->protocol = 'oauth1';
 				$module->set_details($plugin_data);
-				$module->slug = plugin_basename($plugin_file);
-				$wp_plugins[plugin_basename($plugin_file)] = $module; //new API_Con_Mngr_Module($params, $options);
+				$wp_plugins[$slug] = $module;
 			}
 			elseif(@is_object($oauth2)){
-				$module = $this->_get_module( plugin_basename($plugin_file) );
+				$slug = plugin_basename($plugin_file);
+				$module = $this->_get_module( $slug );
 				$module->protocol = 'oauth2';
 				$module->set_details($plugin_data);
 				$module->get_params();
-				$module->slug = plugin_basename($plugin_file);
-				$wp_plugins[plugin_basename($plugin_file)] = $module; //new API_Con_Mngr_Module($params, $options);
+				$wp_plugins[$slug] = $module;
 			}
 			//end use API_Con_Mngr_Module
 			
@@ -1035,7 +1035,6 @@ class API_Connection_Manager{
 	public function _get_service_options( $slug ){
 		
 		$options = $this->_get_options();
-		
 		if(!@$options['services'][$slug])
 			return array();
 		else return $options['services'][$slug];
@@ -1786,42 +1785,38 @@ class API_Connection_Manager{
 			update_site_option($this->option_name, $options);
 		else
 			update_option($this->option_name, $options);
-		
-		//update services array with new options
-		foreach($options['services'] as $slug=>$option){
-			
-			//update active
-			foreach($this->services['active'] as $active_slug=>$old_option)
-				if($active_slug==$slug){
-					$this->services['active'][$slug]['options'] = $option;
-					continue;
-				}
-			
-			//update inactive
-			foreach($this->services['inactive'] as $inactive_slug=>$old_option)
-				if($inactive_slug==$slug){
-					$this->services['inactive'][$slug]['options'] = $option;
-					continue;
-				}
-		}
-		return $options;
 	}
 	
 	/**
-	 * Set the options for a service.
+	 * Save the options for a service.
 	 * 
-	 * @todo try not use ::_get_params. this method re-reads all the module
-	 * files using filesystem calls and is already called by 
-	 * ::_get_installed_services. 
-	 * @uses API_Connection_Manager::set_option()
-	 * @param string $slug Index file to service.
-	 * @param array $options An array of options.
+	 * @deprecated module options get/set in option class
+	 * @see API_Con_Mngr_Module::set_options()
+	 * @param API_Con_Mngr_Module $module
 	 * @return array Returns the new api options array
 	 * @subpackage api-core
 	 */
-	public function _set_service_options( $slug, $options ){
+	public function _set_service_options(API_Con_Mngr_Module $module, $options ){
 		
-		//set service option
+		//update the db
+		$current = $this->_get_options();
+		$current['services'][$module->slug] = $options;
+		$this->_set_option($current);
+		
+		//update the services array
+		foreach($this->services['active'] as $slug=>$data)
+			if($slug==$module->slug){
+				$state = 'active';
+				break;
+			}else $state = "inactive";
+		$this->services[$state][$slug] = $module;
+		
+		return $module;
+		
+		/**
+		 * set service option
+		 * @deprecated
+		 *
 		$current = $this->_get_options();
 		$current['services'][$slug] = $options;
 		$this->_set_option($current);
@@ -1837,6 +1832,8 @@ class API_Connection_Manager{
 		$this->services[$state][$slug]['params'] = $params;
 		$this->services[$state][$slug]['options'] = $options;
 		return $options;
+		 * 
+		 */
 	}
 	
 }

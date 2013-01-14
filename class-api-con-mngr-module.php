@@ -7,21 +7,29 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* <code>
 	* class My_Class extends API_Con_Mngr_Module{
 	*		function __construct(){
+	*			$this->options = array(
+	*				'access_token' => '%s'
+	*			);
+	*			$this->protocol = "custom";
 	*			parent::__construct();
 	*		}
 	*		function check_error( $response ){
 	*			return false;
 	*		}
 	* }
-	* $oauth1 = new My_Class();
+	* $service = new My_Class();
 	* </code>
 	* 
-	 * You module class should be saved in a file called <code>index.php</code>
-	 * in a sub-folder in <code>wp-content/plugins/api-con-mngr-modules</code>
-	 * If this folder is not created yet make sure you have installed and
-	 * activated the API Manager Core
-	 * {@link https://github.com/david-coombes/api-connection-manager}
-	 * 
+	* Options that are per wordpress installation, such as client_id or scopes
+	* should be defined in the class construct. See
+	* {@see API_Con_Mngr_Module::construct_options()} for details on the format
+	* 
+	* You module class should be saved in a file called <code>index.php</code>
+	* in a sub-folder in <code>wp-content/plugins/api-con-mngr-modules</code>
+	* If this folder is not created yet make sure you have installed and
+	* activated the API Manager Core
+	* {@link https://github.com/david-coombes/api-connection-manager}
+	* 
 	* Class definition file
 	* =====================
 	* Your class should extend this and also construct it at the bottom of the
@@ -80,12 +88,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var OAuthConsumer The consumer object */
 		public $consumer;
 
-		/** @var string The consumer key */
-		public $consumer_key;
-
-		/** @var string The consumer secret */
-		public $consumer_secret;
-		
 		/** @var string The module description */
 		public $Description;
 
@@ -95,7 +97,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The name of the module */
 		public $Name = "";
 
-		/** @var string The nonce for this instance of the module */
+		/** @var string Oauth1. The consumer key */
+		public $oauth_consumer_key;
+
+		/** @var string Oauth1. The consumer secret */
+		public $oauth_consumer_secret;
+		
+		/** @var string Oauth1. The nonce for this instance of the module */
 		public $oauth_nonce = "";
 
 		/** @var string Oauth1 token */
@@ -103,6 +111,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 
 		/** @var string Oauth1 token secret */
 		public $oauth_token_secret = "";
+		
+		/**An array of options for the service.
+		 * @see API_Con_Mngr_Module::construct_options() for details
+		 * @var array 
+		 */
+		public $options = array();
 		
 		/** @var array An array of static params */
 		public $params = array();
@@ -180,19 +194,28 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$this->user = API_Connection_Manager::_get_current_user();
 			$this->log_api = new API_Con_Mngr_Log();
 			
-			//if oauth1
-			if($this->protocol=='oauth1'){
-				$this->consumer = new OAuthConsumer($this->consumer_key, $this->consumer_secret, $this->callback_url);
-				$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
-			}
-
+			/**
+			 * bootstrap fields, params and options
+			 */
+			$this->slug = $this->get_slug();
+			//load user specific db params (access_tokens etc)
+			$this->get_params();
+			//load stored options
+			$this->get_options();
 			//if sessions enabled (default is true)
 			$id = session_id();
 			if(!$id || $id=="")
-				$this->sessions = false;
+				$this->sessions = false;			
+			//setup options variables for the API Services dashboard page
+			$this->construct_options( $this->options );
+			//end bootstrap
 			
-			//load db params
-			$params = $this->get_params();
+			//if oauth1
+			if($this->protocol=='oauth1'){
+				$this->consumer = new OAuthConsumer($this->oauth_consumer_key, $this->oauth_consumer_secret, $this->callback_url);
+				$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
+			}
+
 		}
 
 		/**
@@ -390,6 +413,35 @@ if (!class_exists("API_Con_Mngr_Module")):
 			}
 		}
 
+		public function get_options(){
+			
+			//multisite install
+			if(is_multisite())
+				$options_db = get_site_option($this->option_name, array());
+			else
+				$options_db = get_option($this->option_name, array());
+			
+			//get module options or return default array
+			if(!@$options_db[$this->slug]) return array();
+			$options = $options_db[$this->slug];
+			
+			//set redirect_uri
+			$redirect = admin_url('admin-ajax.php') . "?" . http_build_query(array(
+				'action' => 'api_con_mngr'
+			));
+			if(@isset($options['redirect_uri']) && @empty($options['redirect_uri']))
+				$options['redirect_uri'] = $redirect;
+			if(@isset($options['callback_url']) && @empty($options['callback_url']))
+				$options['callback_url'] = $redirect;
+			//end redirect uri
+				
+			//set fields
+			foreach($options as $key=>$val)
+				$this->$key = $val;
+			
+			return $options;
+		}
+		
 		/**
 		 * Returns array of params for this module.
 		 * 
@@ -565,6 +617,31 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
+		 * @param array $options 
+		 */
+		public function set_options( array $options ){
+			
+			//set fields
+			foreach($options as $key=>$val)
+				$this->$key = $val;
+			
+			//multisite install
+			if(is_multisite())
+				$options_db = get_site_option($this->option_name, array());
+			else
+				$options_db = get_option($this->option_name, array());
+			$options_db[$this->slug] = $options;
+			
+			//write to db
+			if(is_multisite())
+				update_site_option($this->option_name, $options_db);
+			else
+				update_option($this->option_name, $options_db);
+			
+			return $options;
+		}
+		
+		/**
 		 * Set params.
 		 * Will set fields that have the same param name and update the db.
 		 * 
@@ -635,6 +712,85 @@ if (!class_exists("API_Con_Mngr_Module")):
 			wp_set_auth_cookie( $user->data->ID );
 			wp_redirect("{$redirect}");
 			die();
+		}
+		
+		/**
+		 * Builds the options array.
+		 * 
+		 * Options are added in the format:
+		 * array( 'option_name' => 'datatype')
+		 * where datatype is:
+		 *  - '%s' for string
+		 *  - '%d' for integer
+		 *  - array() key value pairs for drop down
+		 * 
+		 * Oauth1:
+		 * Defaults are consumer key and consumer secret.
+		 * 
+		 * Oauth2:
+		 * Defaults are client_id, client_secret, client_uri
+		 * 
+		 * @param array $options An array of options
+		 * @return array Returns the full options including requirements 
+		 */
+		protected function construct_options( $options=array() ){
+			
+			switch($this->protocol){
+				
+				//oauth1 defaults
+				case 'oauth1':
+					$defaults = array(
+						'oauth_consumer_key' => '%s',
+						'oauth_consumer_secret' => '%s'
+					);
+					break;
+				
+				case 'oauth2':
+					$defaults = array(
+						'client_id' => '%s',
+						'client_secret' => '%s',
+						'redirect_uri' => '%s'
+					);
+					break;
+				
+				default:
+					$defaults = array();
+					break;
+			}
+			
+			$this->options = array_merge($defaults, $options);
+			return $this->options;
+		}
+		
+		/**
+		 * Get the slug.
+		 * 
+		 * Currently uses debug_backtrace to the get child class's file path.
+		 * There is the php function ReflectionClass but this is only available
+		 * in php > 5. The code for stripping the file path is taken directly
+		 * from plugin_basename()
+		 * 
+		 * @return string The current slug 
+		 */
+		protected function get_slug(){
+			
+			//get child class filename
+			$stacktrace = @debug_backtrace(false);
+			$file = $stacktrace[1]['file'];
+			
+			//taken directly from plugin_basename()
+			$file = str_replace('\\','/',$file); // sanitize for Win32 installs
+			$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
+			$plugin_dir = str_replace('\\','/',WP_PLUGIN_DIR); // sanitize for Win32 installs
+			$plugin_dir = preg_replace('|/+|','/', $plugin_dir); // remove any duplicate slash
+			$mu_plugin_dir = str_replace('\\','/',WPMU_PLUGIN_DIR); // sanitize for Win32 installs
+			$mu_plugin_dir = preg_replace('|/+|','/', $mu_plugin_dir); // remove any duplicate slash
+			$file = preg_replace('#^' . preg_quote($plugin_dir, '#') . '/|^' . preg_quote($mu_plugin_dir, '#') . '/#','',$file); // get relative path from plugins dir
+			$file = trim($file, '/');
+			
+			//return slug
+			$parts = explode("/", $file);
+			return "{$parts[1]}/{$parts[2]}";
 		}
 	}
 	

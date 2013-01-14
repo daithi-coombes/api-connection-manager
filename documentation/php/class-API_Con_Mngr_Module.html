@@ -102,6 +102,16 @@
 class="php-keyword1">extends</span> API_Con_Mngr_Module{
         <span
 class="php-keyword1">function</span> __construct(){
+                <span
+class="php-var">$this</span>-&gt;options = <span
+class="php-keyword1">array</span>(
+                        <span
+class="php-quote">'access_token'</span> =&gt; <span
+class="php-quote">'%s'</span>
+                );
+                <span
+class="php-var">$this</span>-&gt;protocol = <span
+class="php-quote">&quot;custom&quot;</span>;
                 parent::__construct();
         }
         <span
@@ -113,9 +123,12 @@ class="php-keyword1">false</span>;
         }
 }
 <span
-class="php-var">$oauth1</span> = <span
+class="php-var">$service</span> = <span
 class="php-keyword1">new</span> My_Class();
 </pre>
+
+<p>Options that are per wordpress installation, such as client_id or scopes
+should be defined in the class construct. See <code><a href="class-API_Con_Mngr_Module.html#_">API_Con_Mngr_Module::construct_options()</a></code> for details on the format</p>
 
 <p>You module class should be saved in a file called <code>index.php</code> in a
 sub-folder in <code>wp-content/plugins/api-con-mngr-modules</code> If this
@@ -201,7 +214,7 @@ by the spec, you may need to add additional params here</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#172" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#186" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			
@@ -234,7 +247,7 @@ by the spec, you may need to add additional params here</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_check_error">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#198" title="Go to source code">check_error</a>( <span>array <var>$response</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#221" title="Go to source code">check_error</a>( <span>array <var>$response</var></span> )</code>
 
 		<div class="description short">
 			
@@ -281,7 +294,7 @@ false for no error.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_do_callback">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#211" title="Go to source code">do_callback</a>( <span>array <var>$callback</var></span>, <span>stdClass <var>$dto</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#234" title="Go to source code">do_callback</a>( <span>array <var>$callback</var></span>, <span>stdClass <var>$dto</var></span> )</code>
 
 		<div class="description short">
 			
@@ -330,7 +343,7 @@ set.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_oauth_sign_request">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#243" title="Go to source code">oauth_sign_request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#266" title="Go to source code">oauth_sign_request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -383,7 +396,7 @@ OAuthSignatureMethod_HMAC_SHA1</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_do_login">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#264" title="Go to source code">do_login</a>( <span>stdClass <var>$dto</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#287" title="Go to source code">do_login</a>( <span>stdClass <var>$dto</var></span> )</code>
 
 		<div class="description short">
 			
@@ -427,7 +440,7 @@ API_Connection_Manager::_service_parse_dto()</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_error">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#279" title="Go to source code">error</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#302" title="Go to source code">error</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			
@@ -471,7 +484,7 @@ API_Connection_Manager::_service_parse_dto()</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_access_token">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#291" title="Go to source code">get_access_token</a>( <span>array <var>$response</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#314" title="Go to source code">get_access_token</a>( <span>array <var>$response</var></span> )</code>
 
 		<div class="description short">
 			
@@ -515,7 +528,7 @@ results using $this-&gt;set_params()</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_authorize_url">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#314" title="Go to source code">get_authorize_url</a>( <span>array <var>$params</var> = <span class="php-keyword1">array</span>() </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#337" title="Go to source code">get_authorize_url</a>( <span>array <var>$params</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			
@@ -527,8 +540,8 @@ results using $this-&gt;set_params()</p>
 			
 <p>Returns the authorize url for oauth1 and oauth2</p>
 
-<p>Override this method and provide any optional params your service
-requires.</p>
+<p>Override this method and provide any optional params your service requires.
+Only client_id and response_type are required by oauth2 spec.</p>
 
 
 
@@ -560,7 +573,7 @@ requires.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_login_button">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#348" title="Go to source code">get_login_button</a>( <span>string <var>$file</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$callback</var> = <span class="php-quote">''</span> </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#379" title="Go to source code">get_login_button</a>( <span>string <var>$file</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$callback</var> = <span class="php-quote">''</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -596,6 +609,35 @@ the callback params and the link will be returned.</p>
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="get_options" id="_get_options">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_options">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#416" title="Go to source code">get_options</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="get_params" id="_get_params">
 
 		<td class="attributes"><code>
@@ -607,7 +649,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_params">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#385" title="Go to source code">get_params</a>( )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#445" title="Go to source code">get_params</a>( )</code>
 
 		<div class="description short">
 			
@@ -644,7 +686,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_request_token">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#405" title="Go to source code">get_request_token</a>( <span>string <var>$method</var> = <span class="php-quote">'GET'</span> </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#465" title="Go to source code">get_request_token</a>( <span>string <var>$method</var> = <span class="php-quote">'GET'</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -686,7 +728,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_log">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#433" title="Go to source code">log</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#493" title="Go to source code">log</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			
@@ -732,7 +774,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_parse_response">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#460" title="Go to source code">parse_response</a>( <span>array <var>$response</var> = <span class="php-keyword1">array</span>() </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#520" title="Go to source code">parse_response</a>( <span>array <var>$response</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			
@@ -774,7 +816,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_request">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#488" title="Go to source code">request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$parameters</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#549" title="Go to source code">request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$parameters</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -820,7 +862,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_details">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#543" title="Go to source code">set_details</a>( <span>array <var>$data</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#604" title="Go to source code">set_details</a>( <span>array <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -849,6 +891,40 @@ the callback params and the link will be returned.</p>
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="set_options" id="_set_options">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_set_options">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#619" title="Go to source code">set_options</a>( <span>array <var>$options</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$options</var></dt>
+					<dd><code>array</code></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="set_params" id="_set_params">
 
 		<td class="attributes"><code>
@@ -860,7 +936,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_params">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#558" title="Go to source code">set_params</a>( <span>array <var>$params</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#644" title="Go to source code">set_params</a>( <span>array <var>$params</var></span> )</code>
 
 		<div class="description short">
 			
@@ -904,7 +980,7 @@ db.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_wp_login">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#606" title="Go to source code">wp_login</a>( <span>string <var>$email</var></span>, <span>string <var>$redirect</var> = <span class="php-quote">''</span> </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#692" title="Go to source code">wp_login</a>( <span>string <var>$email</var></span>, <span>string <var>$redirect</var> = <span class="php-quote">''</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -935,6 +1011,97 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="construct_options" id="_construct_options">
+
+		<td class="attributes"><code>
+			 protected 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_construct_options">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#717" title="Go to source code">construct_options</a>( <span>array <var>$options</var> = <span class="php-keyword1">array</span>() </span> )</code>
+
+		<div class="description short">
+			
+<p>Builds the options array.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Builds the options array.</p>
+
+<p>Options are added in the format: array( 'option_name' =&gt; 'datatype') where
+datatype is: - '%s' for string - '%d' for integer - array() key value pairs for
+drop down</p>
+
+<p>Oauth1: Defaults are consumer key and consumer secret.</p>
+
+<p>Oauth2: Defaults are client_id, client_secret, client_uri</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$options</var></dt>
+					<dd><code>array</code><br> An array of options</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>Returns the full options including requirements<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_slug" id="_get_slug">
+
+		<td class="attributes"><code>
+			 protected 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_slug">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#765" title="Go to source code">get_slug</a>( )</code>
+
+		<div class="description short">
+			
+<p>Get the slug.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Get the slug.</p>
+
+<p>Currently uses debug_backtrace to the get child class's file path. There is
+the php function ReflectionClass but this is only available in php &gt; 5. The
+code for stripping the file path is taken directly from plugin_basename()</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>The current slug<br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	</table>
 
 
@@ -953,7 +1120,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#62" title="Go to source code"><var>$access_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#70" title="Go to source code"><var>$access_token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -981,7 +1148,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#65" title="Go to source code"><var>$access_type</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#73" title="Go to source code"><var>$access_type</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1009,7 +1176,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#68" title="Go to source code"><var>$callback_url</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#76" title="Go to source code"><var>$callback_url</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1037,7 +1204,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#71" title="Go to source code"><var>$client_id</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#79" title="Go to source code"><var>$client_id</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1065,7 +1232,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#74" title="Go to source code"><var>$client_secret</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#82" title="Go to source code"><var>$client_secret</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1093,7 +1260,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#77" title="Go to source code"><var>$connecttimeout</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#85" title="Go to source code"><var>$connecttimeout</var></a>
 		</td>
 		<td class="value"><code><span class="php-num">30</span></code></td>
 		<td class="description"><div>
@@ -1121,7 +1288,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#80" title="Go to source code"><var>$consumer</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#88" title="Go to source code"><var>$consumer</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1141,62 +1308,6 @@ will redirect to $redirect on fail will die() with error message.</p>
 			</div>
 		</div></td>
 	</tr>
-	<tr data-order="consumer_key" id="$consumer_key">
-
-		<td class="attributes"><code>
-			public 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#83" title="Go to source code"><var>$consumer_key</var></a>
-		</td>
-		<td class="value"><code></code></td>
-		<td class="description"><div>
-			<a href="#$consumer_key" class="anchor">#</a>
-
-			<div class="description short">
-				
-<p>The consumer key</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>The consumer key</p>
-
-
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="consumer_secret" id="$consumer_secret">
-
-		<td class="attributes"><code>
-			public 
-			string
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#86" title="Go to source code"><var>$consumer_secret</var></a>
-		</td>
-		<td class="value"><code></code></td>
-		<td class="description"><div>
-			<a href="#$consumer_secret" class="anchor">#</a>
-
-			<div class="description short">
-				
-<p>The consumer secret</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>The consumer secret</p>
-
-
-			</div>
-		</div></td>
-	</tr>
 	<tr data-order="Description" id="$Description">
 
 		<td class="attributes"><code>
@@ -1205,7 +1316,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#89" title="Go to source code"><var>$Description</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#91" title="Go to source code"><var>$Description</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1233,7 +1344,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#92" title="Go to source code"><var>$login_uri</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#94" title="Go to source code"><var>$login_uri</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1261,7 +1372,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#95" title="Go to source code"><var>$Name</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#97" title="Go to source code"><var>$Name</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1281,6 +1392,62 @@ will redirect to $redirect on fail will die() with error message.</p>
 			</div>
 		</div></td>
 	</tr>
+	<tr data-order="oauth_consumer_key" id="$oauth_consumer_key">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#100" title="Go to source code"><var>$oauth_consumer_key</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$oauth_consumer_key" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Oauth1. The consumer key</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Oauth1. The consumer key</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="oauth_consumer_secret" id="$oauth_consumer_secret">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#103" title="Go to source code"><var>$oauth_consumer_secret</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$oauth_consumer_secret" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Oauth1. The consumer secret</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Oauth1. The consumer secret</p>
+
+
+			</div>
+		</div></td>
+	</tr>
 	<tr data-order="oauth_nonce" id="$oauth_nonce">
 
 		<td class="attributes"><code>
@@ -1289,7 +1456,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#98" title="Go to source code"><var>$oauth_nonce</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#106" title="Go to source code"><var>$oauth_nonce</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1297,13 +1464,13 @@ will redirect to $redirect on fail will die() with error message.</p>
 
 			<div class="description short">
 				
-<p>The nonce for this instance of the module</p>
+<p>Oauth1. The nonce for this instance of the module</p>
 
 			</div>
 
 			<div class="description detailed hidden">
 				
-<p>The nonce for this instance of the module</p>
+<p>Oauth1. The nonce for this instance of the module</p>
 
 
 			</div>
@@ -1317,7 +1484,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#101" title="Go to source code"><var>$oauth_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#109" title="Go to source code"><var>$oauth_token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1345,7 +1512,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#104" title="Go to source code"><var>$oauth_token_secret</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#112" title="Go to source code"><var>$oauth_token_secret</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1365,6 +1532,30 @@ will redirect to $redirect on fail will die() with error message.</p>
 			</div>
 		</div></td>
 	</tr>
+	<tr data-order="options" id="$options">
+
+		<td class="attributes"><code>
+			public 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#119" title="Go to source code"><var>$options</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$options" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
 	<tr data-order="params" id="$params">
 
 		<td class="attributes"><code>
@@ -1373,7 +1564,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#107" title="Go to source code"><var>$params</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#121" title="Go to source code"><var>$params</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
 		<td class="description"><div>
@@ -1401,7 +1592,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#110" title="Go to source code"><var>$protocol</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#124" title="Go to source code"><var>$protocol</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1429,7 +1620,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#113" title="Go to source code"><var>$redirect_uri</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#127" title="Go to source code"><var>$redirect_uri</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1457,7 +1648,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#116" title="Go to source code"><var>$scope</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#130" title="Go to source code"><var>$scope</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1485,7 +1676,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#119" title="Go to source code"><var>$sessions</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#133" title="Go to source code"><var>$sessions</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">false</span></code></td>
 		<td class="description"><div>
@@ -1515,7 +1706,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#124" title="Go to source code"><var>$sha1_method</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#138" title="Go to source code"><var>$sha1_method</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1547,7 +1738,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#127" title="Go to source code"><var>$slug</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#141" title="Go to source code"><var>$slug</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1575,7 +1766,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#130" title="Go to source code"><var>$ssl_verifypeer</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#144" title="Go to source code"><var>$ssl_verifypeer</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">FALSE</span></code></td>
 		<td class="description"><div>
@@ -1603,7 +1794,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#133" title="Go to source code"><var>$timeout</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#147" title="Go to source code"><var>$timeout</var></a>
 		</td>
 		<td class="value"><code><span class="php-num">30</span></code></td>
 		<td class="description"><div>
@@ -1631,7 +1822,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#136" title="Go to source code"><var>$token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#150" title="Go to source code"><var>$token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1659,7 +1850,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#139" title="Go to source code"><var>$url_authorize</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#153" title="Go to source code"><var>$url_authorize</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1687,7 +1878,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#142" title="Go to source code"><var>$url_access_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#156" title="Go to source code"><var>$url_access_token</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1715,7 +1906,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#145" title="Go to source code"><var>$url_request_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#159" title="Go to source code"><var>$url_request_token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1743,7 +1934,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#148" title="Go to source code"><var>$url_verify_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#162" title="Go to source code"><var>$url_verify_token</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1771,7 +1962,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#151" title="Go to source code"><var>$use_nonce</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#165" title="Go to source code"><var>$use_nonce</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">true</span></code></td>
 		<td class="description"><div>
@@ -1799,7 +1990,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#154" title="Go to source code"><var>$useragent</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#168" title="Go to source code"><var>$useragent</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;TwitterOAuth v0.2.0-beta2&quot;</span></code></td>
 		<td class="description"><div>
@@ -1827,7 +2018,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#157" title="Go to source code"><var>$api</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#171" title="Go to source code"><var>$api</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1855,7 +2046,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#160" title="Go to source code"><var>$log_api</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#174" title="Go to source code"><var>$log_api</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1883,7 +2074,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#163" title="Go to source code"><var>$option_name</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#177" title="Go to source code"><var>$option_name</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;API_Con_Mngr_Module&quot;</span></code></td>
 		<td class="description"><div>
@@ -1911,7 +2102,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#166" title="Go to source code"><var>$user</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#180" title="Go to source code"><var>$user</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">''</span></code></td>
 		<td class="description"><div>

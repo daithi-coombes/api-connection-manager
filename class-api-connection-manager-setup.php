@@ -187,66 +187,60 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		
 		//build up html
 		$html = "<ul class=\"api-con-list-services\">\n";
-		foreach($services as $slug=>$service){
+		foreach($services as $slug=>$module){
+			
+			//make sure we're dealing with an object
+			if(!is_object($module))
+				continue;
 			
 			//vars
-			$grant_options = @$service['params']['grant-options'];
-			$token_options = @$service['params']['token-options'];
-			$params = $service['params'];
-			$slug_safe = preg_replace("/[\s\W]+/", "_", $slug);
 			$html .= "<li class=\"widget\">
 				<div class=\"widget-top\">
-					<div class=\"widget-title\"><h4>{$service['Name']}</h4></div>
-				</div>";
+					<div class=\"widget-title\"><h4>{$module->Name}</h4></div>
+				</div>
+				<div class=\"module-inside\">";
+			$slug_safe = preg_replace("/[\s\W]+/", "_", $slug);
 			
-			//if no options
-			if(!$grant_options && !$token_options){
-				$html .= "<div class=\"module-inside\">
-						No options for this service
-					</div></li>";
-				continue;
-			}
-			
-			//start form
-			$html .= "
-				<div class=\"module-inside\">
-					<form method=\"post\">
+			//if service otions, bulid form
+			if(count($module->options) && is_array($module->options)){
+				
+				//start form
+				$html .= "<form method=\"post\">
 					<input type=\"hidden\" name=\"action\" value=\"save_service\"/>
 					<input type=\"hidden\" name=\"service\" value=\"$slug\"/>
 					<ul>\n";
-			
-			//grant options
-			foreach($grant_options as $name=>$label){
-				(@$params['grant-vars'][$name]) ?
-					$value=$params['grant-vars'][$name] :
-					$value = "";
-				if(preg_match("/<\!--\[--(.+)--\]-->/", $value, $matches))
-					$value="";
-				$html .= "<li>
-					<input type=\"text\" name=\"{$name}\" id=\"{$slug_safe}-{$name}\" value=\"{$value}\"/>
-					<label for=\"{$slug_safe}-{$name}\">{$label}</label>
-					</li>\n";
-			}
-						
-			//token options
-			if(count($token_options))
-				foreach($token_options as $name=>$label){
-					(preg_match("/<\!--\[--(.+)--\]-->/", $params['token-vars'][$name], $matches)) ?
-						$value="" :
-						$value=$params['token-vars'][$name] ;
-					$html .= "<li>
-						<input type=\"text\" name=\"{$name}\" id=\"{$slug_safe}-{$name}\" value=\"{$value}\"/>
-						<label for=\"{$slug_safe}-{$name}\">{$label}</label>
-						</li>\n";
+				
+				//add option inputs
+				foreach($module->options as $name=>$datatype){
+					
+					//get option value
+					(isset($module->$name)) ?
+						$value = $module->$name :
+						$value = "";
+					
+					//if string
+					if($datatype=='%s')
+						$html .= "<li>
+							<input type=\"text\" name=\"{$name}\" id=\"{$slug_safe}-{$name}\" value=\"{$value}\"/>
+							<label for=\"{$slug_safe}-{$name}\">{$name}</label>
+							</li>\n";
 				}
+				
+				//end form
+				$html .= "<li><input type=\"submit\" value=\"Save {$module->Name} Options\"/></li>
+					</ul></form></div>\n";
+			}
 			
-			//close option
-			$html .= "</li>
-				<li><input type=\"submit\" value=\"Save {$service['Name']} Options\"/></li>
-				</ul></form></form>\n";
+			//else if no options
+			else{
+				$html .= "<div class=\"module-inside\">
+					No options for this service
+					</div>";
+			}
+			$html .= "</li>\n";
 		}
 		
-		return "{$html}</ul>\n";
+		return "{$html}</ul>";
 	}
 	
 	/**
@@ -316,26 +310,16 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		
 		//vars
 		$slug = $_REQUEST['service'];
-		$service = $API_Connection_Manager->get_service( $slug );
-		print "<pre>";
-		print_r($service);
-		print "</pre>";
-		$grant_vars = @$service['params']['grant-options'];
-		$token_vars = @$service['params']['token-options'];
+		$module = $API_Connection_Manager->get_service( $slug );
 		$options = array();
 		
-		//get values from keys in $_REQUEST
-		foreach($_REQUEST as $key=>$value)
-			if(array_key_exists($key, $grant_vars))
-				$options['grant-vars'][$key] = $value;
-			elseif(array_key_exists($key, (array) $token_vars))
-				$options['token-vars'][$key] = $value;
+		//get options from request
+		foreach($_REQUEST as $key=>$val)
+			if(@$module->options[$key])
+				$options[$key] = $val;
 		
-		if(
-			is_array($options['grant-vars']) ||
-			is_array(@$options['token-vars'])
-		)
-			$API_Connection_Manager->_set_service_options($slug, $options);
+		//set module fields
+		$module->set_options($options);
 	}
 	
 	/**

@@ -98,9 +98,10 @@
 <tr>
 	<td class="name"><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></td>
 	<td>Modules should extend this class. e.g.: &lt;code&gt; class My_Class extends
-API_Con_Mngr_Module{ function __construct(){ parent::__construct(); } function
-check_error( $response ){ return false; } } $oauth1 = new My_Class();
-&lt;/code&gt;</td>
+API_Con_Mngr_Module{ function __construct(){ $this-&gt;options = array(
+'access_token' =&gt; '%s' ); $this-&gt;protocol = "custom";
+parent::__construct(); } function check_error( $response ){ return false; } }
+$service = new My_Class(); &lt;/code&gt;</td>
 </tr>
 <tr>
 	<td class="name"><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></td>
