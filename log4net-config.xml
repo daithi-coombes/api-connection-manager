@@ -18,10 +18,19 @@
 	</appender>
 	<appender name="myInlineAppender" class="LoggerAppenderEcho">
 	</appender>
+	<appender name="myLogglyAppender" class="LoggerAppenderLoggly">
+		<param name="logglyApiUrl" value="https://logs.loggly.com/inputs/f2ad8be3-351d-4bbc-8fbf-f149bd8db91b" />
+		<filter class="LoggerFilterLevelRange">
+			<param name="levelMin" value="debug" />
+			<param name="levelMax" value="error" />
+		</filter>
+	</appender>
 	<root>
 		<level value="TRACE" />
 		<appender_ref ref="myFileAppender" />
 		<appender_ref ref="myHTMLFileAppender" />
+		<appender_ref ref="myLogglyAppender" />
 		<!--		<appender_ref ref="myInlineAppender" />-->
 	</root>
 </configuration>
+

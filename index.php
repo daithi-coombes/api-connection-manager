@@ -39,7 +39,12 @@ Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 add_action( 'all', 'log_action' );
 function log_action() {
 	$logger = Logger::getLogger(current_filter());
-	$logger->trace(func_get_args());
+	if ($logger->getName() == 'query') {
+		$logger->debug(func_get_args());
+	} else {
+		$logger->trace(func_get_args());
+	}
+	
 }
 /**
  * end Vendor dependencies 

@@ -68,6 +68,7 @@ class LoggerAutoloader {
 		'LoggerAppenderPhp' => '/appenders/LoggerAppenderPhp.php',
 		'LoggerAppenderRollingFile' => '/appenders/LoggerAppenderRollingFile.php',
 		'LoggerAppenderSocket' => '/appenders/LoggerAppenderSocket.php',
+		'LoggerAppenderLoggly' => '/appenders/LoggerAppenderLoggly.php',
 		'LoggerAppenderSyslog' => '/appenders/LoggerAppenderSyslog.php',
 		
 		// Configurators
