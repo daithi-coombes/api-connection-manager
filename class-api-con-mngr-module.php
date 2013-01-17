@@ -1,5 +1,6 @@
 <?php
 require_once('includes/OAuth.php');
+
 if (!class_exists("API_Con_Mngr_Module")):
 	/**
 	* Modules should extend this class.
@@ -186,7 +187,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var API_Connection_Manager The main api class */
 		private $api;
 		
-		/** @var API_Con_Mngr_Log The log class */
+		/** @var Logger The log class */
 		private $log_api;
 		
 		/** @var string The prefix for the user meta keys */
@@ -200,13 +201,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		function __construct() {
 			
 			//make sure we have user id
-			$this->user = API_Connection_Manager::_get_current_user();
-			$this->log_api = new API_Con_Mngr_Log();
-			
+			$this->user = API_Connection_Manager::_get_current_user();		
 			/**
 			 * bootstrap fields, params and options
 			 */
 			$this->slug = $this->get_slug();
+			$this->log_api = Logger::getLogger(__CLASS__."::API Module {$this->slug}");
 			//load user specific db params (access_tokens etc)
 			$this->get_params();
 			//load stored options
@@ -538,15 +538,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
-		 * Log a message to the log file.
+		 * Log an INFO message to the log file.
 		 * 
-		 * @see API_Con_Mngr_Log::write()
 		 * @param string The message to log
-		 * @return mixed Returns num of bytes if success or FALSE on fail.
+		 * @return None
 		 */
 		public function log( $msg ){
-			
-			return $this->log_api->write($msg, "API Module {$this->slug}");
+			$this->log_api->info($msg);
 		}
 		
 		/**

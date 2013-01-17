@@ -1,0 +1,36 @@
+<configuration xmlns="http://logging.apache.org/log4php/">
+	<appender name="myFileAppender" class="LoggerAppenderRollingFile">
+		<layout class="LoggerLayoutSimple" />
+		<param name="file" value="wp-content/uploads/api-con-mngr.txt" />
+		<param name="maxFileSize" value="1MB" />
+		<param name="maxBackupIndex" value="5" />
+		<filter class="LoggerFilterLevelRange">
+			<param name="levelMin" value="info" />
+			<param name="levelMax" value="error" />
+		</filter>
+	</appender>
+	<appender name="myHTMLFileAppender" class="LoggerAppenderFile">
+		<layout class="LoggerLayoutHtml">
+			<param name="locationInfo" value="true" />
+		</layout>
+		<param name="file" value="wp-content/uploads/api-con-mngr.lastrequest.html" />
+		<param name="append" value="false" />
+	</appender>
+	<appender name="myInlineAppender" class="LoggerAppenderEcho">
+	</appender>
+	<appender name="myLogglyAppender" class="LoggerAppenderLoggly">
+		<param name="logglyPort" value="23640" />
+		<filter class="LoggerFilterLevelRange">
+			<param name="levelMin" value="debug" />
+			<param name="levelMax" value="error" />
+		</filter>
+	</appender>
+	<root>
+		<level value="TRACE" />
+		<appender_ref ref="myFileAppender" />
+		<appender_ref ref="myHTMLFileAppender" />
+		<appender_ref ref="myLogglyAppender" />
+		<!--		<appender_ref ref="myInlineAppender" />-->
+	</root>
+</configuration>
+
