@@ -1104,9 +1104,9 @@ class API_Connection_Manager{
 		 */
 		if(@$_GET['slug'])
 			$slug = urldecode($_GET['slug']);
-		elseif(@$_SESSION['API_Con_Mngr_Module']){
-			$slug = $_SESSION['API_Con_Mngr_Module'];
-			unset($_SESSION['API_Con_Mngr_Module']);
+		elseif(@$_SESSION['API_Con_Mngr_Module']['slug']){
+			$slug = $_SESSION['API_Con_Mngr_Module']['slug'];
+			unset($_SESSION['API_Con_Mngr_Module']['slug']);
 		}
 		else 
 			die("Error: No slug found");
@@ -1162,7 +1162,9 @@ class API_Connection_Manager{
 			 * Get the access_token 
 			 */
 			if(@$dto->response['oauth_token']){
-
+				
+				$access = $module->get_access_token( $dto->response );
+				$dto->response = $access;
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
 					$module->do_callback( $callback, $dto );
@@ -1312,7 +1314,7 @@ class API_Connection_Manager{
 		/**
 		 * set callback
 		 */
-		$_SESSION['API_Con_Mngr_Module'] = $dto->slug;
+		$_SESSION['API_Con_Mngr_Module']['slug'] = $dto->slug;
 		if(@$dto->response['file'] && @$dto->response['callback'])
 			$_SESSION['callback'] = array(
 				'file' => @$dto->response['file'],
@@ -1327,15 +1329,15 @@ class API_Connection_Manager{
 				
 				//get request tokens and authorize url
 				$tokens = $module->get_request_token();
-				$url = $module->get_authorize_url( $tokens );				
+				$url = $module->get_authorize_url( $tokens );
 				
 				//if nonce in request then set it as session var
-				$_SESSION['API_Con_Mngr_Module'] = $dto->response['slug'];
+				$_SESSION['API_Con_Mngr_Module']['slug'] = $dto->response['slug'];
 				if(@$_REQUEST['nonce']){
 					$_SESSION['callback'] = $_SESSION['callbacks'][stripslashes($_REQUEST['nonce']) ];
 					unset($_SESSION['callbacks'][ stripslashes($_REQUEST['nonce'])]);
 				}
-				
+
 				//redirect to url and exit
 				header("Location: {$url}");
 				exit;
@@ -1584,6 +1586,13 @@ class API_Connection_Manager{
 		//make sure state is always exact same.
 		if(@$response['state'])
 			$res->response['state'] = $response['state'];
+		
+		//look for params in sessions
+		if(@$_SESSION['API_Con_Mngr_Module'][$res->slug]['params']){
+			foreach($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] as $key=>$val)
+				$res->response[$key] = $val;
+			unset($_SESSION['API_Con_Mngr_Module'][$res->slug]['params']);
+		}
 		
 		//load serivice module's params
 		$params = $this->get_service($res->slug);

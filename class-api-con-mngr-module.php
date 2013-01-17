@@ -105,6 +105,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		
 		/** @var string Oauth1. The nonce for this instance of the module */
 		public $oauth_nonce = "";
+		
+		/** @var string Oauth1 request token */
+		public $oauth_request_token = "";
+		
+		/** @var string Oauth1 request token secret */
+		public $oauth_request_token_secret = "";
 
 		/** @var string Oauth1 token */
 		public $oauth_token = "";
@@ -168,6 +174,15 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The user agent to send with requests */
 		public $useragent = "TwitterOAuth v0.2.0-beta2";
 
+		/** @var WP_User The current user. Makes static call to the api core
+		 *	method to build user from cookies & wp authentication
+		 * @uses API_Connection_Manager::_get_current_user()
+		 */
+		public $user='';
+		
+		/** @var array An array of additional headers */
+		protected $headers = array();
+		
 		/** @var API_Connection_Manager The main api class */
 		private $api;
 		
@@ -177,12 +192,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The prefix for the user meta keys */
 		private $option_name = "API_Con_Mngr_Module";
 		
-		/** @var WP_User The current user. Makes static call to the api core
-		 *	method to build user from cookies & wp authentication
-		 * @uses API_Connection_Manager::_get_current_user()
-		 */
-		public $user='';
-
 		/**
 		 * Make sure you call this from your child class.
 		 * 
@@ -330,18 +339,29 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function get_access_token( array $response ){
 			
-			//make request for access tokens
-			$res = $this->request( $this->url_access_token, "POST", array(
-				'grant_type' => 'authorization_code',
-				'client_id' => $this->client_id,
-				'client_secret' => $this->client_secret,
-				'code' => $response['code'],
-				'redirect_uri' => $this->redirect_uri
-			) );
+			switch($this->protocol){
+				
+				case 'oauth1': 
+					$res = $this->request( $this->url_access_token, "POST",array(
+						'oauth_verifier' => $response['oauth_verifier']
+					));
+					break;
+				
+				case 'oauth2':
+					//make request for access tokens
+					$res = $this->request( $this->url_access_token, "POST", array(
+						'grant_type' => 'authorization_code',
+						'client_id' => $this->client_id,
+						'client_secret' => $this->client_secret,
+						'code' => $response['code'],
+						'redirect_uri' => $this->redirect_uri
+					) );
+					break;
+			}
 			
 			//parse response and set tokens in db
 			$tokens = (array) $this->parse_response($res);
-			$set_params = $this->set_params($tokens);
+			$this->set_params($tokens);
 			return $tokens;
 		}
 		
@@ -361,10 +381,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 				
 				//oauth1
 				case 'oauth1':
-					
-					$vars = array_merge(array(
-						'oauth_consumer_key' => $this->consumer_key,
-						'oauth_token' => $params['oauth_token']
+					$params = array_merge(array(
+						'oauth_consumer_key' => $this->oauth_consumer_key,
+						'oauth_token' => $params['oauth_request_token']
 					), $params);
 					//$url = $this->
 					
@@ -499,19 +518,23 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$this->set_params(array(
 				'oauth_token' => null,
 				'oauth_token_secret' => null,
+				'oauth_request_token' => null,
+				'oauth_request_token_secret' => null,
 				'token' => null
 			));
 			
 			//make request
 			$res = $this->request($this->url_request_token, $method);
 			$ret = $this->parse_response($res);
+			$params = array(
+				'oauth_request_token' => $ret['oauth_token'],
+				'oauth_request_token_secret' => $ret['oauth_token_secret']
+			);
 			
 			//store tokens and return
-			$this->set_params(array(
-				'oauth_token' => $ret['oauth_token'],
-				'oauth_token_secret' => $ret['oauth_token_secret']
-			));
-			return $ret;
+			if(!$this->set_params($params))
+				$_SESSION[$this->option_name][$this->slug]['params'] = $params;
+			return $params;
 		}
 
 		/**
@@ -590,13 +613,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//make request
 			switch ($method) {
 				case 'POST':
-					$response = wp_remote_post($url, array('body'=>$parameters));
+					$response = wp_remote_post($url, array('body'=>$parameters,'headers'=>$this->headers));
 					break;
 				default:
 					
 					if(count($parameters))
 						$url .= "?" . http_build_query($parameters);
-					$response = wp_remote_get($url);
+					$response = wp_remote_get($url, array('headers' => $this->headers));
 					break;
 			}//end request
 			
@@ -681,6 +704,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function set_params(array $params) {
 			
 			global $wpdb;
+			
+			//set fields
+			foreach($params as $key=>$val)
+				$this->$key = $val;
 			
 			//if no user logged as in sign in buttons then return
 			if(empty($this->user))
