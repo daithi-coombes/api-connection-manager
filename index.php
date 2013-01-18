@@ -29,6 +29,26 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
  * end WP Core dependencies 
  */
 
+/**
+ * Vendor dependencies 
+ */
+include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
+Logger::configure(dirname(__FILE__).'/log4net-config.xml');
+
+/* Log the details of every wordpress hook at the TRACE level */
+add_action( 'all', 'log_action' );
+function log_action() {
+	$logger = Logger::getLogger(current_filter());
+	if ($logger->getName() == 'query') {
+		$logger->debug(func_get_args());
+	} else {
+		$logger->trace(func_get_args());
+	}
+	
+}
+/**
+ * end Vendor dependencies 
+ */
 
 /**
  * Dev dependencies 
@@ -38,7 +58,6 @@ require_once( "debug.func.php" );
  * end Dev dependencies 
  */
 
-
 /**
  * Api Connection Manager.
  * 
@@ -46,7 +65,6 @@ require_once( "debug.func.php" );
  * settings pages are loaded.
  */
 require_once( $PLUGIN_DIR . "/class-api-connection-manager.php");
-require_once( $PLUGIN_DIR . "/class-api-con-mngr-log.php");
 global $API_Connection_Manager;
 $API_Connection_Manager = new API_Connection_Manager();
 require_once( $PLUGIN_DIR . "/includes/OAuth.php");
