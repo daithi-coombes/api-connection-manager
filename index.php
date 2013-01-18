@@ -33,16 +33,16 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
  * Vendor dependencies 
  */
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
-Logger::configure(dirname(__FILE__).'/log4net-config.xml');
+@Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 
 /* Log the details of every wordpress hook at the TRACE level */
 add_action( 'all', 'log_action' );
 function log_action() {
-	$logger = Logger::getLogger(current_filter());
-	if ($logger->getName() == 'query') {
-		$logger->debug(func_get_args());
+	$logger = @Logger::getLogger(current_filter());
+	if (@$logger->getName() == 'query') {
+		@$logger->debug(func_get_args());
 	} else {
-		$logger->trace(func_get_args());
+		@$logger->trace(func_get_args());
 	}
 	
 }

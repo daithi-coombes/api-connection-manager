@@ -274,13 +274,21 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//make sure we have user id
 			$this->user = API_Connection_Manager::_get_current_user();
-			$this->log_api = new API_Con_Mngr_Log();
 			
+			/**
+			 * Logging. Uncomment the below line 
+			 */
+			$this->log_api = Logger::getLogger(__CLASS__."::API Module {$this->slug}");
+			//end logging
+			
+			//test logging
+			if(!file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
+				$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
+		
 			/**
 			 * bootstrap fields, params and options
 			 */
-			$this->slug = $this->get_slug();
-			$this->log_api = Logger::getLogger(__CLASS__."::API Module {$this->slug}");
+			$this->slug = $this->get_slug();			
 			//load user specific db params (access_tokens etc)
 			$this->get_params();
 			//load stored options
@@ -622,7 +630,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return None
 		 */
 		public function log( $msg ){
-			$this->log_api->info($msg);
+			if(!is_wp_error($this->log_api));
+				$this->log_api->info($msg);
 		}
 		
 		/**
@@ -681,7 +690,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return array Returns the response array in the WP_HTTP format. 
 		 */
 		public function request($url, $method='GET', $parameters = array(), $die=true) {
-
+			
+			$this->log("{$url} {$method}");
+			
 			//vars
 			$method = strtoupper($method);
 			$errs=false;

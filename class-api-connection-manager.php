@@ -95,12 +95,17 @@ class API_Connection_Manager{
 		require_once( "class-api-con-mngr-module.php" ); //module, header and param classes
 		// end dependencies
 		
+		/**
+		 * Logging. Uncomment the below line to log 
+		 */
+		$this->log_api = @Logger::getLogger(__CLASS__);
+		//end logging
+		
 		//get current user first
 		$this->user = $this->_get_current_user();
 		
 		//default params
 		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
-		$this->log_api = @Logger::getLogger(__CLASS__);
 		$this->redirect_uri = admin_url('admin-ajax.php') . "?" . http_build_query(array(
 			'action' => 'api_con_mngr'
 		));
@@ -108,7 +113,7 @@ class API_Connection_Manager{
 		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
 				
 		//test logging
-		if(!file_exists("wp-content/uploads/api-con-mngr.lastrequest.html"))
+		if(!file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
 			$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
 		
 		//make sure options array is set
@@ -422,14 +427,7 @@ class API_Connection_Manager{
 	 * @return none
 	 */
 	public function log($msg){
-		
-		//if no log4php
-		if(is_wp_error($this->log_api)){
-			//register dashboard error message
-		}
-		
-		//else log message
-		else
+		if(!is_wp_error($this->log_api))
 			$this->log_api->info($msg);
 	}
 	
