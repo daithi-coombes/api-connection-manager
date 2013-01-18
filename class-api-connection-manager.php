@@ -58,6 +58,7 @@
  * or for a value set somewhere else have:
  *  - <!--[--app-grant-vars=>some_child_key--]-->
  * @todo activation/deactivation of services
+ * @global array $_SESSION['API_Con_Mngr_Module']
  * @package api-connection-manager
  * @author daithi
  */

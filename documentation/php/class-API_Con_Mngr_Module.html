@@ -154,8 +154,9 @@ class file as one of the following:</p>
 Methods:</p>
 
 <ul>
-	<li>::__construct() //this must call parent::__construct() - ::check_error
-	//check the service responses for error</li>
+	<li>::__construct() //this must call parent::__construct()</li>
+
+	<li>::check_error //check the service responses for error</li>
 
 	<li>::do_login() //use this to process request tokens</li>
 </ul>
@@ -170,14 +171,46 @@ Methods:</p>
 
 <h1>Oauth2</h1>
 
-<p>The following must be declared by your child class Methods: - ::__constrcut()
-//must construct parent class - ::check_error() //check the server responses for
-errors - ::get_authorize_url //only the client_id and redirect_url are required
-by the spec, you may need to add additional params here</p>
+<p>The following must be declared by your child class Methods:</p>
+
+<ul>
+	<li>::__constrcut() //must construct parent class</li>
+
+	<li>::check_error() //check the server responses for errors</li>
+
+	<li>::get_authorize_url //only the client_id and redirect_url are</li>
+</ul>
+
+<p>required by the spec, you may need to add additional params here</p>
 
 <h1>Service (provider's custom api)</h1>
 
 <p>No service documentation yet</p>
+
+<h1>Global</h1>
+
+<p>(array) $_SESSION['API_Con_Mngr_Module'] This is the main global for service
+nonce's, access tokens and the current slug. It gets reset in the
+API_Connection_Manager::_response_listener after the bootstrap.</p>
+
+<p>It is in the format:</p>
+
+<pre>
+<span class="php-var">$_SESSION</span>[<span
+class="php-quote">'API_Con_Mngr_Module'</span>] = <span
+class="php-keyword1">array</span>(
+        <span
+class="php-quote">'slug'</span> =&gt; (string) <span
+class="php-quote">&quot;The current module slug&quot;</span>
+        <span
+class="php-quote">'file'</span> =&gt; (string) <span
+class="php-quote">&quot;The full location of the file for the callback&quot;</span>
+        <span
+class="php-quote">'callback'</span> =&gt; (<span
+class="php-keyword1">array</span>:serlized|string) <span
+class="php-quote">&quot;The function name, or array of class name/method to the callback&quot;</span>
+);
+</pre>
 
 	</div>
 
@@ -214,7 +247,7 @@ by the spec, you may need to add additional params here</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#186" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#209" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			
@@ -247,7 +280,7 @@ by the spec, you may need to add additional params here</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_check_error">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#221" title="Go to source code">check_error</a>( <span>array <var>$response</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#244" title="Go to source code">check_error</a>( <span>array <var>$response</var></span> )</code>
 
 		<div class="description short">
 			
@@ -283,6 +316,45 @@ false for no error.</p>
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="verify_token" id="_verify_token">
+
+		<td class="attributes"><code>
+			abstract public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_verify_token">#</a>
+		<code><a href="source-class-API_Con_Mngr_Module.html#257" title="Go to source code">verify_token</a>( )</code>
+
+		<div class="description short">
+			
+<p>Make a request to verify a token. If no token then return false, if service
+provides no call to test token then make request for profile etc as a test.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Make a request to verify a token. If no token then return false, if service
+provides no call to test token then make request for profile etc as a test.</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="do_callback" id="_do_callback">
 
 		<td class="attributes"><code>
@@ -294,7 +366,7 @@ false for no error.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_do_callback">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#234" title="Go to source code">do_callback</a>( <span>array <var>$callback</var></span>, <span>stdClass <var>$dto</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#265" title="Go to source code">do_callback</a>( <span>array <var>$callback</var></span>, <span>stdClass <var>$dto</var></span> )</code>
 
 		<div class="description short">
 			
@@ -343,7 +415,7 @@ set.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_oauth_sign_request">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#266" title="Go to source code">oauth_sign_request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#300" title="Go to source code">oauth_sign_request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$params</var> = <span class="php-keyword1">array</span>()</span> )</code>
 
 		<div class="description short">
 			
@@ -396,7 +468,7 @@ OAuthSignatureMethod_HMAC_SHA1</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_do_login">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#287" title="Go to source code">do_login</a>( <span>stdClass <var>$dto</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#321" title="Go to source code">do_login</a>( <span>stdClass <var>$dto</var></span> )</code>
 
 		<div class="description short">
 			
@@ -440,7 +512,7 @@ API_Connection_Manager::_service_parse_dto()</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_error">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#302" title="Go to source code">error</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#336" title="Go to source code">error</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			
@@ -484,7 +556,7 @@ API_Connection_Manager::_service_parse_dto()</dd>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_access_token">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#314" title="Go to source code">get_access_token</a>( <span>array <var>$response</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#348" title="Go to source code">get_access_token</a>( <span>array <var>$response</var></span> )</code>
 
 		<div class="description short">
 			
@@ -528,7 +600,7 @@ results using $this-&gt;set_params()</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_authorize_url">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#337" title="Go to source code">get_authorize_url</a>( <span>array <var>$params</var> = <span class="php-keyword1">array</span>() </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#385" title="Go to source code">get_authorize_url</a>( <span>array <var>$params</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			
@@ -573,7 +645,7 @@ Only client_id and response_type are required by oauth2 spec.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_login_button">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#379" title="Go to source code">get_login_button</a>( <span>string <var>$file</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$callback</var> = <span class="php-quote">''</span> </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#426" title="Go to source code">get_login_button</a>( <span>string <var>$file</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$callback</var> = <span class="php-quote">''</span></span>, <span>boolean <var>$die</var> = <span class="php-keyword1">true</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -596,6 +668,8 @@ the callback params and the link will be returned.</p>
 					<dd><code>string</code><br> Optional. Full path to callback file.</dd>
 					<dt><var>$callback</var></dt>
 					<dd><code>mixed</code><br> Optional. Callback func name or array of class, method names.</dd>
+					<dt><var>$die</var></dt>
+					<dd><code>boolean</code><br> Default true. If true and sign on button required will die(button_html);</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
@@ -613,24 +687,34 @@ the callback params and the link will be returned.</p>
 
 		<td class="attributes"><code>
 			 public 
-			
+			array
 			
 			</code>
 		</td>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_options">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#416" title="Go to source code">get_options</a>( )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#471" title="Go to source code">get_options</a>( )</code>
 
 		<div class="description short">
 			
+<p>Returns module options such as client_id, scope etc. Sets the fields with
+their relevant option values.</p>
+
 		</div>
 
 		<div class="description detailed hidden">
 			
+<p>Returns module options such as client_id, scope etc. Sets the fields with
+their relevant option values.</p>
 
 
 
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br />
+				</div>
 
 
 
@@ -649,7 +733,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_params">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#445" title="Go to source code">get_params</a>( )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#505" title="Go to source code">get_params</a>( )</code>
 
 		<div class="description short">
 			
@@ -686,7 +770,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_request_token">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#465" title="Go to source code">get_request_token</a>( <span>string <var>$method</var> = <span class="php-quote">'GET'</span> </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#525" title="Go to source code">get_request_token</a>( <span>string <var>$method</var> = <span class="php-quote">'GET'</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -728,7 +812,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_log">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#493" title="Go to source code">log</a>( <span>string <var>$msg</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#558" title="Go to source code">log</a>( <span>string <var>$msg</var></span> )</code>
 
 		<div class="description short">
 			
@@ -774,7 +858,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_parse_response">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#520" title="Go to source code">parse_response</a>( <span>array <var>$response</var> = <span class="php-keyword1">array</span>() </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#585" title="Go to source code">parse_response</a>( <span>array <var>$response</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			
@@ -816,7 +900,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_request">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#549" title="Go to source code">request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$parameters</var> = <span class="php-keyword1">array</span>()</span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#614" title="Go to source code">request</a>( <span>string <var>$url</var></span>, <span>string <var>$method</var> = <span class="php-quote">'GET'</span></span>, <span>array <var>$parameters</var> = <span class="php-keyword1">array</span>()</span>, <span>boolean <var>$die</var> = <span class="php-keyword1">true</span></span> )</code>
 
 		<div class="description short">
 			
@@ -838,6 +922,8 @@ the callback params and the link will be returned.</p>
 					<dd><code>string</code><br> Default GET. The http method to user.</dd>
 					<dt><var>$parameters</var></dt>
 					<dd><code>array</code><br> Optional. An array of parameters in key value pairs</dd>
+					<dt><var>$die</var></dt>
+					<dd><code>boolean</code><br> Default true. Whether to die with a login button if an error occurs</dd>
 				</dl></div>
 
 				<h4>Returns</h4>
@@ -862,7 +948,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_details">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#604" title="Go to source code">set_details</a>( <span>array <var>$data</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#674" title="Go to source code">set_details</a>( <span>array <var>$data</var></span> )</code>
 
 		<div class="description short">
 			
@@ -902,7 +988,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_options">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#619" title="Go to source code">set_options</a>( <span>array <var>$options</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#689" title="Go to source code">set_options</a>( <span>array <var>$options</var></span> )</code>
 
 		<div class="description short">
 			
@@ -936,7 +1022,7 @@ the callback params and the link will be returned.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_params">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#644" title="Go to source code">set_params</a>( <span>array <var>$params</var></span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#714" title="Go to source code">set_params</a>( <span>array <var>$params</var></span> )</code>
 
 		<div class="description short">
 			
@@ -980,7 +1066,7 @@ db.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_wp_login">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#692" title="Go to source code">wp_login</a>( <span>string <var>$email</var></span>, <span>string <var>$redirect</var> = <span class="php-quote">''</span> </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#766" title="Go to source code">wp_login</a>( <span>string <var>$email</var></span>, <span>string <var>$redirect</var> = <span class="php-quote">''</span> </span> )</code>
 
 		<div class="description short">
 			
@@ -1022,7 +1108,7 @@ will redirect to $redirect on fail will die() with error message.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_construct_options">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#717" title="Go to source code">construct_options</a>( <span>array <var>$options</var> = <span class="php-keyword1">array</span>() </span> )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#791" title="Go to source code">construct_options</a>( <span>array <var>$options</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			
@@ -1072,7 +1158,7 @@ drop down</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_slug">#</a>
-		<code><a href="source-class-API_Con_Mngr_Module.html#765" title="Go to source code">get_slug</a>( )</code>
+		<code><a href="source-class-API_Con_Mngr_Module.html#839" title="Go to source code">get_slug</a>( )</code>
 
 		<div class="description short">
 			
@@ -1120,7 +1206,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#70" title="Go to source code"><var>$access_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#84" title="Go to source code"><var>$access_token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1148,7 +1234,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#73" title="Go to source code"><var>$access_type</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#87" title="Go to source code"><var>$access_type</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1176,7 +1262,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#76" title="Go to source code"><var>$callback_url</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#90" title="Go to source code"><var>$callback_url</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1204,7 +1290,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#79" title="Go to source code"><var>$client_id</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#93" title="Go to source code"><var>$client_id</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1232,7 +1318,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#82" title="Go to source code"><var>$client_secret</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#96" title="Go to source code"><var>$client_secret</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1260,7 +1346,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#85" title="Go to source code"><var>$connecttimeout</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#99" title="Go to source code"><var>$connecttimeout</var></a>
 		</td>
 		<td class="value"><code><span class="php-num">30</span></code></td>
 		<td class="description"><div>
@@ -1288,7 +1374,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#88" title="Go to source code"><var>$consumer</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#102" title="Go to source code"><var>$consumer</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1316,7 +1402,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#91" title="Go to source code"><var>$Description</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#105" title="Go to source code"><var>$Description</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1344,7 +1430,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#94" title="Go to source code"><var>$login_uri</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#108" title="Go to source code"><var>$login_uri</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1372,7 +1458,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#97" title="Go to source code"><var>$Name</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#111" title="Go to source code"><var>$Name</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1400,7 +1486,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#100" title="Go to source code"><var>$oauth_consumer_key</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#114" title="Go to source code"><var>$oauth_consumer_key</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1428,7 +1514,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#103" title="Go to source code"><var>$oauth_consumer_secret</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#117" title="Go to source code"><var>$oauth_consumer_secret</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1456,7 +1542,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#106" title="Go to source code"><var>$oauth_nonce</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#120" title="Go to source code"><var>$oauth_nonce</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1476,6 +1562,62 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 			</div>
 		</div></td>
 	</tr>
+	<tr data-order="oauth_request_token" id="$oauth_request_token">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#123" title="Go to source code"><var>$oauth_request_token</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$oauth_request_token" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Oauth1 request token</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Oauth1 request token</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="oauth_request_token_secret" id="$oauth_request_token_secret">
+
+		<td class="attributes"><code>
+			public 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#126" title="Go to source code"><var>$oauth_request_token_secret</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$oauth_request_token_secret" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Oauth1 request token secret</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Oauth1 request token secret</p>
+
+
+			</div>
+		</div></td>
+	</tr>
 	<tr data-order="oauth_token" id="$oauth_token">
 
 		<td class="attributes"><code>
@@ -1484,7 +1626,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#109" title="Go to source code"><var>$oauth_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#129" title="Go to source code"><var>$oauth_token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1512,7 +1654,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#112" title="Go to source code"><var>$oauth_token_secret</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#132" title="Go to source code"><var>$oauth_token_secret</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1540,7 +1682,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#119" title="Go to source code"><var>$options</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#139" title="Go to source code"><var>$options</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
 		<td class="description"><div>
@@ -1564,7 +1706,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#121" title="Go to source code"><var>$params</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#141" title="Go to source code"><var>$params</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
 		<td class="description"><div>
@@ -1592,7 +1734,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#124" title="Go to source code"><var>$protocol</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#144" title="Go to source code"><var>$protocol</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1620,7 +1762,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#127" title="Go to source code"><var>$redirect_uri</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#147" title="Go to source code"><var>$redirect_uri</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1648,7 +1790,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#130" title="Go to source code"><var>$scope</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#150" title="Go to source code"><var>$scope</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1676,7 +1818,7 @@ code for stripping the file path is taken directly from plugin_basename()</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#133" title="Go to source code"><var>$sessions</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#153" title="Go to source code"><var>$sessions</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">false</span></code></td>
 		<td class="description"><div>
@@ -1706,7 +1848,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#138" title="Go to source code"><var>$sha1_method</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#158" title="Go to source code"><var>$sha1_method</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1738,7 +1880,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#141" title="Go to source code"><var>$slug</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#161" title="Go to source code"><var>$slug</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1766,7 +1908,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#144" title="Go to source code"><var>$ssl_verifypeer</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#164" title="Go to source code"><var>$ssl_verifypeer</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">FALSE</span></code></td>
 		<td class="description"><div>
@@ -1794,7 +1936,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#147" title="Go to source code"><var>$timeout</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#167" title="Go to source code"><var>$timeout</var></a>
 		</td>
 		<td class="value"><code><span class="php-num">30</span></code></td>
 		<td class="description"><div>
@@ -1822,7 +1964,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#150" title="Go to source code"><var>$token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#170" title="Go to source code"><var>$token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1850,7 +1992,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#153" title="Go to source code"><var>$url_authorize</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#173" title="Go to source code"><var>$url_authorize</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1878,7 +2020,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#156" title="Go to source code"><var>$url_access_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#176" title="Go to source code"><var>$url_access_token</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1906,7 +2048,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#159" title="Go to source code"><var>$url_request_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#179" title="Go to source code"><var>$url_request_token</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
 		<td class="description"><div>
@@ -1934,7 +2076,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#162" title="Go to source code"><var>$url_verify_token</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#182" title="Go to source code"><var>$url_verify_token</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -1962,7 +2104,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#165" title="Go to source code"><var>$use_nonce</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#185" title="Go to source code"><var>$use_nonce</var></a>
 		</td>
 		<td class="value"><code><span class="php-keyword1">true</span></code></td>
 		<td class="description"><div>
@@ -1990,7 +2132,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#168" title="Go to source code"><var>$useragent</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#188" title="Go to source code"><var>$useragent</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;TwitterOAuth v0.2.0-beta2&quot;</span></code></td>
 		<td class="description"><div>
@@ -2010,6 +2152,68 @@ will be disabled on servers without sessions enabled. Default false</p>
 			</div>
 		</div></td>
 	</tr>
+	<tr data-order="user" id="$user">
+
+		<td class="attributes"><code>
+			public 
+			WP_User
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#191" title="Go to source code"><var>$user</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$user" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The current user. Makes static call to the api core method to build user from
+cookies &amp; wp authentication</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The current user. Makes static call to the api core method to build user from
+cookies &amp; wp authentication</p>
+
+
+					<h4>Uses</h4>
+					<div class="list">
+							<code><code><a href="class-API_Connection_Manager.html#_">API_Connection_Manager::_get_current_user()</a></code></code> <br />
+					</div>
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="headers" id="$headers">
+
+		<td class="attributes"><code>
+			protected 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_Module.html#197" title="Go to source code"><var>$headers</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$headers" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>An array of additional headers</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>An array of additional headers</p>
+
+
+			</div>
+		</div></td>
+	</tr>
 	<tr data-order="api" id="$api">
 
 		<td class="attributes"><code>
@@ -2018,7 +2222,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#171" title="Go to source code"><var>$api</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#200" title="Go to source code"><var>$api</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -2046,7 +2250,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#174" title="Go to source code"><var>$log_api</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#203" title="Go to source code"><var>$log_api</var></a>
 		</td>
 		<td class="value"><code></code></td>
 		<td class="description"><div>
@@ -2074,7 +2278,7 @@ will be disabled on servers without sessions enabled. Default false</p>
 		</code></td>
 
 		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#177" title="Go to source code"><var>$option_name</var></a>
+				<a href="source-class-API_Con_Mngr_Module.html#206" title="Go to source code"><var>$option_name</var></a>
 		</td>
 		<td class="value"><code><span class="php-quote">&quot;API_Con_Mngr_Module&quot;</span></code></td>
 		<td class="description"><div>
@@ -2091,40 +2295,6 @@ will be disabled on servers without sessions enabled. Default false</p>
 <p>The prefix for the user meta keys</p>
 
 
-			</div>
-		</div></td>
-	</tr>
-	<tr data-order="user" id="$user">
-
-		<td class="attributes"><code>
-			public 
-			WP_User
-		</code></td>
-
-		<td class="name">
-				<a href="source-class-API_Con_Mngr_Module.html#180" title="Go to source code"><var>$user</var></a>
-		</td>
-		<td class="value"><code><span class="php-quote">''</span></code></td>
-		<td class="description"><div>
-			<a href="#$user" class="anchor">#</a>
-
-			<div class="description short">
-				
-<p>The current user. Makes static call to the api core method to build user from
-cookies &amp; wp authentication</p>
-
-			</div>
-
-			<div class="description detailed hidden">
-				
-<p>The current user. Makes static call to the api core method to build user from
-cookies &amp; wp authentication</p>
-
-
-					<h4>Uses</h4>
-					<div class="list">
-							<code><code><a href="class-API_Connection_Manager.html#_">API_Connection_Manager::_get_current_user()</a></code></code> <br />
-					</div>
 			</div>
 		</div></td>
 	</tr>

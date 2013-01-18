@@ -43,7 +43,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* As well as providing methods declared abstract the following is required:
 	* Methods:
 	*	- ::__construct() //this must call parent::__construct()
-	 *  - ::check_error //check the service responses for error
+	*	- ::check_error //check the service responses for error
 	*	- ::do_login() //use this to process request tokens
 	* Fields:
 	*	- ::consumer_key //required by the oauth1 spec
@@ -53,15 +53,37 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* ======
 	* The following must be declared by your child class
 	* Methods:
-	*  - ::__constrcut() //must construct parent class
-	*  - ::check_error() //check the server responses for errors
-	*  - ::get_authorize_url //only the client_id and redirect_url are
+	*	- ::__constrcut() //must construct parent class
+	*	- ::check_error() //check the server responses for errors
+	*	- ::get_authorize_url //only the client_id and redirect_url are
 	* required by the spec, you may need to add additional params here
 	* 
 	* Service (provider's custom api)
 	* ===============================
 	* No service documentation yet
 	* 
+	* Global
+	* ======
+	* (array) $_SESSION['API_Con_Mngr_Module']
+	* This is the main global for service nonce's, access tokens and the current
+	* slug. It gets parse into a DTO and unset in the 
+	* API_Connection_Manager::_response_listener after the bootstrap.
+	* 
+	* It is in the format:
+	* <code>
+	* $_SESSION['API_Con_Mngr_Module'] = array(
+	*		'slug' => (string) "The current module slug"
+	*		'file' => (string) "The full location of the file for the callback"
+	*		'callback' => (array:serlized|string) "The function name, or array of class name/method to the callback"
+	* );
+	* </code>
+	* 
+	* Dto is in the format:
+	* <code>
+	* $dto = new stdClass();
+	* $dto->response = (array) "An array of $_REQUEST key=>var pairs";
+	* $dto->slug = (string) "The current slug";
+	* </code>
 	* @package api-connection-manager
 	* @author daithi
 	*/
@@ -342,9 +364,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 			switch($this->protocol){
 				
 				case 'oauth1': 
-					$res = $this->request( $this->url_access_token, "POST",array(
-						'oauth_verifier' => $response['oauth_verifier']
-					));
+					if(@$response['oauth_verifier'])
+						$params = array(
+							'oauth_verifier' => $response['oauth_verifier']
+						);
+					else $params = array();
+					$res = $this->request( $this->url_access_token, "GET", $params, FALSE);
 					break;
 				
 				case 'oauth2':
