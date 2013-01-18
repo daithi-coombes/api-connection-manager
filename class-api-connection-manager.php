@@ -365,44 +365,6 @@ class API_Connection_Manager{
 	} //end get_login_button()
 	
 	/**
-	 * Get the login out link for a servie.
-	 * 
-	 * @deprecated
-	 * @todo finish the logout params in the module index.php file
-	 * @param string $slug The service slug.
-	 * @return string 
-	 *
-	public function get_logout_button( $slug ){
-		
-		$service = $this->get_service($slug);
-		return "<em>please logout using your {$service['Name']} account";
-		
-		//vars
-		$codes = array(
-			'token' => $this->_get_token($slug)
-		);
-		$logout_uri = $this->_url_query_append($this->_get_current_url(), array(
-				'api-con-mngr-logout' => true,
-				'service' => urlencode($slug)
-			));
-		$logout_link = "<a href=\"{$logout_uri}\">LogOut</a>\n";
-		$service = $this->get_service($slug);
-		$params = $service['params'];
-		
-		/**
-		 * Print logout link 
-		 *
-		if(!@$_REQUEST['api-con-mngr-logout']){
-			if(!@$params['app-token-revoke'])
-				return "<em>please logout using your {$service['Name']} account";
-			return $logout_link;
-		}
-		
-	}
-	 * 
-	 */
-	
-	/**
 	 * Returns the details for a service.
 	 * 
 	 * Returns module details, service params and service options.
@@ -1088,7 +1050,6 @@ class API_Connection_Manager{
 	 */
 	public function _response_listener( ){
 		
-		
 		/**
 		 * BOOTSTRAP
 		 */
@@ -1588,7 +1549,7 @@ class API_Connection_Manager{
 			$res->response['state'] = $response['state'];
 		
 		//look for params in sessions
-		if(@$_SESSION['API_Con_Mngr_Module'][$res->slug]['params']){
+		if(is_array($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'])){
 			foreach($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] as $key=>$val)
 				$res->response[$key] = $val;
 			unset($_SESSION['API_Con_Mngr_Module'][$res->slug]['params']);

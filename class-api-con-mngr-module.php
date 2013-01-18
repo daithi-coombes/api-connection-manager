@@ -534,6 +534,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//store tokens and return
 			if(!$this->set_params($params))
 				$_SESSION[$this->option_name][$this->slug]['params'] = $params;
+			
 			return $params;
 		}
 
