@@ -649,6 +649,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$this->get_login_button(null, null, $die);
 			}
 			
+			//return response
 			return $response;
 		}
 
