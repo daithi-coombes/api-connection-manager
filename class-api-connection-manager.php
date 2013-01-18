@@ -99,13 +99,17 @@ class API_Connection_Manager{
 		
 		//default params
 		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
-		$this->log_api = Logger::getLogger(__CLASS__);
+		$this->log_api = @Logger::getLogger(__CLASS__);
 		$this->redirect_uri = admin_url('admin-ajax.php') . "?" . http_build_query(array(
 			'action' => 'api_con_mngr'
 		));
 		$this->services = $this->_get_installed_services();
 		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
 				
+		//test logging
+		if(!file_exists("wp-content/uploads/api-con-mngr.lastrequest.html"))
+			$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
+		
 		//make sure options array is set
 		$options = $this->_get_options();
 		if(!@$options['services'])
@@ -455,7 +459,15 @@ class API_Connection_Manager{
 	 * @return none
 	 */
 	public function log($msg){
-		$this->log_api->info($msg);
+		
+		//if no log4php
+		if(is_wp_error($this->log_api)){
+			//register dashboard error message
+		}
+		
+		//else log message
+		else
+			$this->log_api->info($msg);
 	}
 	
 	public function set_user_token( $slug, $token, $type='access', $user=null){
