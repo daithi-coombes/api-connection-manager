@@ -29,7 +29,7 @@
 		<level value="TRACE" />
 		<appender_ref ref="myFileAppender" />
 		<appender_ref ref="myHTMLFileAppender" />
-		<appender_ref ref="myLogglyAppender" />
+		<!--<appender_ref ref="myLogglyAppender" />-->
 		<!--		<appender_ref ref="myInlineAppender" />-->
 	</root>
 </configuration>
