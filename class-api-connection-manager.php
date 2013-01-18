@@ -1098,7 +1098,7 @@ class API_Connection_Manager{
 		//end get callback
 		
 		//get dto (will also set the current user)
-		$dto = $this->_service_parse_dto( $_GET, $slug );
+		$dto = $this->_service_parse_dto();
 		if(is_wp_error($dto))
 			die( $dto->get_error_message() );
 		
@@ -1290,7 +1290,7 @@ class API_Connection_Manager{
 		 */
 		$_SESSION['API_Con_Mngr_Module']['slug'] = $dto->slug;
 		if(@$dto->response['file'] && @$dto->response['callback'])
-			$_SESSION['callback'] = array(
+			$_SESSION['API_Con_Mngr_Module'][$dto->slug]['callback'] = array(
 				'file' => @$dto->response['file'],
 				'callback' => @$dto->response['callback']
 			);
@@ -1542,13 +1542,40 @@ class API_Connection_Manager{
 	 * @return stdClass|WP_error Returns an error if no service slug found.
 	 * @subpackage service-method
 	 */
-	private function _service_parse_dto( array $response, $slug ){
+	private function _service_parse_dto(){
 		
 		//if $_REQUEST remove vars
+		$response = $_GET;
 		unset($response['action']);
+		
+		/**
+		 * get module slug
+		 */
+		if(@$_GET['slug'])
+			$slug = urldecode($_GET['slug']);
+		elseif(@$_SESSION['API_Con_Mngr_Module']['slug'])
+			$slug = $_SESSION['API_Con_Mngr_Module']['slug'];
+		else 
+			die("Error: No slug found");
+		//end get module slug
+		
+		/**
+		 * get callback 
+		 */
+		if(@$_GET['callback']){
+			$callback = unserialize($_GET['callback']);
+			$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
+		}
+		elseif(@$_SESSION['API_Con_Mngr_Module'][$slug]['callback']){
+			$callback = $_SESSION['API_Con_Mngr_Module'][$slug]['callback'];
+		}
+		else
+			$callback = array();
+		//end get callback
 		
 		//vars
 		$res = new stdClass();
+		$res->callback = $callback;
 		$res->response = array();
 		$res->slug = $slug;
 		$res->user = $this->_get_current_user();
@@ -1562,11 +1589,16 @@ class API_Connection_Manager{
 			$res->response['state'] = $response['state'];
 		
 		//look for params in sessions
-		if(is_array($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'])){
+		if(@is_array($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'])){
 			foreach($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] as $key=>$val)
 				$res->response[$key] = $val;
 			unset($_SESSION['API_Con_Mngr_Module'][$res->slug]['params']);
 		}
+		
+		//unset sessions
+		//unset($_SESSION['API_Con_Mngr_Module']['slug']);
+		unset($_SESSION['callback']); //dev code - clear deprecated sessions
+		unset($_SESSION['API_Con_Mngr_Module']['callback']); //dev code - clear deprecated sessions
 		
 		//load serivice module's params
 		$params = $this->get_service($res->slug);

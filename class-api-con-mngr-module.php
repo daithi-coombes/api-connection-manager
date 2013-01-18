@@ -63,27 +63,77 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* ===============================
 	* No service documentation yet
 	* 
-	* Global
+	* Callbacks
 	* ======
-	* (array) $_SESSION['API_Con_Mngr_Module']
-	* This is the main global for service nonce's, access tokens and the current
-	* slug. It gets parse into a DTO and unset in the 
-	* API_Connection_Manager::_response_listener after the bootstrap.
-	* 
-	* It is in the format:
+	* Internally the api module class will use an stdClass param as a dto. This
+	* will be passed to your callback function. You can define a callback
+	* function or method when printing a login for a service:
 	* <code>
-	* $_SESSION['API_Con_Mngr_Module'] = array(
-	*		'slug' => (string) "The current module slug"
-	*		'file' => (string) "The full location of the file for the callback"
-	*		'callback' => (array:serlized|string) "The function name, or array of class name/method to the callback"
-	* );
+	* $module->get_login_button( __FILE__, array(&$this, 'parse_dto') );
+	* </code>
+	* for a method, or if your callback is a function then:
+	* <code>
+	* $module->get_login_button( __FILE__, array('parse_dto') );
+	* </code>
+	* The dto will also contain other information such as access tokens and
+	* response's from teh provider. The dto is in the format:
+	* <code>
+	*	res	stdClass Object
+	*	(
+	*		[callback] => Array
+	*			(
+	*				[0] => ClassName
+	*				[1] => MethodName
+	*			)
+	*		[response] => Array
+	*			(
+	*				[login] => true
+	*				[slug] => module/index.php
+	*				[file] => /path/to/callback/file.php
+	*				[callback] => a:2:{i:0;s:12:"ClassName";i:1;s:9:"MethodName";}
+	*				[oauth_request_token] => **************
+	*				[oauth_request_token_secret] => *************
+	*			)
+	*		[slug] => module/index.php
+	*		[user] => WP_User Object
+	*			(
+	*				[data] => 
+	*				[ID] => 0
+	*				[caps] => Array
+	*					(
+	*					)
+	*				[cap_key] => 
+	*				[roles] => Array
+	*					(
+	*					)
+	*				[allcaps] => Array
+	*					(
+	*					)
+	*				[filter] => 
+	*			)
+	*	)
 	* </code>
 	* 
-	* Dto is in the format:
+	* Globals
+	* =======
+	* There is one global used by the api, this is also used to build the dto
+	* above {@see API_Connection_Manager::_service_parse_dto()}
 	* <code>
-	* $dto = new stdClass();
-	* $dto->response = (array) "An array of $_REQUEST key=>var pairs";
-	* $dto->slug = (string) "The current slug";
+	* $_SESSION	Array
+	* (
+	*	[API_Con_Mngr_Module] => Array
+	*		(
+	*			[dropbox/index.php] => Array
+	*				(
+	*					[callback] => Array
+	*						(
+	*							[0] => AutoFlow_API
+	*							[1] => parse_dto
+	*						)
+	*				)
+	*			[slug] => dropbox/index.php
+	*		)
+	* )
 	* </code>
 	* @package api-connection-manager
 	* @author daithi
@@ -209,7 +259,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var API_Connection_Manager The main api class */
 		private $api;
 		
-		/** @var Logger The log class */
+		/** @var API_Con_Mngr_Log The log class */
 		private $log_api;
 		
 		/** @var string The prefix for the user meta keys */
@@ -223,7 +273,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		function __construct() {
 			
 			//make sure we have user id
-			$this->user = API_Connection_Manager::_get_current_user();		
+			$this->user = API_Connection_Manager::_get_current_user();
+			$this->log_api = new API_Con_Mngr_Log();
+			
 			/**
 			 * bootstrap fields, params and options
 			 */
