@@ -540,6 +540,17 @@ class API_Connection_Manager{
 	}
 	
 	/**
+	 * In crease the WP_HTTP request timeout from 5 (default) to 25. Callback
+	 * declared in index.php add_filter('http_request_timeout');
+	 * @param int $time
+	 * @return int 
+	 */
+	public function _get_http_request_timeout($time){
+		$time=25;
+		return $time;
+	}
+	
+	/**
 	 * Builds an array of all installed services and their params.
 	 * 
 	 * The return array is split into active and inactive services. There are a
@@ -1105,16 +1116,18 @@ class API_Connection_Manager{
 			 * Get the access_token 
 			 */
 			if(@$dto->response['oauth_token']){
-				
 				$module->oauth_token = $dto->response['oauth_token'];
-				$module->oauth_token_secret = $dto->response['oauth_request_token_secret'];
+				$module->oauth_token_secret = $dto->response['oauth_token_secret'];
 				
 				$access = $module->get_access_token( $dto->response );
 				$dto->response = $access;
+				$this->log("User:");
+				$this->log($this->user);
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
 					$module->do_callback( $dto );
-				
+				else
+					$uid = $module->get_uid();
 				//helper method module can override to add actions to login
 				//such as get request token for oauth1
 				$module->do_login( $dto );

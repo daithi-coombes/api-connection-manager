@@ -325,6 +325,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		abstract public function check_error( array $response );
 		
 		/**
+		 * Makes a request to get an accounts uid. Must return the uid of the
+		 * remote service or WP_Error if none.
+		 * @return string 
+		 */
+		abstract public function get_uid();
+		
+		/**
 		 * Make a request to verify a token. If no token then return false, if
 		 * service provides no call to test token then make request for profile
 		 * etc as a test.
@@ -366,6 +373,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$func = $callback['func'];
 				$func($dto);
 			}
+			unset($_SESSION['API_Con_Mngr_Module']['callback']);
 		}
 
 		/**
@@ -412,7 +420,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * API_Connection_Manager::_service_parse_dto()
 		 */
 		public function do_login( stdClass $dto ){
-			;
+			
+			//match uid;
 		}
 		
 		/**
@@ -438,17 +447,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			switch($this->protocol){
 				
 				case 'oauth1': 
-					/**
-					$params = array(
-						'oauth_token' => $this->oauth_request_token,
-						'oauth_consumer_key' => $this->oauth_consumer_key
-					);
-					if(@$response['oauth_verifier'])
-						$params['oauth_verifier'] = $response['oauth_verifier'];
-					$this->log($this);
-					 * 
-					 */
-					$res = $this->request( $this->url_access_token, "POST", $params, FALSE);
+					$res = $this->request( $this->url_access_token, "POST", $response, FALSE);
 					break;
 				
 				case 'oauth2':
@@ -624,8 +623,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$this->set_params(array(
 				'oauth_token' => null,
 				'oauth_token_secret' => null,
-				'oauth_request_token' => null,
-				'oauth_request_token_secret' => null,
 				'token' => null
 			));
 			
@@ -636,16 +633,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//make request
 			$res = $this->request($this->url_request_token, $method);
 			$ret = $this->parse_response($res);
-			$params = array(
-				'oauth_request_token' => $ret['oauth_token'],
-				'oauth_request_token_secret' => $ret['oauth_token_secret']
-			);
 			
 			//store tokens and return
-			//if(!$this->set_params($params))
-			$_SESSION[$this->option_name][$this->slug]['params'] = $params;
+			$_SESSION[$this->option_name][$this->slug]['params'] = $ret;
 			
-			return $params;
+			return $ret;
 		}
 
 		/**
@@ -657,6 +649,42 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function log( $msg ){
 			if(!is_wp_error($this->log_api))
 				$this->log_api->debug($msg);
+		}
+		
+		public function login( $slug, $uid ){
+			
+			//get list of users for this slug
+			$connections = get_option($this->option_name."-connections", array());
+			$data = @$connections[$slug];
+			$this->log("UID Check:");
+			$this->log($uid);
+			$this->log($connections);
+			$this->log($data);
+			if(count($data))
+				foreach($data as $user_id => $service_id)
+					
+					$this->log("Checking user {$user_id} against service {$service_id}");
+					if(@$uid==@$service_id){
+
+						//get user
+						$user = get_userdata( $user_id );
+						if(!$user || (!get_class($user)=="WP_User"))
+							continue;
+
+						//login
+						wp_set_current_user( $user->data->ID );
+						wp_set_auth_cookie( $user->data->ID );
+						do_action('wp_login', $user->data->user_login, $user);
+
+						//update module and redirect
+						/**
+						$module->user = $user;
+						$module->set_params($dto->response);
+						* 
+						*/
+						wp_redirect(admin_url());
+						exit();
+					}
 		}
 		
 		/**
@@ -757,6 +785,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(is_wp_error($errs)){
 				if($die){
 					$msg = addslashes( $errs->get_error_message() );
+					$this->log("Response Error:");
+					$this->log($errs);
 					print "
 						<script>
 							if(window.opener){
