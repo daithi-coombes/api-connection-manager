@@ -113,7 +113,7 @@ class API_Connection_Manager{
 		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
 				
 		//test logging
-		if(!file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
+		if(!@file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
 			$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
 		
 		//make sure options array is set
@@ -520,21 +520,6 @@ class API_Connection_Manager{
 		$this->last_error = $msg;
 		return new WP_Error('API Connection Manager', $msg);
 	}
-	
-	/**
-	 * Get the current url including scheme, host and query args
-	 * 
-	 * @deprecated
-	 * @return string
-	 *
-	private function _get_current_url(){
-		$http = 'http';
-		if($_SERVER["HTTPS"] == "on")
-			$http .= "s";
-		return $http."://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
-	}
-	 * 
-	 */
 	
 	/**
 	 * Get current user.
@@ -1214,56 +1199,6 @@ class API_Connection_Manager{
 		return "{$url['scheme']}://{$url['host']}{$url['path']}"
 			. "?" . http_build_query($query_vars);
 	}
-
-	
-	/**
-	 * Calls a callback, if one is set.
-	 * 
-	 * Checks the state variable in a dto against callbacks stored to get the
-	 * file and function|class to call. The dto is passed to the callback.
-	 *
-	 * @deprecated {@see API_Con_Mngr_Module::do_callback()}
-	 * @see API_Connection_Manager::_service_parse_dto()
-	 * @param string $unique The state variable to test agains
-	 * @param stdClass $dto The dto response
-	 * @return void
-	 * @subpackage service-method
-	 *
-	private function _service_do_callback( $unique, $dto ){
-		
-		//get callbacks
-		$callbacks = $this->_get_options_transient("-callbacks");
-		
-		//loop through them
-		foreach($callbacks as $data){
-			$unique = stripslashes( urldecode($unique));
-			$nonce = stripslashes( urldecode($data['nonce']));
-
-			//if this matches state
-			if($nonce==$unique){
-
-				//load file
-				if(!file_exists($data['file'])) continue;
-				require_once( $data['file'] );
-
-				//call a method
-				if(is_array($data['func'])){
-					$class = $data['func'][0];
-					$method = $data['func'][1];
-					$obj = new $class();
-					$obj->$method($dto);
-					break;
-				}
-
-				//call a function
-				$callback = $data['func'];
-				$callback($dto);
-				break;
-			}
-		}
-	}
-	 * 
-	 */
 	
 	/**
 	 * Authorize login method.
