@@ -281,10 +281,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$this->log_api = Logger::getLogger(__CLASS__."::API Module {$this->slug}");
 			//end logging
 			
-			//test logging
-			if(!file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
-				$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
-		
 			/**
 			 * bootstrap fields, params and options
 			 */
@@ -304,7 +300,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//if oauth1
 			if($this->protocol=='oauth1'){
 				$this->consumer = new OAuthConsumer($this->oauth_consumer_key, $this->oauth_consumer_secret, $this->callback_url);
-				$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
+				if($this->sha1_method)
+					$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
+				else $this->sha1_method = new OAuthSignatureMethod_PLAINTEXT();
 			}
 
 		}
@@ -341,10 +339,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @see API_Connection_Manager::_response_listener()
 		 * @param stdClass $dto The response dto.
 		 */
-		public function do_callback( array $callback, stdClass $dto ) {
+		public function do_callback( stdClass $dto ) {
 			
-			if(!count($callback))
+			if(!$dto->callback)
 				return;
+			$callback = $dto->callback;
 			
 			//load file parse callback
 			require_once( $callback['file'] );
@@ -371,6 +370,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * Uses the field $this->sha1_method to sign the request which must be
 		 * type OAuthSignatureMethod_HMAC_SHA1
 		 *
+		 * Sets the session nonce.
+		 * 
 		 * @uses API_Con_Mngr_Module::sha1_method OAuthSignatureMethod_HMAC_SHA1
 		 * @param string $url The end point url.
 		 * @param string $method Default GET. The http method
@@ -379,10 +380,19 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function oauth_sign_request( $url, $method='GET', $params=array()){
 			
-			$token = new OAuthConsumer($this->oauth_token, $this->oauth_token_secret);
+			//@$this->log("Current nonce: {$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']}");
+			$token = new OAuthConsumer($this->oauth_token, $this->oauth_token_secret, $this->callback_url);
+			if(@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']){
+				$params['oauth_nonce'] = $_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'];
+			}
 			
 			$request = OAuthRequest::from_consumer_and_token($this->consumer, $token, $method, $url, $params);
 			$request->sign_request($this->sha1_method, $this->consumer, $token);
+			if(!@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']){
+				$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] = $request->get_parameter('oauth_nonce');
+			}
+			//@$this->log("New Nonce: " . $_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] );
+			//$this->log($request);
 			return $request;
 		}
 		
@@ -424,12 +434,17 @@ if (!class_exists("API_Con_Mngr_Module")):
 			switch($this->protocol){
 				
 				case 'oauth1': 
+					/**
+					$params = array(
+						'oauth_token' => $this->oauth_request_token,
+						'oauth_consumer_key' => $this->oauth_consumer_key
+					);
 					if(@$response['oauth_verifier'])
-						$params = array(
-							'oauth_verifier' => $response['oauth_verifier']
-						);
-					else $params = array();
-					$res = $this->request( $this->url_access_token, "GET", $params, FALSE);
+						$params['oauth_verifier'] = $response['oauth_verifier'];
+					$this->log($this);
+					 * 
+					 */
+					$res = $this->request( $this->url_access_token, "POST", $params, FALSE);
 					break;
 				
 				case 'oauth2':
@@ -456,6 +471,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * Override this method and provide any optional params your service
 		 * requires. Only client_id and response_type are required by oauth2
 		 * spec.
+		 * 
+		 * Clears the session nonce
 		 * 
 		 * @param array $tokens The request tokens
 		 * @return string 
@@ -608,6 +625,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 				'token' => null
 			));
 			
+			//unset nonce
+			unset($_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']);
+			$_SESSION['API_Con_Mngr_Module']['slug'] = $this->slug;
+			
 			//make request
 			$res = $this->request($this->url_request_token, $method);
 			$ret = $this->parse_response($res);
@@ -617,8 +638,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 			);
 			
 			//store tokens and return
-			if(!$this->set_params($params))
-				$_SESSION[$this->option_name][$this->slug]['params'] = $params;
+			//if(!$this->set_params($params))
+			$_SESSION[$this->option_name][$this->slug]['params'] = $params;
 			
 			return $params;
 		}
@@ -630,8 +651,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return None
 		 */
 		public function log( $msg ){
-			if(!is_wp_error($this->log_api));
-				$this->log_api->info($msg);
+				$this->log_api->debug($msg);
 		}
 		
 		/**
@@ -642,11 +662,14 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @deprecated
 		 */
 		public function parse_dto(stdClass $dto) {
-
+			$this->log("parsing dto");
+			$this->log($dto);
 			//looks for fields that are in dto response
 			foreach ($dto->response as $key => $val)
 				if (isset($this->$key))
 					$this->$key = $val;
+			$this->log("end parsing dto");
+			$this->log($dto);
 		}
 
 		/**
@@ -691,7 +714,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function request($url, $method='GET', $parameters = array(), $die=true) {
 			
-			$this->log("{$url} {$method}");
+			$this->log("Request:");
+			$this->log("{$method} {$url}");
 			
 			//vars
 			$method = strtoupper($method);
@@ -700,7 +724,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//make request
 			switch ($method) {
 				case 'POST':
-					$response = wp_remote_post($url, array('body'=>$parameters,'headers'=>$this->headers));
+					$params = array('body'=>$parameters,'headers'=>$this->headers);
+					$response = wp_remote_post($url, $params);
+					$this->log('parameters:');
+					$this->log($params);
 					break;
 				default:
 					
@@ -709,6 +736,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 					$response = wp_remote_get($url, array('headers' => $this->headers));
 					break;
 			}//end request
+			
+			$this->log("Response:");
+			$this->log($response);
 			
 			//if http body
 			if(is_wp_error($response))

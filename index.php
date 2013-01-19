@@ -36,7 +36,7 @@ include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
 @Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 
 /* Log the details of every wordpress hook at the TRACE level */
-add_action( 'all', 'log_action' );
+//add_action( 'all', 'log_action' );
 function log_action() {
 	$logger = @Logger::getLogger(current_filter());
 	if (@$logger->getName() == 'query') {

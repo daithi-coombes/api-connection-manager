@@ -524,14 +524,17 @@ class API_Connection_Manager{
 	/**
 	 * Get the current url including scheme, host and query args
 	 * 
+	 * @deprecated
 	 * @return string
-	 */
+	 *
 	private function _get_current_url(){
 		$http = 'http';
 		if($_SERVER["HTTPS"] == "on")
 			$http .= "s";
 		return $http."://".$_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
 	}
+	 * 
+	 */
 	
 	/**
 	 * Get current user.
@@ -1071,32 +1074,15 @@ class API_Connection_Manager{
 			@$_GET['action']!='api_con_mngr'
 		) return;
 		
-		/**
-		 * get module slug
-		 */
-		if(@$_GET['slug'])
-			$slug = urldecode($_GET['slug']);
-		elseif(@$_SESSION['API_Con_Mngr_Module']['slug']){
-			$slug = $_SESSION['API_Con_Mngr_Module']['slug'];
-			unset($_SESSION['API_Con_Mngr_Module']['slug']);
-		}
-		else 
-			die("Error: No slug found");
-		//end get module slug
+		@$this->log("response listener: nonce {$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']}");
 		
-		/**
-		 * get callback 
-		 */
-		if(@$_SESSION['callback']){
-			$callback = $_SESSION['callback'];
-			unset($_SESSION['callback']);
-		}
-		else
-			$callback = array();
-		//end get callback
+		$this->log("session:");
+		$this->log($_SESSION);
 		
 		//get dto (will also set the current user)
 		$dto = $this->_service_parse_dto();
+		$this->log("dto");
+		$this->log($dto);
 		if(is_wp_error($dto))
 			die( $dto->get_error_message() );
 		
@@ -1135,11 +1121,14 @@ class API_Connection_Manager{
 			 */
 			if(@$dto->response['oauth_token']){
 				
+				$module->oauth_token = $dto->response['oauth_token'];
+				$module->oauth_token_secret = $dto->response['oauth_request_token_secret'];
+				
 				$access = $module->get_access_token( $dto->response );
 				$dto->response = $access;
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
-					$module->do_callback( $callback, $dto );
+					$module->do_callback( $dto );
 				
 				//helper method module can override to add actions to login
 				//such as get request token for oauth1
@@ -1233,12 +1222,13 @@ class API_Connection_Manager{
 	 * Checks the state variable in a dto against callbacks stored to get the
 	 * file and function|class to call. The dto is passed to the callback.
 	 *
+	 * @deprecated {@see API_Con_Mngr_Module::do_callback()}
 	 * @see API_Connection_Manager::_service_parse_dto()
 	 * @param string $unique The state variable to test agains
 	 * @param stdClass $dto The dto response
 	 * @return void
 	 * @subpackage service-method
-	 */
+	 *
 	private function _service_do_callback( $unique, $dto ){
 		
 		//get callbacks
@@ -1272,6 +1262,8 @@ class API_Connection_Manager{
 			}
 		}
 	}
+	 * 
+	 */
 	
 	/**
 	 * Authorize login method.
@@ -1305,10 +1297,6 @@ class API_Connection_Manager{
 				
 				//if nonce in request then set it as session var
 				$_SESSION['API_Con_Mngr_Module']['slug'] = $dto->response['slug'];
-				if(@$_REQUEST['nonce']){
-					$_SESSION['callback'] = $_SESSION['callbacks'][stripslashes($_REQUEST['nonce']) ];
-					unset($_SESSION['callbacks'][ stripslashes($_REQUEST['nonce'])]);
-				}
 
 				//redirect to url and exit
 				header("Location: {$url}");
@@ -1391,7 +1379,7 @@ class API_Connection_Manager{
 	 * @param stdClass $dto a dto object returned by $this->parse_dto()
 	 * @return string|WP_Error returns the access token or WP_Error
 	 * @subpackage service-method
-	 */
+	 *
 	private function _service_get_token( $dto ){
 
 		//get service
@@ -1404,7 +1392,7 @@ class API_Connection_Manager{
 		
 		/**
 		 * Offline refresh tokens 
-		 */
+		 *
 		if(
 			@$user_options[$dto->slug]['refresh_on'] &&
 			@$user_options[$dto->slug]['refresh'] &&
@@ -1450,7 +1438,7 @@ class API_Connection_Manager{
 		
 		/**
 		 * Grant access tokens
-		 */
+		 *
 		else{
 			//error check we have params to send
 			if(!count(@$params['token-vars']))
@@ -1525,6 +1513,8 @@ class API_Connection_Manager{
 		return $res;
 		
 	}
+	 * 
+	 */
 	
 	/**
 	 * Parses a http request and returns a stdClass dto.
@@ -1597,6 +1587,7 @@ class API_Connection_Manager{
 		//unset($_SESSION['API_Con_Mngr_Module']['slug']);
 		unset($_SESSION['callback']); //dev code - clear deprecated sessions
 		unset($_SESSION['API_Con_Mngr_Module']['callback']); //dev code - clear deprecated sessions
+		unset($_SESSION['headers']);
 		
 		//load serivice module's params
 		$params = $this->get_service($res->slug);
@@ -1648,11 +1639,13 @@ class API_Connection_Manager{
 	 * token
 	 * @deprecated
 	 * @return true|WP_Error
-	 */
+	 *
 	private function _service_validate_token($slug, $token, $refresh=false){
 		
 		return true;
 	}
+	 * 
+	 */
 	
 	/**
 	 * Sets the slug for module as a callback var
