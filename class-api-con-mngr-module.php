@@ -46,6 +46,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 	*	- ::__construct() //this must call parent::__construct()
 	*	- ::check_error //check the service responses for error
 	*	- ::do_login() //use this to process request tokens
+	*   - ::get_uid() //make request to service and return uid
 	* Fields:
 	*	- ::consumer_key //required by the oauth1 spec
 	*	- ::consumer_secret //required by the oauth1 spec
@@ -464,7 +465,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//parse response and set tokens in db
 			$tokens = (array) $this->parse_response($res);
-			$this->set_params($tokens);
+			$params = $this->set_params($tokens);
 			return $tokens;
 		}
 		
@@ -598,6 +599,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function get_params(){
 			
+			global $wpdb;
+			
 			$user_id = $this->user->ID;
 			$key = $this->option_name."-{$this->slug}";
 			$meta = get_user_meta($user_id, $key, true);
@@ -651,40 +654,60 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$this->log_api->debug($msg);
 		}
 		
-		public function login( $slug, $uid ){
+		/**
+		 * Log/ a user with this service.
+		 * 
+		 * @param string $uid The profile user id to match
+		 * @return boolean If wp user logged in, will set connect service uid
+		 * with user. If not will look for connection and login if found. If
+		 * neither then will return false
+		 */
+		public function login( $uid ){
 			
-			//get list of users for this slug
-			$connections = get_option($this->option_name."-connections", array());
-			$data = @$connections[$slug];
-			$this->log("UID Check:");
-			$this->log($uid);
-			$this->log($connections);
-			$this->log($data);
-			if(count($data))
-				foreach($data as $user_id => $service_id)
-					
-					$this->log("Checking user {$user_id} against service {$service_id}");
-					if(@$uid==@$service_id){
+			$option_name = "{$this->option_name}-connections";
+			$connections = get_option($option_name, array());
+			
+			//if logged in user
+			if($this->user->ID){
+				$this->login_connect($this->user->ID, $uid);
+				return true;
+			}
+			
+			//else look for user in connections array
+			else{
+				//get list of users for this slug
+				$data = @$connections[$this->slug];
 
-						//get user
-						$user = get_userdata( $user_id );
-						if(!$user || (!get_class($user)=="WP_User"))
-							continue;
+				if(count($data))
+					foreach($data as $user_id => $service_id)
 
-						//login
-						wp_set_current_user( $user->data->ID );
-						wp_set_auth_cookie( $user->data->ID );
-						do_action('wp_login', $user->data->user_login, $user);
+						if(@$uid==@$service_id){
 
-						//update module and redirect
-						/**
-						$module->user = $user;
-						$module->set_params($dto->response);
-						* 
-						*/
-						wp_redirect(admin_url());
-						exit();
-					}
+							//get user
+							$user = get_userdata( $user_id );
+							if(!$user || (!get_class($user)=="WP_User"))
+								continue;
+
+							//login
+							wp_set_current_user( $user->data->ID );
+							wp_set_auth_cookie( $user->data->ID );
+							do_action('wp_login', $user->data->user_login, $user);
+
+							//redirect to admin page
+							wp_redirect(admin_url());
+							exit();
+						}
+			}
+			return false;
+		}
+		
+		public function login_connect($user_id, $uid){
+			$option_name = "{$this->option_name}-connections";
+			$connections = get_option($option_name, array());
+			$this->log("New connection wordpress user {$user_id} connected with {$this->slug} {$uid}");
+
+			$connections[$this->slug][$user_id] = $uid;
+			update_option($option_name, $connections);
 		}
 		
 		/**
@@ -695,14 +718,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @deprecated
 		 */
 		public function parse_dto(stdClass $dto) {
-			$this->log("parsing dto");
-			$this->log($dto);
 			//looks for fields that are in dto response
 			foreach ($dto->response as $key => $val)
 				if (isset($this->$key))
 					$this->$key = $val;
-			$this->log("end parsing dto");
-			$this->log($dto);
 		}
 
 		/**
@@ -872,12 +891,15 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//vars
 			$option_name = $this->option_name."-{$this->slug}";
 			$meta = $this->get_params(); //get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
+			
 			foreach($params as $key=>$val)
 				$meta[$key] = $val;
 			
 			/**
 			 * manually update user_meta 
 			 */
+			update_user_meta($user_id, $option_name, $meta);
+			/**
 			if($wpdb->get_row("SELECT * FROM {$wpdb->usermeta} WHERE user_id={$user_id} AND meta_key='{$option_name}'"))
 				$wpdb->update($wpdb->usermeta, array(
 					'meta_value' => serialize($meta)
@@ -892,9 +914,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 					'meta_value' => serialize($meta)
 				), array('%d','%s','%s'));
 			//end manual update
+			 * 
+			 */
 			
+			$params = $this->get_params();
 			//return params
-			return $this->get_params();
+			return $params;
 		}	
 		
 		/**

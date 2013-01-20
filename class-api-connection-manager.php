@@ -1072,13 +1072,8 @@ class API_Connection_Manager{
 		
 		@$this->log("response listener: nonce {$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']}");
 		
-		$this->log("session:");
-		$this->log($_SESSION);
-		
 		//get dto (will also set the current user)
 		$dto = $this->_service_parse_dto();
-		$this->log("dto");
-		$this->log($dto);
 		if(is_wp_error($dto))
 			die( $dto->get_error_message() );
 		
@@ -1117,17 +1112,23 @@ class API_Connection_Manager{
 			 */
 			if(@$dto->response['oauth_token']){
 				$module->oauth_token = $dto->response['oauth_token'];
-				$module->oauth_token_secret = $dto->response['oauth_token_secret'];
-				
+				$module->oauth_token_secret = @$dto->response['oauth_token_secret'];
+				$module->oauth_token_verifier = @$dto->response['oauth_token_verifier'];
 				$access = $module->get_access_token( $dto->response );
 				$dto->response = $access;
-				$this->log("User:");
-				$this->log($this->user);
+				$module->oauth_token = $access['oauth_token'];
+				$module->oauth_token_secret = $access['oauth_token_secret'];
+				
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
 					$module->do_callback( $dto );
-				else
+				
+				//login user
+				else{
+					$this->log("Connecting user {$this->user->ID} to {$module->slug}");
 					$uid = $module->get_uid();
+					$module->login($uid);
+				}
 				//helper method module can override to add actions to login
 				//such as get request token for oauth1
 				$module->do_login( $dto );
