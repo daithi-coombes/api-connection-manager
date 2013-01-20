@@ -1153,7 +1153,7 @@ class API_Connection_Manager{
 			$dto->response = $tokens;
 			
 			//do callback
-			$module->do_callback( $callback, $dto );
+			$module->do_callback( $dto );
 		}
 		//end oauth2 service response
 		
