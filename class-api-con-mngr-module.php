@@ -284,7 +284,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//test logging
 			else
 				$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
-			ar_print($this->log_api);
 			//end logging
 			
 			/**
