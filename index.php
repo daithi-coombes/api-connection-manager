@@ -32,6 +32,7 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
 /**
  * Vendor dependencies 
  */
+//logger
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
 @Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 
