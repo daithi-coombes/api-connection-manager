@@ -98,7 +98,9 @@ class API_Connection_Manager{
 		/**
 		 * Logging. Uncomment the below line to log 
 		 */
-		$this->log_api = @Logger::getLogger(__CLASS__);
+		if(file_exists(dirname(__FILE__)."/log4net-config.xml"))
+			$this->log_api = @Logger::getLogger(__CLASS__);
+		else $this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
 		//end logging
 		
 		//get current user first
@@ -111,10 +113,6 @@ class API_Connection_Manager{
 		));
 		$this->services = $this->_get_installed_services();
 		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
-				
-		//test logging
-		if(!@file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
-			$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
 		
 		//make sure options array is set
 		$options = $this->_get_options();
