@@ -1,4 +1,4 @@
-api-connection-manager
+API Connection Manager
 ======================
 
 Manages connections and requests to 3rd party providers or services.
