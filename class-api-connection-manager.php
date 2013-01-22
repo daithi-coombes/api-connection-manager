@@ -375,11 +375,12 @@ class API_Connection_Manager{
 	} //end get_login_button()
 	
 	/**
-	 * Returns API_Con_Mngr_Module child class for the module $slug.
+	 * Returns the details for a service.
 	 * 
-	 * @see API_Con_Mngr_Module
+	 * Returns module details, service params and service options.
+	 * 
 	 * @param string $slug The service index_file
-	 * @return API_Con_Mngr_Module
+	 * @return array
 	 * @subpackage helper-methods
 	 */
 	public function get_service( $slug ){
@@ -397,6 +398,11 @@ class API_Connection_Manager{
 				$ret = $service;
 		}
 		
+		//load params on objects
+		/**
+		if(is_object($ret))
+			$ret->get_params();
+		*/
 		return $ret;
 			
 	} //end get_service()

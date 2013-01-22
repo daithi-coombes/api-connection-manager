@@ -49,7 +49,7 @@ class API_Connection_Manager_User {
 	 * Admin menu hook callback.
 	 */
 	public function dash_menu(){
-		add_menu_page("API Connection Manager User", "API Connection Manager User", "read", "api-connection-manager-user", 'api_connection_manager_user');
+		add_menu_page("API Connection Manager User", "API Connection Manager User", "manage_options", "api-connection-manager-user", 'api_connection_manager_user');
 	}
 	
 	/**
@@ -62,7 +62,7 @@ class API_Connection_Manager_User {
 		//get the main class
 		global $API_Connection_Manager;
 		$module = $API_Connection_Manager->get_service($_REQUEST['slug']);
-		$API_Connection_Manager->log("Deleting tokens");
+		
 		$module->set_params(array(
 			'access_token' => null,
 			'oauth_token' => null,
@@ -81,7 +81,6 @@ class API_Connection_Manager_User {
 	 */
 	public function list_services(){
 		
-		
 		//get the main class
 		global $API_Connection_Manager;
 		
@@ -89,7 +88,7 @@ class API_Connection_Manager_User {
 		$count=1;
 		$html = "<div id=\"dashboard-widgets\" class=\"metabox-holder columns-1\">\n";
 		$services = $API_Connection_Manager->get_services();
-		
+
 		/**
 		 * loop through services and build html form
 		 */

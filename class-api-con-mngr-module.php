@@ -804,6 +804,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(is_wp_error($errs)){
 				if($die){
 					$msg = addslashes( $errs->get_error_message() );
+					$this->log("Response Error:");
+					$this->log($errs);
 					print "
 						<script>
 							if(window.opener){
