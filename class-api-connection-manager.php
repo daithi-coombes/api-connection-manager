@@ -1347,7 +1347,7 @@ class API_Connection_Manager{
 		 * get callback 
 		 */
 		if(@$_GET['callback']){
-			$callback = unserialize(urldecode($_GET['callback']));
+			$callback = stripslashes(urldecode($_GET['callback']));
 			$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
 		}
 		elseif(@$_SESSION['API_Con_Mngr_Module'][$slug]['callback']){
