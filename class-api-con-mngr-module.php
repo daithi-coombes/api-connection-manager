@@ -284,7 +284,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//test logging
 			if(!@file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
 				$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
-
+			ar_print($this->log_api);
 			//end logging
 			
 			/**
