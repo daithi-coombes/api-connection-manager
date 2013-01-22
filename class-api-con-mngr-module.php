@@ -279,7 +279,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 			/**
 			 * Logging. Uncomment the below line 
 			 */
-			$this->log_api = @Logger::getLogger(__CLASS__."::API Module {$this->slug}");
+			if(file_exists(dirname(__FILE__)."/log4net-config.xml"))
+				$this->log_api = @Logger::getLogger(__CLASS__."::API Module {$this->slug}");
 			//test logging
 			if(!@file_exists( ABSPATH . "/wp-content/uploads/api-con-mngr.lastrequest.html"))
 				$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
