@@ -7,6 +7,8 @@
  */
 class API_Con_Mngr_View{
 
+	public $html = "";
+	
 	function __construct(){
 		
 	}
