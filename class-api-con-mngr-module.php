@@ -168,6 +168,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The uri for displaying a login link */
 		public $login_uri = "";
 
+		/** @var boolean Flag Default false. Whether to display login form or
+		 * not*/
+		public $login_form = false;
+		
 		/** @var string The name of the module */
 		public $Name = "";
 
@@ -302,7 +306,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$this->construct_options( $this->options );
 			//end bootstrap
 			
-			//if oauth1
+			//if oauth1 build oauthConsumer
 			if($this->protocol=='oauth1'){
 				$this->consumer = new OAuthConsumer($this->oauth_consumer_key, $this->oauth_consumer_secret, $this->callback_url);
 				if($this->sha1_method)

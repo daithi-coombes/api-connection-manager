@@ -770,13 +770,9 @@ class API_Connection_Manager{
 		//check var is available (& add slug)
 		if(isset($oauth1)) $oauth1->slug = $slug;
 		elseif(isset($oauth2)){
-			if(is_object($oauth2)){
 				$oauth2->slug = $slug;
-			}
-			else
-			$oauth2['slug'] = $slug;
 		}
-		elseif(isset($service)) $service['slug'] = $slug;
+		elseif(isset($service)) $service->slug = $slug;
 		else return $this->_error("No params set for service {$slug}");
 		
 		
