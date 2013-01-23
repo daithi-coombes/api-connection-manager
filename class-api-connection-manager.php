@@ -1091,8 +1091,15 @@ class API_Connection_Manager{
 		 * register callbacks
 		 * redirect to authorize url
 		 */
-		if(@$dto->response['login'])
+		if(@$dto->response['login']){
+			
+			//do we need a login form?
+			if($module->login_form)
+				die( $module->get_login_form() );
+			
+			//login authorize
 			$this->_service_login_authorize( $module, $dto );
+		}
 		//end Connecting... screen
 		
 		

@@ -561,6 +561,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 			}
 		}
 
+		public function get_login_form(){
+			
+		}
+		
 		/**
 		 * Returns module options such as client_id, scope etc.
 		 * Sets the fields with their relevant option values.
