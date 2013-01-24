@@ -218,6 +218,13 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 						$value = $module->$name :
 						$value = "";
 					
+					//default redirect_uri and callback_url
+					if($name=='redirect_uri' || $name=='callback_url')
+						if(empty($value))
+							$value = admin_url('admin-ajax.php')."?".http_build_query(array(
+								'action' => 'api_con_mngr'
+							));
+					
 					//if string
 					if($datatype=='%s')
 						$html .= "<li>
