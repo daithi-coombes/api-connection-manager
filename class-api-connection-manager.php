@@ -138,81 +138,6 @@ class API_Connection_Manager{
 	} //end construct()
 	
 	/**
-	 * Connects to a service.
-	 * 
-	 * First checks if user is logged in, if not then returns a WP_Error object
-	 * with the service login link as the error message. If service is logged in
-	 * will return the service data.
-	 * 
-	 * @see API_Connection_Manager::get_service_states
-	 * @subpackage helper-methods
-	 * @param string $slug
-	 * @param boolean $die Default true. Whether to die with login link or
-	 * return a WP_Error object if service is not connected
-	 * @return true|WP_Error
-	 */
-	public function connect($slug, $die=true){
-		
-		//vars
-		$service = $this->get_service($slug);
-		$token = $this->_get_token($slug); //"get token from user meta";
-		$link = $this->_print_login($slug, false);
-		
-		
-		/**
-		 * check token for oauth2 spec error
-		 */
-		if($this->_service_get_error($token)){
-			$msg = "<b>".$this->_service_get_error($token)."</b>\n";
-			$msg .= $link;
-			
-			if($die)
-				die($msg);
-			else return new WP_Error ('API_Connection_Manager::connect', $msg);
-		}// end oauth2 spec error check
-		
-		
-		/**
-		 * Check service for param errors 
-		 */
-		if(is_wp_error($service['params'])){
-			$errs = $service['params']->get_error_messages();
-			$msg = "<ul><li>" . implode("</li><li>",$errs[0]) . "</li></ul>";
-			if($die)
-				die($msg);
-			else
-				return new WP_Error ('API_Connection_Manager::connect', $msg);
-		}
-		
-		/**
-		 * if no token
-		 */
-		if(!$token){
-			if($die)
-				die($link);
-			else
-				return new WP_Error('API_Connection_Manager::connect', $link);
-		}// end no token check
-		
-		
-		/**
-		 * if WP_Error stored as token 
-		 */
-		if(is_wp_error($token)){
-			$msg = $token->get_error_message();
-			$msg .= "<br/>{$link}";
-			if($die)
-				die($msg);
-			else
-				return new WP_Error ('API_Connection_Manager::connect', $msg);
-		}// end WP_Error as token
-		
-		
-		//return true
-		return $service;
-	} //end connect()
-	
-	/**
 	 * Delete tokens for a service. Unless specified will delete both refresh
 	 * and access token.
 	 *
@@ -268,30 +193,6 @@ class API_Connection_Manager{
 		
 		//save user meta
 		update_user_meta($this->user->ID, $this->option_name, $options);
-	}
-	
-	/**
-	 * Return a list of connected services.
-	 * 
-	 * Returns an array of service connect states. If a service is connected
-	 * with the currently logged in user then it will return $slug=>array if
-	 * the service is not connected then it will return $slug=>WP_Error. You can
-	 * access the service login link by then calling:
-	 * $slug=>WP_Error::get_error_message()
-	 * 
-	 * @uses API_Connection_Manager::connect()
-	 * @param string $type Default 'active'. Whether to check active or inactive
-	 * services.
-	 * @return array
-	 */
-	public function get_service_states($type='active'){
-		
-		$res = array();
-		
-		foreach($this->services[$type] as $slug=>$data)
-			$res[$slug] = $this->connect($slug, false);
-		
-		return $res;
 	}
 	
 	/**
@@ -770,13 +671,9 @@ class API_Connection_Manager{
 		//check var is available (& add slug)
 		if(isset($oauth1)) $oauth1->slug = $slug;
 		elseif(isset($oauth2)){
-			if(is_object($oauth2)){
 				$oauth2->slug = $slug;
-			}
-			else
-			$oauth2['slug'] = $slug;
 		}
-		elseif(isset($service)) $service['slug'] = $slug;
+		elseif(isset($service)) $service->slug = $slug;
 		else return $this->_error("No params set for service {$slug}");
 		
 		
@@ -1095,8 +992,15 @@ class API_Connection_Manager{
 		 * register callbacks
 		 * redirect to authorize url
 		 */
-		if(@$dto->response['login'])
+		if(@$dto->response['login']){
+			
+			//do we need a login form?
+			if($module->login_form)
+				die( $module->get_login_form() );
+			
+			//login authorize
 			$this->_service_login_authorize( $module, $dto );
+		}
 		//end Connecting... screen
 		
 		
@@ -1313,157 +1217,6 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Takes a dto object returned from an oauth2 grant request and
-	 * requests a token.
-	 * 
-	 * Uses the params set in the services modules index file to request a
-	 * token.
-	 * 
-	 * Will return WP_Error on failure.
-	 *
-	 * @deprecated no need for this with API_Con_Mngr_Module
-	 * @todo allow refresh tokens
-	 * @param stdClass $dto a dto object returned by $this->parse_dto()
-	 * @return string|WP_Error returns the access token or WP_Error
-	 * @subpackage service-method
-	 *
-	private function _service_get_token( $dto ){
-
-		//get service
-		$service = $this->get_service($dto->slug);
-		if(is_object($service)) return $service;
-		
-		$options = $service['options']; //$this->_get_service_options($dto->slug);
-		$user_options = $this->_get_user_options();
-		$params = $service['params'];
-		
-		/**
-		 * Offline refresh tokens 
-		 *
-		if(
-			@$user_options[$dto->slug]['refresh_on'] &&
-			@$user_options[$dto->slug]['refresh'] &&
-			@$options[$dto->slug]['refresh']
-		){
-			
-			$uri = $params['offline-uri'];
-			$req = $params['offline-vars'];
-			
-			//build request
-			foreach($params['offline-vars'] as $key=>$code){
-				//grant defined vars
-				if(preg_match("/<\!--\[--grant-(.+)--\]-->/", $code, $matches))
-					$req[$key] = $options['grant-vars'][$matches[1]];
-				if(preg_match("/<\!--\[--refresh-token--\]-->/", $code, $matches))
-					$req[$key] = $user_options[$dto->slug]['refresh'];
-				if(preg_match("/<\!--\[--token-(.+)--\]-->/", $code, $matches))
-					$req[$key] = $options['token-vars'][$matches[1]];
-			}// end build request
-			
-			
-			//snd request
-			if(strtolower($params['offline-method'])=='post')
-				$res = wp_remote_post($uri, $req);
-			else
-				$res = wp_remote_get($uri, $req);
-			
-			//parse response
-			if("json"==strtolower(@$params['offline-datatype']))
-				$res = json_decode($res['body']);
-			else{
-				parse_str($res['body']);
-				if(isset($error))
-					return $this->_error($error);
-				$res = new stdClass();
-				$res->access_token = $access_token;
-				if(@$refresh_token)
-					$res->refresh_token = $refresh_token;
-			}
-			
-		} //end Offline refresh tokens
-		
-		
-		/**
-		 * Grant access tokens
-		 *
-		else{
-			//error check we have params to send
-			if(!count(@$params['token-vars']))
-				return $this->_error("No token parameters set in module file for {$dto->slug}");
-
-			//build up requst for token
-			(@$params['token-vars']) ? 
-				$req = $params['token-vars'] :
-				$req = array();
-			$req['code'] = $dto->response['code'];
-
-			//get vars from options
-			if(@$params['token-vars']){
-				foreach($params['token-vars'] as $key => $name)
-					if(@$options['token-vars'][$key])
-						$req[$key] = $options['token-vars'][$key];
-
-				//add params from grant vars to token (if necessary)
-				foreach($params['token-vars'] as $key=>$code)
-					//grant defined vars
-					if(preg_match("/<\!--\[--grant-(.+)--\]-->/", $code, $matches)){
-						$req[$key] = $options['grant-vars'][$matches[1]];
-					}
-			}// end get vars from options
-
-			//build request array
-			$request = array('body' => $req);
-			if(count(@$params['token-headers']))
-				$request['headers'] = $params['token-headers'];
-			//make request
-			unset($request['body']['state']);
-			if("post" == strtolower(@$params['token-method'])){
-				$res = wp_remote_post($params['token-uri'], $request);
-			}
-			elseif("get" == strtolower(@$params['token-method'])){
-				$uri = $params['token-uri'] . "?" . http_build_query($request['body']);
-				$res = wp_remote_get($uri);
-			}
-			if(is_wp_error($res))
-				return $this->_error($res->get_error_message ());
-			
-			//parse response
-			if("json"==strtolower(@$params['token-datatype']))
-				$res = json_decode($res['body']);
-			else{
-				parse_str($res['body']);
-				if(isset($error))
-					return $this->_error($error);
-				$res = new stdClass();
-				$res->access_token = $access_token;
-				if(@$refresh_token)
-					$res->refresh_token = $refresh_token;
-			}
-		} //end Grant access tokens
-		
-		//error report
-		if(@$res->error){
-			if(@$res->error->message)
-				return $this->_error( "Token Request: ". $res->error->message );
-			return $this->_error( "Token Request: " . $res->error );
-		}
-		elseif(!@$res->access_token)
-			return $this->_error("No access token returned from the service");
-
-		//if user id, store token
-		if($this->user->ID){
-			$this->_set_token($dto->slug, $res->access_token );
-			if(@$res->refresh_token)
-				$this->_set_token($dto->slug, $res->refresh_token, 'refresh');
-		}
-		
-		return $res;
-		
-	}
-	 * 
-	 */
-	
-	/**
 	 * Parses a http request and returns a stdClass dto.
 	 * 
 	 * The format of the returned DTO is:
@@ -1498,7 +1251,7 @@ class API_Connection_Manager{
 		 * get callback 
 		 */
 		if(@$_GET['callback']){
-			$callback = unserialize($_GET['callback']);
+			$callback = stripslashes(urldecode($_GET['callback']));
 			$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
 		}
 		elseif(@$_SESSION['API_Con_Mngr_Module'][$slug]['callback']){
@@ -1573,26 +1326,6 @@ class API_Connection_Manager{
 		update_user_meta($user_id, $this->option_name, $meta);
 		return $meta;
 	}
-	
-	/**
-	 * Validates a token.
-	 * 
-	 * Will check for validation parameters in module index.php file.
-	 * 
-	 * @todo this method
-	 * @param string $slug The service slug
-	 * @param string $token The token to check
-	 * @param boolean $refresh Default false. Whether its an access or refresh
-	 * token
-	 * @deprecated
-	 * @return true|WP_Error
-	 *
-	private function _service_validate_token($slug, $token, $refresh=false){
-		
-		return true;
-	}
-	 * 
-	 */
 	
 	/**
 	 * Sets the slug for module as a callback var

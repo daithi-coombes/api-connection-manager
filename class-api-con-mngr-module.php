@@ -168,6 +168,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The uri for displaying a login link */
 		public $login_uri = "";
 
+		/** @var mxied Flag Default false. If login form required then set as an
+		 * array with the necessary param=>vals as key=>pairs.
+		 */
+		public $login_form = false;
+		
 		/** @var string The name of the module */
 		public $Name = "";
 
@@ -302,7 +307,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$this->construct_options( $this->options );
 			//end bootstrap
 			
-			//if oauth1
+			//if oauth1 build oauthConsumer
 			if($this->protocol=='oauth1'){
 				$this->consumer = new OAuthConsumer($this->oauth_consumer_key, $this->oauth_consumer_secret, $this->callback_url);
 				if($this->sha1_method)
@@ -557,6 +562,31 @@ if (!class_exists("API_Con_Mngr_Module")):
 			}
 		}
 
+		/**
+		 * @todo Create the login form for custom services that require the
+		 * username/password to be collected on the client side.
+		 * @return boolean 
+		 */
+		public function get_login_form(){
+			
+			//if no form params return
+			if(!is_array($this->login_form) && !count($this->login_form))
+				return false;
+			
+			$html = "<form method=\"{$this->form['method']}\" action=\"{$this->form['endpoint']}\">
+				<ul>\n";
+			
+			foreach($this->login_form as $type=>$name)
+				$html .= "<li><label for=\"api-con-login-{$name}\">
+						{$name}</label>
+						<input type=\"{$type}\" name=\"{$name}\" value=\"\"/>
+					</li>\n";
+						
+			$html .= "<li><input type=\"submit\" value=\"Login\"/></li>\n";
+			return "{$html}</u>
+				</form>\n";
+		}
+		
 		/**
 		 * Returns module options such as client_id, scope etc.
 		 * Sets the fields with their relevant option values.
