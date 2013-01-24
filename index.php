@@ -79,4 +79,4 @@ require_once( $PLUGIN_DIR . "/class-api-connection-manager-user.php");
 /**
  * actions and hooks 
  */
-add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));
+//add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));
