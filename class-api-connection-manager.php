@@ -138,81 +138,6 @@ class API_Connection_Manager{
 	} //end construct()
 	
 	/**
-	 * Connects to a service.
-	 * 
-	 * First checks if user is logged in, if not then returns a WP_Error object
-	 * with the service login link as the error message. If service is logged in
-	 * will return the service data.
-	 * 
-	 * @see API_Connection_Manager::get_service_states
-	 * @subpackage helper-methods
-	 * @param string $slug
-	 * @param boolean $die Default true. Whether to die with login link or
-	 * return a WP_Error object if service is not connected
-	 * @return true|WP_Error
-	 */
-	public function connect($slug, $die=true){
-		
-		//vars
-		$service = $this->get_service($slug);
-		$token = $this->_get_token($slug); //"get token from user meta";
-		$link = $this->_print_login($slug, false);
-		
-		
-		/**
-		 * check token for oauth2 spec error
-		 */
-		if($this->_service_get_error($token)){
-			$msg = "<b>".$this->_service_get_error($token)."</b>\n";
-			$msg .= $link;
-			
-			if($die)
-				die($msg);
-			else return new WP_Error ('API_Connection_Manager::connect', $msg);
-		}// end oauth2 spec error check
-		
-		
-		/**
-		 * Check service for param errors 
-		 */
-		if(is_wp_error($service['params'])){
-			$errs = $service['params']->get_error_messages();
-			$msg = "<ul><li>" . implode("</li><li>",$errs[0]) . "</li></ul>";
-			if($die)
-				die($msg);
-			else
-				return new WP_Error ('API_Connection_Manager::connect', $msg);
-		}
-		
-		/**
-		 * if no token
-		 */
-		if(!$token){
-			if($die)
-				die($link);
-			else
-				return new WP_Error('API_Connection_Manager::connect', $link);
-		}// end no token check
-		
-		
-		/**
-		 * if WP_Error stored as token 
-		 */
-		if(is_wp_error($token)){
-			$msg = $token->get_error_message();
-			$msg .= "<br/>{$link}";
-			if($die)
-				die($msg);
-			else
-				return new WP_Error ('API_Connection_Manager::connect', $msg);
-		}// end WP_Error as token
-		
-		
-		//return true
-		return $service;
-	} //end connect()
-	
-	/**
 	 * Delete tokens for a service. Unless specified will delete both refresh
 	 * and access token.
 	 *
@@ -268,30 +193,6 @@ class API_Connection_Manager{
 		
 		//save user meta
 		update_user_meta($this->user->ID, $this->option_name, $options);
-	}
-	
-	/**
-	 * Return a list of connected services.
-	 * 
-	 * Returns an array of service connect states. If a service is connected
-	 * with the currently logged in user then it will return $slug=>array if
-	 * the service is not connected then it will return $slug=>WP_Error. You can
-	 * access the service login link by then calling:
-	 * $slug=>WP_Error::get_error_message()
-	 * 
-	 * @uses API_Connection_Manager::connect()
-	 * @param string $type Default 'active'. Whether to check active or inactive
-	 * services.
-	 * @return array
-	 */
-	public function get_service_states($type='active'){
-		
-		$res = array();
-		
-		foreach($this->services[$type] as $slug=>$data)
-			$res[$slug] = $this->connect($slug, false);
-		
-		return $res;
 	}
 	
 	/**
