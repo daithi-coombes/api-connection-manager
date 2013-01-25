@@ -761,7 +761,7 @@ class API_Connection_Manager{
 		@$this->log("response listener: nonce {$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']}");
 		
 		//get dto (will also set the current user)
-		$dto = $this->get_dto();
+		$dto = $this->_service_parse_dto();
 		if(is_wp_error($dto))
 			die( $dto->get_error_message() );
 		
@@ -787,11 +787,8 @@ class API_Connection_Manager{
 		 */
 		if(@$dto->response['login']){
 			
-			//has a custom login form been submited?
-			if($dto->response['login']=='do_login')
-				$module->login_form_callback( $dto );
 			//do we need a login form?
-			elseif($module->login_form)
+			if($module->login_form)
 				$module->get_login_form();	//this call will print form and die()
 			
 			//login authorize
@@ -1026,17 +1023,17 @@ class API_Connection_Manager{
 	 * @return stdClass|WP_error Returns an error if no service slug found.
 	 * @subpackage service-method
 	 */
-	private function get_dto(){
+	private function _service_parse_dto(){
 		
 		//if $_REQUEST remove vars
-		$response = $_REQUEST;
+		$response = $_GET;
 		unset($response['action']);
 		
 		/**
 		 * get module slug
 		 */
-		if(@$_REQUEST['slug'])
-			$slug = urldecode($_REQUEST['slug']);
+		if(@$_GET['slug'])
+			$slug = urldecode($_GET['slug']);
 		elseif(@$_SESSION['API_Con_Mngr_Module']['slug'])
 			$slug = $_SESSION['API_Con_Mngr_Module']['slug'];
 		else 
@@ -1046,8 +1043,8 @@ class API_Connection_Manager{
 		/**
 		 * get callback 
 		 */
-		if(@$_REQUEST['callback']){
-			$callback = stripslashes(urldecode($_REQUEST['callback']));
+		if(@$_GET['callback']){
+			$callback = stripslashes(urldecode($_GET['callback']));
 			$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
 		}
 		elseif(@$_SESSION['API_Con_Mngr_Module'][$slug]['callback']){
