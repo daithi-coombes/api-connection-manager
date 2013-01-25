@@ -291,17 +291,16 @@ if (!class_exists("API_Con_Mngr_Module")):
 			/**
 			 * bootstrap fields, params and options
 			 */
-			$this->slug = $this->get_slug();			
 			//load user specific db params (access_tokens etc)
 			$this->get_params();
-			//load stored options
+			//setup options variables for the API Services dashboard page
+			$this->construct_options( $this->options );
 			$this->get_options();
+			//load stored options
 			//if sessions enabled (default is true)
 			$id = session_id();
 			if(!$id || $id=="")
 				$this->sessions = false;			
-			//setup options variables for the API Services dashboard page
-			$this->construct_options( $this->options );
 			//end bootstrap
 			
 			//if oauth1 build oauthConsumer
@@ -560,6 +559,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
+		 * 
+		 * 
 		 * @todo Create the login form for custom services that require the
 		 * username/password to be collected on the client side.
 		 * @return boolean 
@@ -570,52 +571,36 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(!is_array($this->login_form) && !count($this->login_form))
 				return false;
 			
-			$html = "<form method=\"{$this->form['method']}\" action=\"{$this->form['endpoint']}\">
+			//view class
+			$view = new API_Con_Mngr_View();
+			
+			//work out return url
+			(!@$this->login_form['endpoint']) ? 
+				$url = $this->redirect_uri:
+				$url = $this->login_form['endpoint'];
+			
+			//work out method
+			(!@$this->login_form['method']) ?
+				$method = "post":
+				$method = $this->login_form['method'];
+			
+			//build and return form
+			$view->body[] = "<form method=\"{$method}\" action=\"{$url}\">
+				<input type=\"hidden\" name=\"slug\" value=\"{$this->slug}\"/>
 				<ul>\n";
 			
-			foreach($this->login_form as $type=>$name)
-				$html .= "<li><label for=\"api-con-login-{$name}\">
+				//add fields
+			foreach($this->login_form['fields'] as $type=>$name)
+				$view->body[] .= "<li><label for=\"api-con-login-{$name}\">
 						{$name}</label>
 						<input type=\"{$type}\" name=\"{$name}\" value=\"\"/>
 					</li>\n";
 						
-			$html .= "<li><input type=\"submit\" value=\"Login\"/></li>\n";
-			return "{$html}</u>
+			$view->body[] = "<li><input type=\"submit\" value=\"Login\"/></li>
+					{$html}</u>
 				</form>\n";
-		}
-		
-		/**
-		 * Returns module options such as client_id, scope etc.
-		 * Sets the fields with their relevant option values.
-		 * @return array 
-		 */
-		public function get_options(){
-			
-			//multisite install
-			if(is_multisite())
-				$options_db = get_site_option($this->option_name, array());
-			else
-				$options_db = get_option($this->option_name, array());
-			
-			//get module options or return default array
-			if(!@$options_db[$this->slug]) return array();
-			$options = $options_db[$this->slug];
-			
-			//set redirect_uri
-			$redirect = admin_url('admin-ajax.php') . "?" . http_build_query(array(
-				'action' => 'api_con_mngr'
-			));
-			if(@isset($options['redirect_uri']) && @empty($options['redirect_uri']))
-				$options['redirect_uri'] = $redirect;
-			if(@isset($options['callback_url']) && @empty($options['callback_url']))
-				$options['callback_url'] = $redirect;
-			//end redirect uri
-				
-			//set fields
-			foreach($options as $key=>$val)
-				$this->$key = $val;
-			
-			return $options;
+					
+			return $view;
 		}
 		
 		/**
@@ -1021,35 +1006,39 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Get the slug.
-		 * 
-		 * Currently uses debug_backtrace to the get child class's file path.
-		 * There is the php function ReflectionClass but this is only available
-		 * in php > 5. The code for stripping the file path is taken directly
-		 * from plugin_basename()
-		 * 
-		 * @return string The current slug 
+		 * Returns module options such as client_id, scope etc.
+		 * Sets the fields with their relevant option values.
+		 * @return array 
 		 */
-		protected function get_slug(){
+		private function get_options(){
 			
-			//get child class filename
-			$stacktrace = @debug_backtrace(false);
-			$file = $stacktrace[1]['file'];
+			//multisite install
+			if(is_multisite())
+				$options_db = get_site_option($this->option_name, array());
+			else
+				$options_db = get_option($this->option_name, array());
 			
-			//taken directly from plugin_basename()
-			$file = str_replace('\\','/',$file); // sanitize for Win32 installs
-			$file = preg_replace('|/+|','/', $file); // remove any duplicate slash
-			$plugin_dir = str_replace('\\','/',WP_PLUGIN_DIR); // sanitize for Win32 installs
-			$plugin_dir = preg_replace('|/+|','/', $plugin_dir); // remove any duplicate slash
-			$mu_plugin_dir = str_replace('\\','/',WPMU_PLUGIN_DIR); // sanitize for Win32 installs
-			$mu_plugin_dir = preg_replace('|/+|','/', $mu_plugin_dir); // remove any duplicate slash
-			$file = preg_replace('#^' . preg_quote($plugin_dir, '#') . '/|^' . preg_quote($mu_plugin_dir, '#') . '/#','',$file); // get relative path from plugins dir
-			$file = trim($file, '/');
+			//get module options or return default array
+			(!@$options_db[$this->slug]) ? 
+				$options = array():
+				$options = $options_db[$this->slug];
 			
-			//return slug
-			$parts = explode("/", $file);
-			return "{$parts[1]}/{$parts[2]}";
-		}
+			//set redirect_uri
+			$redirect = admin_url('admin-ajax.php') . "?" . http_build_query(array(
+				'action' => 'api_con_mngr'
+			));
+			
+			if(@empty($options['redirect_uri']))
+				$options['redirect_uri'] = $redirect;
+			if(@empty($options['callback_url']))
+				$options['callback_url'] = $redirect;
+			//end redirect uri
+			
+			//set fields and return options
+			foreach($options as $key=>$val)
+				$this->$key = $val;
+			return $options;
+		}		
 	}
 	
 endif;

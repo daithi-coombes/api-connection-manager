@@ -501,11 +501,8 @@ class API_Connection_Manager{
 			//load index file
 			include("{$plugin_root}/{$slug}");
 			
-			//load module object
-			$module->slug = $slug;
-			$module->get_params();
-			
 			//set params
+			$module->slug = $slug;
 			$plugin_data = get_plugin_data("{$plugin_root}/{$slug}", false, false); //Do not apply markup/translate as it'll be cached.
 			$module->set_params( $plugin_data );
 			$wp_plugins[$module->slug] = $module;
