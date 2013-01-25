@@ -59,13 +59,24 @@ require_once( "debug.func.php" );
  * end Dev dependencies 
  */
 
+
+/**
+ * Autoloader 
+ */
+function API_Con_Mngr_Autoload($class){
+	global $PLUGIN_DIR;
+	$class_name = "class-" . strtolower( str_replace("_", "-", $class));
+	$filename = "{$class_name}.class.php";
+	@include "{$PLUGIN_DIR}/{$filename}";
+}
+spl_autoload_register("API_Con_Mngr_Autoload");
 /**
  * Api Connection Manager.
  * 
  * Make sure the $API_Connection_Manager is constructed before the dash
  * settings pages are loaded.
  */
-require_once( $PLUGIN_DIR . "/class-api-connection-manager.php");
+//require_once( $PLUGIN_DIR . "/class-api-connection-manager.php");
 global $API_Connection_Manager;
 $API_Connection_Manager = new API_Connection_Manager();
 require_once( $PLUGIN_DIR . "/includes/OAuth.php");
@@ -79,4 +90,4 @@ require_once( $PLUGIN_DIR . "/class-api-connection-manager-user.php");
 /**
  * actions and hooks 
  */
-add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));
+//add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));

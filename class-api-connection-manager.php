@@ -450,22 +450,16 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Builds an array of all installed services and their params.
+	 * Builds an array of all installed modules and sets their params.
 	 * 
-	 * The return array is split into active and inactive services. There are a
+	 * The return array is split into active and inactive modules. There are a
 	 * lot of system calls and working with files. Overuse of this method would
 	 * not be advised.
-	 * 
-	 * N.B. if a module requires session and it is not enabled then that module
-	 * will always be set as inactive.
 	 * 
 	 * Currently this method is used in:
 	 *  - API_Connection_Manager::__construct()
 	 *  - API_Connection_Manager::get_services //only if no services loaded yet
 	 * 
-	 * @todo add error message is sessions disabled and module needs it
-	 * @todo use API_Con_Mngr_Module for all services
-	 * @param boolean Default false. Whether to include downloadable modules.
 	 * @return array 
 	 * @subpackage api-core
 	 */
@@ -479,87 +473,39 @@ class API_Connection_Manager{
 		 * Get list of plugin index files 
 		 */
 		$plugins_dir = @ opendir( $plugin_root );
-		$plugin_files = array();
-		if ( $plugins_dir ) {
-			while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
-				if ( substr( $file, 0, 1 ) == '.' )
-					continue;
-				if ( is_dir( $plugin_root . '/' . $file ) ) {
-					$plugins_subdir = @ opendir( $plugin_root . '/' . $file );
-					if ( $plugins_subdir ) {
-						while ( ( $subfile = readdir( $plugins_subdir ) ) !== false ) {
-							if ( substr( $subfile, 0, 1 ) == '.' )
-								continue;
-							if ( substr($subfile, -4) == '.php' )
-								$plugin_files[] = "$file/$subfile";
-						}
-						closedir($plugins_subdir);
-					}
-				} else {
-					if ( substr($file, -4) == '.php' )
-						$plugin_files[] = $file;
-				}
+		$slugs = array();
+		if($plugins_dir){
+			
+			while( ($file=readdir($plugins_dir)) !==false ){
+				if($file=="." || $file=="..") continue;
+				if(is_readable("{$plugin_root}/{$file}/index.php"))
+					$slugs[] = "{$file}/index.php";
 			}
 			closedir($plugins_dir);
 		} //end list of plugin files
 		
-		if ( empty($plugin_files) )
+		if ( empty($slugs) )
 			return array(
 				'active' => array(),
 				'inactive' => array()
 			);
 		
 		/**
-		 * Build up array of plugin[data]
+		 * Build array of API_Con_Mngr_Module classes
 		 */
-		foreach ( (array) $plugin_files as $plugin_file ) {
-			
-			if ( !is_readable("$plugin_root/$plugin_file") )
-				continue;
-
-			$plugin_data = get_plugin_data("$plugin_root/$plugin_file", false, false); //Do not apply markup/translate as it'll be cached.
-			
-			//get slug
-			if( @empty( $plugin_data['slug'] ) )
-				$plugin_data['slug'] = $plugin_file;
-			
-			if ( empty($plugin_data['Name']) )
-				continue;
-
-			$wp_plugins[plugin_basename($plugin_file)] = $plugin_data;
-			
-			/**
-			 * Use array (will be deprecated)
-			 */
-			//get params and options
-			$params = $this->_get_module( plugin_basename($plugin_file) );
-			$options = $this->_get_service_options( plugin_basename($plugin_file) );
-			
-			$wp_plugins[plugin_basename($plugin_file)]['params'] = $params;
-			$wp_plugins[plugin_basename($plugin_file)]['options'] = $options;
-			//end array
+		foreach ( $slugs as $slug ) {
 			
 			/**
 			 * Use API_Con_Mngr_Module 
 			 */
-			if(isset($oauth1)) unset($oauth1);
-			if(isset($oauth2)) unset($oauth2);
-			include("{$plugin_root}/{$plugin_file}");
-			if(isset($oauth1)){
-				$slug = plugin_basename($plugin_file);
-				$module = $this->_get_module( $slug );
-				$module->protocol = 'oauth1';
-				$module->set_details($plugin_data);
-				$wp_plugins[$slug] = $module;
-			}
-			elseif(@is_object($oauth2)){
-				$slug = plugin_basename($plugin_file);
-				$module = $this->_get_module( $slug );
-				$module->protocol = 'oauth2';
-				$module->set_details($plugin_data);
-				$module->get_params();
-				$wp_plugins[$slug] = $module;
-			}
+			//load index file
+			include("{$plugin_root}/{$slug}");
+			
+			//set params
+			$module->slug = $slug;
+			$plugin_data = get_plugin_data("{$plugin_root}/{$slug}", false, false); //Do not apply markup/translate as it'll be cached.
+			$module->set_params( $plugin_data );
+			$wp_plugins[$module->slug] = $module;
 			//end use API_Con_Mngr_Module
 			
 		}//end build of plugin[data]
@@ -632,160 +578,7 @@ class API_Connection_Manager{
 		else
 			return get_transient($this->option_name."$key", array());
 	}
-	
-	/**
-	 * Loads a services module file (index.php) into the current namespace and
-	 * returns the params for a service. 
-	 * 
-	 * Sets the grant parameters here in order to build the grant uri but does 
-	 * not set the token parameters. For this see:
-	 * @see API_Connection_Manager::_service_oauth2_login()
-	 * 
-	 * If there is an error including the file a WP_Error is returned. Returns
-	 * params on success.
-	 *
-	 * @param string $slug The sevice slug
-	 * @return array|WP_Error Returns error if file can't be loaded or options
-	 * for service aren't set.
-	 * @subpackage api-core
-	 */
-	private function _get_module($slug){
-		
-		//vars
-		$errs = array();
-		$user = $this->user->ID; //wp_validate_auth_cookie();
-		
-		//reset module vars
-		if(isset($oauth1))
-			unset($oauth1);
-		if(isset($oauth2))
-			unset($oauth2);
-		if(isset($service))
-			unset($service);
-		
-		//try loading file to get current module var
-		require_once('class-api-con-mngr-module.php');
-		if(!include($this->dir_sub . "/" . $slug))
-			return $this->_error("No module file for serivce {$slug}");
-			
-		//check var is available (& add slug)
-		if(isset($oauth1)) $oauth1->slug = $slug;
-		elseif(isset($oauth2)){
-				$oauth2->slug = $slug;
-		}
-		elseif(isset($service)) $service->slug = $slug;
-		else return $this->_error("No params set for service {$slug}");
-		
-		
-		/**
-		 * Parse Oauth1 data 
-		 */
-		if(@$oauth1){
-			
-			//build login uri
-			if(!$oauth1->login_uri)
-				$oauth1->login_uri = admin_url('admin-ajax.php') ."?". http_build_query(array(
-					'action' => 'api_con_mngr',
-					'slug' => urlencode($slug)
-				));
-			
-			//set the access token
-			$tokens = $this->_get_user_options();
-			if(@$tokens[$slug]['access'])
-				$oauth1->oauth_token = $tokens[$slug]['access'];
-			
-			//return oauth object
-			return $oauth1;
-		} // end parse Oauth1 data
-		
-		
-		/**
-		 * Parse Oauth2 data 
-		 */
-		if(@is_object($oauth2)){
-			return $oauth2;
-		}
-		elseif(@$oauth2 && !is_object(@$oauth2)){
-			
-			//get options
-			$options = $this->_get_service_options($slug);
-			$user_options = $this->_get_user_options();
-			
-			if(is_wp_error($options))
-				return $this->_error("Unable to load options for {$slug}");
-				
-			$uri = $oauth2['grant-uri'];
-			
-			/**
-			 * Create our own nonces here so service params can be constructed
-			 * as early as possible.
-			 * @see wp_create_nonce()
-			 */
-			$i = wp_nonce_tick();
-			$nonce = substr(wp_hash($i . $slug . $user, 'nonce'), -12, 10);
-			/**
-			 * End nonce 
-			 */
-			
-			/**
-			 * @todo remove when modules all object. Now in module::get_login_button() 
-			 */
-			//set the state {$nonce}-{$slug}-{$userID}
-			$oauth2[ 'grant-vars' ][ 'state' ] = serialize(array( 
-				$nonce,
-				urlencode( $slug ),
-				$user
-			));
-			
-			//check options for grant-var values
-			if(@$options['grant-vars'])
-				$oauth2['grant-vars'] = array_merge($oauth2['grant-vars'], $options['grant-vars']);
-			
-			//look for offline grant (if user has allowed offline)
-			//if no user logged in, then default to look for offline params
-			if(
-				@$user_options[$slug]['refresh_on'] ||
-				!$this->user->ID
-			){
-				if(@$oauth2['offline-token'])
-					$oauth2['grant-vars'] = array_merge($oauth2['grant-vars'], $oauth2['offline-token']);
-			}
-					
-			//add params from code values
-			foreach($oauth2['grant-vars'] as $key=>$code){
-				//if(preg_match("/<\!--\[--grant-(.+)--\]-->/", $code, $matches))
-					//$oauth2['grant-vars'][$key] = $oauth2['grant-vars'][$matches[1]];
-				//add redirect uri to grant vars
-				if(preg_match("/<\!--\[--redirect-uri--\]-->/", $code, $matches))
-					$oauth2['grant-vars'][$key] = $this->redirect_uri;
-			}
-				
-			//check options for token-var values
-			if(@$options['token-vars'])
-				$oauth2['token-vars'] = array_merge($oauth2['token-vars'], $options['token-vars']);
-			
-			//add params from grant vars to token (if necessary)
-			if(count($oauth2['token-vars']))
-				foreach($oauth2['token-vars'] as $key=>$code){
-					if(preg_match("/<\!--\[--grant-(.+)--\]-->/", $code, $matches))
-						$oauth2['token-vars'][$key] = $oauth2['grant-vars'][$matches[1]];
-					//add redirect uri to token vars
-					if(preg_match("/<\!--\[--redirect-uri--\]-->/", $code, $matches))
-						$oauth2['token-vars'][$key] = $this->redirect_uri;
-				}
-			
-			//build the uri
-			$query = http_build_query($oauth2['grant-vars']);
-			$uri = $uri."?".$query;
-			$oauth2['grant-uri'] = $uri;
-			
-			return $oauth2;
-		} // end parse Oauth2 data
-		
-		//default return WP_Error
-		return $this->_error("No service data found for {$slug}");
-	}
-	
+
 	/**
 	 * Gets the refresh states.
 	 * 
