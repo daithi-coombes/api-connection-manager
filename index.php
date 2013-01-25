@@ -29,10 +29,13 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
  * end WP Core dependencies 
  */
 
+
 /**
  * Vendor dependencies 
  */
 //logger
+require_once( "debug.func.php" );
+require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
 @Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 
@@ -51,15 +54,6 @@ function log_action() {
  * end Vendor dependencies 
  */
 
-/**
- * Dev dependencies 
- */
-require_once( "debug.func.php" );
-require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
-/**
- * end Dev dependencies 
- */
-
 
 /**
  * Autoloader 
@@ -72,6 +66,11 @@ function API_Con_Mngr_Autoload($class){
 }
 spl_autoload_register("API_Con_Mngr_Autoload");
 /**
+ * end Autoloader 
+ */
+
+
+/**
  * Api Connection Manager.
  * 
  * Make sure the $API_Connection_Manager is constructed before the dash
@@ -80,12 +79,6 @@ spl_autoload_register("API_Con_Mngr_Autoload");
 //require_once( $PLUGIN_DIR . "/class-api-connection-manager.php");
 global $API_Connection_Manager;
 $API_Connection_Manager = new API_Connection_Manager();
-/**
-require_once( $PLUGIN_DIR . "/class-api-con-mngr-module.php" ); //module, header and param classes
-require_once( $PLUGIN_DIR . "/class-api-connection-manager-setup.php");
-require_once( $PLUGIN_DIR . "/class-api-connection-manager-user.php");
- * 
- */
 /**
  * end Api Connection Manager 
  */

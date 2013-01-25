@@ -789,7 +789,7 @@ class API_Connection_Manager{
 			
 			//do we need a login form?
 			if($module->login_form)
-				die( $module->get_login_form() );
+				$module->get_login_form();	//this call will print form and die()
 			
 			//login authorize
 			$this->_service_login_authorize( $module, $dto );

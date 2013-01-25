@@ -597,10 +597,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 					</li>\n";
 						
 			$view->body[] = "<li><input type=\"submit\" value=\"Login\"/></li>
-					{$html}</u>
+					</u>
 				</form>\n";
 					
-			return $view;
+			return $view->get_html();
 		}
 		
 		/**
