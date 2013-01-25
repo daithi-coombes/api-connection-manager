@@ -531,7 +531,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//nonce
 			global $API_Connection_Manager;
-
+			$this->log($this);
 			//using sessions
 			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);
 			
@@ -625,8 +625,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return array $array[key=>val] 
 		 */
 		public function get_params(){
-			
-			global $wpdb;
 			
 			$user_id = $this->user->ID;
 			$key = $this->option_name."-{$this->slug}";

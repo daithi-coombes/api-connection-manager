@@ -450,22 +450,16 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Builds an array of all installed services and their params.
+	 * Builds an array of all installed modules and sets their params.
 	 * 
-	 * The return array is split into active and inactive services. There are a
+	 * The return array is split into active and inactive modules. There are a
 	 * lot of system calls and working with files. Overuse of this method would
 	 * not be advised.
-	 * 
-	 * N.B. if a module requires session and it is not enabled then that module
-	 * will always be set as inactive.
 	 * 
 	 * Currently this method is used in:
 	 *  - API_Connection_Manager::__construct()
 	 *  - API_Connection_Manager::get_services //only if no services loaded yet
 	 * 
-	 * @todo add error message is sessions disabled and module needs it
-	 * @todo use API_Con_Mngr_Module for all services
-	 * @param boolean Default false. Whether to include downloadable modules.
 	 * @return array 
 	 * @subpackage api-core
 	 */
@@ -479,82 +473,42 @@ class API_Connection_Manager{
 		 * Get list of plugin index files 
 		 */
 		$plugins_dir = @ opendir( $plugin_root );
-		$plugin_files = array();
-		if ( $plugins_dir ) {
-			while ( ( $file = readdir( $plugins_dir ) ) !== false ) {
-				if ( substr( $file, 0, 1 ) == '.' )
-					continue;
-				if ( is_dir( $plugin_root . '/' . $file ) ) {
-					$plugins_subdir = @ opendir( $plugin_root . '/' . $file );
-					if ( $plugins_subdir ) {
-						while ( ( $subfile = readdir( $plugins_subdir ) ) !== false ) {
-							if ( substr( $subfile, 0, 1 ) == '.' )
-								continue;
-							if ( substr($subfile, -4) == '.php' )
-								$plugin_files[] = "$file/$subfile";
-						}
-						closedir($plugins_subdir);
-					}
-				} else {
-					if ( substr($file, -4) == '.php' )
-						$plugin_files[] = $file;
-				}
+		$slugs = array();
+		if($plugins_dir){
+			
+			while( ($file=readdir($plugins_dir)) !==false ){
+				if($file=="." || $file=="..") continue;
+				if(is_readable("{$plugin_root}/{$file}/index.php"))
+					$slugs[] = "{$file}/index.php";
 			}
 			closedir($plugins_dir);
 		} //end list of plugin files
 		
-		if ( empty($plugin_files) )
+		if ( empty($slugs) )
 			return array(
 				'active' => array(),
 				'inactive' => array()
 			);
 		
 		/**
-		 * Build up array of plugin[data]
+		 * Build array of API_Con_Mngr_Module classes
 		 */
-		foreach ( (array) $plugin_files as $plugin_file ) {
-			
-			if ( !is_readable("$plugin_root/$plugin_file") )
-				continue;
-
-			$plugin_data = get_plugin_data("$plugin_root/$plugin_file", false, false); //Do not apply markup/translate as it'll be cached.
-			
-			//get slug
-			if( @empty( $plugin_data['slug'] ) )
-				$plugin_data['slug'] = $plugin_file;
-			
-			if ( empty($plugin_data['Name']) )
-				continue;
-
-			$wp_plugins[plugin_basename($plugin_file)] = $plugin_data;
-			
-			/**
-			 * Use array (will be deprecated)
-			 */
-			//get params and options
-			$params = $this->_get_module( plugin_basename($plugin_file) );
-			$options = $this->_get_service_options( plugin_basename($plugin_file) );
-			
-			$wp_plugins[plugin_basename($plugin_file)]['params'] = $params;
-			$wp_plugins[plugin_basename($plugin_file)]['options'] = $options;
-			//end array
+		foreach ( $slugs as $slug ) {
 			
 			/**
 			 * Use API_Con_Mngr_Module 
 			 */
-			//clear vars and load index file
-			if(isset($oauth1)) unset($oauth1);
-			if(isset($oauth2)) unset($oauth2);
-			if(isset($service)) unset($service);
-			include("{$plugin_root}/{$plugin_file}");
+			//load index file
+			include("{$plugin_root}/{$slug}");
 			
 			//load module object
-			$slug = plugin_basename($plugin_file);
-			$module = $this->_get_module( $slug );
+			$module->slug = $slug;
+			$module->get_params();
 			
 			//set params
-			$module->set_details($plugin_data);
-			$wp_plugins[$slug] = $module;
+			$plugin_data = get_plugin_data("{$plugin_root}/{$slug}", false, false); //Do not apply markup/translate as it'll be cached.
+			$module->set_params( $plugin_data );
+			$wp_plugins[$module->slug] = $module;
 			//end use API_Con_Mngr_Module
 			
 		}//end build of plugin[data]
@@ -627,78 +581,7 @@ class API_Connection_Manager{
 		else
 			return get_transient($this->option_name."$key", array());
 	}
-	
-	/**
-	 * Loads a services module file (index.php) into the current namespace and
-	 * returns the params for a service. 
-	 * 
-	 * Sets the grant parameters here in order to build the grant uri but does 
-	 * not set the token parameters. For this see:
-	 * @see API_Connection_Manager::_service_oauth2_login()
-	 * 
-	 * If there is an error including the file a WP_Error is returned. Returns
-	 * params on success.
-	 *
-	 * @param string $slug The sevice slug
-	 * @return API_Con_Mngr_Module|WP_Error Returns error if file can't be 
-	 * loaded or options for service aren't set.
-	 * @subpackage api-core
-	 */
-	private function _get_module($slug){
-		
-		//vars
-		$user = $this->user->ID; //wp_validate_auth_cookie();
-		$ret = (object) array(
-			'slug' => $slug,
-			'user' => $user,
-			'login_uri' => admin_url('admin-ajax.php') ."?". http_build_query(array(
-				'action' => 'api_con_mngr',
-				'slug' => urlencode($slug)
-			)),
-			''
-		);
-		
-		//reset module vars
-		if(isset($oauth1))
-			unset($oauth1);
-		if(isset($oauth2))
-			unset($oauth2);
-		if(isset($service))
-			unset($service);
-		
-		//try loading file to get current module var
-		require_once('class-api-con-mngr-module.php');
-		if(!include($this->dir_sub . "/" . $slug))
-			return $this->_error("No module file for serivce {$slug}");
-			
-		/**
-		 * Parse Oauth1 data 
-		 */
-		if(@$oauth1){
-			
-			//set the access token
-			$tokens = $this->_get_user_options();
-			if(@$tokens[$slug]['access'])
-				$ret->oauth_token = $tokens[$slug]['access'];
-			
-			//return oauth object
-			return $oauth1;
-		} // end parse Oauth1 data
-		
-		
-		/**
-		 * Parse Oauth2 and Service data 
-		 */
-		elseif(@$oauth2)
-			return $oauth2;
-		elseif($service)
-			return $service;
-		
-		
-		//default return WP_Error
-		return $this->_error("No service data found for {$slug}");
-	}
-	
+
 	/**
 	 * Gets the refresh states.
 	 * 
