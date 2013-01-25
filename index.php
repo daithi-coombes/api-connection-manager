@@ -14,8 +14,8 @@
 //boostrap
 error_reporting(E_ALL);
 ini_set('display_errors',1);
-$PLUGIN_DIR =  WP_PLUGIN_DIR . "/" . basename(dirname( __FILE__ ));
-$PLUGIN_URL =  WP_PLUGIN_URL . "/" . basename(dirname( __FILE__ ));
+$API_CON_PLUGIN_DIR =  WP_PLUGIN_DIR . "/" . basename(dirname( __FILE__ ));
+$API_CON_PLUGIN_URL =  WP_PLUGIN_URL . "/" . basename(dirname( __FILE__ ));
 
 
 /**
@@ -55,6 +55,7 @@ function log_action() {
  * Dev dependencies 
  */
 require_once( "debug.func.php" );
+require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
 /**
  * end Dev dependencies 
  */
@@ -64,10 +65,10 @@ require_once( "debug.func.php" );
  * Autoloader 
  */
 function API_Con_Mngr_Autoload($class){
-	global $PLUGIN_DIR;
+	global $API_CON_PLUGIN_DIR;
 	$class_name = "class-" . strtolower( str_replace("_", "-", $class));
-	$filename = "{$class_name}.class.php";
-	@include "{$PLUGIN_DIR}/{$filename}";
+	$filename = "{$class_name}.php";
+	@include "{$API_CON_PLUGIN_DIR}/{$filename}";
 }
 spl_autoload_register("API_Con_Mngr_Autoload");
 /**
@@ -79,10 +80,12 @@ spl_autoload_register("API_Con_Mngr_Autoload");
 //require_once( $PLUGIN_DIR . "/class-api-connection-manager.php");
 global $API_Connection_Manager;
 $API_Connection_Manager = new API_Connection_Manager();
-require_once( $PLUGIN_DIR . "/includes/OAuth.php");
+/**
 require_once( $PLUGIN_DIR . "/class-api-con-mngr-module.php" ); //module, header and param classes
 require_once( $PLUGIN_DIR . "/class-api-connection-manager-setup.php");
 require_once( $PLUGIN_DIR . "/class-api-connection-manager-user.php");
+ * 
+ */
 /**
  * end Api Connection Manager 
  */
