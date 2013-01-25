@@ -61,6 +61,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* ===============================
 	* No service documentation yet
 	* 
+	* Custom
+	* ======
+	 Params:
+	*  - $this->endpoint string
+	*  - $this->login_form array
+	*  - $this->login_form_callback()
+	* 
 	* Callbacks
 	* ======
 	* Internally the api module class will use an stdClass param as a dto. This
@@ -587,6 +594,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//build and return form
 			$view->body[] = "<form method=\"{$method}\" action=\"{$url}\">
 				<input type=\"hidden\" name=\"slug\" value=\"{$this->slug}\"/>
+				<input type=\"hidden\" name=\"login\" value=\"do_login\"/>
 				<ul>\n";
 			
 				//add fields
@@ -665,7 +673,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Log/ a user with this service.
+		 * Log/ a user with this service. Uses $this->slug to see if this
+		 * uid for this service has already been connected with the current
+		 * logged in wp user.
 		 * 
 		 * @param string $uid The profile user id to match
 		 * @return boolean If wp user logged in, will set connect service uid
@@ -711,6 +721,21 @@ if (!class_exists("API_Con_Mngr_Module")):
 			return false;
 		}
 		
+		/**
+		 * Override this method if you are using a custom service login form
+		 * @see API_Con_Mngr_Module::get_login_form()
+		 * @return string Must return a valid token/session. This will be then
+		 * stored in API_Con_Mngr_Module::token for later use
+		 */
+		public function login_form_callback(){
+			;
+		}
+		
+		/**
+		 * Set a wp user with this module providers account id.
+		 * @param string $user_id The wordpress user id
+		 * @param string $uid This module providers account id
+		 */
 		public function login_connect($user_id, $uid){
 			$option_name = "{$this->option_name}-connections";
 			$connections = get_option($option_name, array());
