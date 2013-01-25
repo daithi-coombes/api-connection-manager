@@ -18,14 +18,14 @@ if (!class_exists("API_Con_Mngr_Module")):
 	*			return false;
 	*		}
 	* }
-	* $service = new My_Class();
+	* $module = new My_Class();
 	* </code>
 	* 
 	* Options that are per wordpress installation, such as client_id or scopes
-	* should be defined in the class construct. See
-	* {@see API_Con_Mngr_Module::construct_options()} for details on the format
+	* should be defined using the API Connection Manager dashboard settings 
+	 * page.
 	* 
-	* You module class should be saved in a file called <code>index.php</code>
+	* Your module class should be saved in a file called <code>index.php</code>
 	* in a sub-folder in <code>wp-content/plugins/api-con-mngr-modules</code>
 	* If this folder is not created yet make sure you have installed and
 	* activated the API Manager Core
@@ -33,11 +33,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* 
 	* Class definition file
 	* =====================
-	* Your class should extend this and also construct it at the bottom of the
-	* class file as one of the following:
-	*	- $oauth1 = new My_Class()
-	*	- $oauth2 = new My_Class()
-	*	- $service = new My_Class() //custom services
+	* Your class should extend this and also be constructed as $module at the
+	* bottom of the index.php file
 	* 
 	* Oauth1
 	* ======
