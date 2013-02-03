@@ -76,7 +76,7 @@ spl_autoload_register("API_Con_Mngr_Autoload");
  * Make sure the $API_Connection_Manager is constructed before the dash
  * settings pages are loaded.
  */
-//require_once( $PLUGIN_DIR . "/class-api-connection-manager.php");
+require_once( $API_CON_PLUGIN_DIR . "/class-api-connection-manager.php");
 global $API_Connection_Manager;
 $API_Connection_Manager = new API_Connection_Manager();
 /**
