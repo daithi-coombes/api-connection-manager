@@ -778,7 +778,7 @@ class API_Connection_Manager{
 		else
 			die("Error: " . $dto->slug->get_error_message());		
 		//END BOOTSTRAP
-		
+		$this->log($dto);
 		/**
 		 * Connecting... screen
 		 * set sessions
@@ -788,8 +788,10 @@ class API_Connection_Manager{
 		if(@$dto->response['login']){
 			
 			//has a custom login form been submited?
-			if($dto->response['login']=='do_login')
-				$module->login_form_callback( $dto );
+			if($dto->response['login']=='do_login'){
+				$dto->response['session'] = $module->login_form_callback( $dto );
+				$module->do_callback( $dto );
+			}
 			//do we need a login form?
 			elseif($module->login_form)
 				$module->get_login_form();	//this call will print form and die()
