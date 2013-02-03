@@ -445,7 +445,7 @@ class API_Connection_Manager{
 	 * @return int 
 	 */
 	public function _get_http_request_timeout($time){
-		$time=25;
+		$time=50;
 		return $time;
 	}
 	
