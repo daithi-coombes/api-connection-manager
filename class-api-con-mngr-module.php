@@ -295,6 +295,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
 			//end logging
 			
+			//set slug
+			$this->slug = $this->get_slug();
+			
 			/**
 			 * bootstrap fields, params and options
 			 */
@@ -537,7 +540,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//nonce
 			global $API_Connection_Manager;
-			$this->log($this);
+
 			//using sessions
 			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);
 			
@@ -612,7 +615,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Returns array of params for this module.
+		 * Returns array of params for this module and sets the class fields.
 		 * 
 		 * @global type $API_Connection_Manager To get the current user_id
 		 * @return array $array[key=>val] 
@@ -740,7 +743,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function login_connect($user_id, $uid){
 			$option_name = "{$this->option_name}-connections";
 			$connections = get_option($option_name, array());
-			$this->log("New connection wordpress user {$user_id} connected with {$this->slug} {$uid}");
 
 			$connections[$this->slug][$user_id] = $uid;
 			update_option($option_name, $connections);
@@ -994,7 +996,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 *  - array() key value pairs for drop down
 		 * 
 		 * Oauth1:
-		 * Defaults are consumer key and consumer secret.
+		 * Defaults are consumer key, consumer secret, redirect_uri
 		 * 
 		 * Oauth2:
 		 * Defaults are client_id, client_secret, client_uri
@@ -1064,7 +1066,19 @@ if (!class_exists("API_Con_Mngr_Module")):
 			foreach($options as $key=>$val)
 				$this->$key = $val;
 			return $options;
-		}		
+		}
+		
+		/**
+		 * Returns the slug for the current module.
+		 * @uses ReflectionClass To get the child class filename
+		 * @return string
+		 */
+		private function get_slug(){
+			$reflector = new ReflectionClass( $this );
+			$path =  dirname($reflector->getFileName());
+			$parts = explode(DIRECTORY_SEPARATOR, $path);
+			return array_pop($parts) . "/" . "index.php";
+		}
 	}
 	
 endif;
