@@ -101,6 +101,7 @@ class API_Connection_Manager{
 		if(file_exists(dirname(__FILE__)."/log4net-config.xml"))
 			@$this->log_api = Logger::getLogger(__CLASS__);
 		else $this->log_api = new WP_Error('API_Connection_Manager: log4php','No log4net-config.xml file found');
+		ar_print($this->log_api);
 		//end logging
 		
 		//get current user first
