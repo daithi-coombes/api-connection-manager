@@ -500,7 +500,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 				case 'oauth1':
 					$params = array_merge(array(
 						'oauth_consumer_key' => $this->oauth_consumer_key,
-						'oauth_token' => $params['oauth_request_token']
+						'oauth_token' => $params['oauth_token']		//dropbox uses oauth_token (make sure nobody needs oauth_request_token)
 					), $params);
 					//$url = $this->
 					
