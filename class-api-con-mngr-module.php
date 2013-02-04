@@ -370,9 +370,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//load file parse callback
 			require_once( $callback['file'] );
-			$this->log("API_Con_Mngr_Module::do_callback():");
-			$this->log($callback);
-			$callback['func'] = unserialize($callback['callback']);
+			$callback['func'] = unserialize( stripslashes($callback['callback']));
 			
 			//call a method
 			if(is_array($callback['func'])){
