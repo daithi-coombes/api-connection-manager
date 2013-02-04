@@ -727,7 +727,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/**
 		 * Override this method if you are using a custom service login form
 		 * @see API_Con_Mngr_Module::get_login_form()
-		 * @param stdClass $dto The DTO passed from the remote server
+		 * @param stdClass $dto The DTO passed from the login form
 		 * @return string Must return a valid token/session. This will be then
 		 * stored in API_Con_Mngr_Module::token for later use
 		 */

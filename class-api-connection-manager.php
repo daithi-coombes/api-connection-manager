@@ -99,8 +99,8 @@ class API_Connection_Manager{
 		 * Logging. Uncomment the below line to log 
 		 */
 		if(file_exists(dirname(__FILE__)."/log4net-config.xml"))
-			$this->log_api = @Logger::getLogger(__CLASS__);
-		else $this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
+			@$this->log_api = Logger::getLogger(__CLASS__);
+		else $this->log_api = new WP_Error('API_Connection_Manager: log4php','No log4net-config.xml file found');
 		//end logging
 		
 		//get current user first
@@ -778,6 +778,7 @@ class API_Connection_Manager{
 			die("Error: " . $dto->slug->get_error_message());		
 		//END BOOTSTRAP
 		$this->log($dto);
+		
 		/**
 		 * Connecting... screen
 		 * set sessions
@@ -791,7 +792,7 @@ class API_Connection_Manager{
 				$dto->response['session'] = $module->login_form_callback( $dto );
 				$module->do_callback( $dto );
 			}
-			//do we need a login form?
+			//do we need to print a login form?
 			elseif($module->login_form)
 				$module->get_login_form();	//this call will print form and die()
 			
@@ -916,23 +917,12 @@ class API_Connection_Manager{
 	/**
 	 * Authorize login method.
 	 * 
-	 * Set sessions/callbacks and redirect to authorize url
+	 * Grabs request tokens from remote server and redirects to authorize url
 	 * 
 	 * @param API_Con_Mngr_Module $module
 	 * @param stdClass $dto 
 	 */
 	private function _service_login_authorize( API_Con_Mngr_Module $module, stdClass $dto ){
-		
-		/**
-		 * set callback
-		 */
-		$_SESSION['API_Con_Mngr_Module']['slug'] = $dto->slug;
-		if(@$dto->response['file'] && @$dto->response['callback'])
-			$_SESSION['API_Con_Mngr_Module'][$dto->slug]['callback'] = array(
-				'file' => @$dto->response['file'],
-				'callback' => @$dto->response['callback']
-			);
-		//end set callback
 		
 		switch($module->protocol){
 			
@@ -962,6 +952,8 @@ class API_Connection_Manager{
 			
 			//custom service
 			default:
+				$this->log("Custom service:");
+				$this->log($dto);
 				break;
 			//end custom service
 		}
@@ -1020,6 +1012,7 @@ class API_Connection_Manager{
 	 * 
 	 * $res = new stdClass();
 	 * $res->response = array();	//the $_REQUEST array
+	 * $res->callback = stdClass;	//the plugin callback if any
 	 * $res->slug = "";
 	 * $res->user = "";
 	 * 
@@ -1042,20 +1035,35 @@ class API_Connection_Manager{
 			$slug = $_SESSION['API_Con_Mngr_Module']['slug'];
 		else 
 			die("Error: No slug found");
+		$_SESSION['API_Con_Mngr_Module']['slug'] = $slug;
 		//end get module slug
+		
+		/**
+		 * set callback
+		 */
+		if(@$_REQUEST['file'] && @$_REQUEST['callback']){
+			$callback = array(
+				'file' => @$_REQUEST['file'],
+				'callback' => @$_REQUEST['callback']
+			);
+			$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
+		}
+		//end set callback
 		
 		/**
 		 * get callback 
 		 */
-		if(@$_REQUEST['callback']){
-			$callback = stripslashes(urldecode($_REQUEST['callback']));
-			$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
+		else{
+			if(@$_REQUEST['callback']){
+				$callback = stripslashes(urldecode($_REQUEST['callback']));
+				$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
+			}
+			elseif(@$_SESSION['API_Con_Mngr_Module'][$slug]['callback']){
+				$callback = $_SESSION['API_Con_Mngr_Module'][$slug]['callback'];
+			}
+			else
+				$callback = array();
 		}
-		elseif(@$_SESSION['API_Con_Mngr_Module'][$slug]['callback']){
-			$callback = $_SESSION['API_Con_Mngr_Module'][$slug]['callback'];
-		}
-		else
-			$callback = array();
 		//end get callback
 		
 		//vars
