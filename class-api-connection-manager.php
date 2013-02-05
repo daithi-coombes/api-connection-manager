@@ -819,6 +819,10 @@ class API_Connection_Manager{
 				$module->oauth_token = $access['oauth_token'];
 				$module->oauth_token_secret = $access['oauth_token_secret'];
 				
+				//helper method module can override to add actions to login
+				//such as get request token for oauth1
+				$module->do_login( $dto );
+				
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
 					$module->do_callback( $dto );
@@ -829,9 +833,6 @@ class API_Connection_Manager{
 					$uid = $module->get_uid();
 					$module->login($uid);
 				}
-				//helper method module can override to add actions to login
-				//such as get request token for oauth1
-				$module->do_login( $dto );
 			}
 			// end saving the access token
 
@@ -852,6 +853,10 @@ class API_Connection_Manager{
 			//reset dto response to tokens recieved
 			$dto->response = $tokens;
 			
+			//helper method module can override to add actions to login
+			//such as get request token for oauth1
+			$module->do_login( $dto );
+
 			//do callback
 			$module->do_callback( $dto );
 		}
