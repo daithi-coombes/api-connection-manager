@@ -595,7 +595,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$method = $this->login_form['method'];
 			
 			//build and return form
-			$view->body[] = "<form method=\"{$method}\" action=\"{$url}\">
+			$view->body[] = "
+				<h4>Please enter your login details for {$this->Name}</h4>
+				<form method=\"{$method}\" action=\"{$url}\">
 				<input type=\"hidden\" name=\"slug\" value=\"{$this->slug}\"/>
 				<input type=\"hidden\" name=\"login\" value=\"do_login\"/>
 				<ul>\n";

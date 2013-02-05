@@ -42,7 +42,17 @@ class API_Con_Mngr_View{
 	 * @return string
 	 */
 	public function get_head(){
-		;
+		return "<!DOCTYPE HTML>
+		<html>
+		<head>
+			<style type=\"text/css\">
+				#container{width: 100%; }
+				#wrap{ padding: 0 50px 50px; }
+				#contents{ border: 1px solid; margin-left: auto; margin-right: auto; padding: 10px; }
+				#contents ul li{ list-style:none; }
+			</style>
+		</head>
+		<body>";
 	}
 	
 	/**
@@ -50,7 +60,12 @@ class API_Con_Mngr_View{
 	 * @return string
 	 */
 	public function get_body(){
-		return implode("\n", $this->body);
+		return "<div id=\"container\">
+			<div id=\"wrap\">
+				<h2>Wordpress API Connection Manager</h2>
+				<div id=\"contents\">"
+				. implode("\n", $this->body)
+				. "</div></div></div>";
 	}
 	
 	/**
@@ -58,7 +73,8 @@ class API_Con_Mngr_View{
 	 * @return string 
 	 */
 	public function get_footer(){
-		
+		return "</body>
+			</html>";
 	}
 	
 	/**
