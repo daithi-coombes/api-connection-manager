@@ -327,12 +327,14 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * This method checks a response from the service for an error and must
 		 * be declared by your class.
 		 * 
-		 * If you find an error in the response return the error string else
-		 * return false for no error.
+		 * If you find an error in the response return a WP_Error with the
+		 * error string
 		 * 
+		 * @see http://codex.wordpress.org/CLass_Reference/WP_Error
+		 * @uses WP_Error
 		 * @param array $response The response in the same format as returned by
 		 * the WP_HTTP class.
-		 * @return mixed Returns false if no error or string if error found.
+		 * @return mixed Returns false if no error or WP_Error if error found
 		 */
 		abstract public function check_error( array $response );
 		
