@@ -516,7 +516,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 						'client_id' => $this->client_id,	//oauth2 required
 						'response_type' => 'code'			//oauth2 required
 					));
-					
 					return $this->url_authorize . "?" . http_build_query($fields);
 					break;
 				//end oauth2

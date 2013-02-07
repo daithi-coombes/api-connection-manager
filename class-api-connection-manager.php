@@ -297,11 +297,9 @@ class API_Connection_Manager{
 				$ret = $service;
 		}
 		
-		//load params on objects
-		/**
-		if(is_object($ret))
-			$ret->get_params();
-		*/
+		if(!$ret)
+			$ret = new WP_Error ('API Connection Manager', "Module not found");
+		
 		return $ret;
 			
 	} //end get_service()
@@ -499,7 +497,10 @@ class API_Connection_Manager{
 			 * Use API_Con_Mngr_Module 
 			 */
 			//load index file
+			unset($module);
 			include("{$plugin_root}/{$slug}");
+			if(!isset($module))
+				continue;
 			
 			//set params
 			$plugin_data = get_plugin_data("{$plugin_root}/{$slug}", false, false); //Do not apply markup/translate as it'll be cached.
