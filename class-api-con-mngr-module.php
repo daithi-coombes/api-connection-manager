@@ -597,23 +597,36 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//build and return form
 			$view->body[] = "
-				<h4>Please enter your login details for {$this->Name}</h4>
-				<form method=\"{$method}\" action=\"{$url}\">
-				<input type=\"hidden\" name=\"slug\" value=\"{$this->slug}\"/>
-				<input type=\"hidden\" name=\"login\" value=\"do_login\"/>
-				<ul>\n";
+				<p class=\"lead\">
+					Please enter your login details for {$this->Name}
+				</p>
+				<form method=\"{$method}\" action=\"{$url}\" class=\"form-horizontal\">
+					<fieldset>
+						<input type=\"hidden\" name=\"slug\" value=\"{$this->slug}\"/>
+						<input type=\"hidden\" name=\"login\" value=\"do_login\"/>\n";
 			
-				//add fields
+			//add fields
 			foreach($this->login_form['fields'] as $type=>$name)
-				$view->body[] .= "<li><label for=\"api-con-login-{$name}\">
-						{$name}</label>
-						<input type=\"{$type}\" name=\"{$name}\" value=\"\"/>
-					</li>\n";
-						
-			$view->body[] = "<li><input type=\"submit\" value=\"Login\"/></li>
-					</u>
-				</form>\n";
-					
+				$view->body[] .= "
+					<div class=\"control-group\">
+						<label class=\"control-label\" for=\"api-con-login-{$name}\">
+							{$name}</label>
+						<div class=\"controls\">
+							<input type=\"{$type}\" name=\"{$name}\" id=\"api-con-login-{$name}\" placeholder=\"{$name}\"/>
+						</div>
+					</div>
+					";
+			
+			//submit btn
+			$view->body[] = "
+				<div class=\"control-group\">
+					<div class=\"controls\">
+						<button type=\"submit\" class=\"btn\">Sign In</button>
+					</div>
+				</div>
+			</form>\n";
+			
+			//return html
 			return $view->get_html();
 		}
 		
