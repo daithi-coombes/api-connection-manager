@@ -29,12 +29,16 @@ class API_Con_Mngr_View{
 	public $headers = array();
 	/** @var string The full html to be printed */
 	private $html = "";
+	/** @var string The location of the bootstrap root */
+	private $bootstrap_root;
 	
 	/**
 	 * Construct
 	 */
 	function __construct(){
-		;
+		
+		//set default params
+		$this->bootstrap_root = dirname(__FILE__) . "/vendor/bootstrap";
 	}
 	
 	/**
@@ -45,11 +49,23 @@ class API_Con_Mngr_View{
 		return "<!DOCTYPE HTML>
 		<html>
 		<head>
+			<title>" . bloginfo('name') . " :: API Connection Manager</title>
+			<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+			<link rel=\"stylesheet\" href=\"{$this->bootstrap_root}/css/bootstrap.min.css\" media=\"screen\"/>
 			<style type=\"text/css\">
-				#container{width: 100%; }
-				#wrap{ padding: 0 50px 50px; }
-				#contents{ border: 1px solid; margin-left: auto; margin-right: auto; padding: 10px; }
-				#contents ul li{ list-style:none; }
+				.container-fluid{
+				max-width: 300px;
+				padding: 19px 29px 29px;
+				margin: 0 auto 20px;
+				background-color: #fff;
+				border: 1px solid #e5e5e5;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+				border-radius: 5px;
+				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+				-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+				box-shadow: 0 1px 2px rgba(0,0,0,.05);
+				}
 			</style>
 		</head>
 		<body>";
@@ -60,12 +76,12 @@ class API_Con_Mngr_View{
 	 * @return string
 	 */
 	public function get_body(){
-		return "<div id=\"container\">
-			<div id=\"wrap\">
+		return "<div class=\"container-fluid\">
+				<h1>" . bloginfo() . "</h1>
+				<h3>API Connection Manager</h3>
 				<h2>Wordpress API Connection Manager</h2>
-				<div id=\"contents\">"
-				. implode("\n", $this->body)
-				. "</div></div></div>";
+				". implode("\n", $this->body) . "
+			</div>";
 	}
 	
 	/**
@@ -73,8 +89,11 @@ class API_Con_Mngr_View{
 	 * @return string 
 	 */
 	public function get_footer(){
-		return "</body>
-			</html>";
+		return "
+			<script src=\"http://code.jquery.com/jquery.js\" type=\"text/javascript\"></script>
+			<script src=\"{$this->bootstrap_root}/js/bootstrap.min.js\" type=\"text/javascript\"></script>
+			</body>
+		</html>";
 	}
 	
 	/**
