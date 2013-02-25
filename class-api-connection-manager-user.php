@@ -196,7 +196,7 @@ if( !function_exists( 'api_connection_manager_user' ) ):
 			$dashboard = new API_Connection_Manager_User();
 		
 		?>
-		<h2><div class="icon32" id="icon-users"></div>API Connection Manager User</h2>
+		<h2><span class="icon32" id="icon-users"></span>API Connection Manager User</h2>
 		<div class="clear"></div>
 		
 		<?php 

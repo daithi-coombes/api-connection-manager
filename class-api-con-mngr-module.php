@@ -687,6 +687,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return None
 		 */
 		public function log( $msg ){
+			ar_print($this->log_api);
 			if(!is_wp_error($this->log_api))
 				$this->log_api->debug($msg);
 		}
