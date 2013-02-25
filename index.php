@@ -42,7 +42,7 @@ Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 /* Log the details of every wordpress hook at the TRACE level */
 add_action( 'all', 'log_action' );
 function log_action() {
-	$logger = @Logger::getLogger(current_filter());
+	$logger = Logger::getLogger(current_filter());
 	if (@$logger->getName() == 'query') {
 		@$logger->debug(func_get_args());
 	} else {
