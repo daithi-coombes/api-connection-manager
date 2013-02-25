@@ -31,6 +31,15 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
 
 
 /**
+ * test file permissions
+ */
+error_reporting(E_ALL);
+ini_set('display_errors',1);
+$fp = fopen( ABSPATH . "/wp-content/uploads/test.txt");
+fwrite($fp, "this is a test line");
+fclose($fp);
+
+/**
  * Vendor dependencies 
  */
 //logger
