@@ -687,6 +687,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return None
 		 */
 		public function log( $msg ){
+			$bt = debug_backtrace();
+			$caller = array_shift($bt);
+			$this->log_api->info($caller);
 			if(!is_wp_error($this->log_api))
 				$this->log_api->debug($msg);
 		}
