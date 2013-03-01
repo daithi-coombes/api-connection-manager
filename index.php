@@ -87,7 +87,7 @@ $API_Connection_Manager = new API_Connection_Manager();
  * Class depencencies 
  */
 require_once('class-api-connection-manager-setup.php');
-require_once('class-api-connection-manager-user.php');
+//require_once('class-api-connection-manager-user.php'); Merge the autoflow settings here
 /**
  * end Class  
  */
