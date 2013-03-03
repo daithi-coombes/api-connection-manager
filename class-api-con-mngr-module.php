@@ -699,11 +699,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * uid for this service has already been connected with the current
 		 * logged in wp user.
 		 * 
+		 * @deprecated Can't find any usages
 		 * @param string $uid The profile user id to match
 		 * @return boolean If wp user logged in, will set connect service uid
 		 * with user. If not will look for connection and login if found. If
 		 * neither then will return false
-		 */
+		 *
 		public function login( $uid ){
 			
 			$option_name = "{$this->option_name}-connections";
@@ -742,6 +743,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 			}
 			return false;
 		}
+		 * 
+		 */
 		
 		/**
 		 * Override this method if you are using a custom service login form
