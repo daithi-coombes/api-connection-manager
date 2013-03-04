@@ -27,6 +27,12 @@ class API_Connection_Manager_User{
 		$meta = get_option("API_Con_Mngr_Module-connections", array());
 		$modules = $API_Connection_Manager->get_services();
 		
+		//check user is logged in
+		if(!is_user_logged_in()){
+			print "<h3>API Connection Manager Error</h3>\n";
+			print "<p>You must be logged in to connect to services</p>\n";
+			return;
+		}
 		
 		//loop through modules
 		foreach($modules as $slug=>$module){
