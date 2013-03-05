@@ -88,14 +88,19 @@ class API_Connection_Manager_User{
 		print $html;
 	}
 	
+	/**
+	 * Connects the logged in user with the uid for the required module. Is
+	 * called in API_Connection_Manager::_response_listener()
+	 * 
+	 * @global API_Connection_Manager $API_Connection_Manager
+	 * @param stdClass $dto The dto from the provider response
+	 */
 	public function connect_user( $dto ){
 		
 		global $API_Connection_Manager;
 		$module = $API_Connection_Manager->get_service($dto->slug);
 		$uid = $module->get_uid();
 		$module->login($uid);
-		
-		die();
 	}
 	
 	/**

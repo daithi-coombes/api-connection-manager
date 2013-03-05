@@ -686,12 +686,17 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string The message to log
 		 * @return None
 		 */
-		public function log( $msg ){
+		public function log( $msg, $level='info' ){
 			if(!is_wp_error($this->log_api)){
+				
+				//trace
 				$bt = debug_backtrace();
 				$caller = array_shift($bt);
-				$this->log_api->info($caller);
-				$this->log_api->debug($msg);
+				$trace = $caller['file'] . ":" . $caller['line'];
+				$this->log_api->trace($trace);
+				
+				//log
+				$this->log_api->$level( $msg );
 			}
 		}
 		

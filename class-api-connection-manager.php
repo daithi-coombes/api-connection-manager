@@ -323,10 +323,20 @@ class API_Connection_Manager{
 	 * @param string $msg The message to log
 	 * @return none
 	 */
-	public function log($msg){
-		if(!is_wp_error($this->log_api))
-			$this->log_api->info($msg);
+	public function log($msg, $level='info'){
+			if(!is_wp_error($this->log_api)){
+				
+				//trace
+				$bt = debug_backtrace();
+				$caller = array_shift($bt);
+				$trace = $caller['file'] . ":" . $caller['line'];
+				$this->log_api->trace($trace);
+				
+				//log
+				$this->log_api->$level( $msg );
+			}
 	}
+
 	
 	public function set_user_token( $slug, $token, $type='access', $user=null){
 		$this->_set_token($slug, $token, $type, $user);
