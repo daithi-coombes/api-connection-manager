@@ -8,6 +8,11 @@ class API_Connection_Manager_User{
 
 	function __construct(){
 		
+		//check for actions
+		$action = @$_REQUEST['api_con_user_action'];
+		if($action)
+			if(method_exists($this, $action))
+				$this->$action();
 		add_shortcode('API_Con_User_Connections', array(&$this, 'do_shortcode'));
 	}
 
@@ -63,7 +68,7 @@ class API_Connection_Manager_User{
 			if($valid)
 				$html .= "
 					<form method=\"post\">
-						<input type=\"hidden\" name=\"autoflow_action\" value=\"disconnect\"/>
+						<input type=\"hidden\" name=\"api_con_user_action\" value=\"disconnect\"/>
 						<input type=\"hidden\" name=\"slug\" value=\"{$slug}\"/>
 						<input type=\"submit\" value=\"Disconnect\"/>
 					</form>";
@@ -84,9 +89,27 @@ class API_Connection_Manager_User{
 	}
 	
 	public function connect_user( $dto ){
-		ar_print("<h1>API Con User::connect_user()</h1>");
-		ar_print($dto);
+		
+		global $API_Connection_Manager;
+		$module = $API_Connection_Manager->get_service($dto->slug);
+		$uid = $module->get_uid();
+		$module->login($uid);
+		
+		die();
 	}
+	
+	/**
+	 * Disconnect a user from a service 
+	 */
+	public function disconnect(){
+		$user_id = $this->api->get_current_user()->ID;
+		$meta = get_option("API_Con_Mngr_Module-connections", array());
+		unset($meta[$_REQUEST['slug']][$user_id]);
+		if(empty($meta[$_REQUEST['slug']]))
+			unset($meta[$_REQUEST['slug']]);
+		update_option("API_Con_Mngr_Module-connections", $meta);
+	}
+	
 }
 
 $API_Con_User = new API_Connection_Manager_User();
