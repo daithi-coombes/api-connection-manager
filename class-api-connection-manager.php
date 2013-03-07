@@ -439,6 +439,7 @@ class API_Connection_Manager{
 		
 		require_once( ABSPATH . "/wp-includes/pluggable.php" );
 		global $current_user;
+		wp_cookie_constants();
 		
 		//try with wordpress's native func
 		if(function_exists("wp_get_current_user")){
@@ -447,7 +448,6 @@ class API_Connection_Manager{
 		}
 		
 		//if function not loaded yet, manually get current user
-		wp_cookie_constants();
 		$user_id = wp_validate_auth_cookie();
 		if($user_id)
 			return get_user_by("id", $user_id);
