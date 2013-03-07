@@ -104,10 +104,16 @@ class API_Connection_Manager_User{
 	}
 	
 	/**
-	 * Disconnect a user from a service 
+	 * Disconnect a user from a service
+	 * @global API_Connection_Manager $API_Connection_Manager
 	 */
 	public function disconnect(){
-		$user_id = $this->api->get_current_user()->ID;
+		
+		global $API_Connection_Manager;
+		global $current_user;
+		
+		$current_user = wp_get_current_user();
+		$user_id = $API_Connection_Manager->get_current_user()->ID;
 		$meta = get_option("API_Con_Mngr_Module-connections", array());
 		unset($meta[$_REQUEST['slug']][$user_id]);
 		if(empty($meta[$_REQUEST['slug']]))
