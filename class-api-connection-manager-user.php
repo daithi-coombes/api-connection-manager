@@ -14,6 +14,9 @@ class API_Connection_Manager_User{
 			if(method_exists($this, $action))
 				$this->$action();
 		add_shortcode('API_Con_User_Connections', array(&$this, 'do_shortcode'));
+		
+		//add menu page
+		add_action('admin_menu', array(&$this, 'dash_menu'));
 	}
 
 	/**
@@ -101,6 +104,14 @@ class API_Connection_Manager_User{
 		$module = $API_Connection_Manager->get_service($dto->slug);
 		$uid = $module->get_uid();
 		$module->login($uid);
+	}
+	
+	public function dash_menu(){
+		add_menu_page("User Connections", "API Connection Manager - User Connections", "manage_options", "api-connection-manager-user", array(&$this, 'dash_page'));
+	}
+	
+	public function dash_page(){
+		do_shortcode("API_Con_User_Connections");
 	}
 	
 	/**
