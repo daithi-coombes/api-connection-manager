@@ -326,6 +326,20 @@ class API_Connection_Manager{
 	public function log($msg, $level='info'){
 			if(!is_wp_error($this->log_api)){
 				
+				// Manually construct a logging event
+				$level = LoggerLevel::toLevel($level);
+				$logger = Logger::getLogger(__CLASS__);
+				$event = new LoggerLoggingEvent(__CLASS__, $logger, $level, $msg);
+
+				// Override the location info
+				$bt = debug_backtrace();
+				$caller = array_shift($bt);
+				$location = new LoggerLocationInfo($caller);
+				$event->setLocationInformation($location);
+
+				// Log it
+				$logger->logEvent($event);
+				/**
 				//trace
 				$bt = debug_backtrace();
 				$caller = array_shift($bt);
@@ -334,6 +348,7 @@ class API_Connection_Manager{
 				
 				//log
 				$this->log_api->$level( $msg );
+				 */
 			}
 	}
 

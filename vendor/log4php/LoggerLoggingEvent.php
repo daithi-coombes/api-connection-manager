@@ -344,7 +344,15 @@ class LoggerLoggingEvent {
 	public function toString() {
 		serialize($this);
 	}
-	
+
+	/**
+	 * Set the event location info
+	 * @param LoggerLocationInfo $locationInfo
+	 */
+	public function setLocationInformation(LoggerLocationInfo $locationInfo) {
+		$this->locationInfo = $locationInfo;
+	}
+
 	/**
 	 * Avoid serialization of the {@link $logger} object
 	 */
