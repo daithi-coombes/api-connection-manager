@@ -151,6 +151,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string The oauth2 access type parameter */
 		public $access_type = "";
 	
+		/** @var string The img tag to the module button, or module name as
+		 * type default*/
+		public $button = "";
+		
 		/** @var string The callback url */
 		public $callback_url = "";
 		
@@ -311,6 +315,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$id = session_id();
 			if(!$id || $id=="")
 				$this->sessions = false;			
+			//get button
+			$parts = explode("/", $this->slug);
+			$button = "/api-con-mngr-modules/{$parts[0]}/button.png";
+			if(file_exists(WP_PLUGIN_DIR . $button))
+				$this->button = "<img src=\"" . WP_PLUGIN_URL . "{$button}\" alt=\"{$this->Name}\" width=\"80\"/>";
 			//end bootstrap
 			
 			//if oauth1 build oauthConsumer
