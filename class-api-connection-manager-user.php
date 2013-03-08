@@ -107,7 +107,7 @@ class API_Connection_Manager_User{
 	}
 	
 	public function dash_menu(){
-		add_menu_page("User Connections", "API Connection Manager - User Connections", "manage_options", "api-connection-manager-user", array(&$this, 'do_shortcode'));
+		add_menu_page("User Connections", "API Connection Manager - User Connections", "read", "api-connection-manager-user", array(&$this, 'do_shortcode'));
 	}
 	
 	/**
