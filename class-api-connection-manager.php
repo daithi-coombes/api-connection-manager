@@ -127,7 +127,7 @@ class API_Connection_Manager{
 		/**
 		 * actions
 		 */
-		add_action('plugins_loaded', array(&$this,'_response_listener'));
+		//add_action('plugins_loaded', array(&$this,'_response_listener'));
 		
 		/**
 		 * Check if logout request 
@@ -452,16 +452,22 @@ class API_Connection_Manager{
 	 */
 	static public function _get_current_user(){
 		
-		require_once( ABSPATH . "/wp-includes/pluggable.php" );
 		global $current_user;
-		wp_cookie_constants();
+		$current_user = wp_get_current_user();
+		return $current_user;
+		
+		//require_once( ABSPATH . "/wp-includes/pluggable.php" );
+		global $current_user;
+		//wp_cookie_constants();
 		
 		//try with wordpress's native func
-		if(function_exists("wp_get_current_user")){
+		//if(function_exists("wp_get_current_user")){
 			$current_user = wp_get_current_user ();
 			return $current_user;
-		}
+		//}
+		$this->log("Current User: {$current_user->ID}");
 		
+		/**
 		//if function not loaded yet, manually get current user
 		$user_id = wp_validate_auth_cookie();
 		if($user_id)
@@ -469,6 +475,8 @@ class API_Connection_Manager{
 		else
 			return new WP_User(0);
 		//end Get current user		
+		 * 
+		 */
 	}
 	
 	/**

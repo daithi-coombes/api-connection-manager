@@ -287,7 +287,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		function __construct() {
 			
 			//make sure we have user id
-			$this->user = API_Connection_Manager::_get_current_user();
+			//$this->user = API_Connection_Manager::_get_current_user();
 			
 			/**
 			 * Logging. Uncomment the below line 
@@ -647,7 +647,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function get_params(){
 			
-			$user_id = $this->user->ID;
+			//$user_id = $this->user->ID;
+			$user_id = API_Connection_Manager::_get_current_user()->ID;
 			$key = $this->option_name."-{$this->slug}";
 			$meta = get_user_meta($user_id, $key, true);
 			

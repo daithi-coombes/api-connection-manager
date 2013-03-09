@@ -77,8 +77,11 @@ spl_autoload_register("API_Con_Mngr_Autoload");
  * settings pages are loaded.
  */
 require_once( $API_CON_PLUGIN_DIR . "/class-api-connection-manager.php");
-global $API_Connection_Manager;
-$API_Connection_Manager = new API_Connection_Manager();
+add_action('plugins_loaded', function(){
+	global $API_Connection_Manager;
+	$API_Connection_Manager = new API_Connection_Manager();
+	$API_Connection_Manager->_response_listener();
+});
 /**
  * end Api Connection Manager 
  */
