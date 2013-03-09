@@ -286,13 +286,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		function __construct() {
 			
-			$option_name = "{$this->option_name}-connections";
-			//multisite install
-			if(is_multisite())
-				$connections = update_site_option($option_name, array());
-			else
-				$connections = update_option($option_name, array());
-			
 			/**
 			 * Logging. Uncomment the below line 
 			 */

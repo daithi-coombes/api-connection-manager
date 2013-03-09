@@ -800,6 +800,16 @@ class API_Connection_Manager{
 		$options = $this->_set_option($options);
 	}
 	
+	public function _reset_options(){
+		$option_name = "{$this->option_name}-connections";
+		//multisite install
+		if(is_multisite())
+			$connections = update_site_option($option_name, array());
+		else
+			$connections = update_option($option_name, array());
+
+	}
+	
 	/**
 	 * Ajax callback
 	 * 
@@ -827,6 +837,13 @@ class API_Connection_Manager{
 			true!==@DOING_AJAX ||
 			@$_GET['action']!='api_con_mngr'
 		) return;
+		
+		//if reseting options
+		if($_GET['api-action']=='reset'){
+			$this->_reset_options();
+			die("Options reset");
+		}
+		//end if reseting options
 		
 		@$this->log("response listener: nonce {$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']}");
 		
