@@ -130,7 +130,8 @@ class API_Connection_Manager{
 		/**
 		 * actions
 		 */
-		//add_action('plugins_loaded', array(&$this,'_response_listener'));
+		add_action('delete_user', array(&$this, 'delete_user'));
+		add_action('wpmu_delete_user', array(&$this, 'delete_user'));
 		
 		/**
 		 * Check if logout request 
@@ -215,6 +216,33 @@ class API_Connection_Manager{
 		
 		//save user meta
 		update_user_meta($this->user->ID, $this->option_name, $options);
+	}
+	
+	/**
+	 * Action callback
+	 * Delete option values relating to deleted user
+	 */
+	public function delete_user( $user_id ){
+		
+		$option_name = "API_Con_Mngr_Module-connections";
+		if(is_multisite())
+			$connections = get_site_option($option_name, array());
+		else
+			$connections = get_option($option_name, array());
+		
+		//look through all slugs
+		foreach($connections as $slug => $connection)
+			foreach($connection as $_user => $uid)
+				if($_user==$user_id){
+					unset($connections[$slug][$_user]);
+					if(!count($connections[$slug]))
+						unset($connections[$slug]);
+				}
+				
+		if(is_multisite())
+			update_site_option($option_name, $connections);
+		else
+			update_option($option_name, $connections);
 	}
 	
 	/**
