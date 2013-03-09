@@ -79,7 +79,8 @@ class API_Connection_Manager_User{
 			/**
 			 * Start module html
 			 */
-			$html .= "<div id=\"postbox-container-{$count}\" class=\"postbox-container\">
+			//$html .= "<div id=\"postbox-container-{$count}\" class=\"postbox-container\">
+			$html .= "<div id=\"postbox-container-{$count}\">
 					<div class=\"postbox\">
 						<h3>
 							<img src=\"".WP_PLUGIN_URL."/api-connection-manager/images/{$status}\" width=\"12\" height=\"12\"/>
