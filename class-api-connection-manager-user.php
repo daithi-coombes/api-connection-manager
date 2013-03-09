@@ -12,7 +12,7 @@ class API_Connection_Manager_User{
 		$action = @$_REQUEST['api_con_user_action'];
 		if($action)
 			if(method_exists($this, $action))
-				$this->$action();
+				add_action('plugins_loaded', array($this, $action));
 		add_shortcode('API_Con_User_Connections', array(&$this, 'do_shortcode'));
 		
 		//add menu page
