@@ -731,7 +731,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * uid for this service has already been connected with the current
 		 * logged in wp user.
 		 * 
-		 * @deprecated Can't find any usages
 		 * @param string $uid The profile user id to match
 		 * @return boolean If wp user logged in, will set connect service uid
 		 * with user. If not will look for connection and login if found. If
@@ -740,7 +739,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function login( $uid ){
 			
 			$option_name = "{$this->option_name}-connections";
-			$connections = get_option($option_name, array());
+			//multisite install
+			if(is_multisite())
+				$connections = get_site_option($option_name, array());
+			else
+				$connections = get_option($option_name, array());
+			//$connections = get_option($option_name, array());
 			
 			//if logged in user
 			if($this->user->ID){
@@ -794,10 +798,20 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function login_connect($user_id, $uid){
 			$option_name = "{$this->option_name}-connections";
-			$connections = get_option($option_name, array());
+			//multisite install
+			if(is_multisite())
+				$connections = get_site_option($option_name, array());
+			else
+				$connections = get_option($option_name, array());
+			//$connections = get_option($option_name, array());
 
 			$connections[$this->slug][$user_id] = $uid;
-			update_option($option_name, $connections);
+			$this->log($connections);
+			if(is_multisite())
+				update_site_option($option_name, $connections);
+			else
+				update_option($option_name, $connections);
+			//update_option($option_name, $connections);
 		}
 		
 		/**

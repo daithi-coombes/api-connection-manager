@@ -32,7 +32,11 @@ class API_Connection_Manager_User{
 		$current_user = wp_get_current_user();
 		$count=1;
 		$html = "<div>\n";
-		$meta = get_option("API_Con_Mngr_Module-connections", array());
+		if(is_multisite())
+			$meta = get_site_option("API_Con_Mngr_Module-connections", array());
+		else
+			$meta = get_option("API_Con_Mngr_Module-connections", array());
+		//$meta = get_option("API_Con_Mngr_Module-connections", array());
 		$modules = $API_Connection_Manager->get_services();
 		
 		//check user is logged in
