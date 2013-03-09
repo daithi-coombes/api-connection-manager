@@ -768,7 +768,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 							do_action('wp_login', $user->data->user_login, $user);
 
 							//redirect to admin page
-							wp_redirect(admin_url());
+							wp_redirect(admin_url() . "admin.php?page=api-connection-manager-user");
 							exit();
 						}
 			}
