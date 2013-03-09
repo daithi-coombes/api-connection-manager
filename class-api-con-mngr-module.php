@@ -801,7 +801,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//$connections = get_option($option_name, array());
 
 			//check if provider account is already in use
-			foreach($connections[$this->slug] as $_user_id => $_uid)
+			foreach(@$connections[$this->slug] as $_user_id => $_uid)
 				if($_uid==$uid)
 					return new WP_Error ('API Connection Manager Module', "Sorry that profile is already associated with another account");
 			
