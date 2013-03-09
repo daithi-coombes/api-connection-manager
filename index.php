@@ -81,21 +81,22 @@ add_action('plugins_loaded', function(){
 	global $API_Connection_Manager;
 	$API_Connection_Manager = new API_Connection_Manager();
 	$API_Connection_Manager->_response_listener();
+	
+	/**
+	 * Class depencencies 
+	 */
+	require_once('class-api-connection-manager-setup.php');
+	require_once('class-api-connection-manager-user.php'); //Merge the autoflow settings here
+	/**
+	 * end Class  
+	 */
+
+	/**
+	 * actions and hooks 
+	 */
+	add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));
+
 });
 /**
  * end Api Connection Manager 
  */
-
-/**
- * Class depencencies 
- */
-require_once('class-api-connection-manager-setup.php');
-require_once('class-api-connection-manager-user.php'); //Merge the autoflow settings here
-/**
- * end Class  
- */
-
-/**
- * actions and hooks 
- */
-add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));

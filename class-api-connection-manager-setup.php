@@ -33,12 +33,6 @@ class API_Connection_Manager_Setup extends WP_List_Table{
         global $status, $page;
 		get_current_screen();
         
-		//register admin pages
-		if(is_multisite())	//if multisite then put settings in network admin
-			add_action('network_admin_menu', array(&$this, 'dash_menu'));
-		else	//if not then put settings in dashboard
-			add_action('admin_menu', array(&$this, 'dash_menu'));
-				
 		//actions
 		add_action('admin_head', array(&$this,'admin_head'));
 		
@@ -493,7 +487,6 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 	}
 }
 
-$api_con_mngr_dash_setup = new API_Connection_Manager_Setup();
 if( !function_exists( 'api_connection_manager_dash' ) ):
 	/**
 	 * Function for displaying service activation/deactivation table.
@@ -509,6 +502,7 @@ if( !function_exists( 'api_connection_manager_dash' ) ):
 		
 		//construct WP_List_Table child class
 		global $api_con_mngr_dash_setup;
+		$api_con_mngr_dash_setup = new API_Connection_Manager_Setup();
 		$api_con_mngr_dash_setup->__construct_wp_list();
 		/*
 		if("API_Connection_Manager_Setup"!=get_class($dashboard))
@@ -568,7 +562,7 @@ if( !function_exists( 'api_connection_manager_dash_options' ) ):
 	function api_connection_manager_dash_options(){
 	
 		//get setup class
-		global $api_con_mngr_dash_setup;
+		$api_con_mngr_dash_setup = new API_Connection_Manager_Setup();
 		$api_con_mngr_dash_setup->__construct_wp_list();
 		
 		//redirect uri
@@ -584,5 +578,19 @@ if( !function_exists( 'api_connection_manager_dash_options' ) ):
 				<?php echo $api_con_mngr_dash_setup->get_service_options(); ?>
 			</ul>
 		<?php
+	}
+endif;
+
+//register admin pages
+if(is_multisite())	//if multisite then put settings in network admin
+	add_action('network_admin_menu', 'api_con_mngr_dash_menu');
+else	//if not then put settings in dashboard
+	add_action('admin_menu', 'api_con_mngr_dash_menu');
+
+if(!function_exists("api_con_mngr_dash_menu")):
+	
+	function api_con_mngr_dash_menu(){
+		add_menu_page("API Connection Manager", "API Connection Manager", "manage_options", "api-connection-manager-setup", 'api_connection_manager_dash');
+		add_submenu_page("api-connection-manager-setup", "Serivce Options", "Service Options", "manage_options", "api-connection-manager-service", 'api_connection_manager_dash_options');
 	}
 endif;
