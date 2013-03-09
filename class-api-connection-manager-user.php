@@ -6,9 +6,15 @@
  */
 class API_Connection_Manager_User{
 
-	private $error = false;
-	
 	function __construct(){
+		
+		/**
+		 * Logging. Uncomment the below line to log 
+		 */
+		if(file_exists(dirname(__FILE__)."/log4net-config.xml"))
+			@$this->log_api = Logger::getLogger(__CLASS__);
+		else $this->log_api = new WP_Error('API_Connection_Manager: log4php','No log4net-config.xml file found');
+		//end logging
 		
 		//check for actions
 		$action = @$_REQUEST['api_con_user_action'];
@@ -44,6 +50,7 @@ class API_Connection_Manager_User{
 		else
 			$meta = get_option("API_Con_Mngr_Module-connections", array());
 		//$meta = get_option("API_Con_Mngr_Module-connections", array());
+		$this->log($meta);
 		$modules = $API_Connection_Manager->get_services();
 		
 		//check user is logged in
@@ -151,6 +158,40 @@ class API_Connection_Manager_User{
 		//update_option("API_Con_Mngr_Module-connections", $meta);
 	}
 	
+	/**
+	 * Log an INFO message
+	 * @param string $msg The message to log
+	 * @return none
+	 */
+	public function log($msg, $level='info'){
+			if(!is_wp_error($this->log_api)){
+				
+				// Manually construct a logging event
+				$level = LoggerLevel::toLevel($level);
+				$logger = Logger::getLogger(__CLASS__);
+				$event = new LoggerLoggingEvent(__CLASS__, $logger, $level, $msg);
+
+				// Override the location info
+				$bt = debug_backtrace();
+				$caller = array_shift($bt);
+				$location = new LoggerLocationInfo($caller);
+				$event->setLocationInformation($location);
+
+				// Log it
+				$logger->logEvent($event);
+				/**
+				//trace
+				$bt = debug_backtrace();
+				$caller = array_shift($bt);
+				$trace = $caller['file'] . ":" . $caller['line'];
+				$this->log_api->trace($trace);
+				
+				//log
+				$this->log_api->$level( $msg );
+				 */
+			}
+	}
+
 }
 
 $API_Con_User = new API_Connection_Manager_User();
