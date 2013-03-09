@@ -152,9 +152,9 @@ class API_Connection_Manager_User{
 		if(empty($meta[$_REQUEST['slug']]))
 			unset($meta[$_REQUEST['slug']]);
 		if(is_multisite())
-			update_site_option("API_Con_Mngr_Module-connections", array());
+			update_site_option("API_Con_Mngr_Module-connections", $meta);
 		else
-			update_option("API_Con_Mngr_Module-connections", array());
+			update_option("API_Con_Mngr_Module-connections", $meta);
 		//update_option("API_Con_Mngr_Module-connections", $meta);
 	}
 	
