@@ -801,13 +801,14 @@ class API_Connection_Manager{
 	}
 	
 	public function _reset_options(){
-		$option_name = "{$this->option_name}-connections";
+		$option_name = "API_Con_Mngr_Module-connections";
 		//multisite install
 		if(is_multisite())
 			$connections = update_site_option($option_name, array());
 		else
 			$connections = update_option($option_name, array());
-
+		$this->log("New options");
+		$this->log(get_site_option($option_name));
 	}
 	
 	/**
