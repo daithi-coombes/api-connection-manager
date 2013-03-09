@@ -805,7 +805,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 				if($_uid==$uid)
 					return new WP_Error ('API Connection Manager Module', "Sorry that profile is already associated with another account");
 			
-			$connections[$this->slug][$user_id] = $uid;
+			$connections[$this->slug][$user_id] = (string) $uid;
 			$this->log($connections);
 			if(is_multisite())
 				update_site_option($option_name, $connections);
