@@ -746,13 +746,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$connections = get_option($option_name, array());
 			//$connections = get_option($option_name, array());
 			
-			//if logged in user
-			if($this->user->ID){
-				$this->login_connect($this->user->ID, $uid);
-				return true;
-			}
+			//if logged in user then connect account
+			if($this->user->ID)
+				return $this->login_connect($this->user->ID, $uid);
 			
-			//else look for user in connections array
+			//else look for user in connections array and log them in
 			else{
 				//get list of users for this slug
 				$data = @$connections[$this->slug];
@@ -805,6 +803,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$connections = get_option($option_name, array());
 			//$connections = get_option($option_name, array());
 
+			//check if provider account is already in use
+			foreach($connections[$this->slug] as $_user_id => $_uid)
+				if($_uid==$uid)
+					return new WP_Error ('API Connection Manager Module', "Sorry that profile is already associated with another account");
+			
 			$connections[$this->slug][$user_id] = $uid;
 			$this->log($connections);
 			if(is_multisite())
@@ -812,6 +815,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			else
 				update_option($option_name, $connections);
 			//update_option($option_name, $connections);
+			return true;
 		}
 		
 		/**

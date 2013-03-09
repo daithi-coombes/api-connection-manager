@@ -6,6 +6,8 @@
  */
 class API_Connection_Manager_User{
 
+	private $error = false;
+	
 	function __construct(){
 		
 		//check for actions
@@ -19,6 +21,11 @@ class API_Connection_Manager_User{
 		add_action('admin_menu', array(&$this, 'dash_menu'));
 	}
 
+	public function admin_notices(){
+		echo '<div id="message" class="error">';
+		echo "<p><strong>This is an error</strong></p></div>";
+	}
+	
 	/**
 	 * Print the user connections
 	 * 
@@ -107,7 +114,11 @@ class API_Connection_Manager_User{
 		global $API_Connection_Manager;
 		$module = $API_Connection_Manager->get_service($dto->slug);
 		$uid = $module->get_uid();
-		$module->login($uid);
+		$login = $module->login($uid);
+		
+		if(is_wp_error($login)){
+			API_Connection_Manager::error($login->get_error_message());
+		}
 	}
 	
 	public function dash_menu(){
@@ -125,11 +136,19 @@ class API_Connection_Manager_User{
 		
 		$current_user = wp_get_current_user();
 		$user_id = $API_Connection_Manager->get_current_user()->ID;
-		$meta = get_option("API_Con_Mngr_Module-connections", array());
+		if(is_multisite())
+			$meta = get_site_option("API_Con_Mngr_Module-connections", array());
+		else
+			$meta = get_option("API_Con_Mngr_Module-connections", array());
+		//$meta = get_option("API_Con_Mngr_Module-connections", array());
 		unset($meta[$_REQUEST['slug']][$user_id]);
 		if(empty($meta[$_REQUEST['slug']]))
 			unset($meta[$_REQUEST['slug']]);
-		update_option("API_Con_Mngr_Module-connections", $meta);
+		if(is_multisite())
+			update_site_option("API_Con_Mngr_Module-connections", array());
+		else
+			update_option("API_Con_Mngr_Module-connections", array());
+		//update_option("API_Con_Mngr_Module-connections", $meta);
 	}
 	
 }

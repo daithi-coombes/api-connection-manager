@@ -124,6 +124,9 @@ class API_Connection_Manager{
 			$options['inactive'] = array();
 		$this->_set_option($options);
 		
+		//check for errors
+		add_action('admin_notices', array(&$this, 'admin_notices'));
+		
 		/**
 		 * actions
 		 */
@@ -136,6 +139,25 @@ class API_Connection_Manager{
 			$this->_service_logout( urldecode($_REQUEST['service']) );
 		
 	} //end construct()
+	
+	/**
+	 * Admin notices callback. Will print any errors in the session 
+	 * Api-Con-Errors and then unset the session
+	 */
+	public function admin_notices(){
+		
+		$errors = @$_SESSION['Api-Con-Errors'];
+		if(!$errors)
+				return;
+		
+		print "<div id=\"message\" class=\"error\">
+			<h2>API Connection Manager</h2>
+			<ul>";
+		foreach($errors as $err)
+			echo "<li>{$err}</li>\n";
+		echo "</ul></div>";
+		unset($_SESSION['Api-Con-Errors']);
+	}
 	
 	/**
 	 * Delete tokens for a service. Unless specified will delete both refresh
@@ -352,6 +374,11 @@ class API_Connection_Manager{
 			}
 	}
 
+	static public function error($msg){
+		if(!$_SESSION['Api-Con-Errors'])
+			$_SESSION['Api-Con-Errors'] = array();
+		$_SESSION['Api-Con-Errors'][] = $msg;
+	}
 	
 	public function set_user_token( $slug, $token, $type='access', $user=null){
 		$this->_set_token($slug, $token, $type, $user);
