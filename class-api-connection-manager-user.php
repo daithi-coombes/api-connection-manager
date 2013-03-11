@@ -50,7 +50,6 @@ class API_Connection_Manager_User{
 		else
 			$meta = get_option("API_Con_Mngr_Module-connections", array());
 		//$meta = get_option("API_Con_Mngr_Module-connections", array());
-		$this->log($meta);
 		$modules = $API_Connection_Manager->get_services();
 		
 		//check user is logged in
@@ -142,12 +141,26 @@ class API_Connection_Manager_User{
 		global $API_Connection_Manager;
 		global $current_user;
 		
+		$count=0;
 		$current_user = wp_get_current_user();
 		$user_id = $API_Connection_Manager->get_current_user()->ID;
 		if(is_multisite())
 			$meta = get_site_option("API_Con_Mngr_Module-connections", array());
 		else
 			$meta = get_option("API_Con_Mngr_Module-connections", array());
+		
+		//get current count of connected providers
+		foreach($meta as $slug => $connections)
+			foreach($connections as $wp_id=>$uid)
+				if($wp_id==$user_id)
+					$count++;
+		
+		//don't let user disconnect last connection
+		if($count==1){
+			API_Connection_Manager::error("You cannot disconnect from all providers. At least one must stay connected");
+			return;
+		}
+		
 		//$meta = get_option("API_Con_Mngr_Module-connections", array());
 		unset($meta[$_REQUEST['slug']][$user_id]);
 		if(empty($meta[$_REQUEST['slug']]))

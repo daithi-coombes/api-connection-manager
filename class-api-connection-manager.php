@@ -403,7 +403,7 @@ class API_Connection_Manager{
 	}
 
 	static public function error($msg){
-		if(!$_SESSION['Api-Con-Errors'])
+		if(!@$_SESSION['Api-Con-Errors'])
 			$_SESSION['Api-Con-Errors'] = array();
 		$_SESSION['Api-Con-Errors'][] = $msg;
 	}
