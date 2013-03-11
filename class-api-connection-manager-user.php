@@ -27,11 +27,6 @@ class API_Connection_Manager_User{
 		add_action('admin_menu', array(&$this, 'dash_menu'));
 	}
 
-	public function admin_notices(){
-		echo '<div id="message" class="error">';
-		echo "<p><strong>This is an error</strong></p></div>";
-	}
-	
 	/**
 	 * Print the user connections
 	 * 
@@ -88,6 +83,7 @@ class API_Connection_Manager_User{
 			//print delete access tokens / show login link
 			if($valid)
 				$html .= "
+					<label><u>{$module->get_profile()->username}</u> is connected</label>
 					<form method=\"post\">
 						<input type=\"hidden\" name=\"api_con_user_action\" value=\"disconnect\"/>
 						<input type=\"hidden\" name=\"slug\" value=\"{$slug}\"/>
