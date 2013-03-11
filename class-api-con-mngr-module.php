@@ -913,10 +913,19 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(!$errs)
 				$errs = $this->check_error($response);
 			if(is_wp_error($errs)){
+				
+				//get & register error message
 				$msg = addslashes( $errs->get_error_message() );
 				$this->log("Response Error:");
 				$this->log($errs);
 				API_Connection_Manager::error($this->Name . ": ".$msg);
+				
+				//clear any tokens
+				$this->set_params(array(
+					'access_token' => false
+				));
+				
+				//print js to reload calling page
 				print "
 					<script>
 						alert('{$msg}');
@@ -924,7 +933,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 							window.opener.location.reload();
 							window.close();
 						}else
-							//window.location.href = document.referrer;
+							window.location.href = document.referrer;
 					</script>
 					";
 			}
