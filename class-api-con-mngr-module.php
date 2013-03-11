@@ -555,7 +555,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//if not a sign on button
 			if(empty($file) && empty($callback)){
-				$msg = "<br/><em>You are not signed into {$this->Name}</em><br/>
+				$this->log(debug_backtrace());
+				$msg = "<br/><em>You are not signed;alkdfj;alkdj into {$this->Name}</em><br/>
 						<a href=\"{$url}\" target=\"_new\">Sign into {$this->Name}</a>
 						";
 				if($die)
@@ -841,6 +842,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function parse_response(  $response=array() ){
 			
+			if(is_wp_error($response))
+				return $response;
+			
 			//vars
 			$content_type = strtolower($response['headers']['content-type']);
 			$ret = array();
@@ -909,22 +913,20 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(!$errs)
 				$errs = $this->check_error($response);
 			if(is_wp_error($errs)){
-				if($die){
-					$msg = addslashes( $errs->get_error_message() );
-					$this->log("Response Error:");
-					$this->log($errs);
-					print "
-						<script>
-							if(window.opener){
-								alert('{$msg}');
-								//window.opener.location.reload();
-								//window.close();
-							}
-						</script>
-						";
-					print "<em>\n" . str_replace("\n", "<br/>", $msg) . "</em>\n";
-				}
-				$this->get_login_button(null, null, $die);
+				$msg = addslashes( $errs->get_error_message() );
+				$this->log("Response Error:");
+				$this->log($errs);
+				API_Connection_Manager::error($this->Name . ": ".$msg);
+				print "
+					<script>
+						alert('{$msg}');
+						if(window.opener){
+							window.opener.location.reload();
+							window.close();
+						}else
+							window.location.href = document.referrer;
+					</script>
+					";
 			}
 			
 			//return response
