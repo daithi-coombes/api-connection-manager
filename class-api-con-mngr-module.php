@@ -351,6 +351,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		abstract public function get_uid();
 		
+		abstract public function get_profile();
+		
 		/**
 		 * Make a request to verify a token. If no token then return false, if
 		 * service provides no call to test token then make request for profile
