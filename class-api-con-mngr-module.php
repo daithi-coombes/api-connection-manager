@@ -924,7 +924,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 							window.opener.location.reload();
 							window.close();
 						}else
-							window.location.href = document.referrer;
+							//window.location.href = document.referrer;
 					</script>
 					";
 			}
