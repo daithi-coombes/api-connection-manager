@@ -877,10 +877,19 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function request($url, $method='GET', $parameters = array(), $die=true) {
 			
+			global $current_user;
+			
 			$this->log("Request:");
 			$this->log("{$method} {$url}");
 			
 			//vars
+			$current_user = wp_get_current_user();
+			$option_name = "{$this->option_name}-connections";
+			//multisite install
+			if(is_multisite())
+				$connections = get_site_option($option_name, array());
+			else
+				$connections = get_option($option_name, array());
 			$method = strtoupper($method);
 			$errs=false;
 			
@@ -924,6 +933,14 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$this->set_params(array(
 					'access_token' => false
 				));
+				if(@$current_user->ID){
+					unset($connections[$this->slug][$current_user->ID]);
+					$option_name = "{$this->option_name}-connections";
+					if(is_multisite())
+						update_site_option($option_name, $connections);
+					else
+						update_option($option_name, $connections);
+				}
 				
 				//print js to reload calling page
 				print "
