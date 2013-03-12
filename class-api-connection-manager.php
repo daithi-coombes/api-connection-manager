@@ -954,6 +954,8 @@ class API_Connection_Manager{
 				//such as get request token for oauth1
 				$module->do_login( $dto );
 				
+				$module->do_callback( $dto );
+				/**
 				//if callback
 				if(!$this->user->ID || ($this->user->ID==0))
 					$module->do_callback( $dto );
@@ -964,6 +966,8 @@ class API_Connection_Manager{
 					$uid = $module->get_uid();
 					$module->login($uid);
 				}
+				 * 
+				 */
 			}
 			// end saving the access token
 

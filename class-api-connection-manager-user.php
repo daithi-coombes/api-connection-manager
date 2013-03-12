@@ -118,10 +118,8 @@ class API_Connection_Manager_User{
 		$module = $API_Connection_Manager->get_service($dto->slug);
 		$uid = $module->get_uid();
 		$login = $module->login($uid);
-		
-		if(is_wp_error($login)){
+		if(is_wp_error($login))
 			API_Connection_Manager::error($login->get_error_message());
-		}
 	}
 	
 	public function dash_menu(){
