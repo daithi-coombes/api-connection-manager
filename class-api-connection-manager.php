@@ -867,6 +867,20 @@ class API_Connection_Manager{
 			@$_GET['action']!='api_con_mngr'
 		) return;
 		
+		/**
+		 * Process flag.
+		 * In situations where the ajax page needs to be reloaded, ie autoflow
+		 * when the email forms are submited, this flag if set to false will
+		 * stop api-con from reprocessing request tokens for access tokens.
+		 */
+		if(@$_REQUEST['api-con-mngr']=='false'){
+			/*$service = $this->get_service("dropbox/index.php");
+			ar_print($service);
+			die();*/
+			return false;
+		}
+		//end Process flag
+		
 		//if reseting options
 		if(@$_GET['api-action']=='reset'){
 			$this->_reset_options();
