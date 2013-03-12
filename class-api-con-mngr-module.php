@@ -480,7 +480,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 						'client_secret' => $this->client_secret,
 						'code' => $response['code'],
 						'redirect_uri' => $this->redirect_uri
-					) );
+					), false );
 					break;
 			}
 			
@@ -947,16 +947,27 @@ if (!class_exists("API_Con_Mngr_Module")):
 				}
 				
 				//print js to reload calling page
-				print "
-					<script>
-						alert('{$msg}');
-						if(window.opener){
-							window.opener.location.reload();
-							window.close();
-						}else
-							window.location.href = document.referrer;
-					</script>
-					";
+				if($die)
+					print "
+						<script>
+							alert('{$msg}');
+							if(window.opener){
+								window.opener.location.reload();
+								window.close();
+							}else
+								window.location.href = document.referrer;
+						</script>
+						";
+				else
+					print "
+						<script>
+							alert('{$msg}');
+							if(window.opener){
+								window.opener.location.href = '{$_SESSION['api-con-mngr-referer']}';
+								window.close();
+							}else
+								window.location.href = '{$_SESSION['api-con-mngr-referer']}';
+						</script>";
 			}
 			
 			//return response

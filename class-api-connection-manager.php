@@ -1060,6 +1060,9 @@ class API_Connection_Manager{
 	 */
 	private function _service_login_authorize( API_Con_Mngr_Module $module, stdClass $dto ){
 		
+		//set referer, in case error reported mid authentication
+		$_SESSION['api-con-mngr-referer'] = $_SERVER['HTTP_REFERER'];
+		
 		switch($module->protocol){
 			
 			//oauth1
