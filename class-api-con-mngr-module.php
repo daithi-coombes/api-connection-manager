@@ -533,6 +533,24 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
+		 * Returns the connections array.
+		 * The connections array is in the format:
+		 * <code>
+		 * array[$slug][$user_id] = $profile_id
+		 * </code>
+		 * @return array Returns an empty array if no connections.
+		 */
+		public function get_connections(){
+			$option_name = "{$this->option_name}-connections";
+			//multisite install
+			if(is_multisite())
+				$connections = get_site_option($option_name, array());
+			else
+				$connections = get_option($option_name, array());
+			return $connections;
+		}
+		
+		/**
 		 * Returns a link to login to this service.
 		 * 
 		 * Builds the link and dies. If the request is for a signin button then 
@@ -738,13 +756,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function login( $uid ){
 			
-			$option_name = "{$this->option_name}-connections";
-			//multisite install
-			if(is_multisite())
-				$connections = get_site_option($option_name, array());
-			else
-				$connections = get_option($option_name, array());
-			//$connections = get_option($option_name, array());
+			$connections = $this->get_connections();
 			
 			//if logged in user then connect account
 			if($this->user->ID)
@@ -795,13 +807,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $uid This module providers account id
 		 */
 		public function login_connect($user_id, $uid){
-			$option_name = "{$this->option_name}-connections";
-			//multisite install
-			if(is_multisite())
-				$connections = get_site_option($option_name, array());
-			else
-				$connections = get_option($option_name, array());
-			//$connections = get_option($option_name, array());
+			
+			$connections = $this->get_connections();
 
 			/**
 			 * check if provider account is already in use
@@ -889,12 +896,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//vars
 			$current_user = wp_get_current_user();
-			$option_name = "{$this->option_name}-connections";
-			//multisite install
-			if(is_multisite())
-				$connections = get_site_option($option_name, array());
-			else
-				$connections = get_option($option_name, array());
+			$connections = $this->get_connections();
 			$method = strtoupper($method);
 			$errs=false;
 			
@@ -940,11 +942,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 				));
 				if(@$current_user->ID){
 					unset($connections[$this->slug][$current_user->ID]);
-					$option_name = "{$this->option_name}-connections";
-					if(is_multisite())
-						update_site_option($option_name, $connections);
-					else
-						update_option($option_name, $connections);
+					$this->set_connections($connections);
 				}
 				
 				//print js to reload calling page
@@ -975,6 +973,24 @@ if (!class_exists("API_Con_Mngr_Module")):
 			return $response;
 		}
 
+		/**
+		 * Sets the connections array.
+		 * The connections array is in the format:
+		 * <code>
+		 * array[$slug][$user_id] = $profile_id
+		 * </code>
+		 * @param array $connections
+		 * @return array $connections
+		 */
+		public function set_connections( $connections ){
+			$option_name = "{$this->option_name}-connections";
+			if(is_multisite())
+				update_site_option($option_name, $connections);
+			else
+				update_option($option_name, $connections);
+			return $connections;
+		}
+		
 		/**
 		 * Set this instance details fields such as Name and Description.
 		 * 
