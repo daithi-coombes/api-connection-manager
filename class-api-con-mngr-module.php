@@ -822,11 +822,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			$connections[$this->slug][$user_id] = (string) $uid;
 			$this->log($connections);
-			if(is_multisite())
-				update_site_option($option_name, $connections);
-			else
-				update_option($option_name, $connections);
-			//update_option($option_name, $connections);
+			$this->set_connections($connections);
 			return true;
 		}
 		
