@@ -816,8 +816,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(count(@$connections[$this->slug]) && is_array($connections[$this->slug]))
 				foreach(@$connections[$this->slug] as $_user_id => $_uid)
 					if($_uid==$uid){
-						$this->log(debug_backtrace());
-						return new WP_Error ('API Connection Manager Module', "Sorry that profile is already associated with another account");
+						if(get_userdata($_user_id))
+							return new WP_Error ('API Connection Manager Module', "Sorry that profile is already associated with another account");
+						else
+							unset($connections[$this->slug][$_user_id]);
 					}
 			
 			$connections[$this->slug][$user_id] = (string) $uid;
