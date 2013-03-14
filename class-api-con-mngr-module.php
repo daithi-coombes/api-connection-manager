@@ -934,7 +934,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$this->log($errs);
 				API_Connection_Manager::error($this->Name . ": ".$msg);
 				
-				//clear any tokens
+				/**
+				 * @deprecated https://github.com/cityindex/labs.cityindex.com/issues/116
 				$this->set_params(array(
 					'access_token' => false
 				));
@@ -942,6 +943,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 					unset($connections[$this->slug][$current_user->ID]);
 					$this->set_connections($connections);
 				}
+				 * 
+				 */
 				
 				//print js to reload calling page
 				if($die)
