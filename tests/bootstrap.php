@@ -1,7 +1,7 @@
 <?php
 
 //change this to your path
-$path = '/var/www/wordpress.loc/wordpress-tests/bootstrap.php';
+$path = '/var/www/wordpress.loc/foo/wordpress-tests/includes/bootstrap.php';
 
 if (file_exists($path)) {
         $GLOBALS['wp_tests_options'] = array(
