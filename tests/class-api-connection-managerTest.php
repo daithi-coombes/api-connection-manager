@@ -1,5 +1,5 @@
 <?php
-require_once('../class-api-connection-manager.php');
+require_once('bootstrap.php');
 
 class API_Connection_ManagerTest extends PHPUnit_Framework_TestCase{
 	
@@ -14,5 +14,5 @@ class API_Connection_ManagerTest extends PHPUnit_Framework_TestCase{
 
 		$this->assertTrue( $obj->_response_listener() !== false );
 	}
-	
+
 }
