@@ -1,5 +1,7 @@
 <?php
 
+ob_start();
+
 //change this to your path
 $path = '/var/www/wordpress.loc/foo/wordpress-tests/includes/bootstrap.php';
 
