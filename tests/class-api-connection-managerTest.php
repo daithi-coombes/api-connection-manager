@@ -1,28 +1,35 @@
 <?php
 require_once('bootstrap.php');
 
-class API_Connection_ManagerTest extends PHPUnit_Framework_TestCase{
+class API_Connection_ManagerTest extends WP_UnitTestCase{
 	
 	protected $api;
 
 	function setUp(){
 		parent::setUp();
 
-		define('DOING_AJAX', true);
+		if(!defined("DOING_AJAX"))
+			define('DOING_AJAX', true);
 		$_GET = $_REQUEST = array(
 			'action' => 'api_con_mngr',
 			'slug' => 'autoflow'
 			);
 
 		$this->api = new API_Connection_Manager();
+		$this->api->services['active'] = get_option('api-connection-manager')['services'];
+	}
+
+	function tearDown(){
+		delete_option('api-connection-manager');
 	}
 
 	function test_response_listener_bootstrap(){
 
 		//get dto
 		$this->assertInstanceOf( 'stdClass', $this->api->get_dto(), "Unable to get dto" );
-		//get module API_Con_Mngr_Module
-		$this->assertInstanceOf( 'API_Con_Mngr_Module', $this->api->get_service('autoflow'), "Unable to API_Con_Mngr_Module");
+		//get service
+		$this->assertInstanceOf( 'API_Con_Mngr_Module', $this->api->get_service('google/index.php'), "Unable to get service");
+
 	}
 
 	function test_response_listener_login_form(){
@@ -39,5 +46,4 @@ class API_Connection_ManagerTest extends PHPUnit_Framework_TestCase{
 	function test_response_listener_login_oauth2(){
 		
 	}
-
 }
