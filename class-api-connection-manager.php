@@ -898,6 +898,8 @@ class API_Connection_Manager{
 		//if slug setup module
 		if(!is_wp_error($dto->slug)){
 			$module = $this->get_service($dto->slug);
+			if(is_wp_error($module))
+				die( $module->get_error_message() );
 			$module->parse_dto($dto);
 			$err = $module->check_error($dto->response);
 			
@@ -1163,7 +1165,7 @@ class API_Connection_Manager{
 	 * @return stdClass|WP_error Returns an error if no service slug found.
 	 * @subpackage service-method
 	 */
-	private function get_dto(){
+	public function get_dto(){
 		
 		//if $_REQUEST remove vars
 		$response = $_REQUEST;
@@ -1239,7 +1241,7 @@ class API_Connection_Manager{
 		
 		//load serivice module's params
 		$params = $this->get_service($res->slug);
-		if(is_wp_error($params)) die( $this->last_error );
+		//if(is_wp_error($params)) die( $params->get_error_message() );
 		return $res;
 	}
 	
