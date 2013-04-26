@@ -5,7 +5,7 @@ Manages connections and requests to 3rd party providers or services.
 
 Contributing
 ============
-See [Contributing.md](https://github.com/daithi-coombes/api-connection-manager/Contributing.md)
+See [Contributing.md](https://github.com/daithi-coombes/api-connection-manager/blog/master/Contributing.md)
 
 Installation
 ============
