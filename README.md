@@ -3,6 +3,9 @@ API Connection Manager
 
 Manages connections and requests to 3rd party providers or services.
 
+Contributing
+============
+See [Contributing.md](https://github.com/daithi-coombes/api-connection-manager/Contributing.md)
 
 Installation
 ============
