@@ -69,6 +69,21 @@ spl_autoload_register("API_Con_Mngr_Autoload");
  * end Autoloader 
  */
 
+/**
+ * Helper functions
+ */
+/**
+ * Check if a variable is instance API_Con_Mngr_Error
+ * @param  mixed  $thing The variable to test
+ * @return boolean        Returns true if is API_Con_Mngr_Error
+ */
+function is_api_con_error($thing){
+	if(get_class($thing)=='API_Con_Mngr_Error')
+		return true;
+	else
+		return false;
+}
+//end Helper functions
 
 /**
  * Api Connection Manager.
