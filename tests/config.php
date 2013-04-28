@@ -7,7 +7,7 @@ $services = array(
 			'scope' => 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email'
 		),
 		'app-token-vars' => array(
-			'client_secret' => ''
+			'client_secret' => 'foo'
 		)
 	)
 );
