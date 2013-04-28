@@ -44,6 +44,12 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 	}
 
 	function test_response_listener_login_oauth2(){
-		
+		$module = $this->api->get_service('google/index.php');
+
+		//test protocol
+		$this->assertEquals("oauth2", $module->protocol, "_response_listener test oauth2: module not oauth2");
+		//get code
+		$code = 
+		ar_print($module->get_access_token(array('code'=>'')));
 	}
 }
