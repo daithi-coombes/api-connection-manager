@@ -10,4 +10,4 @@ $services = array(
 			'client_secret' => 'baz'
 		)
 	)
-)
+);
