@@ -873,12 +873,8 @@ class API_Connection_Manager{
 		 * when the email forms are submited, this flag if set to false will
 		 * stop api-con from reprocessing request tokens for access tokens.
 		 */
-		if(@$_REQUEST['api-con-mngr']=='false'){
-			/*$service = $this->get_service("dropbox/index.php");
-			ar_print($service);
-			die();*/
+		if(@$_REQUEST['api-con-mngr']=='false')
 			return false;
-		}
 		//end Process flag
 		
 		//if reseting options
@@ -892,8 +888,8 @@ class API_Connection_Manager{
 		
 		//get dto (will also set the current user)
 		$dto = $this->get_dto();
-		if(is_wp_error($dto))
-			die( $dto->get_error_message() );
+		if(is_api_con_error($dto))
+			$dto->get_error_message('die');
 		
 		//if slug setup module
 		if(!is_wp_error($dto->slug)){
@@ -1166,11 +1162,11 @@ class API_Connection_Manager{
 	 * @subpackage service-method
 	 */
 	public function get_dto(){
-		
+
 		//if $_REQUEST remove vars
 		$response = $_REQUEST;
 		unset($response['action']);
-		
+
 		/**
 		 * get module slug
 		 */
@@ -1178,8 +1174,9 @@ class API_Connection_Manager{
 			$slug = urldecode($_REQUEST['slug']);
 		elseif(@$_SESSION['API_Con_Mngr_Module']['slug'])
 			$slug = $_SESSION['API_Con_Mngr_Module']['slug'];
-		else 
-			die("Error: No slug found");
+		else
+			return new API_Con_Mngr_Error("Error: No slug found");
+		
 		$_SESSION['API_Con_Mngr_Module']['slug'] = $slug;
 		//end get module slug
 		
