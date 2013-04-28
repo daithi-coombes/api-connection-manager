@@ -1,5 +1,4 @@
 <?php
-
 ob_start();
 
 //enter in your google app details in config.php
