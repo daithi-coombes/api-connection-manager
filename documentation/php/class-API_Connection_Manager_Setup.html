@@ -7,7 +7,7 @@
 	<title>Class API_Connection_Manager_Setup</title>
 
 	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
-	<script type="text/javascript" src="elementlist.js?3766833873"></script>
+	<script type="text/javascript" src="elementlist.js?4088433709"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
 
 </head>
@@ -25,6 +25,23 @@
 						</li>
 				<li><a href="package-david.coombes.html">david-coombes</a>
 						</li>
+				<li><a href="package-log4php.html">log4php<span></span></a>
+						<ul>
+				<li><a href="package-log4php.appenders.html">appenders</a>
+						</li>
+				<li><a href="package-log4php.configurators.html">configurators</a>
+						</li>
+				<li><a href="package-log4php.filters.html">filters</a>
+						</li>
+				<li><a href="package-log4php.helpers.html">helpers</a>
+						</li>
+				<li><a href="package-log4php.layouts.html">layouts</a>
+						</li>
+				<li><a href="package-log4php.pattern.html">pattern</a>
+						</li>
+				<li><a href="package-log4php.renderers.html">renderers</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
 			</ul>
@@ -36,9 +53,9 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-API_Con_Mngr_Error.html">API_Con_Mngr_Error</a></li>
 				<li><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></li>
 				<li class="active"><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></li>
-				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
 			</ul>
 
 
@@ -47,9 +64,11 @@
 
 			<h3>Functions</h3>
 			<ul>
+				<li><a href="function-API_Con_Mngr_Autoload.html">API_Con_Mngr_Autoload</a></li>
 				<li><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></li>
 				<li><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></li>
-				<li><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></li>
+				<li><a href="function-is_api_con_error.html">is_api_con_error</a></li>
+				<li><a href="function-log_action.html">log_action</a></li>
 			</ul>
 		</div>
 	</div>
@@ -148,7 +167,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#20" title="Go to source code">__construct</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#22" title="Go to source code">__construct</a>( )</code>
 
 		<div class="description short">
 			
@@ -181,7 +200,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#___construct_wp_list">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#43" title="Go to source code">__construct_wp_list</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#41" title="Go to source code">__construct_wp_list</a>( )</code>
 
 		<div class="description short">
 			
@@ -210,7 +229,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_activate">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#52" title="Go to source code">activate</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#50" title="Go to source code">activate</a>( )</code>
 
 		<div class="description short">
 			
@@ -243,7 +262,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_admin_head">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#64" title="Go to source code">admin_head</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#62" title="Go to source code">admin_head</a>( )</code>
 
 		<div class="description short">
 			
@@ -276,7 +295,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_column_default">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#95" title="Go to source code">column_default</a>( <span>array <var>$item</var></span>, <span>array <var>$column_name</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#93" title="Go to source code">column_default</a>( <span>array <var>$item</var></span>, <span>array <var>$column_name</var></span> )</code>
 
 		<div class="description short">
 			
@@ -325,7 +344,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_column_title">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#114" title="Go to source code">column_title</a>( <span>type <var>$item</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#112" title="Go to source code">column_title</a>( <span>type <var>$item</var></span> )</code>
 
 		<div class="description short">
 			
@@ -367,7 +386,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_dash_menu">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#126" title="Go to source code">dash_menu</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#124" title="Go to source code">dash_menu</a>( )</code>
 
 		<div class="description short">
 			
@@ -400,7 +419,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_deactivate">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#134" title="Go to source code">deactivate</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#132" title="Go to source code">deactivate</a>( )</code>
 
 		<div class="description short">
 			
@@ -433,7 +452,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_bulk_actions">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#144" title="Go to source code">get_bulk_actions</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#142" title="Go to source code">get_bulk_actions</a>( )</code>
 
 		<div class="description short">
 			
@@ -472,7 +491,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_service_options">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#171" title="Go to source code">get_service_options</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#169" title="Go to source code">get_service_options</a>( )</code>
 
 		<div class="description short">
 			
@@ -502,6 +521,48 @@ WP_List_Table
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="log" id="_log">
+
+		<td class="attributes"><code>
+			 public 
+			none
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_log">#</a>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#245" title="Go to source code">log</a>( <span>string <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Log an INFO message</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Log an INFO message</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$msg</var></dt>
+					<dd><code>string</code><br> The message to log</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>none</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="prepare_items" id="_prepare_items">
 
 		<td class="attributes"><code>
@@ -513,7 +574,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_prepare_items">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#246" title="Go to source code">prepare_items</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#255" title="Go to source code">prepare_items</a>( )</code>
 
 		<div class="description short">
 			
@@ -550,7 +611,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_save_service">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#300" title="Go to source code">save_service</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#309" title="Go to source code">save_service</a>( )</code>
 
 		<div class="description short">
 			
@@ -587,7 +648,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_single_row">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#353" title="Go to source code">single_row</a>( <span>type <var>$item</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#362" title="Go to source code">single_row</a>( <span>type <var>$item</var></span> )</code>
 
 		<div class="description short">
 			
@@ -625,7 +686,7 @@ WP_List_Table
 
 		<td class="name"><div>
 		<a class="anchor" href="#_column_cb">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#390" title="Go to source code">column_cb</a>( <span>array <var>$item</var></span> )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#399" title="Go to source code">column_cb</a>( <span>array <var>$item</var></span> )</code>
 
 		<div class="description short">
 			
@@ -676,7 +737,7 @@ own method.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_data">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#407" title="Go to source code">get_data</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#416" title="Go to source code">get_data</a>( )</code>
 
 		<div class="description short">
 			
@@ -715,7 +776,7 @@ WP_List_Tables class</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_process_bulk_actions">#</a>
-		<code><a href="source-class-API_Connection_Manager_Setup.html#467" title="Go to source code">process_bulk_actions</a>( )</code>
+		<code><a href="source-class-API_Connection_Manager_Setup.html#476" title="Go to source code">process_bulk_actions</a>( )</code>
 
 		<div class="description short">
 			
@@ -826,6 +887,34 @@ WP_List_Tables class</p>
 			<div class="description detailed hidden">
 				
 <p>Total inactive services. Defined in this::get_data()</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="log_api" id="$log_api">
+
+		<td class="attributes"><code>
+			private 
+			<code><a href="class-Logger.html">Logger</a></code>
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Connection_Manager_Setup.html#19" title="Go to source code"><var>$log_api</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$log_api" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The logger object</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The logger object</p>
 
 
 			</div>

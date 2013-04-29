@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class API_Con_Mngr_View</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?4088433709"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-api.connection.manager.html">api-connection-manager</a>
+						</li>
+				<li><a href="package-david.coombes.html">david-coombes</a>
+						</li>
+				<li><a href="package-log4php.html">log4php<span></span></a>
+						<ul>
+				<li><a href="package-log4php.appenders.html">appenders</a>
+						</li>
+				<li><a href="package-log4php.configurators.html">configurators</a>
+						</li>
+				<li><a href="package-log4php.filters.html">filters</a>
+						</li>
+				<li><a href="package-log4php.helpers.html">helpers</a>
+						</li>
+				<li><a href="package-log4php.layouts.html">layouts</a>
+						</li>
+				<li><a href="package-log4php.pattern.html">pattern</a>
+						</li>
+				<li><a href="package-log4php.renderers.html">renderers</a>
+						</li>
+							</ul></li>
+				<li class="active"><a href="package-None.html">None</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-API_Con_Mngr_View.html">API_Con_Mngr_View</a></li>
+				<li><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></li>
+				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
+				<li><a href="class-API_Connection_ManagerTest.html">API_Connection_ManagerTest</a></li>
+				<li><a href="class-OAuthConsumer.html">OAuthConsumer</a></li>
+				<li><a href="class-OAuthDataStore.html">OAuthDataStore</a></li>
+				<li><a href="class-OAuthRequest.html">OAuthRequest</a></li>
+				<li><a href="class-OAuthServer.html">OAuthServer</a></li>
+				<li><a href="class-OAuthSignatureMethod.html">OAuthSignatureMethod</a></li>
+				<li><a href="class-OAuthSignatureMethod_HMAC_SHA1.html">OAuthSignatureMethod_HMAC_SHA1</a></li>
+				<li><a href="class-OAuthSignatureMethod_PLAINTEXT.html">OAuthSignatureMethod_PLAINTEXT</a></li>
+				<li><a href="class-OAuthSignatureMethod_RSA_SHA1.html">OAuthSignatureMethod_RSA_SHA1</a></li>
+				<li><a href="class-OAuthToken.html">OAuthToken</a></li>
+				<li><a href="class-OAuthUtil.html">OAuthUtil</a></li>
+				<li><a href="class-Syslog.html">Syslog</a></li>
+			</ul>
+
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-OAuthException.html">OAuthException</a></li>
+			</ul>
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-api_con_mngr_dash_menu.html">api_con_mngr_dash_menu</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-None.html" title="Summary of None"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class API_Con_Mngr_View</h1>
+
+
+	<div class="description">
+	
+<p>The view class for handling all of the api-con-mngr's html data. Used when
+the api manager has to show pages in wp-admin/admin-ajax.php.</p>
+
+<h1>Usage:</h1>
+//construct and set $obj = new API_Con_Mngr_View(); $obj-&gt;body[] =
+"&lt;h1&gt;My lovely header&lt;/h1&gt;"; $obj-&gt;body[] = "
+<p>no more hello world</p>
+"; $obj-&gt;body[] = "
+<p>hellow universe ;)</p>
+";
+<p>//to print html to client $obj-&gt;get_html();</p>
+
+<p>//to return html as string $html = $obj-&gt;get_html( false );</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		
+
+				<b>Author:</b>
+				daithi<br />
+		<b>Located at</b> <a href="source-class-API_Con_Mngr_View.html#2" title="Go to source code">class-api-con-mngr-view.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-API_Con_Mngr_View.html#35" title="Go to source code">__construct</a>( )</code>
+
+		<div class="description short">
+			
+<p>Construct</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Construct</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_head" id="_get_head">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_head">#</a>
+		<code><a href="source-class-API_Con_Mngr_View.html#44" title="Go to source code">get_head</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns the document &lt;head&gt;</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns the document &lt;head&gt;</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_body" id="_get_body">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_body">#</a>
+		<code><a href="source-class-API_Con_Mngr_View.html#77" title="Go to source code">get_body</a>( )</code>
+
+		<div class="description short">
+			
+<p>Builds the body array and returns the html</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Builds the body array and returns the html</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_footer" id="_get_footer">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_footer">#</a>
+		<code><a href="source-class-API_Con_Mngr_View.html#89" title="Go to source code">get_footer</a>( )</code>
+
+		<div class="description short">
+			
+<p>Builds the footer array and returns the html</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Builds the footer array and returns the html</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_html" id="_get_html">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_html">#</a>
+		<code><a href="source-class-API_Con_Mngr_View.html#105" title="Go to source code">get_html</a>( <span>boolean <var>$die</var> = <span class="php-keyword1">true</span> </span> )</code>
+
+		<div class="description short">
+			
+<p>Will return or print html and die. The default is to die( $html );</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Will return or print html and die. The default is to die( $html );</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$die</var></dt>
+					<dd><code>boolean</code><br> Default true. Whether to die or return html</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br />
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="body" id="$body">
+
+		<td class="attributes"><code>
+			public 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_View.html#24" title="Go to source code"><var>$body</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$body" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>An array of body elements</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>An array of body elements</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="footer" id="$footer">
+
+		<td class="attributes"><code>
+			public 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_View.html#26" title="Go to source code"><var>$footer</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$footer" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>An array of footer elements</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>An array of footer elements</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="headers" id="$headers">
+
+		<td class="attributes"><code>
+			public 
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_View.html#28" title="Go to source code"><var>$headers</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>()</code></td>
+		<td class="description"><div>
+			<a href="#$headers" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>An array of header string to be printed</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>An array of header string to be printed</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="html" id="$html">
+
+		<td class="attributes"><code>
+			private 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_View.html#30" title="Go to source code"><var>$html</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">&quot;&quot;</span></code></td>
+		<td class="description"><div>
+			<a href="#$html" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The full html to be printed</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The full html to be printed</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="bootstrap_root" id="$bootstrap_root">
+
+		<td class="attributes"><code>
+			private 
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-API_Con_Mngr_View.html#32" title="Go to source code"><var>$bootstrap_root</var></a>
+		</td>
+		<td class="value"><code></code></td>
+		<td class="description"><div>
+			<a href="#$bootstrap_root" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>The location of the bootstrap root</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>The location of the bootstrap root</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

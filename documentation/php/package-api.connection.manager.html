@@ -7,7 +7,7 @@
 	<title>Package api-connection-manager</title>
 
 	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
-	<script type="text/javascript" src="elementlist.js?3766833873"></script>
+	<script type="text/javascript" src="elementlist.js?4088433709"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
 
 </head>
@@ -25,6 +25,23 @@
 						</li>
 				<li><a href="package-david.coombes.html">david-coombes</a>
 						</li>
+				<li><a href="package-log4php.html">log4php<span></span></a>
+						<ul>
+				<li><a href="package-log4php.appenders.html">appenders</a>
+						</li>
+				<li><a href="package-log4php.configurators.html">configurators</a>
+						</li>
+				<li><a href="package-log4php.filters.html">filters</a>
+						</li>
+				<li><a href="package-log4php.helpers.html">helpers</a>
+						</li>
+				<li><a href="package-log4php.layouts.html">layouts</a>
+						</li>
+				<li><a href="package-log4php.pattern.html">pattern</a>
+						</li>
+				<li><a href="package-log4php.renderers.html">renderers</a>
+						</li>
+							</ul></li>
 				<li><a href="package-None.html">None</a>
 						</li>
 			</ul>
@@ -36,9 +53,9 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
+				<li><a href="class-API_Con_Mngr_Error.html">API_Con_Mngr_Error</a></li>
 				<li><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></li>
 				<li><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></li>
-				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
 			</ul>
 
 
@@ -47,9 +64,11 @@
 
 			<h3>Functions</h3>
 			<ul>
+				<li><a href="function-API_Con_Mngr_Autoload.html">API_Con_Mngr_Autoload</a></li>
 				<li><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></li>
 				<li><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></li>
-				<li><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></li>
+				<li><a href="function-is_api_con_error.html">is_api_con_error</a></li>
+				<li><a href="function-log_action.html">log_action</a></li>
 			</ul>
 		</div>
 	</div>
@@ -96,21 +115,21 @@
 <table class="summary" id="classes">
 <caption>Classes summary</caption>
 <tr>
+	<td class="name"><a href="class-API_Con_Mngr_Error.html">API_Con_Mngr_Error</a></td>
+	<td>class-api-con-mngr-error</td>
+</tr>
+<tr>
 	<td class="name"><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></td>
 	<td>Modules should extend this class. e.g.: &lt;code&gt; class My_Class extends
 API_Con_Mngr_Module{ function __construct(){ $this-&gt;options = array(
 'access_token' =&gt; '%s' ); $this-&gt;protocol = "custom";
 parent::__construct(); } function check_error( $response ){ return false; } }
-$service = new My_Class(); &lt;/code&gt;</td>
+$module = new My_Class(); &lt;/code&gt;</td>
 </tr>
 <tr>
 	<td class="name"><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></td>
 	<td>Class for handling the dashboard and network admin pages for the API Connection
 Manager</td>
-</tr>
-<tr>
-	<td class="name"><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></td>
-	<td>Class for displaying the user options in the dashboard of blogs.</td>
 </tr>
 </table>
 
@@ -121,6 +140,10 @@ Manager</td>
 <table class="summary" id="functions">
 <caption>Functions summary</caption>
 <tr>
+	<td class="name"><a href="function-API_Con_Mngr_Autoload.html">API_Con_Mngr_Autoload</a></td>
+	<td>Autoloader</td>
+</tr>
+<tr>
 	<td class="name"><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></td>
 	<td>Function for displaying service activation/deactivation table.</td>
 </tr>
@@ -129,8 +152,12 @@ Manager</td>
 	<td>Function for displaying the service options</td>
 </tr>
 <tr>
-	<td class="name"><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></td>
-	<td>Function for displaying service activation/deactivation table.</td>
+	<td class="name"><a href="function-is_api_con_error.html">is_api_con_error</a></td>
+	<td>Check if a variable is instance API_Con_Mngr_Error</td>
+</tr>
+<tr>
+	<td class="name"><a href="function-log_action.html">log_action</a></td>
+	<td></td>
 </tr>
 </table>
 </div>

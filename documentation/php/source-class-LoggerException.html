@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+	<meta name="robots" content="noindex" />
+
+	<title>File vendor/log4php/LoggerException.php</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?4088433709"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-api.connection.manager.html">api-connection-manager</a>
+						</li>
+				<li><a href="package-david.coombes.html">david-coombes</a>
+						</li>
+				<li class="active"><a href="package-log4php.html">log4php<span></span></a>
+						<ul>
+				<li><a href="package-log4php.appenders.html">appenders</a>
+						</li>
+				<li><a href="package-log4php.configurators.html">configurators</a>
+						</li>
+				<li><a href="package-log4php.filters.html">filters</a>
+						</li>
+				<li><a href="package-log4php.helpers.html">helpers</a>
+						</li>
+				<li><a href="package-log4php.layouts.html">layouts</a>
+						</li>
+				<li><a href="package-log4php.pattern.html">pattern</a>
+						</li>
+				<li><a href="package-log4php.renderers.html">renderers</a>
+						</li>
+							</ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Logger.html">Logger</a></li>
+				<li><a href="class-LoggerAppender.html">LoggerAppender</a></li>
+				<li><a href="class-LoggerAppenderPool.html">LoggerAppenderPool</a></li>
+				<li><a href="class-LoggerAutoloader.html">LoggerAutoloader</a></li>
+				<li><a href="class-LoggerConfigurable.html">LoggerConfigurable</a></li>
+				<li><a href="class-LoggerConfiguratorDefault.html">LoggerConfiguratorDefault</a></li>
+				<li><a href="class-LoggerFilter.html">LoggerFilter</a></li>
+				<li><a href="class-LoggerHierarchy.html">LoggerHierarchy</a></li>
+				<li><a href="class-LoggerLayout.html">LoggerLayout</a></li>
+				<li><a href="class-LoggerLevel.html">LoggerLevel</a></li>
+				<li><a href="class-LoggerLocationInfo.html">LoggerLocationInfo</a></li>
+				<li><a href="class-LoggerLoggingEvent.html">LoggerLoggingEvent</a></li>
+				<li><a href="class-LoggerMDC.html">LoggerMDC</a></li>
+				<li><a href="class-LoggerNDC.html">LoggerNDC</a></li>
+				<li><a href="class-LoggerReflectionUtils.html">LoggerReflectionUtils</a></li>
+				<li><a href="class-LoggerRoot.html">LoggerRoot</a></li>
+				<li><a href="class-LoggerThrowableInformation.html">LoggerThrowableInformation</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-LoggerConfigurator.html">LoggerConfigurator</a></li>
+			</ul>
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li class="active"><a href="class-LoggerException.html">LoggerException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-log4php.html" title="Summary of log4php"><span>Package</span></a>
+			</li>
+			<li>
+				<a href="class-LoggerException.html" title="Summary of LoggerException"><span>Class</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<pre><code><a href="#1" id="1" class="l"> 1: </a><span class="xlang">&lt;?php</span>
+<a href="#2" id="2" class="l"> 2: </a><span class="php-comment">/**
+</span><a href="#3" id="3" class="l"> 3: </a><span class="php-comment"> * Licensed to the Apache Software Foundation (ASF) under one or more
+</span><a href="#4" id="4" class="l"> 4: </a><span class="php-comment"> * contributor license agreements. See the NOTICE file distributed with
+</span><a href="#5" id="5" class="l"> 5: </a><span class="php-comment"> * this work for additional information regarding copyright ownership.
+</span><a href="#6" id="6" class="l"> 6: </a><span class="php-comment"> * The ASF licenses this file to You under the Apache License, Version 2.0
+</span><a href="#7" id="7" class="l"> 7: </a><span class="php-comment"> * (the &quot;License&quot;); you may not use this file except in compliance with
+</span><a href="#8" id="8" class="l"> 8: </a><span class="php-comment"> * the License. You may obtain a copy of the License at
+</span><a href="#9" id="9" class="l"> 9: </a><span class="php-comment"> *
+</span><a href="#10" id="10" class="l">10: </a><span class="php-comment"> *     http://www.apache.org/licenses/LICENSE-2.0
+</span><a href="#11" id="11" class="l">11: </a><span class="php-comment"> *
+</span><a href="#12" id="12" class="l">12: </a><span class="php-comment"> * Unless required by applicable law or agreed to in writing, software
+</span><a href="#13" id="13" class="l">13: </a><span class="php-comment"> * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+</span><a href="#14" id="14" class="l">14: </a><span class="php-comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+</span><a href="#15" id="15" class="l">15: </a><span class="php-comment"> * See the License for the specific language governing permissions and
+</span><a href="#16" id="16" class="l">16: </a><span class="php-comment"> * limitations under the License.
+</span><a href="#17" id="17" class="l">17: </a><span class="php-comment"> *
+</span><a href="#18" id="18" class="l">18: </a><span class="php-comment"> * @package log4php
+</span><a href="#19" id="19" class="l">19: </a><span class="php-comment"> */</span>
+<a href="#20" id="20" class="l">20: </a>
+<a href="#21" id="21" class="l">21: </a><span class="php-comment">/**
+</span><a href="#22" id="22" class="l">22: </a><span class="php-comment"> * LoggerException class
+</span><a href="#23" id="23" class="l">23: </a><span class="php-comment"> *
+</span><a href="#24" id="24" class="l">24: </a><span class="php-comment"> * @version $Revision: 1334369 $
+</span><a href="#25" id="25" class="l">25: </a><span class="php-comment"> * @package log4php
+</span><a href="#26" id="26" class="l">26: </a><span class="php-comment"> */</span>
+<a href="#27" id="27" class="l">27: </a><span class="php-keyword1">class</span> LoggerException <span class="php-keyword1">extends</span> Exception {
+<a href="#28" id="28" class="l">28: </a>}
+<a href="#29" id="29" class="l">29: </a></code></pre>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

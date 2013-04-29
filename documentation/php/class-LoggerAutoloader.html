@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="ApiGen 2.7.0" />
+
+	<title>Class LoggerAutoloader</title>
+
+	<script type="text/javascript" src="resources/combined.js?2398159053"></script>
+	<script type="text/javascript" src="elementlist.js?4088433709"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-api.connection.manager.html">api-connection-manager</a>
+						</li>
+				<li><a href="package-david.coombes.html">david-coombes</a>
+						</li>
+				<li class="active"><a href="package-log4php.html">log4php<span></span></a>
+						<ul>
+				<li><a href="package-log4php.appenders.html">appenders</a>
+						</li>
+				<li><a href="package-log4php.configurators.html">configurators</a>
+						</li>
+				<li><a href="package-log4php.filters.html">filters</a>
+						</li>
+				<li><a href="package-log4php.helpers.html">helpers</a>
+						</li>
+				<li><a href="package-log4php.layouts.html">layouts</a>
+						</li>
+				<li><a href="package-log4php.pattern.html">pattern</a>
+						</li>
+				<li><a href="package-log4php.renderers.html">renderers</a>
+						</li>
+							</ul></li>
+				<li><a href="package-None.html">None</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr />
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Logger.html">Logger</a></li>
+				<li><a href="class-LoggerAppender.html">LoggerAppender</a></li>
+				<li><a href="class-LoggerAppenderPool.html">LoggerAppenderPool</a></li>
+				<li class="active"><a href="class-LoggerAutoloader.html">LoggerAutoloader</a></li>
+				<li><a href="class-LoggerConfigurable.html">LoggerConfigurable</a></li>
+				<li><a href="class-LoggerConfiguratorDefault.html">LoggerConfiguratorDefault</a></li>
+				<li><a href="class-LoggerFilter.html">LoggerFilter</a></li>
+				<li><a href="class-LoggerHierarchy.html">LoggerHierarchy</a></li>
+				<li><a href="class-LoggerLayout.html">LoggerLayout</a></li>
+				<li><a href="class-LoggerLevel.html">LoggerLevel</a></li>
+				<li><a href="class-LoggerLocationInfo.html">LoggerLocationInfo</a></li>
+				<li><a href="class-LoggerLoggingEvent.html">LoggerLoggingEvent</a></li>
+				<li><a href="class-LoggerMDC.html">LoggerMDC</a></li>
+				<li><a href="class-LoggerNDC.html">LoggerNDC</a></li>
+				<li><a href="class-LoggerReflectionUtils.html">LoggerReflectionUtils</a></li>
+				<li><a href="class-LoggerRoot.html">LoggerRoot</a></li>
+				<li><a href="class-LoggerThrowableInformation.html">LoggerThrowableInformation</a></li>
+			</ul>
+
+			<h3>Interfaces</h3>
+			<ul>
+				<li><a href="class-LoggerConfigurator.html">LoggerConfigurator</a></li>
+			</ul>
+
+
+			<h3>Exceptions</h3>
+			<ul>
+				<li><a href="class-LoggerException.html">LoggerException</a></li>
+			</ul>
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="" />
+		<input type="hidden" name="ie" value="UTF-8" />
+		<input type="text" name="q" class="text" />
+		<input type="submit" value="Search" />
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-log4php.html" title="Summary of log4php"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+			<li>
+				<a href="todo.html" title="Todo list"><span>Todo</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class LoggerAutoloader</h1>
+
+
+	<div class="description">
+	
+<p>Class autoloader.</p>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-log4php.html">log4php</a><br />
+
+				<b>License:</b>
+				<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a><br />
+				<b>Version:</b>
+				$Revision: 1394956 $<br />
+		<b>Located at</b> <a href="source-class-LoggerAutoloader.html#27" title="Go to source code">vendor/log4php/LoggerAutoloader.php</a><br />
+	</div>
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="autoload" id="_autoload">
+
+		<td class="attributes"><code>
+			 public static
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_autoload">#</a>
+		<code><a href="source-class-LoggerAutoloader.html#134" title="Go to source code">autoload</a>( <span>string <var>$className</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Loads a class.</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Loads a class.</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$className</var></dt>
+					<dd><code>string</code><br> The name of the class to load.</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="classes" id="$classes">
+
+		<td class="attributes"><code>
+			private static
+			array
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-LoggerAutoloader.html#36" title="Go to source code"><var>$classes</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">array</span>(
+
+	<span class="php-comment">// Base</span>
+	<span class="php-quote">'LoggerAppender'</span> =&gt; <span class="php-quote">'/LoggerAppender.php'</span>,
+	<span class="php-quote">'LoggerAppenderPool'</span> =&gt; <span class="php-quote">'/LoggerAppenderPool.php'</span>,
+	<span class="php-quote">'LoggerConfigurable'</span> =&gt; <span class="php-quote">'/LoggerConfigurable.php'</span>,
+	<span class="php-quote">'LoggerConfigurator'</span> =&gt; <span class="php-quote">'/LoggerConfigurator.php'</span>,
+	<span class="php-quote">'LoggerException'</span> =&gt; <span class="php-quote">'/LoggerException.php'</span>,
+	<span class="php-quote">'LoggerFilter'</span> =&gt; <span class="php-quote">'/LoggerFilter.php'</span>,
+	<span class="php-quote">'LoggerHierarchy'</span> =&gt; <span class="php-quote">'/LoggerHierarchy.php'</span>,
+	<span class="php-quote">'LoggerLevel'</span> =&gt; <span class="php-quote">'/LoggerLevel.php'</span>,
+	<span class="php-quote">'LoggerLocationInfo'</span> =&gt; <span class="php-quote">'/LoggerLocationInfo.php'</span>,
+	<span class="php-quote">'LoggerLoggingEvent'</span> =&gt; <span class="php-quote">'/LoggerLoggingEvent.php'</span>,
+	<span class="php-quote">'LoggerMDC'</span> =&gt; <span class="php-quote">'/LoggerMDC.php'</span>,
+	<span class="php-quote">'LoggerNDC'</span> =&gt; <span class="php-quote">'/LoggerNDC.php'</span>,
+	<span class="php-quote">'LoggerLayout'</span> =&gt; <span class="php-quote">'/LoggerLayout.php'</span>,
+	<span class="php-quote">'LoggerReflectionUtils'</span> =&gt; <span class="php-quote">'/LoggerReflectionUtils.php'</span>,
+	<span class="php-quote">'LoggerRoot'</span> =&gt; <span class="php-quote">'/LoggerRoot.php'</span>,
+	<span class="php-quote">'LoggerThrowableInformation'</span> =&gt; <span class="php-quote">'/LoggerThrowableInformation.php'</span>,
+	
+	<span class="php-comment">// Appenders</span>
+	<span class="php-quote">'LoggerAppenderConsole'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderConsole.php'</span>,
+	<span class="php-quote">'LoggerAppenderDailyFile'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderDailyFile.php'</span>,
+	<span class="php-quote">'LoggerAppenderEcho'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderEcho.php'</span>,
+	<span class="php-quote">'LoggerAppenderFile'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderFile.php'</span>,
+	<span class="php-quote">'LoggerAppenderMail'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderMail.php'</span>,
+	<span class="php-quote">'LoggerAppenderMailEvent'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderMailEvent.php'</span>,
+	<span class="php-quote">'LoggerAppenderMongoDB'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderMongoDB.php'</span>,
+	<span class="php-quote">'LoggerAppenderNull'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderNull.php'</span>,
+	<span class="php-quote">'LoggerAppenderFirePHP'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderFirePHP.php'</span>,
+	<span class="php-quote">'LoggerAppenderPDO'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderPDO.php'</span>,
+	<span class="php-quote">'LoggerAppenderPhp'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderPhp.php'</span>,
+	<span class="php-quote">'LoggerAppenderRollingFile'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderRollingFile.php'</span>,
+	<span class="php-quote">'LoggerAppenderSocket'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderSocket.php'</span>,
+	<span class="php-quote">'LoggerAppenderLoggly'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderLoggly.php'</span>,
+	<span class="php-quote">'LoggerAppenderSyslog'</span> =&gt; <span class="php-quote">'/appenders/LoggerAppenderSyslog.php'</span>,
+	
+	<span class="php-comment">// Configurators</span>
+	<span class="php-quote">'LoggerConfigurationAdapter'</span> =&gt; <span class="php-quote">'/configurators/LoggerConfigurationAdapter.php'</span>,
+	<span class="php-quote">'LoggerConfigurationAdapterINI'</span> =&gt; <span class="php-quote">'/configurators/LoggerConfigurationAdapterINI.php'</span>,
+	<span class="php-quote">'LoggerConfigurationAdapterPHP'</span> =&gt; <span class="php-quote">'/configurators/LoggerConfigurationAdapterPHP.php'</span>,
+	<span class="php-quote">'LoggerConfigurationAdapterXML'</span> =&gt; <span class="php-quote">'/configurators/LoggerConfigurationAdapterXML.php'</span>,
+	<span class="php-quote">'LoggerConfiguratorDefault'</span> =&gt; <span class="php-quote">'/configurators/LoggerConfiguratorDefault.php'</span>,
+
+	<span class="php-comment">// Filters</span>
+	<span class="php-quote">'LoggerFilterDenyAll'</span> =&gt; <span class="php-quote">'/filters/LoggerFilterDenyAll.php'</span>,
+	<span class="php-quote">'LoggerFilterLevelMatch'</span> =&gt; <span class="php-quote">'/filters/LoggerFilterLevelMatch.php'</span>,
+	<span class="php-quote">'LoggerFilterLevelRange'</span> =&gt; <span class="php-quote">'/filters/LoggerFilterLevelRange.php'</span>,
+	<span class="php-quote">'LoggerFilterStringMatch'</span> =&gt; <span class="php-quote">'/filters/LoggerFilterStringMatch.php'</span>,
+
+	<span class="php-comment">// Helpers</span>
+	<span class="php-quote">'LoggerFormattingInfo'</span> =&gt; <span class="php-quote">'/helpers/LoggerFormattingInfo.php'</span>,
+	<span class="php-quote">'LoggerOptionConverter'</span> =&gt; <span class="php-quote">'/helpers/LoggerOptionConverter.php'</span>,
+	<span class="php-quote">'LoggerPatternParser'</span> =&gt; <span class="php-quote">'/helpers/LoggerPatternParser.php'</span>,
+	<span class="php-quote">'LoggerUtils'</span> =&gt; <span class="php-quote">'/helpers/LoggerUtils.php'</span>,
+
+	<span class="php-comment">// Pattern converters</span>
+	<span class="php-quote">'LoggerPatternConverter'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverter.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterClass'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterClass.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterCookie'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterCookie.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterDate'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterDate.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterEnvironment'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterEnvironment.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterFile'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterFile.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterLevel'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterLevel.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterLine'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterLine.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterLiteral'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterLiteral.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterLocation'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterLocation.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterLogger'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterLogger.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterMDC'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterMDC.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterMessage'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterMessage.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterMethod'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterMethod.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterNDC'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterNDC.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterNewLine'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterNewLine.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterProcess'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterProcess.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterRelative'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterRelative.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterRequest'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterRequest.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterServer'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterServer.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterSession'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterSession.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterSessionID'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterSessionID.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterSuperglobal'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterSuperglobal.php'</span>,
+	<span class="php-quote">'LoggerPatternConverterThrowable'</span> =&gt; <span class="php-quote">'/pattern/LoggerPatternConverterThrowable.php'</span>,
+	
+	<span class="php-comment">// Layouts</span>
+	<span class="php-quote">'LoggerLayoutHtml'</span> =&gt; <span class="php-quote">'/layouts/LoggerLayoutHtml.php'</span>,
+	<span class="php-quote">'LoggerLayoutPattern'</span> =&gt; <span class="php-quote">'/layouts/LoggerLayoutPattern.php'</span>,
+	<span class="php-quote">'LoggerLayoutSerialized'</span> =&gt; <span class="php-quote">'/layouts/LoggerLayoutSerialized.php'</span>,
+	<span class="php-quote">'LoggerLayoutSimple'</span> =&gt; <span class="php-quote">'/layouts/LoggerLayoutSimple.php'</span>,
+	<span class="php-quote">'LoggerLayoutTTCC'</span> =&gt; <span class="php-quote">'/layouts/LoggerLayoutTTCC.php'</span>,
+	<span class="php-quote">'LoggerLayoutXml'</span> =&gt; <span class="php-quote">'/layouts/LoggerLayoutXml.php'</span>,
+	
+	<span class="php-comment">// Renderers</span>
+	<span class="php-quote">'LoggerRendererDefault'</span> =&gt; <span class="php-quote">'/renderers/LoggerRendererDefault.php'</span>,
+	<span class="php-quote">'LoggerRendererException'</span> =&gt; <span class="php-quote">'/renderers/LoggerRendererException.php'</span>,
+	<span class="php-quote">'LoggerRendererMap'</span> =&gt; <span class="php-quote">'/renderers/LoggerRendererMap.php'</span>,
+	<span class="php-quote">'LoggerRenderer'</span> =&gt; <span class="php-quote">'/renderers/LoggerRenderer.php'</span>,
+)</code></td>
+		<td class="description"><div>
+			<a href="#$classes" class="anchor">#</a>
+
+			<div class="description short">
+				
+<p>Maps classnames to files containing the class.</p>
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+<p>Maps classnames to files containing the class.</p>
+
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

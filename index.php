@@ -1,6 +1,6 @@
 <?php
 /**
- * @package wp-services-api
+ * @package api-connection-manager
  */
 /*
   Plugin Name: API Connection Manager

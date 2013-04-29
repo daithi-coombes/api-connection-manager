@@ -1,6 +1,6 @@
 <?php
 /**
- * class-wp-services-api
+ * class-api-connection-manager
  * 
  * This class uses params stored in a module file to connect to remote services.
  * It manages the storing of access_tokens and refresh_tokens in the oauth2
@@ -10,16 +10,9 @@
  * Developers can also easily create new modules with the params for different
  * services.
  * 
- * Currently only one service can be requested at a time. As each service more
- * than likely has its own params, even if two or more services had similar
- * params they would still be individual calls made by the wp_response_*
- * helper functions. Also if more than one service was requested and they
- * required login, it would be unfeasible to have multpile login screens.
- * 
  * Requests made to this api will then check that the user is logged into that
- * service. If they are not and the service is active then the developer should
- * be able to call a login screen for that service. Some services require that
- * a new tab be opened, some require only a popup with a form.
+ * service. If they are not and the service is active then they will be shown
+ * a login screen.
  * 
  * <b>N.B.</b>
  * Although wordpress mixes and jumps between slugs and index files when working
@@ -35,29 +28,8 @@
  * forms etc. Also don't forget to urldecode() your slugs when parsing form
  * submits.
  *
- * @todo method for login link, so request, connect and others can die("login");
  * @todo localization
  * @todo refresh token
- * @todo research google's AuthSub or ClientLogin api's. Might have something
- * to help building for custom services.
- * @todo move query_append() from debug.func.php to method in this class
- * @todo look into a sevices datatype/object that plugins would request and work
- * of. Something like WP_Service. WP_Service->get_grant_uri or
- * WP_Service->get_btn
- * @todo create a DTO object to return from calls to the api. The DTO would
- * therefore always be based on a server response. This helps keep with the
- * wordpress norm of accepting strings and returning objects. ie where calls to 
- * get_user* functions return a WP_User object, calls to this api would return a
- * WP_DTO object for the plugin dev's
- * to work with.
- * @todo write up standard for module index.php files. Clean out old vars and
- * allow for more header options. Also allow the placement of standard vars in
- * the values for params. @see this::get_logout_button(). IE have:
- *  - <!--[--token--]-->
- *  - <!--[--token-refresh--]-->
- * or for a value set somewhere else have:
- *  - <!--[--app-grant-vars=>some_child_key--]-->
- * @todo activation/deactivation of services
  * @global array $_SESSION['API_Con_Mngr_Module']
  * @package api-connection-manager
  * @author daithi
@@ -510,28 +482,6 @@ class API_Connection_Manager{
 		global $current_user;
 		$current_user = wp_get_current_user();
 		return $current_user;
-		
-		//require_once( ABSPATH . "/wp-includes/pluggable.php" );
-		global $current_user;
-		//wp_cookie_constants();
-		
-		//try with wordpress's native func
-		//if(function_exists("wp_get_current_user")){
-			$current_user = wp_get_current_user ();
-			return $current_user;
-		//}
-		$this->log("Current User: {$current_user->ID}");
-		
-		/**
-		//if function not loaded yet, manually get current user
-		$user_id = wp_validate_auth_cookie();
-		if($user_id)
-			return get_user_by("id", $user_id);
-		else
-			return new WP_User(0);
-		//end Get current user		
-		 * 
-		 */
 	}
 	
 	/**
@@ -844,16 +794,11 @@ class API_Connection_Manager{
 	 * 
 	 * Bootstraps all response's to the api connection manager. Both secure and
 	 * non-secure response are parsed here (wp_ajax && wp_ajax_nopriv).
+	 *
+	 * Processes login requests for custom services, oauth1 and oauth2.
 	 * 
-	 * Called by hook 'plugins_loaded' to ensure all plugins dependant on the
-	 * api are loaded. This method needs to do its own checking for ajax calls.
-	 * 
-	 * @todo test security.
-	 * @todo There maybe need to tell if a response was for a logged in user or 
-	 * not. ie if it was wp_ajax or wp_ajax_nopriv. One idea would be to 
-	 * set a flag in the construct if wp_ajax_nopriv_(this_func) was requested?
-	 * @todo should be private?
 	 * @subpackage api-core
+	 * @return mixed
 	 */
 	public function _response_listener( ){
 		
