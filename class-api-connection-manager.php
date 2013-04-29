@@ -138,7 +138,8 @@ class API_Connection_Manager{
 		 */
 		if(@$_REQUEST['api-con-mngr-logout'])
 			$this->_service_logout( urldecode($_REQUEST['service']) );
-		
+
+		api_con_log("API_Connection_Manager constructed");
 	} //end construct()
 	
 	/**
@@ -378,8 +379,8 @@ class API_Connection_Manager{
 				
 				// Manually construct a logging event
 				$level = LoggerLevel::toLevel($level);
-				$logger = Logger::getLogger(__CLASS__);
-				$event = new LoggerLoggingEvent(__CLASS__, $logger, $level, $msg);
+				//$logger = Logger::getLogger(__CLASS__);
+				$event = new LoggerLoggingEvent(__CLASS__, $this->log_api, $level, $msg);
 
 				// Override the location info
 				$bt = debug_backtrace();
@@ -388,7 +389,8 @@ class API_Connection_Manager{
 				$event->setLocationInformation($location);
 
 				// Log it
-				$logger->logEvent($event);
+				//$logger->logEvent($event);
+				$this->log_api->logEvent($event);
 				/**
 				//trace
 				$bt = debug_backtrace();
