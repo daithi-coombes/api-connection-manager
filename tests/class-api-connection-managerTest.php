@@ -52,4 +52,9 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 	function test_get_services(){
 		$this->assertInternalType('array', $this->api->get_services());
 	}
+
+	function test__get_installed_services(){
+
+	}
+
 }

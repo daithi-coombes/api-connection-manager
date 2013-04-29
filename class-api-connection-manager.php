@@ -40,7 +40,9 @@
  * 		'service/slug' => array(
  * 			'access' => 'access token for this slug',
  * 			'refresh' => 'refresh token for this slug'
- * 		)
+ * 		),
+ * 		'active' => array(API_Con_Mngr_Module),
+ * 		'inactive' => array(API_Con_Mngr_Module)
  * 	)
  * </code>
  * 
@@ -98,7 +100,7 @@ class API_Connection_Manager{
 		//end logging
 		
 		//get current user first
-		$this->user = $this->_get_current_user();
+		$this->user = $this->get_current_user();
 		
 		//default params
 		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
@@ -193,6 +195,8 @@ class API_Connection_Manager{
 	 * @return WP_User
 	 */
 	public function get_current_user(){
+		global $current_user;
+		$current_user = $this->user = wp_get_current_user();
 		return $this->user;
 	}
 	
@@ -315,13 +319,13 @@ class API_Connection_Manager{
 	 * 
 	 * Currently this method is used in:
 	 *  - API_Connection_Manager::__construct()
-	 *  - API_Connection_Manager::get_services //only if no services loaded yet
 	 * 
 	 * @return array 
-	 * @subpackage api-core
 	 */
 	private function _get_installed_services(){
 		
+		$this->log("Getting installed services...");
+
 		require_once( ABSPATH . "/wp-admin/includes/plugin.php" );
 		$wp_plugins = array();
 		$plugin_root = $this->dir_sub;
@@ -417,43 +421,6 @@ class API_Connection_Manager{
 			$options = get_option($this->option_name, array());
 		
 		return $options;
-	}
-	
-	/**
-	 * Returns transient options.
-	 * 
-	 * If mutlisite then will use get_site_transient() if not will default to
-	 * get_transient()
-	 * 
-	 * @param string $key The option key.
-	 * @return array 
-	 * @subpackage api-core
-	 */
-	private function _get_options_transient( $key='' ){
-		
-		//multisite install
-		if(is_multisite())
-			return get_site_transient($this->option_name."$key", array());
-		else
-			return get_transient($this->option_name."$key", array());
-	}
-
-	/**
-	 * Gets the refresh states.
-	 * 
-	 * @todo maybe method shoudl be renamed _get_refresh_states() ?
-	 * @see _set_refresh_state()
-	 * @uses get_user_user_meta()
-	 * @return array An array of states.
-	 */
-	public function _get_user_options(){
-		
-		//vars
-		$user_id = $this->user->ID;
-		$user_options = get_user_meta($user_id, $this->option_name, true);
-		if(empty($user_options)) $user_options=array();
-		
-		return $user_options;
 	}
 	
 	/**
@@ -969,7 +936,7 @@ class API_Connection_Manager{
 		$res->callback = $callback;
 		$res->response = array();
 		$res->slug = $slug;
-		$res->user = $this->_get_current_user();
+		$res->user = $this->get_current_user();
 		
 		//what ever vars are left is the services response struct
 		foreach($response as $key=>$val)
