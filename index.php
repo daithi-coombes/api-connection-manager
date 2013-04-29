@@ -40,6 +40,11 @@ include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
 @Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 $api_con_log = Logger::getLogger('root');
 
+/**
+ * Logs messages to wp-content/uploads/api-con-mngr.lastrequest.html
+ * @param  string $msg   The message to log
+ * @param  string $level Default 'info'. The log level to use
+ */
 function api_con_log($msg, $level='info'){
 
 	global $api_con_log;
@@ -64,7 +69,6 @@ function api_con_log($msg, $level='info'){
 	// Log it
 	$api_con_log->logEvent($event);
 }
-api_con_log('test');
 
 /* Log the details of every wordpress hook at the TRACE level */
 //add_action( 'all', 'log_action' );
