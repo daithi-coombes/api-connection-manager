@@ -28,9 +28,6 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 
 		//get dto
 		$this->assertInstanceOf( 'stdClass', $this->api->get_dto(), "Unable to get dto" );
-		//get service
-		$this->assertInstanceOf( 'API_Con_Mngr_Module', $this->api->get_service('google/index.php'), "Unable to get service");
-
 	}
 
 	function test_admin_notices(){
@@ -38,5 +35,21 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 		$this->assertTrue( $this->api->admin_notices() );
 		//make sure notices were reset in last call
 		$this->assertFalse( $this->api->admin_notices() );
+	}
+
+	function test_delete_user(){
+
+	}
+
+	function test_get_current_user(){
+		$this->assertInstanceOf('WP_User', $this->api->get_current_user());
+	}
+
+	function test_get_service(){
+		$this->assertInstanceOf( 'API_Con_Mngr_Module', $this->api->get_service('google/index.php'), "Unable to get service");
+	}
+
+	function test_get_services(){
+		$this->assertInternalType('array', $this->api->get_services());
 	}
 }

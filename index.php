@@ -105,12 +105,6 @@ add_action('plugins_loaded', function(){
 	/**
 	 * end Class  
 	 */
-
-	/**
-	 * actions and hooks 
-	 */
-	add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));
-
 });
 /**
  * end Api Connection Manager 
