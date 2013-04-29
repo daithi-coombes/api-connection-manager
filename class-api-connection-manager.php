@@ -31,6 +31,7 @@
  * @todo localization
  * @todo refresh token
  * @global array $_SESSION['API_Con_Mngr_Module']
+ * @global array $_SESSION['Api-Con-Errors']
  * @package api-connection-manager
  * @author daithi
  */
@@ -56,8 +57,12 @@ class API_Connection_Manager{
 	
 	/**
 	 * Loads settings and set default params.
+	 * Wordpress actions:
+	 *  - admin_notices
+	 *  - delete_user
+	 *  - wpmu_delete_user
 	 * 
-	 * @see index.php for dependencies idea of code flow.
+	 * @see index.php for dependencies and code flow.
 	 */
 	public function __construct(){
 		
@@ -114,14 +119,16 @@ class API_Connection_Manager{
 	} //end construct()
 	
 	/**
-	 * Admin notices callback. Will print any errors in the session 
+	 * Action callback for admin notices. Will print any errors in the session 
 	 * Api-Con-Errors and then unset the session
+	 * @uses array $_SESSION['Api-Con-Errors']
+	 * @return boolean Returns true if admin notices were printed, false if not
 	 */
 	public function admin_notices(){
 		
 		$errors = @$_SESSION['Api-Con-Errors'];
 		if(!$errors)
-				return;
+				return false;
 		
 		print "<div id=\"message\" class=\"error\">
 			<h2>API Connection Manager</h2>
@@ -130,6 +137,7 @@ class API_Connection_Manager{
 			echo "<li>{$err}</li>\n";
 		echo "</ul></div>";
 		unset($_SESSION['Api-Con-Errors']);
+		return true;
 	}
 	
 	/**

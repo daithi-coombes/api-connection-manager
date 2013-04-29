@@ -17,6 +17,7 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 
 		$this->api = new API_Connection_Manager();
 		$this->api->services['active'] = get_option('api-connection-manager')['services'];
+		$_SESSION['Api-Con-Errors'] = array("test error");
 	}
 
 	function tearDown(){
@@ -32,18 +33,10 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 
 	}
 
-	function test_response_listener_login_form(){
-	}
-
-	function test_response_listener_login_authorize(){
-
-	}
-
-	function test_response_listener_login_oauth1(){
-
-	}
-
-	function test_response_listener_login_oauth2(){
-		
+	function test_admin_notices(){
+		//test error - session declared in this::setUp()
+		$this->assertTrue( $this->api->admin_notices() );
+		//make sure notices were reset in last call
+		$this->assertFalse( $this->api->admin_notices() );
 	}
 }
