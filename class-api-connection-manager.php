@@ -412,7 +412,7 @@ class API_Connection_Manager{
 	 * @return array 
 	 * @subpackage api-core
 	 */
-	private function _get_options(){
+	public function _get_options(){
 		
 		//multisite install
 		if(is_multisite())
@@ -425,7 +425,8 @@ class API_Connection_Manager{
 	
 	/**
 	 * Returns the options for a service.
-	 * 
+	 *
+	 * @uses string $this->option_name['services'][$slug]
 	 * @param string $slug The services module's index file.
 	 * @return array 
 	 * @subpackage api-core
@@ -440,8 +441,9 @@ class API_Connection_Manager{
 	
 	/**
 	 * Activate modules.
-	 * 
-	 * @param string|array $slugs A string or array of slugs.
+	 *
+	 * @uses $this->option_name['active']
+	 * @param mixed $slugs A string or array of slugs.
 	 * @subpackage modules-method
 	 */
 	public function _module_activate( $slugs ){
@@ -484,7 +486,8 @@ class API_Connection_Manager{
 	
 	/**
 	 * Deactivate modules.
-	 * 
+	 *
+	 * @uses $this->option_name['inactive']
 	 * @param string|array $slugs A string or array of slugs.
 	 * @subpackage modules-method
 	 */
@@ -526,6 +529,11 @@ class API_Connection_Manager{
 		$options = $this->_set_option($options);
 	}
 	
+	/**
+	 * Production method
+	 * @todo remove this method from final release
+	 * @return [type] [description]
+	 */
 	public function _reset_options(){
 		$option_name = "API_Con_Mngr_Module-connections";
 		//multisite install
@@ -707,7 +715,8 @@ class API_Connection_Manager{
 	 * 
 	 * Wordpress users can enable or disable the ability for oauth2 services to
 	 * store a refresh token.
-	 * 
+	 *
+	 * @todo @see #issue32 https://github.com/daithi-coombes/api-connection-manager/issues/32
 	 * @param string|array $slugs The service slug or an array of slugs. These
 	 * should be in the format:
 	 * $slugs[$slug] = boolean
@@ -800,7 +809,7 @@ class API_Connection_Manager{
 	 * 
 	 * @todo finish this.
 	 * @param string $slug The service slug
-	 */
+	 *
 	private function _service_logout($slug){
 			
 		//vars
@@ -823,21 +832,7 @@ class API_Connection_Manager{
 			'headers' => $headers
 		));
 	}
-	
-	/**
-	 * Test if response is oauth2 error.
-	 * 
-	 * @param mixed $response The server response body.
-	 * @return string|false Returns the error message if found, or false if no
-	 * error.
-	 */
-	private function _service_get_error( $response ){
-		
-		if(@$response->error->message)
-			return $response->error->message;
-		else
-			return false;
-	}
+	*/
 	
 	/**
 	 * Parses a http request and returns a stdClass dto.
@@ -946,7 +941,7 @@ class API_Connection_Manager{
 	 * tokens. Default 'access'. 
 	 * @return mixed Returns the meta data.
 	 * @subpackage service-method
-	 */
+	 *
 	private function _set_token($slug, $token, $type='access', $user_id=null){
 		
 		//try get current user
@@ -966,6 +961,7 @@ class API_Connection_Manager{
 		update_user_meta($user_id, $this->option_name, $meta);
 		return $meta;
 	}
+	*/
 	
 	/**
 	 * Sets the slug for module as a callback var
@@ -976,7 +972,7 @@ class API_Connection_Manager{
 	 * @param API_Con_Mngr_Module $module
 	 * @return type 
 	 * @subpackage api-core
-	 */
+	 *
 	public function _set_callback( API_Con_Mngr_Module $module ){
 		
 		$this->_set_option_transient("-callbacks", array(
@@ -984,6 +980,7 @@ class API_Connection_Manager{
 		));
 		return;
 	}
+	*/
 	
 	/**
 	 * Sets temporary options.
@@ -995,7 +992,7 @@ class API_Connection_Manager{
 	 * @param array $options The options array
 	 * @param integer $expiration Time to expire. Default 10 seconds.
 	 * @subpackage api-core
-	 */
+	 *
 	private function _set_option_transient($key='', array $options, $expiration=10){
 	
 		//multisite
@@ -1006,6 +1003,7 @@ class API_Connection_Manager{
 		else
 			set_transient($this->option_name.$key, $options, $expiration);
 	}
+	*/
 	
 	/**
 	 * Sets the API's options.
@@ -1033,7 +1031,7 @@ class API_Connection_Manager{
 	 * @param API_Con_Mngr_Module $module
 	 * @return array Returns the new api options array
 	 * @subpackage api-core
-	 */
+	 *
 	public function _set_service_options(API_Con_Mngr_Module $module, $options ){
 		
 		//update the db
@@ -1071,7 +1069,8 @@ class API_Connection_Manager{
 		$this->services[$state][$slug]['options'] = $options;
 		return $options;
 		 * 
-		 */
+		 *
 	}
+	*/
 	
 }

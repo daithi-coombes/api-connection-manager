@@ -31,10 +31,12 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 	}
 
 	function test_admin_notices(){
+		ob_start();
 		//test error - session declared in this::setUp()
-		$this->assertTrue( $this->api->admin_notices() );
+		$this->assertTrue( $this->api->admin_notices(), "Not finding any errors" );
 		//make sure notices were reset in last call
-		$this->assertFalse( $this->api->admin_notices() );
+		$this->assertFalse( $this->api->admin_notices(), "Errors not being reset" );
+		ob_end_clean();
 	}
 
 	function test_delete_user(){
@@ -53,4 +55,39 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 		$this->assertInternalType('array', $this->api->get_services());
 	}
 
+	function test_log(){}
+
+	function test_error(){}
+
+	function test__error(){}
+
+	function test__get_installed_services(){}
+
+	function test__get_options(){}
+
+	function test__get_service_options(){
+		$this->greaterThan(1, count($this->api->_get_service_options('google/index.php')));
+	}
+
+	function test__module_activate(){
+		$this->api->_module_activate('google/index.php');
+	}
+
+	function test__module_deactivate(){
+		$this->api->_module_deactivate('google/index.php');
+	}
+
+	function test__set_refresh_state(){}
+
+	function test__url_query_append(){}
+
+	function test__service_login_authorize(){}
+
+	function test__get_dto(){
+		$this->assertInstanceOf('stdClass', $this->api->get_dto());
+	}
+
+	function test__set_option(){}
+
+	
 }
