@@ -41,6 +41,7 @@
  * 			'access' => 'access token for this slug',
  * 			'refresh' => 'refresh token for this slug'
  * 		),
+ * 		'services' => array('slug' => array() ),
  * 		'active' => array(API_Con_Mngr_Module),
  * 		'inactive' => array(API_Con_Mngr_Module)
  * 	)
@@ -405,10 +406,9 @@ class API_Connection_Manager{
 	/**
 	 * Get options.
 	 * 
-	 * If multisite install will take options from get_site_option() if not then
-	 * defaults to get_option()
-	 * 
-	 * @todo this method is being called too much
+	 * Returns all options.
+	 *
+	 * @uses string $this->option_name
 	 * @return array 
 	 * @subpackage api-core
 	 */
@@ -436,36 +436,6 @@ class API_Connection_Manager{
 		if(!@$options['services'][$slug])
 			return array();
 		else return $options['services'][$slug];
-	}
-	
-	/**
-	 * Returns the access_token for the current user for a service.
-	 * 
-	 * @param string $slug The service slug
-	 * @param string $type Default access. Whether to return refresh or access
-	 * tokens.
-	 * @return string|WP_Error Returns the token or WP_Error if none found.
-	 * @subpackage api-core
-	 */
-	public function _get_token( $slug, $type='access' ){
-		
-		//vars
-		$user_id = $this->user->ID;
-		$user_options = get_user_meta($user_id, $this->option_name, true);
-		$err_msg = "No access|refresh token found for user in service {$slug}";
-		if(!$user_options)	//needed to stop wordpress wsod
-			return $this->_error($err_msg);
-		
-		//look for service
-		if(
-			!@$user_options[$slug][$type]
-		) return $this->_error($err_msg);
-		
-		//if empty slug
-		
-		
-		//return refresh token?
-		return $user_options[$slug][$type];
 	}
 	
 	/**
