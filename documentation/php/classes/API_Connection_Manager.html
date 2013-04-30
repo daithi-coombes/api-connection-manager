@@ -119,7 +119,78 @@
 <span class="divider">\</span><a href="../classes/API_Connection_Manager.html">API_Connection_Manager</a>
 </li>
 </ul>
-<div class="element class"><div class="details">
+<div class="element class">
+<p class="short_description">This class uses params stored in a module file to connect to remote services.</p>
+<div class="details">
+<div class="long_description"><p>It manages the storing of access_tokens and refresh_tokens in the oauth2
+spec and also allows for custom service api's to be connected to.</p>
+
+<p>Plugins can then easily connect to these services and make requests.
+Developers can also easily create new modules with the params for different
+services.</p>
+
+<p>Requests made to this api will then check that the user is logged into that
+service. If they are not and the service is active then they will be shown
+a login screen.</p>
+
+<p><b>N.B.</b>
+Although wordpress mixes and jumps between slugs and index files when working
+with plugins, for this class the index file and the slug are the same and the
+one. So the slug for a module stored at:
+api-con-mngr-modules/google-login/index.php
+the slug would then be:
+google-login/index.php
+The reason for this is that the index file is the only definite unique item
+between different modules. Two developers giving two modules the same slug
+by accident could cause headaches. Using the index.php file makes this
+impossible. Don't forget to urlencode() your slugs before using them in
+forms etc. Also don't forget to urldecode() your slugs when parsing form
+submits.</p>
+
+<p>Sessions:</p>
+
+<pre><code>$_SESSION['Api-Con-Errors'] = array()
+</code></pre>
+
+<p>Wordpress Options:</p>
+
+<pre><code>get_user_meta($current_user->ID, $this->option_name)
+    = array(
+        'service/slug' => array(
+            'access' => 'access token for this slug',
+            'refresh' => 'refresh token for this slug'
+        ),
+        'services' => array('slug' => array() ),
+        'active' => array(API_Con_Mngr_Module),
+        'inactive' => array(API_Con_Mngr_Module)
+    )
+</code></pre></div>
+<table class="table table-bordered">
+<tr>
+<th>todo</th>
+<td>localization</td>
+</tr>
+<tr>
+<th>todo</th>
+<td>refresh token</td>
+</tr>
+<tr>
+<th>global</th>
+<td>array $_SESSION['API_Con_Mngr_Module']</td>
+</tr>
+<tr>
+<th>global</th>
+<td>array $_SESSION['Api-Con-Errors']</td>
+</tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/api-connection-manager.html">api-connection-manager</a></td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="">daithi</a></td>
+</tr>
+</table>
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
 <a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
@@ -191,7 +262,7 @@
 <table class="table table-bordered">
 <tr>
 <th>uses</th>
-<td>\$this->option_name['active']</td>
+<td>$this->option_name['active']</td>
 </tr>
 <tr>
 <th>subpackage</th>
@@ -213,7 +284,7 @@
 <table class="table table-bordered">
 <tr>
 <th>uses</th>
-<td>\$this->option_name['inactive']</td>
+<td>$this->option_name['inactive']</td>
 </tr>
 <tr>
 <th>subpackage</th>
@@ -548,13 +619,14 @@ options. Will update the services member with the new options.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-</div></div>
+</div>
+</div>
 </div>
 </div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-04-30T13:54:52+01:00.<br></footer></div>
+            generated on 2013-04-30T14:13:31+01:00.<br></footer></div>
 </div>
 </body>
 </html>

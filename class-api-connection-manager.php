@@ -1,7 +1,6 @@
 <?php
+session_start();
 /**
- * class-api-connection-manager
- * 
  * This class uses params stored in a module file to connect to remote services.
  * It manages the storing of access_tokens and refresh_tokens in the oauth2
  * spec and also allows for custom service api's to be connected to.
@@ -51,11 +50,9 @@
  * @todo refresh token
  * @global array $_SESSION['API_Con_Mngr_Module']
  * @global array $_SESSION['Api-Con-Errors']
- * @uses array wp_options['slug']['access']
  * @package api-connection-manager
  * @author daithi
  */
-session_start();
 class API_Connection_Manager{
 	
 	/** @var string The last error made */
@@ -442,7 +439,7 @@ class API_Connection_Manager{
 	/**
 	 * Activate modules.
 	 *
-	 * @uses $this->option_name['active']
+	 * @uses string $this->option_name['active']
 	 * @param mixed $slugs A string or array of slugs.
 	 * @subpackage modules-method
 	 */
@@ -487,7 +484,7 @@ class API_Connection_Manager{
 	/**
 	 * Deactivate modules.
 	 *
-	 * @uses $this->option_name['inactive']
+	 * @uses string $this->option_name['inactive']
 	 * @param string|array $slugs A string or array of slugs.
 	 * @subpackage modules-method
 	 */

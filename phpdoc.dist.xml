@@ -7,7 +7,8 @@
     <target>documentation/php</target>
   </transformer>
   <files>
-  	<file>class-api-con*</file>
+  	<file>class-*</file>
+  	<file>class-api-connection-manager.php</file>
   	<file>index.php</file>
   </files>
 </phpdoc>
