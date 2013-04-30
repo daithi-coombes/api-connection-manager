@@ -1,0 +1,560 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \API_Connection_Manager</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/api-connection-manager.html"><i class="icon-folder-open"></i> api-connection-manager</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">31</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">2</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: Loads settings and set default params."><span class="description">Loads settings and set default params.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method__get_options" title="_get_options :: Get options."><span class="description">Get options.</span><pre>_get_options()</pre></a></li>
+<li class="method public "><a href="#method__get_service_options" title="_get_service_options :: Returns the options for a service."><span class="description">Returns the options for a service.</span><pre>_get_service_options()</pre></a></li>
+<li class="method public "><a href="#method__module_activate" title="_module_activate :: Activate modules."><span class="description">Activate modules.</span><pre>_module_activate()</pre></a></li>
+<li class="method public "><a href="#method__module_deactivate" title="_module_deactivate :: Deactivate modules."><span class="description">Deactivate modules.</span><pre>_module_deactivate()</pre></a></li>
+<li class="method public "><a href="#method__reset_options" title="_reset_options :: Production method"><span class="description">Production method</span><pre>_reset_options()</pre></a></li>
+<li class="method public "><a href="#method__response_listener" title="_response_listener :: Ajax callback"><span class="description">Ajax callback</span><pre>_response_listener()</pre></a></li>
+<li class="method public "><a href="#method__set_refresh_state" title="_set_refresh_state :: Enable|Disable the use of a refresh token."><span class="description">Enable|Disable the use of a refresh token.</span><pre>_set_refresh_state()</pre></a></li>
+<li class="method public "><a href="#method_admin_notices" title="admin_notices :: Action callback for admin notices."><span class="description">Action callback for admin notices.</span><pre>admin_notices()</pre></a></li>
+<li class="method public "><a href="#method_delete_user" title="delete_user :: Action callback."><span class="description">Action callback.</span><pre>delete_user()</pre></a></li>
+<li class="method public "><a href="#method_error" title="error :: adds an error to Api-Con-Errors session"><span class="description">adds an error to Api-Con-Errors session</span><pre>error()</pre></a></li>
+<li class="method public "><a href="#method_get_current_user" title="get_current_user :: Get the current user the api class is working off."><span class="description">Get the current user the api class is working off.</span><pre>get_current_user()</pre></a></li>
+<li class="method public "><a href="#method_get_dto" title="get_dto :: Parses a http request and returns a stdClass dto."><span class="description">Parses a http request and returns a stdClass dto.</span><pre>get_dto()</pre></a></li>
+<li class="method public "><a href="#method_get_service" title="get_service :: Returns the details for a service."><span class="description">Returns the details for a service.</span><pre>get_service()</pre></a></li>
+<li class="method public "><a href="#method_get_services" title="get_services :: Returns a list of services."><span class="description">Returns a list of services.</span><pre>get_services()</pre></a></li>
+<li class="method public "><a href="#method_log" title="log :: Log an INFO message"><span class="description">Log an INFO message</span><pre>log()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="method private "><a href="#method__error" title="_error :: Returns a WP_Error object."><span class="description">Returns a WP_Error object.</span><pre>_error()</pre></a></li>
+<li class="method private "><a href="#method__get_installed_services" title="_get_installed_services :: Builds an array of all installed modules and sets their params."><span class="description">Builds an array of all installed modules and sets their params.</span><pre>_get_installed_services()</pre></a></li>
+<li class="method private "><a href="#method__service_login_authorize" title="_service_login_authorize :: Authorize login method."><span class="description">Authorize login method.</span><pre>_service_login_authorize()</pre></a></li>
+<li class="method private "><a href="#method__set_option" title="_set_option :: Sets the API's options."><span class="description">Sets the API's options.</span><pre>_set_option()</pre></a></li>
+<li class="method private "><a href="#method__url_query_append" title="_url_query_append :: Append params to a url."><span class="description">Append params to a url.</span><pre>_url_query_append()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul>
+<li class="property public "><a href="#property_last_error" title="$last_error :: "><span class="description">The last error made</span><pre>$last_error</pre></a></li>
+<li class="property public "><a href="#property_redirect_uri" title="$redirect_uri :: "><span class="description">The redirect uri</span><pre>$redirect_uri</pre></a></li>
+<li class="property public "><a href="#property_services" title="$services :: "><span class="description">List of all installed services</span><pre>$services</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_dir_sub" title="$dir_sub :: "><span class="description">The location of the submodules dir</span><pre>$dir_sub</pre></a></li>
+<li class="property protected "><a href="#property_option_name" title="$option_name :: "><span class="description">The name of the options var for this api</span><pre>$option_name</pre></a></li>
+<li class="property protected "><a href="#property_url_sub" title="$url_sub :: "><span class="description">The url to the submodules dir</span><pre>$url_sub</pre></a></li>
+</ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="property private "><a href="#property_log_api" title="$log_api :: "><span class="description">The log class</span><pre>$log_api</pre></a></li>
+<li class="property private "><a href="#property_user" title="$user :: "><span class="description">The current user</span><pre>$user</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\API_Connection_Manager"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/API_Connection_Manager.html">API_Connection_Manager</a>
+</li>
+</ul>
+<div class="element class"><div class="details">
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Loads settings and set default params.</h2>
+<pre>__construct() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Wordpress actions:
+ - admin_notices
+ - delete_user
+ - wpmu_delete_user</p></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="">for dependencies and code flow.</a></td>
+</tr></table>
+</div></div>
+</div>
+<a id="method__get_options"></a><div class="element clickable method public method__get_options" data-toggle="collapse" data-target=".method__get_options .collapse">
+<h2>Get options.</h2>
+<pre>_get_options() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Returns all options.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>uses</th>
+<td>$this->option_name</td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>api-core</td>
+</tr>
+</table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method__get_service_options"></a><div class="element clickable method public method__get_service_options" data-toggle="collapse" data-target=".method__get_service_options .collapse">
+<h2>Returns the options for a service.</h2>
+<pre>_get_service_options(string $slug) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>uses</th>
+<td>$this->option_name['services'][$slug]</td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>api-core</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$slug</h4>
+<code>string</code><p>The services module's index file.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method__module_activate"></a><div class="element clickable method public method__module_activate" data-toggle="collapse" data-target=".method__module_activate .collapse">
+<h2>Activate modules.</h2>
+<pre>_module_activate(mixed $slugs) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>uses</th>
+<td>\$this->option_name['active']</td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>modules-method</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$slugs</h4>
+<code>mixed</code><p>A string or array of slugs.</p></div>
+</div></div>
+</div>
+<a id="method__module_deactivate"></a><div class="element clickable method public method__module_deactivate" data-toggle="collapse" data-target=".method__module_deactivate .collapse">
+<h2>Deactivate modules.</h2>
+<pre>_module_deactivate(string | array $slugs) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered">
+<tr>
+<th>uses</th>
+<td>\$this->option_name['inactive']</td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>modules-method</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$slugs</h4>
+<code>string</code><code>array</code><p>A string or array of slugs.</p></div>
+</div></div>
+</div>
+<a id="method__reset_options"></a><div class="element clickable method public method__reset_options" data-toggle="collapse" data-target=".method__reset_options .collapse">
+<h2>Production method</h2>
+<pre>_reset_options() : \[type]</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>todo</th>
+<td>remove this method from final release</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\[type]</code>[description]</div>
+</div></div>
+</div>
+<a id="method__response_listener"></a><div class="element clickable method public method__response_listener" data-toggle="collapse" data-target=".method__response_listener .collapse">
+<h2>Ajax callback</h2>
+<pre>_response_listener() : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Bootstraps all response's to the api connection manager. Both secure and
+non-secure response are parsed here (wp_ajax &amp;&amp; wp_ajax_nopriv).</p>
+
+<p>Processes login requests for custom services, oauth1 and oauth2.</p></div>
+<table class="table table-bordered"><tr>
+<th>subpackage</th>
+<td>api-core</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>mixed</code></div>
+</div></div>
+</div>
+<a id="method__set_refresh_state"></a><div class="element clickable method public method__set_refresh_state" data-toggle="collapse" data-target=".method__set_refresh_state .collapse">
+<h2>Enable|Disable the use of a refresh token.</h2>
+<pre>_set_refresh_state(array $slugs) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Wordpress users can enable or disable the ability for oauth2 services to
+store a refresh token.</p></div>
+<table class="table table-bordered"><tr>
+<th>todo</th>
+<td>@see #issue32 https://github.com/daithi-coombes/api-connection-manager/issues/32</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$slugs</h4>
+<code>string</code><code>array</code><p>The service slug or an array of slugs. These
+should be in the format:
+$slugs[$slug] = boolean</p>
+</div>
+</div></div>
+</div>
+<a id="method_admin_notices"></a><div class="element clickable method public method_admin_notices" data-toggle="collapse" data-target=".method_admin_notices .collapse">
+<h2>Action callback for admin notices.</h2>
+<pre>admin_notices() : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Will print any errors in the session
+Api-Con-Errors and then unset the session</p></div>
+<table class="table table-bordered"><tr>
+<th>uses</th>
+<td>$_SESSION['Api-Con-Errors']</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>Returns true if admin notices were printed, false if not</div>
+</div></div>
+</div>
+<a id="method_delete_user"></a><div class="element clickable method public method_delete_user" data-toggle="collapse" data-target=".method_delete_user .collapse">
+<h2>Action callback.</h2>
+<pre>delete_user($user_id) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Delete option values relating to deleted user.</p>
+
+<p>When a user is deleted from the core remove connection information
+from site options.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$user_id</h4></div>
+</div></div>
+</div>
+<a id="method_error"></a><div class="element clickable method public method_error" data-toggle="collapse" data-target=".method_error .collapse">
+<h2>adds an error to Api-Con-Errors session</h2>
+<pre>error(string $msg) </pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>uses</th>
+<td>$_SESSION['Api-Con-Errors']</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code><p>The error message</p></div>
+</div></div>
+</div>
+<a id="method_get_current_user"></a><div class="element clickable method public method_get_current_user" data-toggle="collapse" data-target=".method_get_current_user .collapse">
+<h2>Get the current user the api class is working off.</h2>
+<pre>get_current_user() : \WP_User</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\WP_User</code></div>
+</div></div>
+</div>
+<a id="method_get_dto"></a><div class="element clickable method public method_get_dto" data-toggle="collapse" data-target=".method_get_dto .collapse">
+<h2>Parses a http request and returns a stdClass dto.</h2>
+<pre>get_dto() : <a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a> | \WP_error</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The format of the returned DTO is:</p>
+
+<p>$res = new stdClass();
+$res->response = array();   //the $_REQUEST array
+$res->callback = stdClass;  //the plugin callback if any
+$res->slug = "";
+$res->user = "";</p></div>
+<table class="table table-bordered"><tr>
+<th>subpackage</th>
+<td>service-method</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><code>\WP_error</code>Returns an error if no service slug found.</div>
+</div></div>
+</div>
+<a id="method_get_service"></a><div class="element clickable method public method_get_service" data-toggle="collapse" data-target=".method_get_service .collapse">
+<h2>Returns the details for a service.</h2>
+<pre>get_service(string $slug) : <a href="../classes/API_Con_Mngr_Module.html">\API_Con_Mngr_Module</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Returns module details, service params and service options.</p></div>
+<table class="table table-bordered"><tr>
+<th>subpackage</th>
+<td>helper-methods</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$slug</h4>
+<code>string</code><p>The service index_file</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/API_Con_Mngr_Module.html">\API_Con_Mngr_Module</a></code></div>
+</div></div>
+</div>
+<a id="method_get_services"></a><div class="element clickable method public method_get_services" data-toggle="collapse" data-target=".method_get_services .collapse">
+<h2>Returns a list of services.</h2>
+<pre>get_services(string $type) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is the main method for plugins to get services from.</p></div>
+<table class="table table-bordered"><tr>
+<th>subpackage</th>
+<td>helper-methods</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>string</code><p>The type of services active|inactive Default active.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_log"></a><div class="element clickable method public method_log" data-toggle="collapse" data-target=".method_log .collapse">
+<h2>Log an INFO message</h2>
+<pre>log(string $msg, $level) : \none</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code><p>The message to log</p></div>
+<div class="subelement argument"><h4>$level</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\none</code></div>
+</div></div>
+</div>
+<a id="method__error"></a><div class="element clickable method private method__error" data-toggle="collapse" data-target=".method__error .collapse">
+<h2>Returns a WP_Error object.</h2>
+<pre>_error(string $msg) : \WP_Error</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Sets the error code to 'API Connection Manager' and returns a constructed
+WP_Error object. Sets the last_error param to error message.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>uses</th>
+<td>\API_Connection_Manager::last_error</td>
+</tr>
+<tr>
+<th>subpackage</th>
+<td>api-core</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code><p>The error message</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\WP_Error</code></div>
+</div></div>
+</div>
+<a id="method__get_installed_services"></a><div class="element clickable method private method__get_installed_services" data-toggle="collapse" data-target=".method__get_installed_services .collapse">
+<h2>Builds an array of all installed modules and sets their params.</h2>
+<pre>_get_installed_services() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The return array is split into active and inactive modules. There are a
+lot of system calls and working with files. Overuse of this method would
+not be advised.</p>
+
+<p>Currently this method is used in:
+ - API_Connection_Manager::__construct()</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method__service_login_authorize"></a><div class="element clickable method private method__service_login_authorize" data-toggle="collapse" data-target=".method__service_login_authorize .collapse">
+<h2>Authorize login method.</h2>
+<pre>_service_login_authorize(\API_Con_Mngr_Module $module, \stdClass $dto) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Grabs request tokens from remote server and redirects to authorize url</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$module</h4>
+<code><a href="../classes/API_Con_Mngr_Module.html">\API_Con_Mngr_Module</a></code>
+</div>
+<div class="subelement argument">
+<h4>$dto</h4>
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code>
+</div>
+</div></div>
+</div>
+<a id="method__set_option"></a><div class="element clickable method private method__set_option" data-toggle="collapse" data-target=".method__set_option .collapse">
+<h2>Sets the API's options.</h2>
+<pre>_set_option(array $options) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If multisite install will set site options, if not then normal wp
+options. Will update the services member with the new options.</p></div>
+<table class="table table-bordered"><tr>
+<th>subpackage</th>
+<td>api-core</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<a id="method__url_query_append"></a><div class="element clickable method private method__url_query_append" data-toggle="collapse" data-target=".method__url_query_append .collapse">
+<h2>Append params to a url.</h2>
+<pre>_url_query_append(string $url, array $vars) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><p>The full url including current params.</p></div>
+<div class="subelement argument">
+<h4>$vars</h4>
+<code>array</code><p>Associative array of param name=>value pairs.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_last_error"> </a><div class="element clickable property public property_last_error" data-toggle="collapse" data-target=".property_last_error .collapse">
+<h2>The last error made</h2>
+<pre>$last_error : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_redirect_uri"> </a><div class="element clickable property public property_redirect_uri" data-toggle="collapse" data-target=".property_redirect_uri .collapse">
+<h2>The redirect uri</h2>
+<pre>$redirect_uri : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_services"> </a><div class="element clickable property public property_services" data-toggle="collapse" data-target=".property_services .collapse">
+<h2>List of all installed services</h2>
+<pre>$services : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_dir_sub"> </a><div class="element clickable property protected property_dir_sub" data-toggle="collapse" data-target=".property_dir_sub .collapse">
+<h2>The location of the submodules dir</h2>
+<pre>$dir_sub : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_option_name"> </a><div class="element clickable property protected property_option_name" data-toggle="collapse" data-target=".property_option_name .collapse">
+<h2>The name of the options var for this api</h2>
+<pre>$option_name : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_url_sub"> </a><div class="element clickable property protected property_url_sub" data-toggle="collapse" data-target=".property_url_sub .collapse">
+<h2>The url to the submodules dir</h2>
+<pre>$url_sub : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_log_api"> </a><div class="element clickable property private property_log_api" data-toggle="collapse" data-target=".property_log_api .collapse">
+<h2>The log class</h2>
+<pre>$log_api : \Logger</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_user"> </a><div class="element clickable property private property_user" data-toggle="collapse" data-target=".property_user .collapse">
+<h2>The current user</h2>
+<pre>$user : \WP_User</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-04-30T13:54:52+01:00.<br></footer></div>
+</div>
+</body>
+</html>

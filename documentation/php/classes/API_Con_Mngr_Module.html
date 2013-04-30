@@ -1,0 +1,1127 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor » \API_Con_Mngr_Module</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/api-connection-manager.html"><i class="icon-folder-open"></i> api-connection-manager</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">31</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">2</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method___construct" title="__construct :: Make sure you call this from your child class."><span class="description">Make sure you call this from your child class.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#method_check_error" title="check_error :: This method checks a response from the service for an error and must
+be declared by your class."><span class="description">This method checks a response from the service for an error and must
+be declared by your class.</span><pre>check_error()</pre></a></li>
+<li class="method public "><a href="#method_do_callback" title="do_callback :: Do callback."><span class="description">Do callback.</span><pre>do_callback()</pre></a></li>
+<li class="method public "><a href="#method_do_login" title="do_login :: This method gets called after a successfull login."><span class="description">This method gets called after a successfull login.</span><pre>do_login()</pre></a></li>
+<li class="method public "><a href="#method_error" title="error :: Error handling."><span class="description">Error handling.</span><pre>error()</pre></a></li>
+<li class="method public "><a href="#method_get_access_token" title="get_access_token :: Oauth2."><span class="description">Oauth2.</span><pre>get_access_token()</pre></a></li>
+<li class="method public "><a href="#method_get_authorize_url" title="get_authorize_url :: Returns the authorize url for oauth1 and oauth2"><span class="description">Returns the authorize url for oauth1 and oauth2</span><pre>get_authorize_url()</pre></a></li>
+<li class="method public "><a href="#method_get_connections" title="get_connections :: Returns the connections array."><span class="description">Returns the connections array.</span><pre>get_connections()</pre></a></li>
+<li class="method public "><a href="#method_get_login_button" title="get_login_button :: Returns a link to login to this service."><span class="description">Returns a link to login to this service.</span><pre>get_login_button()</pre></a></li>
+<li class="method public "><a href="#method_get_login_form" title="get_login_form :: "><span class="description">get_login_form()
+        </span><pre>get_login_form()</pre></a></li>
+<li class="method public "><a href="#method_get_params" title="get_params :: Returns array of params for this module and sets the class fields."><span class="description">Returns array of params for this module and sets the class fields.</span><pre>get_params()</pre></a></li>
+<li class="method public "><a href="#method_get_profile" title="get_profile :: "><span class="description">get_profile()
+        </span><pre>get_profile()</pre></a></li>
+<li class="method public "><a href="#method_get_request_token" title="get_request_token :: Get oauth1 request token."><span class="description">Get oauth1 request token.</span><pre>get_request_token()</pre></a></li>
+<li class="method public "><a href="#method_get_uid" title="get_uid :: Makes a request to get an accounts uid."><span class="description">Makes a request to get an accounts uid.</span><pre>get_uid()</pre></a></li>
+<li class="method public "><a href="#method_log" title="log :: Log an INFO message to the log file."><span class="description">Log an INFO message to the log file.</span><pre>log()</pre></a></li>
+<li class="method public "><a href="#method_login" title="login :: Log/ a user with this service."><span class="description">Log/ a user with this service.</span><pre>login()</pre></a></li>
+<li class="method public "><a href="#method_login_connect" title="login_connect :: Set a wp user with this module providers account id."><span class="description">Set a wp user with this module providers account id.</span><pre>login_connect()</pre></a></li>
+<li class="method public "><a href="#method_login_form_callback" title="login_form_callback :: Override this method if you are using a custom service login form"><span class="description">Override this method if you are using a custom service login form</span><pre>login_form_callback()</pre></a></li>
+<li class="method public "><a href="#method_oauth_sign_request" title="oauth_sign_request :: Builds and signs a request object."><span class="description">Builds and signs a request object.</span><pre>oauth_sign_request()</pre></a></li>
+<li class="method public "><a href="#method_parse_dto" title="parse_dto :: Sets any fields in this instance that in the dto-&gt;response
+array."><span class="description">Sets any fields in this instance that in the dto-&gt;response
+array.</span><pre>parse_dto()</pre></a></li>
+<li class="method public "><a href="#method_parse_response" title="parse_response :: Parse a response body."><span class="description">Parse a response body.</span><pre>parse_response()</pre></a></li>
+<li class="method public "><a href="#method_request" title="request :: Send requests to the provider."><span class="description">Send requests to the provider.</span><pre>request()</pre></a></li>
+<li class="method public "><a href="#method_set_connections" title="set_connections :: Sets the connections array."><span class="description">Sets the connections array.</span><pre>set_connections()</pre></a></li>
+<li class="method public "><a href="#method_set_details" title="set_details :: Set this instance details fields such as Name and Description."><span class="description">Set this instance details fields such as Name and Description.</span><pre>set_details()</pre></a></li>
+<li class="method public "><a href="#method_set_options" title="set_options :: "><span class="description">set_options()
+        </span><pre>set_options()</pre></a></li>
+<li class="method public "><a href="#method_set_params" title="set_params :: Set params."><span class="description">Set params.</span><pre>set_params()</pre></a></li>
+<li class="method public "><a href="#method_verify_token" title="verify_token :: Make a request to verify a token."><span class="description">Make a request to verify a token.</span><pre>verify_token()</pre></a></li>
+<li class="method public "><a href="#method_wp_login" title="wp_login :: Helper method to login user using an email provided by a service."><span class="description">Helper method to login user using an email provided by a service.</span><pre>wp_login()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="method protected "><a href="#method_construct_options" title="construct_options :: Builds the options array."><span class="description">Builds the options array.</span><pre>construct_options()</pre></a></li></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="method private "><a href="#method_get_options" title="get_options :: Returns module options such as client_id, scope etc."><span class="description">Returns module options such as client_id, scope etc.</span><pre>get_options()</pre></a></li>
+<li class="method private "><a href="#method_get_slug" title="get_slug :: Returns the slug for the current module."><span class="description">Returns the slug for the current module.</span><pre>get_slug()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul>
+<li class="property public "><a href="#property_Description" title="$Description :: "><span class="description">The module description</span><pre>$Description</pre></a></li>
+<li class="property public "><a href="#property_Name" title="$Name :: "><span class="description">The name of the module</span><pre>$Name</pre></a></li>
+<li class="property public "><a href="#property_access_token" title="$access_token :: "><span class="description">Oauth2 access token</span><pre>$access_token</pre></a></li>
+<li class="property public "><a href="#property_access_type" title="$access_type :: "><span class="description">The oauth2 access type parameter</span><pre>$access_type</pre></a></li>
+<li class="property public "><a href="#property_button" title="$button :: "><span class="description">The img tag to the module button, or module name as type default</span><pre>$button</pre></a></li>
+<li class="property public "><a href="#property_callback_url" title="$callback_url :: "><span class="description">The callback url</span><pre>$callback_url</pre></a></li>
+<li class="property public "><a href="#property_client_id" title="$client_id :: "><span class="description">The client id. Mainly used for oauth2</span><pre>$client_id</pre></a></li>
+<li class="property public "><a href="#property_client_secret" title="$client_secret :: "><span class="description">The client secret. Mainly used for oauth2</span><pre>$client_secret</pre></a></li>
+<li class="property public "><a href="#property_connecttimeout" title="$connecttimeout :: "><span class="description">The connection timeout</span><pre>$connecttimeout</pre></a></li>
+<li class="property public "><a href="#property_consumer" title="$consumer :: "><span class="description">The consumer object</span><pre>$consumer</pre></a></li>
+<li class="property public "><a href="#property_login_form" title="$login_form :: "><span class="description">Flag Default false. If login form required then set as an array with the necessary param=&gt;vals as key=&gt;pairs.</span><pre>$login_form</pre></a></li>
+<li class="property public "><a href="#property_login_uri" title="$login_uri :: "><span class="description">The uri for displaying a login link</span><pre>$login_uri</pre></a></li>
+<li class="property public "><a href="#property_oauth_consumer_key" title="$oauth_consumer_key :: "><span class="description">Oauth1. The consumer key</span><pre>$oauth_consumer_key</pre></a></li>
+<li class="property public "><a href="#property_oauth_consumer_secret" title="$oauth_consumer_secret :: "><span class="description">Oauth1. The consumer secret</span><pre>$oauth_consumer_secret</pre></a></li>
+<li class="property public "><a href="#property_oauth_nonce" title="$oauth_nonce :: "><span class="description">Oauth1. The nonce for this instance of the module</span><pre>$oauth_nonce</pre></a></li>
+<li class="property public "><a href="#property_oauth_request_token" title="$oauth_request_token :: "><span class="description">Oauth1 request token</span><pre>$oauth_request_token</pre></a></li>
+<li class="property public "><a href="#property_oauth_request_token_secret" title="$oauth_request_token_secret :: "><span class="description">Oauth1 request token secret</span><pre>$oauth_request_token_secret</pre></a></li>
+<li class="property public "><a href="#property_oauth_token" title="$oauth_token :: "><span class="description">Oauth1 token</span><pre>$oauth_token</pre></a></li>
+<li class="property public "><a href="#property_oauth_token_secret" title="$oauth_token_secret :: "><span class="description">Oauth1 token secret</span><pre>$oauth_token_secret</pre></a></li>
+<li class="property public "><a href="#property_options" title="$options :: "><span class="description"></span><pre>$options</pre></a></li>
+<li class="property public "><a href="#property_params" title="$params :: "><span class="description">An array of static params</span><pre>$params</pre></a></li>
+<li class="property public "><a href="#property_protocol" title="$protocol :: "><span class="description">The current protocol used (oauth, custom, etc)</span><pre>$protocol</pre></a></li>
+<li class="property public "><a href="#property_redirect_uri" title="$redirect_uri :: "><span class="description">The redirect uri. Mainly used for oauth2</span><pre>$redirect_uri</pre></a></li>
+<li class="property public "><a href="#property_scope" title="$scope :: "><span class="description">The scope parameter, usually for oauth2</span><pre>$scope</pre></a></li>
+<li class="property public "><a href="#property_sessions" title="$sessions :: "><span class="description">Flag whether server allows sessions or not. Some modules need sessions and will be disabled on servers without sessions enabled. Default false</span><pre>$sessions</pre></a></li>
+<li class="property public "><a href="#property_sha1_method" title="$sha1_method :: "><span class="description">The signature encoding method</span><pre>$sha1_method</pre></a></li>
+<li class="property public "><a href="#property_slug" title="$slug :: "><span class="description">The slug of the current login</span><pre>$slug</pre></a></li>
+<li class="property public "><a href="#property_ssl_verifypeer" title="$ssl_verifypeer :: "><span class="description">Verify SSL Cert.</span><pre>$ssl_verifypeer</pre></a></li>
+<li class="property public "><a href="#property_timeout" title="$timeout :: "><span class="description">Set timeout default.</span><pre>$timeout</pre></a></li>
+<li class="property public "><a href="#property_token" title="$token :: "><span class="description">The token</span><pre>$token</pre></a></li>
+<li class="property public "><a href="#property_url_access_token" title="$url_access_token :: "><span class="description">The access token url</span><pre>$url_access_token</pre></a></li>
+<li class="property public "><a href="#property_url_authorize" title="$url_authorize :: "><span class="description">The authorize url</span><pre>$url_authorize</pre></a></li>
+<li class="property public "><a href="#property_url_request_token" title="$url_request_token :: "><span class="description">The request token url</span><pre>$url_request_token</pre></a></li>
+<li class="property public "><a href="#property_url_verify_token" title="$url_verify_token :: "><span class="description">The url to verify an access token</span><pre>$url_verify_token</pre></a></li>
+<li class="property public "><a href="#property_use_nonce" title="$use_nonce :: "><span class="description">Flag to set whether provider will return nonce or not</span><pre>$use_nonce</pre></a></li>
+<li class="property public "><a href="#property_user" title="$user :: "><span class="description"></span><pre>$user</pre></a></li>
+<li class="property public "><a href="#property_useragent" title="$useragent :: "><span class="description">The user agent to send with requests</span><pre>$useragent</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul><li class="property protected "><a href="#property_headers" title="$headers :: "><span class="description">An array of additional headers</span><pre>$headers</pre></a></li></ul>
+</li>
+<li class="nav-header private">» Private
+                    <ul>
+<li class="property private "><a href="#property_api" title="$api :: "><span class="description">The main api class</span><pre>$api</pre></a></li>
+<li class="property private "><a href="#property_log_api" title="$log_api :: "><span class="description">The log class</span><pre>$log_api</pre></a></li>
+<li class="property private "><a href="#property_option_name" title="$option_name :: "><span class="description">The prefix for the user meta keys</span><pre>$option_name</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\API_Con_Mngr_Module"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/API_Con_Mngr_Module.html">API_Con_Mngr_Module</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Modules should extend this class.</p>
+<div class="details">
+<div class="long_description"><p>e.g.:</p>
+
+<pre><code>class My_Class extends API_Con_Mngr_Module{
+    function __construct(){
+        $this->options = array(
+            'access_token' => '%s'
+        );
+        $this->protocol = "custom";
+        parent::__construct();
+    }
+    function check_error( $response ){
+        return false;
+    }
+}
+$module = new My_Class();
+</code></pre>
+
+<p>Options that are per wordpress installation, such as client_id or scopes
+should be defined using the API Connection Manager dashboard settings
+page.</p>
+
+<p>Your module class should be saved in a file called</p>
+
+<pre><code>index.php</code></pre>
+
+<p>in a sub-folder in</p>
+
+<pre><code>wp-content/plugins/api-con-mngr-modules</code></pre>
+
+<p>If this folder is not created yet make sure you have installed and
+activated the API Manager Core
+<a href="https://github.com/david-coombes/api-connection-manager">https://github.com/david-coombes/api-connection-manager</a></p>
+
+<h1>Class definition file</h1>
+
+<p>Your class should extend this and also be constructed as $module at the
+bottom of the index.php file</p>
+
+<h1>Oauth1</h1>
+
+<p>As well as providing methods declared abstract the following is required:
+Methods:
+- ::__construct() //this must call parent::__construct()
+- ::check_error //check the service responses for error
+- ::do_login() //use this to process request tokens
+  - ::get_uid() //make request to service and return uid
+Fields:
+- ::consumer_key //required by the oauth1 spec
+- ::consumer_secret //required by the oauth1 spec</p>
+
+<h1>Oauth2</h1>
+
+<p>The following must be declared by your child class
+Methods:
+- ::__constrcut() //must construct parent class
+- ::check_error() //check the server responses for errors
+- ::get_authorize_url //only the client_id and redirect_url are
+required by the spec, you may need to add additional params here</p>
+
+<h1>Service (provider's custom api)</h1>
+
+<p>No service documentation yet</p>
+
+<h1>Custom</h1>
+
+<p>Params:
+ - $this->endpoint string
+ - $this->login_form array
+ - $this->login_form_callback()</p>
+
+<h1>Callbacks</h1>
+
+<p>Internally the api module class will use an stdClass param as a dto. This
+will be passed to your callback function. You can define a callback
+function or method when printing a login for a service:</p>
+
+<pre><code>$module->get_login_button( __FILE__, array(
+</code></pre>
+
+<p>for a method, or if your callback is a function then:</p>
+
+<pre><code>$module->get_login_button( __FILE__, array('parse_dto') );
+</code></pre>
+
+<p>The dto will also contain other information such as access tokens and
+response's from teh provider. The dto is in the format:</p>
+
+<pre><code>res  stdClass Object
+(
+    [callback] => Array
+        (
+            [0] => ClassName
+            [1] => MethodName
+        )
+    [response] => Array
+        (
+            [login] => true
+            [slug] => module/index.php
+            [file] => /path/to/callback/file.php
+            [callback] => a:2:{i:0;s:12:"ClassName";i:1;s:9:"MethodName";}
+            [oauth_request_token] => **************
+            [oauth_request_token_secret] => *************
+        )
+    [slug] => module/index.php
+    [user] => WP_User Object
+        (
+            [data] =>
+            [ID] => 0
+            [caps] => Array
+                (
+                )
+            [cap_key] =>
+            [roles] => Array
+                (
+                )
+            [allcaps] => Array
+                (
+                )
+            [filter] =>
+        )
+)
+</code></pre>
+
+<h1>Globals</h1>
+
+<p>There is one global used by the api, this is also used to build the dto
+above {@see API_Connection_Manager::_service_parse_dto()}</p>
+
+<pre><code>$_SESSION    Array
+(
+[API_Con_Mngr_Module] => Array
+    (
+        [dropbox/index.php] => Array
+            (
+                [callback] => Array
+                    (
+                        [0] => AutoFlow_API
+                        [1] => parse_dto
+                    )
+            )
+        [slug] => dropbox/index.php
+    )
+)
+</code></pre></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/api-connection-manager.html">api-connection-manager</a></td>
+</tr>
+<tr>
+<th>author</th>
+<td><a href="">daithi</a></td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Make sure you call this from your child class.</h2>
+<pre>__construct() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>global</th>
+<td>API_Connection_Manager $API_Connection_Manager</td>
+</tr></table>
+</div></div>
+</div>
+<a id="method_check_error"></a><div class="element clickable method public method_check_error" data-toggle="collapse" data-target=".method_check_error .collapse">
+<h2>This method checks a response from the service for an error and must
+be declared by your class.</h2>
+<pre>check_error(array $response) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If you find an error in the response return a WP_Error with the
+error string</p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="">\http://codex.wordpress.org/CLass_Reference/WP_Error</a></td>
+</tr>
+<tr>
+<th>uses</th>
+<td>\WP_Error</td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$response</h4>
+<code>array</code><p>The response in the same format as returned by
+the WP_HTTP class.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Returns false if no error or WP_Error if error found</div>
+</div></div>
+</div>
+<a id="method_do_callback"></a><div class="element clickable method public method_do_callback" data-toggle="collapse" data-target=".method_do_callback .collapse">
+<h2>Do callback.</h2>
+<pre>do_callback(\stdClass $dto) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>This is called from API_Connection_Manager::_response_listener() The
+callback is set when the connecting tab is opened. The dto must have
+the module slug set.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>see</th>
+<td><a href="class-api-con-mngr-module.html#%5CAPI_Con_Mngr_Module::get_login_button()">\API_Con_Mngr_Module::get_login_button()</a></td>
+</tr>
+<tr>
+<th>see</th>
+<td><a href="class-api-connection-manager.html#%5CAPI_Connection_Manager::_response_listener()">\API_Connection_Manager::_response_listener()</a></td>
+</tr>
+</table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dto</h4>
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><p>The response dto.</p></div>
+</div></div>
+</div>
+<a id="method_do_login"></a><div class="element clickable method public method_do_login" data-toggle="collapse" data-target=".method_do_login .collapse">
+<h2>This method gets called after a successfull login.</h2>
+<pre>do_login(\stdClass $dto) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>It is called after:
+ - oauth1 successfull app authorization and request tokens
+ - oauth2</p>
+
+<p>Override this method to parse results.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dto</h4>
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><p>The data transport object created by
+API_Connection_Manager::_service_parse_dto()</p>
+</div>
+</div></div>
+</div>
+<a id="method_error"></a><div class="element clickable method public method_error" data-toggle="collapse" data-target=".method_error .collapse">
+<h2>Error handling.</h2>
+<pre>error(string $msg) : \WP_Error</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Will return a WP_Error object with 'API_Con_Mngr_Module' as the code.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code><p>The error message.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\WP_Error</code></div>
+</div></div>
+</div>
+<a id="method_get_access_token"></a><div class="element clickable method public method_get_access_token" data-toggle="collapse" data-target=".method_get_access_token .collapse">
+<h2>Oauth2.</h2>
+<pre>get_access_token(array $response) : <a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Get the access tokens from a token request and sets the
+requests results using $this->set_params()</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$response</h4>
+<code>array</code><p>The response code.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code>Returns the tokens</div>
+</div></div>
+</div>
+<a id="method_get_authorize_url"></a><div class="element clickable method public method_get_authorize_url" data-toggle="collapse" data-target=".method_get_authorize_url .collapse">
+<h2>Returns the authorize url for oauth1 and oauth2</h2>
+<pre>get_authorize_url($params) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Override this method and provide any optional params your service
+requires. Only client_id and response_type are required by oauth2
+spec.</p>
+
+<p>Clears the session nonce</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$params</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_get_connections"></a><div class="element clickable method public method_get_connections" data-toggle="collapse" data-target=".method_get_connections .collapse">
+<h2>Returns the connections array.</h2>
+<pre>get_connections() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The connections array is in the format:</p>
+
+<pre><code>array[$slug][$user_id] = $profile_id
+</code></pre></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Returns an empty array if no connections.</div>
+</div></div>
+</div>
+<a id="method_get_login_button"></a><div class="element clickable method public method_get_login_button" data-toggle="collapse" data-target=".method_get_login_button .collapse">
+<h2>Returns a link to login to this service.</h2>
+<pre>get_login_button(string $file, mixed $callback, boolean $die) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Builds the link and dies. If the request is for a signin button then
+provide the callback params and the link will be returned.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$file</h4>
+<code>string</code><p>Optional. Full path to callback file.</p></div>
+<div class="subelement argument">
+<h4>$callback</h4>
+<code>mixed</code><p>Optional. Callback func name or array of
+class, method names.</p></div>
+<div class="subelement argument">
+<h4>$die</h4>
+<code>boolean</code><p>Default true. If true and sign on button
+required will die(button_html);</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Html anchor</div>
+</div></div>
+</div>
+<a id="method_get_login_form"></a><div class="element clickable method public method_get_login_form" data-toggle="collapse" data-target=".method_get_login_form .collapse">
+<h2>get_login_form()
+        </h2>
+<pre>get_login_form() : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>todo</th>
+<td>Create the login form for custom services that require the
+username/password to be collected on the client side.</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_get_params"></a><div class="element clickable method public method_get_params" data-toggle="collapse" data-target=".method_get_params .collapse">
+<h2>Returns array of params for this module and sets the class fields.</h2>
+<pre>get_params() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>global</th>
+<td>type $API_Connection_Manager To get the current user_id</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$array[key=>val]</div>
+</div></div>
+</div>
+<a id="method_get_profile"></a><div class="element clickable method public method_get_profile" data-toggle="collapse" data-target=".method_get_profile .collapse">
+<h2>get_profile()
+        </h2>
+<pre>get_profile() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_get_request_token"></a><div class="element clickable method public method_get_request_token" data-toggle="collapse" data-target=".method_get_request_token .collapse">
+<h2>Get oauth1 request token.</h2>
+<pre>get_request_token(string $method) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>You may need to override this to suit.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$method</h4>
+<code>string</code><p>Default GET. The http method to use.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_get_uid"></a><div class="element clickable method public method_get_uid" data-toggle="collapse" data-target=".method_get_uid .collapse">
+<h2>Makes a request to get an accounts uid.</h2>
+<pre>get_uid() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Must return the uid of the
+remote service or WP_Error if none.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<a id="method_log"></a><div class="element clickable method public method_log" data-toggle="collapse" data-target=".method_log .collapse">
+<h2>Log an INFO message to the log file.</h2>
+<pre>log(string $msg, $level) : \None</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg</h4>
+<code>string</code><p>The message to log</p></div>
+<div class="subelement argument"><h4>$level</h4></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>\None</code></div>
+</div></div>
+</div>
+<a id="method_login"></a><div class="element clickable method public method_login" data-toggle="collapse" data-target=".method_login .collapse">
+<h2>Log/ a user with this service.</h2>
+<pre>login(string $uid) : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Uses $this->slug to see if this
+uid for this service has already been connected with the current
+logged in wp user.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$uid</h4>
+<code>string</code><p>The profile user id to match</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>boolean</code>If wp user logged in, will set connect service uid
+with user. If not will look for connection and login if found. If
+neither then will return false</div>
+</div></div>
+</div>
+<a id="method_login_connect"></a><div class="element clickable method public method_login_connect" data-toggle="collapse" data-target=".method_login_connect .collapse">
+<h2>Set a wp user with this module providers account id.</h2>
+<pre>login_connect(string $user_id, string $uid) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$user_id</h4>
+<code>string</code><p>The wordpress user id</p></div>
+<div class="subelement argument">
+<h4>$uid</h4>
+<code>string</code><p>This module providers account id</p></div>
+</div></div>
+</div>
+<a id="method_login_form_callback"></a><div class="element clickable method public method_login_form_callback" data-toggle="collapse" data-target=".method_login_form_callback .collapse">
+<h2>Override this method if you are using a custom service login form</h2>
+<pre>login_form_callback(\stdClass $dto) : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="class-api-con-mngr-module.html#%5CAPI_Con_Mngr_Module::get_login_form()">\API_Con_Mngr_Module::get_login_form()</a></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dto</h4>
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><p>The DTO passed from the login form</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>Must return a valid token/session. This will be then
+stored in API_Con_Mngr_Module::token for later use</div>
+</div></div>
+</div>
+<a id="method_oauth_sign_request"></a><div class="element clickable method public method_oauth_sign_request" data-toggle="collapse" data-target=".method_oauth_sign_request .collapse">
+<h2>Builds and signs a request object.</h2>
+<pre>oauth_sign_request(string $url, string $method, array $params) : \OAuthRequest</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Uses the field $this->sha1_method to sign the request which must be
+type OAuthSignatureMethod_HMAC_SHA1</p>
+
+<p>Sets the session nonce.</p></div>
+<table class="table table-bordered"><tr>
+<th>uses</th>
+<td>OAuthSignatureMethod_HMAC_SHA1</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><p>The end point url.</p></div>
+<div class="subelement argument">
+<h4>$method</h4>
+<code>string</code><p>Default GET. The http method</p></div>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>array</code><p>Array of params in key value pairs</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\OAuthRequest</code>Returns an oauth request object</div>
+</div></div>
+</div>
+<a id="method_parse_dto"></a><div class="element clickable method public method_parse_dto" data-toggle="collapse" data-target=".method_parse_dto .collapse">
+<h2>Sets any fields in this instance that in the dto-&gt;response
+array.</h2>
+<pre>parse_dto(\stdClass $dto) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>deprecated</th>
+<td></td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dto</h4>
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code>
+</div>
+</div></div>
+</div>
+<a id="method_parse_response"></a><div class="element clickable method public method_parse_response" data-toggle="collapse" data-target=".method_parse_response .collapse">
+<h2>Parse a response body.</h2>
+<pre>parse_response(array $response) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$response</h4>
+<code>array</code><p>The response in the format returned from
+WP_HTTP</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Will return either an array or object based on the
+response header content-type</div>
+</div></div>
+</div>
+<a id="method_request"></a><div class="element clickable method public method_request" data-toggle="collapse" data-target=".method_request .collapse">
+<h2>Send requests to the provider.</h2>
+<pre>request($url, string $method, array $parameters, boolean $die) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$url</h4></div>
+<div class="subelement argument">
+<h4>$method</h4>
+<code>string</code><p>Default GET. The http method to user.</p></div>
+<div class="subelement argument">
+<h4>$parameters</h4>
+<code>array</code><p>Optional. An array of parameters in key
+value pairs</p></div>
+<div class="subelement argument">
+<h4>$die</h4>
+<code>boolean</code><p>Default true. Whether to die with a login button
+if an error occurs</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Returns the response array in the WP_HTTP format.</div>
+</div></div>
+</div>
+<a id="method_set_connections"></a><div class="element clickable method public method_set_connections" data-toggle="collapse" data-target=".method_set_connections .collapse">
+<h2>Sets the connections array.</h2>
+<pre>set_connections(array $connections) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>The connections array is in the format:</p>
+
+<pre><code>array[$slug][$user_id] = $profile_id
+</code></pre></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$connections</h4>
+<code>array</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>$connections</div>
+</div></div>
+</div>
+<a id="method_set_details"></a><div class="element clickable method public method_set_details" data-toggle="collapse" data-target=".method_set_details .collapse">
+<h2>Set this instance details fields such as Name and Description.</h2>
+<pre>set_details(array $data) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Called in API_Connection_Manager::_get_installed_services()</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<a id="method_set_options"></a><div class="element clickable method public method_set_options" data-toggle="collapse" data-target=".method_set_options .collapse">
+<h2>set_options()
+        </h2>
+<pre>set_options(array $options) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code>
+</div>
+</div></div>
+</div>
+<a id="method_set_params"></a><div class="element clickable method public method_set_params" data-toggle="collapse" data-target=".method_set_params .collapse">
+<h2>Set params.</h2>
+<pre>set_params(array $params) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Will set fields that have the same param name and update the db.</p></div>
+<table class="table table-bordered"><tr>
+<th>global</th>
+<td>wpdb $wpdb</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>array</code><p>An associative array of parameters for this
+module</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Returns the new params db values.</div>
+</div></div>
+</div>
+<a id="method_verify_token"></a><div class="element clickable method public method_verify_token" data-toggle="collapse" data-target=".method_verify_token .collapse">
+<h2>Make a request to verify a token.</h2>
+<pre>verify_token() : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>If no token then return false, if
+service provides no call to test token then make request for profile
+etc as a test.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_wp_login"></a><div class="element clickable method public method_wp_login" data-toggle="collapse" data-target=".method_wp_login .collapse">
+<h2>Helper method to login user using an email provided by a service.</h2>
+<pre>wp_login(string $email, string $redirect) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>On
+success will redirect to $redirect on fail will die() with error
+message.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$email</h4>
+<code>string</code><p>The email to use</p></div>
+<div class="subelement argument">
+<h4>$redirect</h4>
+<code>string</code><p>Default will redirect to admin_url()</p>
+</div>
+</div></div>
+</div>
+<a id="method_construct_options"></a><div class="element clickable method protected method_construct_options" data-toggle="collapse" data-target=".method_construct_options .collapse">
+<h2>Builds the options array.</h2>
+<pre>construct_options(array $options) : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Options are added in the format:
+array( 'option_name' => 'datatype')
+where datatype is:
+ - '%s' for string
+ - '%d' for integer
+ - array() key value pairs for drop down</p>
+
+<p>Oauth1:
+Defaults are consumer key, consumer secret, redirect_uri</p>
+
+<p>Oauth2:
+Defaults are client_id, client_secret, client_uri</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$options</h4>
+<code>array</code><p>An array of options</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>array</code>Returns the full options including requirements</div>
+</div></div>
+</div>
+<a id="method_get_options"></a><div class="element clickable method private method_get_options" data-toggle="collapse" data-target=".method_get_options .collapse">
+<h2>Returns module options such as client_id, scope etc.</h2>
+<pre>get_options() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Sets the fields with their relevant option values.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a id="method_get_slug"></a><div class="element clickable method private method_get_slug" data-toggle="collapse" data-target=".method_get_slug .collapse">
+<h2>Returns the slug for the current module.</h2>
+<pre>get_slug() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>uses</th>
+<td>To get the child class filename</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_Description"> </a><div class="element clickable property public property_Description" data-toggle="collapse" data-target=".property_Description .collapse">
+<h2>The module description</h2>
+<pre>$Description : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_Name"> </a><div class="element clickable property public property_Name" data-toggle="collapse" data-target=".property_Name .collapse">
+<h2>The name of the module</h2>
+<pre>$Name : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_access_token"> </a><div class="element clickable property public property_access_token" data-toggle="collapse" data-target=".property_access_token .collapse">
+<h2>Oauth2 access token</h2>
+<pre>$access_token : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_access_type"> </a><div class="element clickable property public property_access_type" data-toggle="collapse" data-target=".property_access_type .collapse">
+<h2>The oauth2 access type parameter</h2>
+<pre>$access_type : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_button"> </a><div class="element clickable property public property_button" data-toggle="collapse" data-target=".property_button .collapse">
+<h2>The img tag to the module button, or module name as type default</h2>
+<pre>$button : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_callback_url"> </a><div class="element clickable property public property_callback_url" data-toggle="collapse" data-target=".property_callback_url .collapse">
+<h2>The callback url</h2>
+<pre>$callback_url : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_client_id"> </a><div class="element clickable property public property_client_id" data-toggle="collapse" data-target=".property_client_id .collapse">
+<h2>The client id. Mainly used for oauth2</h2>
+<pre>$client_id : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_client_secret"> </a><div class="element clickable property public property_client_secret" data-toggle="collapse" data-target=".property_client_secret .collapse">
+<h2>The client secret. Mainly used for oauth2</h2>
+<pre>$client_secret : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_connecttimeout"> </a><div class="element clickable property public property_connecttimeout" data-toggle="collapse" data-target=".property_connecttimeout .collapse">
+<h2>The connection timeout</h2>
+<pre>$connecttimeout : integer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_consumer"> </a><div class="element clickable property public property_consumer" data-toggle="collapse" data-target=".property_consumer .collapse">
+<h2>The consumer object</h2>
+<pre>$consumer : \OAuthConsumer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_login_form"> </a><div class="element clickable property public property_login_form" data-toggle="collapse" data-target=".property_login_form .collapse">
+<h2>Flag Default false. If login form required then set as an array with the necessary param=&gt;vals as key=&gt;pairs.</h2>
+<pre>$login_form : \mxied</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_login_uri"> </a><div class="element clickable property public property_login_uri" data-toggle="collapse" data-target=".property_login_uri .collapse">
+<h2>The uri for displaying a login link</h2>
+<pre>$login_uri : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_oauth_consumer_key"> </a><div class="element clickable property public property_oauth_consumer_key" data-toggle="collapse" data-target=".property_oauth_consumer_key .collapse">
+<h2>Oauth1. The consumer key</h2>
+<pre>$oauth_consumer_key : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_oauth_consumer_secret"> </a><div class="element clickable property public property_oauth_consumer_secret" data-toggle="collapse" data-target=".property_oauth_consumer_secret .collapse">
+<h2>Oauth1. The consumer secret</h2>
+<pre>$oauth_consumer_secret : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_oauth_nonce"> </a><div class="element clickable property public property_oauth_nonce" data-toggle="collapse" data-target=".property_oauth_nonce .collapse">
+<h2>Oauth1. The nonce for this instance of the module</h2>
+<pre>$oauth_nonce : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_oauth_request_token"> </a><div class="element clickable property public property_oauth_request_token" data-toggle="collapse" data-target=".property_oauth_request_token .collapse">
+<h2>Oauth1 request token</h2>
+<pre>$oauth_request_token : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_oauth_request_token_secret"> </a><div class="element clickable property public property_oauth_request_token_secret" data-toggle="collapse" data-target=".property_oauth_request_token_secret .collapse">
+<h2>Oauth1 request token secret</h2>
+<pre>$oauth_request_token_secret : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_oauth_token"> </a><div class="element clickable property public property_oauth_token" data-toggle="collapse" data-target=".property_oauth_token .collapse">
+<h2>Oauth1 token</h2>
+<pre>$oauth_token : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_oauth_token_secret"> </a><div class="element clickable property public property_oauth_token_secret" data-toggle="collapse" data-target=".property_oauth_token_secret .collapse">
+<h2>Oauth1 token secret</h2>
+<pre>$oauth_token_secret : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_options"> </a><div class="element clickable property public property_options" data-toggle="collapse" data-target=".property_options .collapse">
+<h2></h2>
+<pre>$options </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_params"> </a><div class="element clickable property public property_params" data-toggle="collapse" data-target=".property_params .collapse">
+<h2>An array of static params</h2>
+<pre>$params : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_protocol"> </a><div class="element clickable property public property_protocol" data-toggle="collapse" data-target=".property_protocol .collapse">
+<h2>The current protocol used (oauth, custom, etc)</h2>
+<pre>$protocol : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_redirect_uri"> </a><div class="element clickable property public property_redirect_uri" data-toggle="collapse" data-target=".property_redirect_uri .collapse">
+<h2>The redirect uri. Mainly used for oauth2</h2>
+<pre>$redirect_uri : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_scope"> </a><div class="element clickable property public property_scope" data-toggle="collapse" data-target=".property_scope .collapse">
+<h2>The scope parameter, usually for oauth2</h2>
+<pre>$scope : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_sessions"> </a><div class="element clickable property public property_sessions" data-toggle="collapse" data-target=".property_sessions .collapse">
+<h2>Flag whether server allows sessions or not. Some modules need sessions and will be disabled on servers without sessions enabled. Default false</h2>
+<pre>$sessions : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_sha1_method"> </a><div class="element clickable property public property_sha1_method" data-toggle="collapse" data-target=".property_sha1_method .collapse">
+<h2>The signature encoding method</h2>
+<pre>$sha1_method : \OAuthSignatureMethod_HMAC_SHA1</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_slug"> </a><div class="element clickable property public property_slug" data-toggle="collapse" data-target=".property_slug .collapse">
+<h2>The slug of the current login</h2>
+<pre>$slug : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_ssl_verifypeer"> </a><div class="element clickable property public property_ssl_verifypeer" data-toggle="collapse" data-target=".property_ssl_verifypeer .collapse">
+<h2>Verify SSL Cert.</h2>
+<pre>$ssl_verifypeer : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_timeout"> </a><div class="element clickable property public property_timeout" data-toggle="collapse" data-target=".property_timeout .collapse">
+<h2>Set timeout default.</h2>
+<pre>$timeout : integer</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_token"> </a><div class="element clickable property public property_token" data-toggle="collapse" data-target=".property_token .collapse">
+<h2>The token</h2>
+<pre>$token : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_url_access_token"> </a><div class="element clickable property public property_url_access_token" data-toggle="collapse" data-target=".property_url_access_token .collapse">
+<h2>The access token url</h2>
+<pre>$url_access_token : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_url_authorize"> </a><div class="element clickable property public property_url_authorize" data-toggle="collapse" data-target=".property_url_authorize .collapse">
+<h2>The authorize url</h2>
+<pre>$url_authorize : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_url_request_token"> </a><div class="element clickable property public property_url_request_token" data-toggle="collapse" data-target=".property_url_request_token .collapse">
+<h2>The request token url</h2>
+<pre>$url_request_token : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_url_verify_token"> </a><div class="element clickable property public property_url_verify_token" data-toggle="collapse" data-target=".property_url_verify_token .collapse">
+<h2>The url to verify an access token</h2>
+<pre>$url_verify_token : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_use_nonce"> </a><div class="element clickable property public property_use_nonce" data-toggle="collapse" data-target=".property_use_nonce .collapse">
+<h2>Flag to set whether provider will return nonce or not</h2>
+<pre>$use_nonce : boolean</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_user"> </a><div class="element clickable property public property_user" data-toggle="collapse" data-target=".property_user .collapse">
+<h2></h2>
+<pre>$user : \WP_User</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>uses</th>
+<td>\API_Connection_Manager::_get_current_user()</td>
+</tr></table>
+</div></div>
+</div>
+<a id="property_useragent"> </a><div class="element clickable property public property_useragent" data-toggle="collapse" data-target=".property_useragent .collapse">
+<h2>The user agent to send with requests</h2>
+<pre>$useragent : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_headers"> </a><div class="element clickable property protected property_headers" data-toggle="collapse" data-target=".property_headers .collapse">
+<h2>An array of additional headers</h2>
+<pre>$headers : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_api"> </a><div class="element clickable property private property_api" data-toggle="collapse" data-target=".property_api .collapse">
+<h2>The main api class</h2>
+<pre>$api : <a href="../classes/API_Connection_Manager.html">\API_Connection_Manager</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_log_api"> </a><div class="element clickable property private property_log_api" data-toggle="collapse" data-target=".property_log_api .collapse">
+<h2>The log class</h2>
+<pre>$log_api : \API_Con_Mngr_Log</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_option_name"> </a><div class="element clickable property private property_option_name" data-toggle="collapse" data-target=".property_option_name .collapse">
+<h2>The prefix for the user meta keys</h2>
+<pre>$option_name : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-04-30T13:54:52+01:00.<br></footer></div>
+</div>
+</body>
+</html>
