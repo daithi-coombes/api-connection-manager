@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+  <parser>
+    <target>documentation/php</target>
+  </parser>
+  <transformer>
+    <target>documentation/php</target>
+  </transformer>
+  <files>
+  	<file>class-api-con*</file>
+  	<file>index.php</file>
+  </files>
+</phpdoc>
