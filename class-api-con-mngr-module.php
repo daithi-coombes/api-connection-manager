@@ -371,6 +371,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @see API_Con_Mngr_Module::get_login_button()
 		 * @see API_Connection_Manager::_response_listener()
 		 * @param stdClass $dto The response dto.
+		 * @return mixed Returns the result of the callback method/function
 		 */
 		public function do_callback( stdClass $dto ) {
 			
@@ -387,15 +388,16 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$class = $callback['func'][0];
 				$method = $callback['func'][1];
 				$obj = new $class();
-				$obj->$method($dto);
+				$ret = $obj->$method($dto);
 			}
 
 			//call a function
 			else{
 				$func = $callback['func'];
-				$func($dto);
+				$ret = $func($dto);
 			}
 			unset($_SESSION['API_Con_Mngr_Module']['callback']);
+			return $ret;
 		}
 
 		/**
@@ -553,17 +555,12 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/**
 		 * Returns a link to login to this service.
 		 * 
-		 * Builds the link and dies. If the request is for a signin button then 
-		 * provide the callback params and the link will be returned.
-		 * 
 		 * @param string $file Optional. Full path to callback file.
 		 * @param mixed $callback Optional. Callback func name or array of 
 		 * class, method names.
-		 * @param boolean $die Default true. If true and sign on button
-		 * required will die(button_html);
 		 * @return string Html anchor
 		 */
-		public function get_login_button( $file='', $callback='', $die=true ){
+		public function get_login_button( $file='', $callback=''){
 			
 			//nonce
 			global $API_Connection_Manager;
@@ -571,29 +568,14 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//using sessions
 			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);
 			
-			//if not a sign on button
-			if(empty($file) && empty($callback)){
-				$this->log(debug_backtrace());
-				$msg = "<br/><em>You are not signed;alkdfj;alkdj into {$this->Name}</em><br/>
-						<a href=\"{$url}\" target=\"_new\">Sign into {$this->Name}</a>
-						";
-				if($die)
-					die($msg);
-				else 
-					return $msg;
-			}
-			//end not a sign on button
-					
-			//if a sign on button
-			else{
-				if(is_array($callback))
-					$clbk = serialize(array(
-						get_class($callback[0]),
-						$callback[1]
-					));
-				$url .= "&file=" .urlencode($file) . "&callback=" . urlencode($clbk);
-				return $url;
-			}
+			if(is_array($callback))
+				$clbk = serialize(array(
+					get_class($callback[0]),
+					$callback[1]
+				));
+			else $clbk = serialize($callback);
+			$url .= "&file=" .urlencode($file) . "&callback=" . urlencode($clbk);
+			return $url;
 		}
 
 		/**
@@ -1008,6 +990,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
+		 * Store site wide options, such as client_id and secret etc.
 		 * @param array $options 
 		 */
 		public function set_options( array $options ){
@@ -1033,7 +1016,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 		
 		/**
-		 * Set params.
+		 * Set user specific params such as access token etc.
 		 * Will set fields that have the same param name and update the db.
 		 * 
 		 * @global wpdb $wpdb
