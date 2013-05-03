@@ -106,6 +106,29 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 		$res = $this->module->parse_response($response);
 		$this->assertInstanceOf('WP_Error', $res);
 	}
+
+	function test_response(){}
+
+	function test_set_connections(){}
+
+	function test_set_details(){
+		$this->module->set_details(array(
+			'access_token' => 'foo'));
+		$this->assertEquals('foo', $this->module->access_token);
+	}
+
+	function test_set_options(){}
+
+	function test_set_params(){}
+
+	function test_wp_login(){}
+
+	function test_construct_options(){}
+
+	function test_options(){}
+
+	function test_get_slug(){}
+
 }
 
 function foo(){

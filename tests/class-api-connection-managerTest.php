@@ -69,13 +69,9 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 		$this->greaterThan(1, count($this->api->_get_service_options('google/index.php')));
 	}
 
-	function test__module_activate(){
-		$this->api->_module_activate('google/index.php');
-	}
+	function test__module_activate(){}
 
-	function test__module_deactivate(){
-		$this->api->_module_deactivate('google/index.php');
-	}
+	function test__module_deactivate(){}
 
 	function test__set_refresh_state(){}
 
