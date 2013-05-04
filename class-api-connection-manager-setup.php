@@ -62,9 +62,10 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 	/**
 	 * Print inline styles and scripts the html head tag.  
 	 */
-	public function admin_head(){
-		?>
-		<style type="text/css">
+	public function admin_head( $echo=true ){
+		
+		$html = "
+		<style type=\"text/css\">
 			.api-con-list-services li{
 				border : 1px solid;
 				padding: 10px;
@@ -76,7 +77,7 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 				margin: 15px 10px;
 			}
 		</style>
-		<script type="text/javascript">
+		<script type=\"text/javascript\">
 			var apiConMngr = {
 				toggle_settings : function(id){
 					jQuery('.api-con-mng-settings').hide();
@@ -86,8 +87,11 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 					return false;
 				}
 			};
-		</script>
-		<?php
+		</script>";
+
+		if($echo) print $html;
+		else return $html;
+		
 	} // end admin_head()
 	
     /**
@@ -282,12 +286,14 @@ class API_Connection_Manager_Setup extends WP_List_Table{
        /**
          * This checks for sorting input and sorts the data in our array accordingly.
          */
+        if(!function_exists("usort_reorder")):
         function usort_reorder($a,$b){
             $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'title'; //If no sort, default to title
             $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
             $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
             return ($order==='asc') ? $result : -$result; //Send final sort direction to usort
         }
+        endif;
         usort($data, 'usort_reorder');
         
 		/**
