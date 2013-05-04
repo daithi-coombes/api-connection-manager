@@ -1,18 +1,28 @@
 <?php
-require_once('class-api-connection-managerTest.php');
 
 class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 
 	protected $module;
+	public $slug;
 	public $user;
 
 	function setUp(){
-		require('../api-con-mngr-modules/google/index.php');
+		parent::setUp();
+
+		if(!defined("DOING_AJAX"))
+			define('DOING_AJAX', true);
+
+		//load module class
+		$this->slug = get_option('test_slug');
+		require("../api-con-mngr-modules/{$this->slug}");
 		$this->module = $module;
+
+		//sign in user
 		$this->user = wp_signon(array(
 			'user_login' => 'admin',
 			'user_password' => 'password'));
 		$this->module->user = $this->user;
+		wp_set_current_user($this->user->ID);
 	}
 
 	function tearDown(){
@@ -20,7 +30,7 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 	}
 
 	function test___construct(){
-		$this->assertEquals('google/index.php', $this->module->slug, "no module slug");
+		$this->assertInternalType('string', $this->module->slug, "no module slug");
 		$this->module->get_params();
 		$this->assertInternalType('array', $this->module->options, "no options for module. This could be related to ::get_params()");
 

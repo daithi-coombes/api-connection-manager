@@ -16,7 +16,6 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 			);
 
 		$this->api = new API_Connection_Manager();
-		$this->api->services['active'] = get_option('api-connection-manager')['services'];
 		$_SESSION['Api-Con-Errors'] = array("test error");
 	}
 
