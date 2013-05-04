@@ -1,0 +1,9 @@
+<?php
+$services = array(
+	'google/index.php' => array(
+		'client_id' => '',
+		'client_secret' => '',
+		'redirect_uri' => '',
+		'scope' => ''
+		)
+);
