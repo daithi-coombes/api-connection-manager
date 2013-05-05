@@ -14,6 +14,7 @@
 //boostrap
 error_reporting(E_ALL ^ E_STRICT);
 ini_set('display_errors',1);
+define('API_CON_MNGR_LOG_ENABLE', true);
 $API_CON_PLUGIN_DIR =  WP_PLUGIN_DIR . "/" . basename(dirname( __FILE__ ));
 $API_CON_PLUGIN_URL =  WP_PLUGIN_URL . "/" . basename(dirname( __FILE__ ));
 
@@ -37,7 +38,8 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
 require_once( "debug.func.php" );
 require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
-Logger::configure(dirname(__FILE__).'/log4net-config.xml');
+if(defined('API_CON_MNGR_LOG_ENABLE') && API_CON_MNGR_LOG_ENABLE)
+	Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 
 /* Log the details of every wordpress hook at the TRACE level */
 //add_action( 'all', 'log_action' );
