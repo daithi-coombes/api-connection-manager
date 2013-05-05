@@ -273,9 +273,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var API_Connection_Manager The main api class */
 		private $api;
 		
-		/** @var API_Con_Mngr_Log The log class */
-		private $log_api;
-		
 		/** @var string The prefix for the user meta keys */
 		private $option_name = "API_Con_Mngr_Module";
 		
@@ -287,21 +284,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 		function __construct() {
 			
 			/**
-			 * Logging. Uncomment the below line 
-			 */
-			if(file_exists(dirname(__FILE__)."/log4net-config.xml"))
-				$this->log_api = @Logger::getLogger(__CLASS__."::API Module {$this->slug}");
-			//test logging
-			else
-				$this->log_api = new WP_Error('API_Connection_Manager: log4php','Unable to create log file');
-			//end logging
-			
-			//set slug
-			$this->slug = $this->get_slug();
-			
-			/**
 			 * bootstrap fields, params and options
 			 */
+			//set slug
+			$this->slug = $this->get_slug();			
 			//load user specific db params (access_tokens etc)
 			$this->get_params();
 			//setup options variables for the API Services dashboard page
@@ -416,7 +402,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function oauth_sign_request( $url, $method='GET', $params=array()){
 			
-			//@$this->log("Current nonce: {$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']}");
 			$token = new OAuthConsumer($this->oauth_token, $this->oauth_token_secret, $this->callback_url);
 			if(@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']){
 				$params['oauth_nonce'] = $_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'];
@@ -427,8 +412,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(!@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']){
 				$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] = $request->get_parameter('oauth_nonce');
 			}
-			//@$this->log("New Nonce: " . $_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] );
-			//$this->log($request);
 			return $request;
 		}
 		
@@ -691,42 +674,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
-		 * Log an INFO message to the log file.
-		 * 
-		 * @param string The message to log
-		 * @return None
-		 */
-		public function log( $msg, $level='info' ){
-			if(!is_wp_error($this->log_api)){
-				
-				// Manually construct a logging event
-				$level = LoggerLevel::toLevel($level);
-				$logger = Logger::getLogger(__CLASS__);
-				$event = new LoggerLoggingEvent(__CLASS__, $logger, $level, $msg);
-
-				// Override the location info
-				$bt = debug_backtrace();
-				$caller = array_shift($bt);
-				$location = new LoggerLocationInfo($caller);
-				$event->setLocationInformation($location);
-
-				// Log it
-				$logger->logEvent($event);
-				/**
-				//trace
-				$bt = debug_backtrace();
-				$caller = array_shift($bt);
-				$trace = $caller['file'] . ":" . $caller['line'];
-				$this->log_api->trace($trace);
-				
-				//log
-				$this->log_api->$level( $msg );
-				 * 
-				 */
-			}
-		}
-		
-		/**
 		 * Log/ a user with this service. Uses $this->slug to see if this
 		 * uid for this service has already been connected with the current
 		 * logged in wp user.
@@ -805,8 +752,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 					}
 			
 			$connections[$this->slug][$user_id] = (string) $uid;
-			$this->log($connections);
-			$this->set_connections($connections);
 			return true;
 		}
 		
@@ -871,9 +816,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			global $current_user;
 			
-			$this->log("Request:");
-			$this->log("{$method} {$url}");
-			
 			//vars
 			$current_user = wp_get_current_user();
 			$connections = $this->get_connections();
@@ -885,8 +827,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 				case 'POST':
 					$params = array('body'=>$parameters,'headers'=>$this->headers);
 					$response = wp_remote_post($url, $params);
-					$this->log('parameters:');
-					$this->log($params);
 					break;
 				default:
 					
@@ -895,9 +835,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 					$response = wp_remote_get($url, array('headers' => $this->headers));
 					break;
 			}//end request
-			
-			$this->log("Response:");
-			$this->log($response);
 			
 			//if http body
 			if(is_wp_error($response))
@@ -912,8 +849,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 				
 				//get & register error message
 				$msg = addslashes( $errs->get_error_message() );
-				$this->log("Response Error:");
-				$this->log($errs);
 				API_Connection_Manager::error($this->Name . ": ".$msg);
 				
 				/**
