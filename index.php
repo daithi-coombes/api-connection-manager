@@ -82,16 +82,16 @@ function api_con_log($msg, $level='info'){
 	if(defined('API_CON_MNGR_LOG_ENABLE') && API_CON_MNGR_LOG_ENABLE)
 		Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 	else
-		return false;    
+		return false;
 
     //if logging callback request, use file `callback-log.html`
     if(
         !defined('DOING_AJAX') || 
         true!==@DOING_AJAX ||
         @$_GET['action']!='api_con_mngr'
-    ) $filename = `callback-log.html`
+    ) $filename = 'callback-log.html';
     else
-        $filename = `api-con-log.html`
+        $filename = 'api-con-log.html';
 
     // Manually construct a logging event
     $level = LoggerLevel::toLevel($level);
