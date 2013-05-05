@@ -37,6 +37,7 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
 require_once( "debug.func.php" );
 require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
+Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 /**
  * end Vendor dependencies 
  */
@@ -79,19 +80,16 @@ function is_api_con_error($thing){
 function api_con_log($msg, $level='info'){
 
     //check able to log
-	if(defined('API_CON_MNGR_LOG_ENABLE') && API_CON_MNGR_LOG_ENABLE)
-		Logger::configure(dirname(__FILE__).'/log4net-config.xml');
-	else
+	if(!defined('API_CON_MNGR_LOG_ENABLE') && !API_CON_MNGR_LOG_ENABLE)
 		return false;
 
     $bt = debug_backtrace();
-    //$caller = array_shift($bt);
-    $caller = $bt[0];
     $class = $bt[1]['class'];
 
     // Manually construct a logging event
+    $logger = Logger::getLogger("{$class}::{$bt[1]['function']}");
+    
     $level = LoggerLevel::toLevel($level);
-    $logger = Logger::getLogger($class);
     $event = new LoggerLoggingEvent($class, $logger, $level, $msg);
 
     // Override the location info
