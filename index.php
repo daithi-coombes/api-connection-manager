@@ -34,24 +34,9 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
 /**
  * Vendor dependencies 
  */
-//logger
 require_once( "debug.func.php" );
 require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
-if(defined('API_CON_MNGR_LOG_ENABLE') && API_CON_MNGR_LOG_ENABLE)
-	Logger::configure(dirname(__FILE__).'/log4net-config.xml');
-
-/* Log the details of every wordpress hook at the TRACE level */
-//add_action( 'all', 'log_action' );
-function log_action() {
-	$logger = Logger::getLogger(current_filter());
-	if (@$logger->getName() == 'query') {
-		@$logger->debug(func_get_args());
-	} else {
-		@$logger->trace(func_get_args());
-	}
-	
-}
 /**
  * end Vendor dependencies 
  */
@@ -84,6 +69,43 @@ function is_api_con_error($thing){
 		return true;
 	else
 		return false;
+}
+
+/**
+ * Log messages using Logger
+ * @param  string $msg   The message to log
+ * @param  string $level Default info. The log level to use
+ */
+function api_con_log($msg, $level='info'){
+
+    //check able to log
+	if(defined('API_CON_MNGR_LOG_ENABLE') && API_CON_MNGR_LOG_ENABLE)
+		Logger::configure(dirname(__FILE__).'/log4net-config.xml');
+	else
+		return false;    
+
+    //if logging callback request, use file `callback-log.html`
+    if(
+        !defined('DOING_AJAX') || 
+        true!==@DOING_AJAX ||
+        @$_GET['action']!='api_con_mngr'
+    ) $filename = `callback-log.html`
+    else
+        $filename = `api-con-log.html`
+
+    // Manually construct a logging event
+    $level = LoggerLevel::toLevel($level);
+    $logger = Logger::getLogger(__CLASS__);
+    $event = new LoggerLoggingEvent(__CLASS__, $logger, $level, $msg);
+
+    // Override the location info
+    $bt = debug_backtrace();
+    $caller = array_shift($bt);
+    $location = new LoggerLocationInfo($caller);
+    $event->setLocationInformation($location);
+
+    // Log it
+    $logger->logEvent($event);
 }
 //end Helper functions
 
