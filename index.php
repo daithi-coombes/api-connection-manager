@@ -1,6 +1,6 @@
 <?php
 /**
- * @package wp-services-api
+ * @package api-connection-manager
  */
 /*
   Plugin Name: API Connection Manager
@@ -37,38 +37,7 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
 require_once( "debug.func.php" );
 require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
-@Logger::configure(dirname(__FILE__).'/log4net-config.xml');
-$api_con_log = Logger::getLogger('root');
-
-/**
- * Logs messages to wp-content/uploads/api-con-mngr.lastrequest.html
- * @param  string $msg   The message to log
- * @param  string $level Default 'info'. The log level to use
- */
-function api_con_log($msg, $level='info'){
-
-	global $api_con_log;
-	$bt = debug_backtrace();
-	$caller = array_shift($bt);
-
-	//get class/filename
-	if(@$bt[0]['class'])
-		$class = $bt[0]['class'];
-	else
-		$class = basename($caller['file']);
-
-	// Manually construct a logging event
-	$level = LoggerLevel::toLevel($level);
-	$logger = Logger::getLogger($class);
-	$event = new LoggerLoggingEvent('API_Connection_Manager', $logger, $level, $msg);
-
-	// Override the location info
-	$location = new LoggerLocationInfo($caller);
-	$event->setLocationInformation($location);
-
-	// Log it
-	$api_con_log->logEvent($event);
-}
+Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 
 /* Log the details of every wordpress hook at the TRACE level */
 //add_action( 'all', 'log_action' );
@@ -136,12 +105,6 @@ add_action('plugins_loaded', function(){
 	/**
 	 * end Class  
 	 */
-
-	/**
-	 * actions and hooks 
-	 */
-	add_filter( 'http_request_timeout', array(&$API_Connection_Manager,'_get_http_request_timeout'));
-
 });
 /**
  * end Api Connection Manager 

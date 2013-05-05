@@ -1,138 +1,94 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="generator" content="ApiGen 2.7.0" />
-
-	<title>Overview</title>
-
-	<script type="text/javascript" src="resources/combined.js"></script>
-	<script type="text/javascript" src="elementlist.js"></script>
-	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?1567499433" />
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>phpDocumentor</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="css/template.css" rel="stylesheet" media="all">
+<script src="js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="js/bootstrap.js" type="text/javascript"></script><script src="js/template.js" type="text/javascript"></script><script src="js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="img/favicon.ico">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
 </head>
-
 <body>
-<div id="left">
-	<div id="menu">
-<span>Overview</span>
-
-		<div id="groups">
-			<h3>Packages</h3>
-			<ul>
-				<li><a href="package-api.connection.manager.html">api-connection-manager</a>
-						</li>
-				<li><a href="package-david.coombes.html">david-coombes</a>
-						</li>
-				<li><a href="package-None.html">None</a>
-						</li>
-			</ul>
-		</div>
-
-		<hr />
-
-
-		<div id="elements">
-			<h3>Classes</h3>
-			<ul>
-				<li><a href="class-API_Con_Mngr_Log.html">API_Con_Mngr_Log</a></li>
-				<li><a href="class-API_Con_Mngr_Module.html">API_Con_Mngr_Module</a></li>
-				<li><a href="class-API_Connection_Manager.html">API_Connection_Manager</a></li>
-				<li><a href="class-API_Connection_Manager_Setup.html">API_Connection_Manager_Setup</a></li>
-				<li><a href="class-API_Connection_Manager_User.html">API_Connection_Manager_User</a></li>
-				<li><a href="class-OAuthConsumer.html">OAuthConsumer</a></li>
-				<li><a href="class-OAuthDataStore.html">OAuthDataStore</a></li>
-				<li><a href="class-OAuthRequest.html">OAuthRequest</a></li>
-				<li><a href="class-OAuthServer.html">OAuthServer</a></li>
-				<li><a href="class-OAuthSignatureMethod.html">OAuthSignatureMethod</a></li>
-				<li><a href="class-OAuthSignatureMethod_HMAC_SHA1.html">OAuthSignatureMethod_HMAC_SHA1</a></li>
-				<li><a href="class-OAuthSignatureMethod_PLAINTEXT.html">OAuthSignatureMethod_PLAINTEXT</a></li>
-				<li><a href="class-OAuthSignatureMethod_RSA_SHA1.html">OAuthSignatureMethod_RSA_SHA1</a></li>
-				<li><a href="class-OAuthToken.html">OAuthToken</a></li>
-				<li><a href="class-OAuthUtil.html">OAuthUtil</a></li>
-			</ul>
-
-
-
-			<h3>Exceptions</h3>
-			<ul>
-				<li><a href="class-OAuthException.html">OAuthException</a></li>
-			</ul>
-
-
-			<h3>Functions</h3>
-			<ul>
-				<li><a href="function-api_connection_manager_dash.html">api_connection_manager_dash</a></li>
-				<li><a href="function-api_connection_manager_dash_options.html">api_connection_manager_dash_options</a></li>
-				<li><a href="function-api_connection_manager_user.html">api_connection_manager_user</a></li>
-				<li><a href="function-ar_print.html">ar_print</a></li>
-				<li><a href="function-ar_to_string.html">ar_to_string</a></li>
-				<li><a href="function-debug_print.html">debug_print</a></li>
-				<li><a href="function-get_current_url.html">get_current_url</a></li>
-				<li><a href="function-log_file.html">log_file</a></li>
-				<li><a href="function-rand_md5.html">rand_md5</a></li>
-				<li><a href="function-url_query_append.html">url_query_append</a></li>
-			</ul>
-		</div>
-	</div>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="index.html">phpDocumentor</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="packages/api-connection-manager.html"><i class="icon-folder-open"></i> api-connection-manager</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">31</span></a></li>
+<li><a href="markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">2</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
 </div>
-
-<div id="splitter"></div>
-
-<div id="right">
-<div id="rightInner">
-	<form id="search">
-		<input type="hidden" name="cx" value="" />
-		<input type="hidden" name="ie" value="UTF-8" />
-		<input type="text" name="q" class="text" autofocus />
-		<input type="submit" value="Search" />
-	</form>
-
-	<div id="navigation">
-		<ul>
-			<li class="active">
-<span>Overview</span>			</li>
-			<li>
-<span>Package</span>			</li>
-			<li>
-<span>Class</span>			</li>
-		</ul>
-		<ul>
-			<li>
-				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
-			</li>
-			<li>
-				<a href="todo.html" title="Todo list"><span>Todo</span></a>
-			</li>
-		</ul>
-		<ul>
-		</ul>
-	</div>
-
-<div id="content">
-	<h1>Overview</h1>
-
-
-
-	<table class="summary" id="packages">
-	<caption>Packages summary</caption>
-	<tr>
-		<td class="name"><a href="package-api.connection.manager.html">api-connection-manager</a></td>
-	</tr>
-	<tr>
-		<td class="name"><a href="package-david.coombes.html">david-coombes</a></td>
-	</tr>
-	<tr>
-		<td class="name"><a href="package-None.html">None</a></td>
-	</tr>
-	</table>
-
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="hero-unit">
+<h1>phpDocumentor</h1>
+<h2>Documentation</h2>
 </div>
-
-	<div id="footer">
-		 API documentation generated by <a href="http://apigen.org">ApiGen 2.7.0</a>
-	</div>
+<div class="row">
+<div class="span7">
+<div class="well"><ul class="nav nav-list">
+<li class="nav-header">Namespaces</li>
+<li><a href="namespaces/global.html"><i class="icon-th"></i> global</a></li>
+</ul></div>
+<div class="well"><ul class="nav nav-list">
+<li class="nav-header">Packages</li>
+<li><a href="packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="packages/api-connection-manager.html"><i class="icon-folder-open"></i> api-connection-manager</a></li>
+</ul></div>
 </div>
+<div class="span5">
+<div class="well"><ul class="nav nav-list">
+<li class="nav-header">Charts</li>
+<li><a href="graph_class.html"><i class="icon-list-alt"></i> Class inheritance diagram
+                            </a></li>
+</ul></div>
+<div class="well"><ul class="nav nav-list">
+<li class="nav-header">Reports</li>
+<li><a href="errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">31</span></a></li>
+<li><a href="markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">6</span>
+</li></ul></a></li>
+<li><a href="deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">2</span></a></li>
+</ul></div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2013-04-30T14:13:31+01:00.<br></footer></div>
 </div>
 </body>
 </html>

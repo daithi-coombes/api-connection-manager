@@ -62,9 +62,10 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 	/**
 	 * Print inline styles and scripts the html head tag.  
 	 */
-	public function admin_head(){
-		?>
-		<style type="text/css">
+	public function admin_head( $echo=true ){
+		
+		$html = "
+		<style type=\"text/css\">
 			.api-con-list-services li{
 				border : 1px solid;
 				padding: 10px;
@@ -76,7 +77,7 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 				margin: 15px 10px;
 			}
 		</style>
-		<script type="text/javascript">
+		<script type=\"text/javascript\">
 			var apiConMngr = {
 				toggle_settings : function(id){
 					jQuery('.api-con-mng-settings').hide();
@@ -86,8 +87,11 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 					return false;
 				}
 			};
-		</script>
-		<?php
+		</script>";
+
+		if($echo) print $html;
+		else return $html;
+		
 	} // end admin_head()
 	
     /**
@@ -282,12 +286,14 @@ class API_Connection_Manager_Setup extends WP_List_Table{
        /**
          * This checks for sorting input and sorts the data in our array accordingly.
          */
+        if(!function_exists("usort_reorder")):
         function usort_reorder($a,$b){
             $orderby = (!empty($_REQUEST['orderby'])) ? $_REQUEST['orderby'] : 'title'; //If no sort, default to title
             $order = (!empty($_REQUEST['order'])) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc
             $result = strcmp($a[$orderby], $b[$orderby]); //Determine sort order
             return ($order==='asc') ? $result : -$result; //Send final sort direction to usort
         }
+        endif;
         usort($data, 'usort_reorder');
         
 		/**
@@ -332,34 +338,6 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 	}
 	
 	/**
-	 * Callback function for saving service settings form.
-	 *  
-	 * @global API_Connection_Manager $API_Connection_Manager
-	 * @deprecated
-	 */
-	public function set_service_settings(){
-		
-		//vars
-		global $API_Connection_Manager;
-		$slug = urldecode($_REQUEST['service']);
-		$service = $API_Connection_Manager->get_service( $slug );
-		$params = $service['params'];
-		$options = $service['options'];
-		
-		//look for grant app vars
-		foreach(@$params['app-grant-vars'] as $key => $name)
-			if(isset($_REQUEST[$key]))
-				$options['app-grant-vars'][$key] = $_REQUEST[$key];
-		
-		//look for token app vars
-		foreach(@$params['app-token-vars'] as $key => $name)
-			if(isset($_REQUEST[$key]))
-				$options['app-token-vars'][$key] = $_REQUEST[$key];
-		
-		$API_Connection_Manager->_set_service_options($slug, $options);
-	} //end set_service_settings()
-	
-	/**
 	 * To show inline-edit as in posts table.
 	 * 
 	 * @staticvar string $row_class
@@ -376,23 +354,6 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		$row_class .= " api-con-mng-settings";
 		$id = preg_replace("/[\s\W]+/", "_", $item['ID']);
 		echo '<tr class="' . $row_class . '" style="display: none" id="api-settings-'.$id.'"><td colspan="'.$this->get_column_count().'">';
-		/**
-		 * @deprecated Changed to own settings page instead.
-		 *
-		?>
-<form method="post" action="">
-	<input type="hidden" name="action" value="api-connection-service-options"/>
-	<input type="hidden" name="service" value="<?php echo $item['ID']; ?>"/>
-	
-	<ul>
-	<?php
-	//build up options
-	
-	?>
-	</ul>
-</form>
-		<?php
-		 */
 		echo '</td></tr>';
 	}
 	

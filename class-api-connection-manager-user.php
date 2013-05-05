@@ -3,6 +3,7 @@
  * Description of class-api-connection-manager-user
  *
  * @author daithi
+ * @package api-connection-manager
  */
 class API_Connection_Manager_User{
 

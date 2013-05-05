@@ -1,0 +1,7 @@
+<?php
+define('API_CON_TEST_ONLINE', true);
+
+$slug = "service/index.php";
+$data = array(
+	'foo' => 'bar'
+);
