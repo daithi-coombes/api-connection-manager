@@ -88,7 +88,7 @@ function api_con_log($msg, $level='info'){
 
     // Manually construct a logging event
     $logger = Logger::getLogger("{$class}::{$bt[1]['function']}");
-    
+
     $level = LoggerLevel::toLevel($level);
     $event = new LoggerLoggingEvent($class, $logger, $level, $msg);
 
