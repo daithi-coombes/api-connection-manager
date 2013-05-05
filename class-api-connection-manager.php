@@ -89,14 +89,6 @@ class API_Connection_Manager{
 		require_once( "class-api-con-mngr-module.php" ); //module, header and param classes
 		// end dependencies
 		
-		/**
-		 * Logging. Uncomment the below line to log 
-		 */
-		if(file_exists(dirname(__FILE__)."/log4net-config.xml"))
-			@$this->log_api = Logger::getLogger(__CLASS__);
-		else $this->log_api = new WP_Error('API_Connection_Manager: log4php','No log4net-config.xml file found');
-		//end logging
-		
 		//get current user first
 		$this->user = $this->get_current_user();
 		
@@ -133,7 +125,7 @@ class API_Connection_Manager{
 		if(@$_REQUEST['api-con-mngr-logout'])
 			$this->_service_logout( urldecode($_REQUEST['service']) );
 
-		$this->log("API_Connection_Manager constructed");
+		api_con_log("API_Connection_Manager constructed");
 		
 	} //end construct()
 	
@@ -243,41 +235,6 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Log an INFO message
-	 * @param string $msg The message to log
-	 * @return none
-	 */
-	public function log($msg, $level='info'){
-			if(!is_wp_error($this->log_api)){
-
-				// Manually construct a logging event
-				$level = LoggerLevel::toLevel($level);
-				//$logger = Logger::getLogger(__CLASS__);
-				$event = new LoggerLoggingEvent(__CLASS__, $this->log_api, $level, $msg);
-
-				// Override the location info
-				$bt = debug_backtrace();
-				$caller = array_shift($bt);
-				$location = new LoggerLocationInfo($caller);
-				$event->setLocationInformation($location);
-
-				// Log it
-				//$logger->logEvent($event);
-				$this->log_api->logEvent($event);
-				/**
-				//trace
-				$bt = debug_backtrace();
-				$caller = array_shift($bt);
-				$trace = $caller['file'] . ":" . $caller['line'];
-				$this->log_api->trace($trace);
-				
-				//log
-				$this->log_api->$level( $msg );
-				 */
-			}
-	}
-
-	/**
 	 * adds an error to Api-Con-Errors session
 	 * @param  string $msg The error message
 	 * @uses array $_SESSION['Api-Con-Errors']
@@ -323,7 +280,7 @@ class API_Connection_Manager{
 	 */
 	private function _get_installed_services(){
 		
-		$this->log("Getting installed services...");
+		api_con_log("Getting installed services...");
 
 		require_once( ABSPATH . "/wp-admin/includes/plugin.php" );
 		$wp_plugins = array();

@@ -84,24 +84,23 @@ function api_con_log($msg, $level='info'){
 	else
 		return false;
 
-    //if logging callback request, use file `callback-log.html`
-    if(
-        !defined('DOING_AJAX') || 
-        true!==@DOING_AJAX ||
-        @$_GET['action']!='api_con_mngr'
-    ) $filename = 'callback-log.html';
-    else
-        $filename = 'api-con-log.html';
+    $bt = debug_backtrace();
+    //$caller = array_shift($bt);
+    $caller = $bt[0];
+    $class = $bt[1]['class'];
 
     // Manually construct a logging event
     $level = LoggerLevel::toLevel($level);
-    $logger = Logger::getLogger(__CLASS__);
-    $event = new LoggerLoggingEvent(__CLASS__, $logger, $level, $msg);
+    $logger = Logger::getLogger($class);
+    $event = new LoggerLoggingEvent($class, $logger, $level, $msg);
 
     // Override the location info
-    $bt = debug_backtrace();
-    $caller = array_shift($bt);
-    $location = new LoggerLocationInfo($caller);
+    $location = new LoggerLocationInfo(array(
+    	'line' => $bt[0]['line'],
+    	'class' => $class,
+    	'function' => $bt[1]['function'],
+    	'file' => $bt[0]['file']
+    	));
     $event->setLocationInformation($location);
 
     // Log it
