@@ -1,7 +1,6 @@
 <?php
+session_start();
 /**
- * class-wp-services-api
- * 
  * This class uses params stored in a module file to connect to remote services.
  * It manages the storing of access_tokens and refresh_tokens in the oauth2
  * spec and also allows for custom service api's to be connected to.
@@ -10,16 +9,9 @@
  * Developers can also easily create new modules with the params for different
  * services.
  * 
- * Currently only one service can be requested at a time. As each service more
- * than likely has its own params, even if two or more services had similar
- * params they would still be individual calls made by the wp_response_*
- * helper functions. Also if more than one service was requested and they
- * required login, it would be unfeasible to have multpile login screens.
- * 
  * Requests made to this api will then check that the user is logged into that
- * service. If they are not and the service is active then the developer should
- * be able to call a login screen for that service. Some services require that
- * a new tab be opened, some require only a popup with a form.
+ * service. If they are not and the service is active then they will be shown
+ * a login screen.
  * 
  * <b>N.B.</b>
  * Although wordpress mixes and jumps between slugs and index files when working
@@ -35,34 +27,32 @@
  * forms etc. Also don't forget to urldecode() your slugs when parsing form
  * submits.
  *
- * @todo method for login link, so request, connect and others can die("login");
+ * Sessions:
+ * <code>
+ * $_SESSION['Api-Con-Errors'] = array()
+ * </code>
+ * 
+ * Wordpress Options:
+ * <code>
+ * get_user_meta($current_user->ID, $this->option_name) 
+ * 	= array(
+ * 		'service/slug' => array(
+ * 			'access' => 'access token for this slug',
+ * 			'refresh' => 'refresh token for this slug'
+ * 		),
+ * 		'services' => array('slug' => array() ),
+ * 		'active' => array(API_Con_Mngr_Module),
+ * 		'inactive' => array(API_Con_Mngr_Module)
+ * 	)
+ * </code>
+ * 
  * @todo localization
  * @todo refresh token
- * @todo research google's AuthSub or ClientLogin api's. Might have something
- * to help building for custom services.
- * @todo move query_append() from debug.func.php to method in this class
- * @todo look into a sevices datatype/object that plugins would request and work
- * of. Something like WP_Service. WP_Service->get_grant_uri or
- * WP_Service->get_btn
- * @todo create a DTO object to return from calls to the api. The DTO would
- * therefore always be based on a server response. This helps keep with the
- * wordpress norm of accepting strings and returning objects. ie where calls to 
- * get_user* functions return a WP_User object, calls to this api would return a
- * WP_DTO object for the plugin dev's
- * to work with.
- * @todo write up standard for module index.php files. Clean out old vars and
- * allow for more header options. Also allow the placement of standard vars in
- * the values for params. @see this::get_logout_button(). IE have:
- *  - <!--[--token--]-->
- *  - <!--[--token-refresh--]-->
- * or for a value set somewhere else have:
- *  - <!--[--app-grant-vars=>some_child_key--]-->
- * @todo activation/deactivation of services
  * @global array $_SESSION['API_Con_Mngr_Module']
+ * @global array $_SESSION['Api-Con-Errors']
  * @package api-connection-manager
  * @author daithi
  */
-session_start();
 class API_Connection_Manager{
 	
 	/** @var string The last error made */
@@ -84,8 +74,12 @@ class API_Connection_Manager{
 	
 	/**
 	 * Loads settings and set default params.
+	 * Wordpress actions:
+	 *  - admin_notices
+	 *  - delete_user
+	 *  - wpmu_delete_user
 	 * 
-	 * @see index.php for dependencies idea of code flow.
+	 * @see index.php for dependencies and code flow.
 	 */
 	public function __construct(){
 		
@@ -104,7 +98,7 @@ class API_Connection_Manager{
 		//end logging
 		
 		//get current user first
-		$this->user = $this->_get_current_user();
+		$this->user = $this->get_current_user();
 		
 		//default params
 		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
@@ -139,18 +133,21 @@ class API_Connection_Manager{
 		if(@$_REQUEST['api-con-mngr-logout'])
 			$this->_service_logout( urldecode($_REQUEST['service']) );
 
-		api_con_log("API_Connection_Manager constructed");
+		$this->log("API_Connection_Manager constructed");
+		
 	} //end construct()
 	
 	/**
-	 * Admin notices callback. Will print any errors in the session 
+	 * Action callback for admin notices. Will print any errors in the session 
 	 * Api-Con-Errors and then unset the session
+	 * @uses array $_SESSION['Api-Con-Errors']
+	 * @return boolean Returns true if admin notices were printed, false if not
 	 */
 	public function admin_notices(){
 		
 		$errors = @$_SESSION['Api-Con-Errors'];
 		if(!$errors)
-				return;
+				return false;
 		
 		print "<div id=\"message\" class=\"error\">
 			<h2>API Connection Manager</h2>
@@ -159,69 +156,14 @@ class API_Connection_Manager{
 			echo "<li>{$err}</li>\n";
 		echo "</ul></div>";
 		unset($_SESSION['Api-Con-Errors']);
+		return true;
 	}
 	
 	/**
-	 * Delete tokens for a service. Unless specified will delete both refresh
-	 * and access token.
+	 * Action callback. Delete option values relating to deleted user.
 	 *
-	 * @param string $slug The service slug
-	 * @param enum $type all|access|refresh The type of token to delete.
-	 * Defaults to 'all'
-	 */
-	public function delete_token($slug, $type='all'){
-		
-		$options = $this->_get_user_options();
-		$service = $this->get_service($slug);
-		
-		//delete from user meta
-		switch ($type) {
-			
-			//delete access token
-			case 'access':
-				if(@$options[$slug]['access'])
-					unset($options[$slug]['access']);
-				break;
-			
-			//delete refresh token
-			case 'refresh':
-				if(@$options[$slug]['refresh'])
-					unset($options[$slug]['refresh']);
-				break;
-
-			//default delete both
-			default:
-				if(@$options[$slug]['access'])
-					unset($options[$slug]['access']);
-				if(@$options[$slug]['refresh'])
-					unset($options[$slug]['refresh']);
-				break;
-		}
-		
-		//revoke using service
-		if(@$service['params']['revoke-uri']){
-			$vars = $service['params']['revoke-vars'];
-			
-			//build vars
-			foreach($service['params']['revoke-vars'] as $key=>$val){
-				//access token
-				if(preg_match("/<\!--\[--token-access--\]-->/", $val, $matches))
-					$vars[$key] = $this->_get_token($slug);
-			}
-			
-			//make request
-			if("get"==$service['params']['revoke-method'])
-				$uri = $this->_url_query_append ($service['params']['revoke-uri'], $vars);
-				$res = wp_remote_get($uri);
-		}
-		
-		//save user meta
-		update_user_meta($this->user->ID, $this->option_name, $options);
-	}
-	
-	/**
-	 * Action callback
-	 * Delete option values relating to deleted user
+	 * When a user is deleted from the core remove connection information
+	 * from site options.
 	 */
 	public function delete_user( $user_id ){
 		
@@ -251,78 +193,10 @@ class API_Connection_Manager{
 	 * @return WP_User
 	 */
 	public function get_current_user(){
+		global $current_user;
+		$current_user = $this->user = wp_get_current_user();
 		return $this->user;
 	}
-	
-	/**
-	 * Returns the html for a module's login link.
-	 * 
-	 * This is a possible helper function that will return the button or html
-	 * for an oauth2 token url.
-	 * 
-	 * @deprecated use API_Con_Mngr_Module::get_login_button()
-	 * @todo remove this method when modules are all oop
-	 * @param string $slug The index filename of the sub-module.
-	 * @param string $file The location of the file to run the callback from
-	 * @param mixed $callback Callback function in same string|array format as
-	 * used by add_action.
-	 * @return string Returns the html.
-	 * @subpackage helper-methods
-	 */
-	public function get_login_button( $slug, $file, $callback ) {
-				
-		//vars
-		$html = "<a href='";
-		$path = explode( "/", $slug );
-		$module_folder = $path[ 0 ];
-		//( @ $oauth2 ) ? $module = $oauth2 : $module = $service;
-		$options = $this->_get_options();
-		$options = $options['services'];
-		$slug = trim($slug);	//clean slug just in case ;)
-		$service = $this->get_service($slug);
-		
-		/**
-		 * If module is object
-		 */
-		if(get_parent_class($service)=='API_Con_Mngr_Module'){
-			
-			$html .= "{$service->login_uri}'>";
-			$html .= "{$service->Name}\n";
-		} // end module is object
-		
-		/**
-		 * If module is array
-		 */
-		else{
-			if(is_wp_error($service['params']))
-				return "ERROR: " . $service['params']->get_error_message();
-
-			//add uri
-			if(@$service['params']['grant-uri'])
-				$html .= "{$service['params']['grant-uri']}'>\n";
-			else $html .= "#'>\n";
-
-			/**
-			* Set callback 
-			*/
-			if(@$service['params']['grant-vars']['state'])
-				$callbacks = $this->_set_callback($file, $callback, $service['params']['grant-vars']['state']);
-
-			/**
-			* oauth2 link button image or text?
-			*/
-			if ( @$service['params'][ 'button-image' ] )
-				$html .= "<img src='{$this->url_sub}/{$module_folder}/{$service['params']['button-image']}'
-					border='0' alt='{$service['params']['button-text']}'/>";
-			else
-				$html .= $service['params'][ 'button-text' ];
-
-			//close link and return
-			$html .= "</a>\n";
-		} // end module is array
-		
-		return $html;
-	} //end get_login_button()
 	
 	/**
 	 * Returns the details for a service.
@@ -330,7 +204,7 @@ class API_Connection_Manager{
 	 * Returns module details, service params and service options.
 	 * 
 	 * @param string $slug The service index_file
-	 * @return array
+	 * @return API_Con_Mngr_Module
 	 * @subpackage helper-methods
 	 */
 	public function get_service( $slug ){
@@ -360,7 +234,6 @@ class API_Connection_Manager{
 	 * 
 	 * This is the main method for plugins to get services from.
 	 * 
-	 * @todo change default to active.
 	 * @param string $type The type of services active|inactive Default active.
 	 * @return array
 	 * @subpackage helper-methods
@@ -376,7 +249,7 @@ class API_Connection_Manager{
 	 */
 	public function log($msg, $level='info'){
 			if(!is_wp_error($this->log_api)){
-				
+
 				// Manually construct a logging event
 				$level = LoggerLevel::toLevel($level);
 				//$logger = Logger::getLogger(__CLASS__);
@@ -404,79 +277,15 @@ class API_Connection_Manager{
 			}
 	}
 
+	/**
+	 * adds an error to Api-Con-Errors session
+	 * @param  string $msg The error message
+	 * @uses array $_SESSION['Api-Con-Errors']
+	 */
 	static public function error($msg){
 		if(!@$_SESSION['Api-Con-Errors'])
 			$_SESSION['Api-Con-Errors'] = array();
 		$_SESSION['Api-Con-Errors'][] = $msg;
-	}
-	
-	public function set_user_token( $slug, $token, $type='access', $user=null){
-		$this->_set_token($slug, $token, $type, $user);
-	}
-	
-	/**
-	 * Check if sub-modules directory exists.
-	 * 
-	 * If the directory doesn't exist tries to create it using the wordpress
-	 * Filesystem_API class. As the ftp login will be displayed this method
-	 * should be called from the dashboard/network admin settings page.
-	 *
-	 * @global WP_Filesystem $wp_filesystem The wordpress filesystem class
-	 * @return boolean
-	 * @throws Exception If the sub-modules directory can't be created.
-	 * @subpackage api-core
-	 */
-	public function _check_modules_dir() {
-
-		//vars
-		$http = 'http';
-		if ( @$_SERVER["HTTPS"] == "on" )
-			$http .= "s";
-		$redirect_url = $http . "://" . $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
-
-		//check if modules dir exists
-		if ( file_exists( $this->dir_sub ) )
-			return true;
-
-		//check if we have permissions
-		if ( false === ( $creds = request_filesystem_credentials( $redirect_url, '', false, false ) ) )
-			return false;
-		
-		//check credentials
-		if ( !WP_Filesystem( $creds ) ) {
-			request_filesystem_credentials($url, $method, true, false, $form_fields);
-			return false;
-		}
-
-		//create sub-modules dir, check and error report
-		global $wp_filesystem;
-		$wp_filesystem->mkdir($this->dir_sub);
-		if ( !file_exists( $this->dir_sub ) )
-			throw new Exception("Unable to create sub modules directory: {$this->dir_sub}");
-		return true;
-	}
-	
-	/**
-	 * Prints a login link for a service to the screen and dies
-	 * 
-	 * @deprecated
-	 * @todo remove this method. Been moved to API_Con_Mngr_Module
-	 * @param string $slug The service slug
-	 * @param boolean $die Default true. Return the login link or die()
-	 */
-	private function _print_login($slug, $die=true){
-		return;
-		
-		//vars
-		$service = $this->get_service($slug);
-		$login_link = "
-						You are not signed into {$service['Name']}<br/>
-						<a href=\"{$service['params']['grant-uri']}\" target=\"new\">Sign In</a>
-						";
-		
-		if($die)
-			die($login_link);
-		else return $login_link;
 	}
 	
 	/**
@@ -501,53 +310,6 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Get current user.
-	 * 
-	 * Get this as early as possible for some calls when using admin ajax.
-	 * @return WP_User if no user then returns WP_User(0) else will return
-	 * current users WP_User object.
-	 */
-	static public function _get_current_user(){
-		
-		global $current_user;
-		$current_user = wp_get_current_user();
-		return $current_user;
-		
-		//require_once( ABSPATH . "/wp-includes/pluggable.php" );
-		global $current_user;
-		//wp_cookie_constants();
-		
-		//try with wordpress's native func
-		//if(function_exists("wp_get_current_user")){
-			$current_user = wp_get_current_user ();
-			return $current_user;
-		//}
-		$this->log("Current User: {$current_user->ID}");
-		
-		/**
-		//if function not loaded yet, manually get current user
-		$user_id = wp_validate_auth_cookie();
-		if($user_id)
-			return get_user_by("id", $user_id);
-		else
-			return new WP_User(0);
-		//end Get current user		
-		 * 
-		 */
-	}
-	
-	/**
-	 * In crease the WP_HTTP request timeout from 5 (default) to 25. Callback
-	 * declared in index.php add_filter('http_request_timeout');
-	 * @param int $time
-	 * @return int 
-	 */
-	public function _get_http_request_timeout($time){
-		$time=50;
-		return $time;
-	}
-	
-	/**
 	 * Builds an array of all installed modules and sets their params.
 	 * 
 	 * The return array is split into active and inactive modules. There are a
@@ -556,13 +318,13 @@ class API_Connection_Manager{
 	 * 
 	 * Currently this method is used in:
 	 *  - API_Connection_Manager::__construct()
-	 *  - API_Connection_Manager::get_services //only if no services loaded yet
 	 * 
 	 * @return array 
-	 * @subpackage api-core
 	 */
 	private function _get_installed_services(){
 		
+		$this->log("Getting installed services...");
+
 		require_once( ABSPATH . "/wp-admin/includes/plugin.php" );
 		$wp_plugins = array();
 		$plugin_root = $this->dir_sub;
@@ -642,14 +404,13 @@ class API_Connection_Manager{
 	/**
 	 * Get options.
 	 * 
-	 * If multisite install will take options from get_site_option() if not then
-	 * defaults to get_option()
-	 * 
-	 * @todo this method is being called too much
+	 * Returns all options.
+	 *
+	 * @uses string $this->option_name
 	 * @return array 
 	 * @subpackage api-core
 	 */
-	private function _get_options(){
+	public function _get_options(){
 		
 		//multisite install
 		if(is_multisite())
@@ -661,45 +422,9 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Returns transient options.
-	 * 
-	 * If mutlisite then will use get_site_transient() if not will default to
-	 * get_transient()
-	 * 
-	 * @param string $key The option key.
-	 * @return array 
-	 * @subpackage api-core
-	 */
-	private function _get_options_transient( $key='' ){
-		
-		//multisite install
-		if(is_multisite())
-			return get_site_transient($this->option_name."$key", array());
-		else
-			return get_transient($this->option_name."$key", array());
-	}
-
-	/**
-	 * Gets the refresh states.
-	 * 
-	 * @todo maybe method shoudl be renamed _get_refresh_states() ?
-	 * @see _set_refresh_state()
-	 * @uses get_user_user_meta()
-	 * @return array An array of states.
-	 */
-	public function _get_user_options(){
-		
-		//vars
-		$user_id = $this->user->ID;
-		$user_options = get_user_meta($user_id, $this->option_name, true);
-		if(empty($user_options)) $user_options=array();
-		
-		return $user_options;
-	}
-	
-	/**
 	 * Returns the options for a service.
-	 * 
+	 *
+	 * @uses string $this->option_name['services'][$slug]
 	 * @param string $slug The services module's index file.
 	 * @return array 
 	 * @subpackage api-core
@@ -713,39 +438,10 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Returns the access_token for the current user for a service.
-	 * 
-	 * @param string $slug The service slug
-	 * @param string $type Default access. Whether to return refresh or access
-	 * tokens.
-	 * @return string|WP_Error Returns the token or WP_Error if none found.
-	 * @subpackage api-core
-	 */
-	public function _get_token( $slug, $type='access' ){
-		
-		//vars
-		$user_id = $this->user->ID;
-		$user_options = get_user_meta($user_id, $this->option_name, true);
-		$err_msg = "No access|refresh token found for user in service {$slug}";
-		if(!$user_options)	//needed to stop wordpress wsod
-			return $this->_error($err_msg);
-		
-		//look for service
-		if(
-			!@$user_options[$slug][$type]
-		) return $this->_error($err_msg);
-		
-		//if empty slug
-		
-		
-		//return refresh token?
-		return $user_options[$slug][$type];
-	}
-	
-	/**
 	 * Activate modules.
-	 * 
-	 * @param string|array $slugs A string or array of slugs.
+	 *
+	 * @uses string $this->option_name['active']
+	 * @param mixed $slugs A string or array of slugs.
 	 * @subpackage modules-method
 	 */
 	public function _module_activate( $slugs ){
@@ -788,7 +484,8 @@ class API_Connection_Manager{
 	
 	/**
 	 * Deactivate modules.
-	 * 
+	 *
+	 * @uses string $this->option_name['inactive']
 	 * @param string|array $slugs A string or array of slugs.
 	 * @subpackage modules-method
 	 */
@@ -830,6 +527,11 @@ class API_Connection_Manager{
 		$options = $this->_set_option($options);
 	}
 	
+	/**
+	 * Production method
+	 * @todo remove this method from final release
+	 * @return [type] [description]
+	 */
 	public function _reset_options(){
 		$option_name = "API_Con_Mngr_Module-connections";
 		//multisite install
@@ -846,16 +548,11 @@ class API_Connection_Manager{
 	 * 
 	 * Bootstraps all response's to the api connection manager. Both secure and
 	 * non-secure response are parsed here (wp_ajax && wp_ajax_nopriv).
+	 *
+	 * Processes login requests for custom services, oauth1 and oauth2.
 	 * 
-	 * Called by hook 'plugins_loaded' to ensure all plugins dependant on the
-	 * api are loaded. This method needs to do its own checking for ajax calls.
-	 * 
-	 * @todo test security.
-	 * @todo There maybe need to tell if a response was for a logged in user or 
-	 * not. ie if it was wp_ajax or wp_ajax_nopriv. One idea would be to 
-	 * set a flag in the construct if wp_ajax_nopriv_(this_func) was requested?
-	 * @todo should be private?
 	 * @subpackage api-core
+	 * @return mixed
 	 */
 	public function _response_listener( ){
 		
@@ -1016,7 +713,8 @@ class API_Connection_Manager{
 	 * 
 	 * Wordpress users can enable or disable the ability for oauth2 services to
 	 * store a refresh token.
-	 * 
+	 *
+	 * @todo @see #issue32 https://github.com/daithi-coombes/api-connection-manager/issues/32
 	 * @param string|array $slugs The service slug or an array of slugs. These
 	 * should be in the format:
 	 * $slugs[$slug] = boolean
@@ -1109,7 +807,7 @@ class API_Connection_Manager{
 	 * 
 	 * @todo finish this.
 	 * @param string $slug The service slug
-	 */
+	 *
 	private function _service_logout($slug){
 			
 		//vars
@@ -1132,21 +830,7 @@ class API_Connection_Manager{
 			'headers' => $headers
 		));
 	}
-	
-	/**
-	 * Test if response is oauth2 error.
-	 * 
-	 * @param mixed $response The server response body.
-	 * @return string|false Returns the error message if found, or false if no
-	 * error.
-	 */
-	private function _service_get_error( $response ){
-		
-		if(@$response->error->message)
-			return $response->error->message;
-		else
-			return false;
-	}
+	*/
 	
 	/**
 	 * Parses a http request and returns a stdClass dto.
@@ -1215,7 +899,7 @@ class API_Connection_Manager{
 		$res->callback = $callback;
 		$res->response = array();
 		$res->slug = $slug;
-		$res->user = $this->_get_current_user();
+		$res->user = $this->get_current_user();
 		
 		//what ever vars are left is the services response struct
 		foreach($response as $key=>$val)
@@ -1244,77 +928,6 @@ class API_Connection_Manager{
 		return $res;
 	}
 	
-	/**
-	 * Set the access token for a user.
-	 * 
-	 * @todo method moved to module::set_param( array );
-	 * @deprecated
-	 * @param string $slug The service slug
-	 * @param string $token The token
-	 * @param string $type 'access'|'refresh'. Whether storing access or refresh
-	 * tokens. Default 'access'. 
-	 * @return mixed Returns the meta data.
-	 * @subpackage service-method
-	 */
-	private function _set_token($slug, $token, $type='access', $user_id=null){
-		
-		//try get current user
-		if(!$user_id){
-			if($this->user->ID==0)
-				$this->user = $this->_get_current_user();
-			if($this->user->ID==0)
-				return false;
-			$user_id = $this->user->ID;
-		}
-		
-		$meta = get_user_meta($user_id, $this->option_name, true);
-		if(!@$meta[$slug])
-			$meta[$slug] = array('access'=>'','refresh'=>'');
-		$meta[$slug][$type] = $token;
-		
-		update_user_meta($user_id, $this->option_name, $meta);
-		return $meta;
-	}
-	
-	/**
-	 * Sets the slug for module as a callback var
-	 * 
-	 * For oauth2 the key in the callbacks array is the client_id. 
-	 *
-	 * @see API_Connection_Manager::do_callback()
-	 * @param API_Con_Mngr_Module $module
-	 * @return type 
-	 * @subpackage api-core
-	 */
-	public function _set_callback( API_Con_Mngr_Module $module ){
-		
-		$this->_set_option_transient("-callbacks", array(
-			$module->key = $module->slug
-		));
-		return;
-	}
-	
-	/**
-	 * Sets temporary options.
-	 * 
-	 * Sets options that will expire in x amount of seconds such as callbacks
-	 * for login hooks.
-	 * 
-	 * @param string $key Options identifiying string
-	 * @param array $options The options array
-	 * @param integer $expiration Time to expire. Default 10 seconds.
-	 * @subpackage api-core
-	 */
-	private function _set_option_transient($key='', array $options, $expiration=10){
-	
-		//multisite
-		if(is_multisite())
-			set_site_transient($this->option_name.$key, $options, $expiration);
-		
-		//normal blog
-		else
-			set_transient($this->option_name.$key, $options, $expiration);
-	}
 	
 	/**
 	 * Sets the API's options.
@@ -1332,55 +945,5 @@ class API_Connection_Manager{
 			update_site_option($this->option_name, $options);
 		else
 			update_option($this->option_name, $options);
-	}
-	
-	/**
-	 * Save the options for a service.
-	 * 
-	 * @deprecated module options get/set in option class
-	 * @see API_Con_Mngr_Module::set_options()
-	 * @param API_Con_Mngr_Module $module
-	 * @return array Returns the new api options array
-	 * @subpackage api-core
-	 */
-	public function _set_service_options(API_Con_Mngr_Module $module, $options ){
-		
-		//update the db
-		$current = $this->_get_options();
-		$current['services'][$module->slug] = $options;
-		$this->_set_option($current);
-		
-		//update the services array
-		foreach($this->services['active'] as $slug=>$data)
-			if($slug==$module->slug){
-				$state = 'active';
-				break;
-			}else $state = "inactive";
-		$this->services[$state][$slug] = $module;
-		
-		return $module;
-		
-		/**
-		 * set service option
-		 * @deprecated
-		 *
-		$current = $this->_get_options();
-		$current['services'][$slug] = $options;
-		$this->_set_option($current);
-		
-		//update the services array
-		$params = $this->_get_module( $slug );
-		$options = $this->_get_service_options( $slug );
-		foreach($this->services['active'] as $key=>$data){
-			$state = 'active';
-			break;
-		}
-		
-		$this->services[$state][$slug]['params'] = $params;
-		$this->services[$state][$slug]['options'] = $options;
-		return $options;
-		 * 
-		 */
-	}
-	
+	}	
 }

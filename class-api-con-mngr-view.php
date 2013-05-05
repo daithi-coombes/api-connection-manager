@@ -18,6 +18,7 @@
  * $html = $obj->get_html( false );
  * 
  * @author daithi
+ * @package api-connection-manager
  */
 class API_Con_Mngr_View{
 

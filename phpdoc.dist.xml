@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+  <parser>
+    <target>documentation/php</target>
+  </parser>
+  <transformer>
+    <target>documentation/php</target>
+  </transformer>
+  <files>
+  	<file>class-*</file>
+  	<file>class-api-connection-manager.php</file>
+  	<file>index.php</file>
+  </files>
+</phpdoc>
