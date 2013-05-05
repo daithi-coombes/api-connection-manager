@@ -76,5 +76,10 @@ class API_Connection_Manager_SetupTest extends WP_UnitTestCase{
 		$this->assertEquals('test_save_service', $this->api->get_service($this->slug)->client_id);
 	}
 
-	
+	function test_single_row(){}
+
+	function test_column_cb(){
+		$this->assertInternalType('string', $this->setup->column_cb($this->setup->items[0]));
+	}
+
 }
