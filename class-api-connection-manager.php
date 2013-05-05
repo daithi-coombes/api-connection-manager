@@ -67,8 +67,6 @@ class API_Connection_Manager{
 	protected $option_name = "api-connection-manager";
 	/** @var string The url to the submodules dir */
 	protected $url_sub = "";
-	/** @var Logger The log class */
-	private $log_api;
 	/** @var WP_User The current user */
 	private $user;
 	
@@ -496,8 +494,6 @@ class API_Connection_Manager{
 			$connections = update_site_option($option_name, array());
 		else
 			$connections = update_option($option_name, array());
-		$this->log("New options");
-		$this->log(get_site_option($option_name));
 	}
 	
 	/**
@@ -540,8 +536,6 @@ class API_Connection_Manager{
 		}
 		//end if reseting options
 		
-		@$this->log("response listener: nonce {$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']}");
-		
 		//get dto (will also set the current user)
 		$dto = $this->get_dto();
 		if(is_api_con_error($dto))
@@ -562,7 +556,6 @@ class API_Connection_Manager{
 		else
 			die("Error: " . $dto->slug->get_error_message());		
 		//END BOOTSTRAP
-		$this->log($dto);
 		
 		/**
 		 * Connecting... screen
@@ -609,19 +602,6 @@ class API_Connection_Manager{
 				$module->do_login( $dto );
 				
 				$module->do_callback( $dto );
-				/**
-				//if callback
-				if(!$this->user->ID || ($this->user->ID==0))
-					$module->do_callback( $dto );
-				
-				//login user
-				else{
-					$this->log("Connecting user {$this->user->ID} to {$module->slug}");
-					$uid = $module->get_uid();
-					$module->login($uid);
-				}
-				 * 
-				 */
 			}
 			// end saving the access token
 
@@ -750,44 +730,12 @@ class API_Connection_Manager{
 			
 			//custom service
 			default:
-				$this->log("Custom service:");
-				$this->log($dto);
 				break;
 			//end custom service
 		}
 		
 		die("Connecting to {$dto->slug} ...");
 	}
-	
-	/**
-	 * Makes request to cancel a token.
-	 * 
-	 * @todo finish this.
-	 * @param string $slug The service slug
-	 *
-	private function _service_logout($slug){
-			
-		//vars
-		$service = $this->get_service($slug);
-		$params = $service['params'];
-		$uri = $params['app-token-revoke']['uri'];
-		$headers = $params['token-revoke-headers'];
-		$codes = array(
-			'token' => $this->_get_token($slug)
-		);
-		
-		//build up header values
-		foreach($headers as $key=>$value)
-			foreach($codes as $code=>$val)
-				if(!is_wp_error($val)){
-					$headers[$key] = str_replace("<!--[--{$code}--]-->", $val, $headers[$key]);
-				}
-		
-		$res = wp_remote_get($uri, array(
-			'headers' => $headers
-		));
-	}
-	*/
 	
 	/**
 	 * Parses a http request and returns a stdClass dto.

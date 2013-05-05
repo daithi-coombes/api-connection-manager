@@ -16,16 +16,12 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 	public $total_active;
 	/** @var integer Total inactive services. Defined in this::get_data() */
 	public $total_inactive;
-	/** @var Logger The logger object */
-	private $log_api;
 	
 	/**
 	 * Construct.
 	 */
 	function __construct(){
 
-		$this->log_api = @Logger::getLogger(__CLASS__);
-		
 		//process actions on the services before anything else
 		$this->process_bulk_actions();
 		
@@ -244,16 +240,6 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		}
 		
 		return "{$html}</ul>";
-	}
-	
-	/**
-	 * Log an INFO message
-	 * @param string $msg The message to log
-	 * @return none
-	 */
-	public function log($msg){
-		if(!is_wp_error($this->log_api))
-			$this->log_api->info($msg);
 	}
 	
 	/**
