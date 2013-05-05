@@ -26,7 +26,12 @@ Activate the API Connection Manager in your dashboard plugins page
 
 Usage
 =====
-Make sure the class-api-connection-manager.php file is included at the top of your plugin
+Make sure the class-api-connection-manager.php file is included at the top of your plugin.
+```php
+require_once( WP_PLUGIN_DIR  . "/api-connection-manager/index.php");
+```
+
+To make requests to a service
 ```php
 $data = API_Connection_Manager::request(
 	'service-slug',
