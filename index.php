@@ -34,24 +34,10 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
 /**
  * Vendor dependencies 
  */
-//logger
 require_once( "debug.func.php" );
 require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
-if(defined('API_CON_MNGR_LOG_ENABLE') && API_CON_MNGR_LOG_ENABLE)
-	Logger::configure(dirname(__FILE__).'/log4net-config.xml');
-
-/* Log the details of every wordpress hook at the TRACE level */
-//add_action( 'all', 'log_action' );
-function log_action() {
-	$logger = Logger::getLogger(current_filter());
-	if (@$logger->getName() == 'query') {
-		@$logger->debug(func_get_args());
-	} else {
-		@$logger->trace(func_get_args());
-	}
-	
-}
+Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 /**
  * end Vendor dependencies 
  */
@@ -84,6 +70,39 @@ function is_api_con_error($thing){
 		return true;
 	else
 		return false;
+}
+
+/**
+ * Log messages using Logger
+ * @param  string $msg   The message to log
+ * @param  string $level Default info. The log level to use
+ */
+function api_con_log($msg, $level='info'){
+
+    //check able to log
+	if(!defined('API_CON_MNGR_LOG_ENABLE') && !API_CON_MNGR_LOG_ENABLE)
+		return false;
+
+    $bt = debug_backtrace();
+    $class = $bt[1]['class'];
+
+    // Manually construct a logging event
+    $logger = Logger::getLogger("{$class}::{$bt[1]['function']}");
+
+    $level = LoggerLevel::toLevel($level);
+    $event = new LoggerLoggingEvent($class, $logger, $level, $msg);
+
+    // Override the location info
+    $location = new LoggerLocationInfo(array(
+    	'line' => $bt[0]['line'],
+    	'class' => $class,
+    	'function' => $bt[1]['function'],
+    	'file' => $bt[0]['file']
+    	));
+    $event->setLocationInformation($location);
+
+    // Log it
+    $logger->logEvent($event);
 }
 //end Helper functions
 
