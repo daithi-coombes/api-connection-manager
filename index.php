@@ -35,7 +35,7 @@ require_once( ABSPATH . WPINC ."/pluggable.php");			//wp_validate_cookie in API_
  * Vendor dependencies 
  */
 require_once( "debug.func.php" );
-require_once( $API_CON_PLUGIN_DIR . "/includes/OAuth.php");
+require_once( $API_CON_PLUGIN_DIR . "/vendor/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
 Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 /**

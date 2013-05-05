@@ -1,5 +1,5 @@
 <?php
-require_once('includes/OAuth.php');
+require_once('vendor/OAuth.php');
 
 if (!class_exists("API_Con_Mngr_Module")):
 	/**
