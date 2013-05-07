@@ -58,7 +58,14 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 
 	function test_get_authorize_url(){}
 
-	function test_get_connections(){}
+	function test_get_connections(){
+		$connections = $this->module->get_connections();
+		if(
+			($connections != $GLOBALS['wp_tests_options']['API_Con_Mngr_Module-connections'])
+			&& count($connections)
+		)
+			$this->fail('::get_connections() not returning correct result');
+	}
 
 	function test_get_login_button(){
 		$this->assertInternalType('string', $this->module->get_login_button());

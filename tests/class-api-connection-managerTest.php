@@ -4,15 +4,17 @@ require_once('bootstrap.php');
 class API_Connection_ManagerTest extends WP_UnitTestCase{
 	
 	protected $api;
+	protected $slug;
 
 	function setUp(){
 		parent::setUp();
 
 		if(!defined("DOING_AJAX"))
 			define('DOING_AJAX', true);
+		$this->slug = get_option('test_slug');
 		$_GET = $_REQUEST = array(
 			'action' => 'api_con_mngr',
-			'slug' => 'autoflow'
+			'slug' => $this->slug
 			);
 
 		$this->api = new API_Connection_Manager();
@@ -64,10 +66,6 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 
 	function test__get_options(){
 		$this->greaterThan(1, count($this->api->_get_options()));
-	}
-
-	function test__get_service_options(){
-		$this->greaterThan(1, count($this->api->_get_service_options('google/index.php')));
 	}
 
 	function test__module_activate(){}
