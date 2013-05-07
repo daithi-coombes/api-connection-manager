@@ -427,8 +427,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * API_Connection_Manager::_service_parse_dto()
 		 */
 		public function do_login( stdClass $dto ){
-			
-			//match uid;
+
 		}
 		
 		/**
@@ -470,7 +469,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 			}
 			
 			//parse response and set tokens in db
-			$tokens = (array) $this->parse_response($res);
+			$res = $this->parse_response($res);
+			if(is_wp_error($res)) return $res;
+			$tokens = (array) $res;
 			$params = $this->set_params($tokens);
 			return $tokens;
 		}
@@ -752,6 +753,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 					}
 			
 			$connections[$this->slug][$user_id] = (string) $uid;
+			$this->set_connections($connections);
 			return true;
 		}
 		
@@ -782,6 +784,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(is_wp_error($response))
 				return $response;
 			
+			//check error code
+			if($response['response']['code']=='500')
+				return new WP_Error('API Connection Manager', $response['response']['message']);
+
 			//vars
 			$content_type = strtolower($response['headers']['content-type']);
 			$ret = array();
