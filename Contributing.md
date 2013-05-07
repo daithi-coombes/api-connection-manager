@@ -9,7 +9,31 @@ To run the phpUnit tests you need to link this plugin to the wordpress core unit
 There are many tutorial on how to do so, but I'm going to recommend my own:
 http://david-coombes.com/phpunit-testing-wordpress-plugins-with-wordpress-make/
 
-But here are some quick, general instructions:
+Configuration
+Copy the `tests/config.dist.php` to `tests/config.php` and set the details for your service, eg:
+```php
+<?php
+define('API_CON_TEST_ONLINE', true);
+
+$slug = "my-service/index.php";
+$data = array(
+	'client_id' => 'xxxxxxxxxx',
+	'client_secret' => 'xxxxxxxxxx',
+	'redirect_uri' => 'http://example.com/wp-admin/admin-ajax.php?action=api_con_mngr'
+);
+$options = array(
+    'active_plugins' => array('my-service/index.php'),
+    'api-connection-manager' => array(
+    	'active' => $slug
+    	),
+    'API_Con_Mngr_Module' => array(
+    	$slug => $data
+    ),
+);
+
+```
+
+Here are some quick, general instructions, to setup phpunit for wordpress:
  - Install [phpUnit](https://github.com/sebastianbergmann/phpunit/)
  - Download WP Core Unit Tests
 
