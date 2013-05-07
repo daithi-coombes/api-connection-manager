@@ -152,6 +152,13 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 	}
 
 	function test_set_options(){
+		$options = $this->module->get_options();
+		$options['client_id'] = '1';
+		$GLOBALS['wp_tests_options']['API_Con_Mngr_Module'][$this->slug] = $options;
+
+		$this->module->set_options($options);
+		$res = $this->module->get_options();
+		$this->assertEquals($options, $res);
 	}
 
 	function test_set_params(){}
