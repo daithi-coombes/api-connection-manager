@@ -515,8 +515,8 @@ class API_Connection_Manager{
 		//make sure admin ajax call
 		if(
 			!defined('DOING_AJAX') || 
-			true!==@DOING_AJAX ||
-			@$_GET['action']!='api_con_mngr'
+			true!==DOING_AJAX ||
+			$_GET['action']!='api_con_mngr'
 		) return;
 		
 		/**
@@ -556,7 +556,7 @@ class API_Connection_Manager{
 		else
 			die("Error: " . $dto->slug->get_error_message());		
 		//END BOOTSTRAP
-		
+
 		/**
 		 * Connecting... screen
 		 * set sessions
@@ -615,19 +615,22 @@ class API_Connection_Manager{
 		elseif(@$module->protocol=="oauth2"){
 			
 			//get tokens (this call will set tokens in db for module)
-			$tokens = $module->get_access_token( $dto->response );			
+			$tokens = $module->get_access_token( $dto->response );
 			if(is_wp_error($tokens))
-				die("Error: " . $tokens->get_error_message());
-			
-			//reset dto response to tokens recieved
-			$dto->response = $tokens;
-			
-			//helper method module can override to add actions to login
-			//such as get request token for oauth1
-			$module->do_login( $dto );
+				$this->error($tokens->get_error_message());
 
 			//do callback
-			$module->do_callback( $dto );
+			else{
+				//reset dto response to tokens recieved
+				$dto->response = $tokens;
+				
+				//helper method module can override to add actions to login
+				//such as get request token for oauth1
+				$module->do_login( $dto );
+
+				//do callback
+				$module->do_callback( $dto );
+			}
 		}
 		//end oauth2 service response
 		
