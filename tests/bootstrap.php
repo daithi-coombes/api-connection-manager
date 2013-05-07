@@ -9,16 +9,7 @@ require_once('config.php');
 $path = '/var/www/wordpress.loc/foo/wordpress-tests/includes/bootstrap.php';
 
 if (file_exists($path)) {
-    $GLOBALS['wp_tests_options'] = array(
-        'active_plugins' => array('api-connection-manager/index.php'),
-        'api-connection-manager' => array(
-        	'active' => $slug
-        	),
-        'API_Con_Mngr_Module' => array(
-        	$slug => $data
-        ),
-        'test_slug' => $slug
-	);
+    $GLOBALS['wp_tests_options'] = $options;
     require_once $path;
 } else 
     exit("Couldn't find wordpress-tests/bootstrap.phpn");
