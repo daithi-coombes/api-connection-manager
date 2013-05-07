@@ -62,7 +62,9 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 
 	function test__get_installed_services(){}
 
-	function test__get_options(){}
+	function test__get_options(){
+		$this->greaterThan(1, count($this->api->_get_options()));
+	}
 
 	function test__get_service_options(){
 		$this->greaterThan(1, count($this->api->_get_service_options('google/index.php')));
