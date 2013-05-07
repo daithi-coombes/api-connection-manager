@@ -531,8 +531,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//multisite install
 			if(is_multisite())
 				$connections = get_site_option($option_name, array());
-			else
+			else{
 				$connections = get_option($option_name, array());
+			}
 			return $connections;
 		}
 		
@@ -910,8 +911,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$option_name = "{$this->option_name}-connections";
 			if(is_multisite())
 				update_site_option($option_name, $connections);
-			else
+			else{
 				update_option($option_name, $connections);
+			}
 			return $connections;
 		}
 		
@@ -1092,7 +1094,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * Sets the fields with their relevant option values.
 		 * @return array 
 		 */
-		private function get_options(){
+		public function get_options(){
 			
 			//multisite install
 			if(is_multisite())
