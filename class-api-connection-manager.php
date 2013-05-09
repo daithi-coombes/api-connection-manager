@@ -383,7 +383,7 @@ class API_Connection_Manager{
 	 * @param string $slug The services module's index file.
 	 * @return array 
 	 * @subpackage api-core
-	 */
+	 *
 	public function _get_service_options( $slug ){
 		
 		$options = $this->_get_options();
@@ -391,6 +391,7 @@ class API_Connection_Manager{
 			return array();
 		else return $options['services'][$slug];
 	}
+	*/
 	
 	/**
 	 * Activate modules.
