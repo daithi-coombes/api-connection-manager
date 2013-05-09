@@ -116,9 +116,12 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 		$response = array(
 			'headers' => array(
 				'content-type' => 'json'
-				),
-			'body' => json_encode(array('status' => 'ok'))
-			);
+			),
+			'body' => json_encode(array('status' => 'ok')),
+			'response' => array(
+				'code' => '200'
+			)
+		);
 		$res = $this->module->parse_response($response);
 		$this->assertInstanceOf('stdClass', $res);
 
