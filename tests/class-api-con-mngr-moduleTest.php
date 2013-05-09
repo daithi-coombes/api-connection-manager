@@ -58,10 +58,27 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 
 	function test_get_authorize_url(){}
 
-	function test_get_connections(){}
+	function test_get_connections(){
+		$connections = $this->module->get_connections();
+		if(
+			($connections != $GLOBALS['wp_tests_options']['API_Con_Mngr_Module-connections'])
+			|| !count($connections)
+		)
+			$this->fail("::get_connections() not returning correct result");
+	}
 
 	function test_get_login_button(){
 		$this->assertInternalType('string', $this->module->get_login_button());
+	}
+
+	function test_get_options(){
+		$options = $this->module->get_options();
+		$test = $GLOBALS['wp_tests_options']['API_Con_Mngr_Module'][$this->slug];
+		$test['callback_url'] = admin_url('admin-ajax.php') . "?" . http_build_query(array(
+			'action' => 'api_con_mngr'
+		));
+
+		$this->assertEquals($test, $options);
 	}
 
 	function test_get_params(){
@@ -119,7 +136,14 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 
 	function test_response(){}
 
-	function test_set_connections(){}
+	function test_set_connections(){
+		$connections = $this->module->get_connections();
+		$connections['foo/index.php'] = array('1','12345');
+		$GLOBALS['wp_tests_options']['API_Con_Mngr_Module-connections'] = $connections;
+
+    	$this->module->set_connections($connections);
+		$this->assertEquals($connections['foo/index.php'], $this->module->get_connections()['foo/index.php']);
+	}
 
 	function test_set_details(){
 		$this->module->set_details(array(
@@ -127,15 +151,21 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 		$this->assertEquals('foo', $this->module->access_token);
 	}
 
-	function test_set_options(){}
+	function test_set_options(){
+		$options = $this->module->get_options();
+		$options['client_id'] = '1';
+		$GLOBALS['wp_tests_options']['API_Con_Mngr_Module'][$this->slug] = $options;
+
+		$this->module->set_options($options);
+		$res = $this->module->get_options();
+		$this->assertEquals($options, $res);
+	}
 
 	function test_set_params(){}
 
 	function test_wp_login(){}
 
 	function test_construct_options(){}
-
-	function test_options(){}
 
 	function test_get_slug(){}
 
