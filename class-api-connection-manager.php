@@ -377,23 +377,6 @@ class API_Connection_Manager{
 	}
 	
 	/**
-	 * Returns the options for a service.
-	 *
-	 * @uses string $this->option_name['services'][$slug]
-	 * @param string $slug The services module's index file.
-	 * @return array 
-	 * @subpackage api-core
-	 *
-	public function _get_service_options( $slug ){
-		
-		$options = $this->_get_options();
-		if(!@$options['services'][$slug])
-			return array();
-		else return $options['services'][$slug];
-	}
-	*/
-	
-	/**
 	 * Activate modules.
 	 *
 	 * @uses string $this->option_name['active']
