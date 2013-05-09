@@ -4,6 +4,7 @@
  * class-api-con-mngr-error
  *
  * @package api-connection-manager
+ * @global array $_SESSION['Api-Con-Errors']
  * @author daithi
  */
 class API_Con_Mngr_Error extends WP_Error{

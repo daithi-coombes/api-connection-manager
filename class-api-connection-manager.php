@@ -49,14 +49,11 @@ session_start();
  * @todo localization
  * @todo refresh token
  * @global array $_SESSION['API_Con_Mngr_Module']
- * @global array $_SESSION['Api-Con-Errors']
  * @package api-connection-manager
  * @author daithi
  */
 class API_Connection_Manager{
 	
-	/** @var string The last error made */
-	public $last_error = "";
 	/** @var string The redirect uri */
 	public $redirect_uri = "";
 	/** @var array List of all installed services */
