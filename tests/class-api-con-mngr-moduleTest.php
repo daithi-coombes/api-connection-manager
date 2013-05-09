@@ -167,8 +167,6 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 
 	function test_construct_options(){}
 
-	function test_options(){}
-
 	function test_get_slug(){}
 
 }

@@ -82,7 +82,4 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 		$this->assertInstanceOf('stdClass', $this->api->get_dto());
 	}
 
-	function test__set_option(){}
-
-	
 }
