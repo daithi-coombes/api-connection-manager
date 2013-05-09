@@ -53,8 +53,6 @@ class API_Connection_Manager_SetupTest extends WP_UnitTestCase{
 		$this->assertInternalType('string', $this->setup->column_title($this->items[0]));
 	}
 
-	function test_deactivate(){}
-
 	function test_get_bulk_actions(){
 		$this->assertEquals(array(
 			'activate' => 'Activate',

@@ -68,9 +68,24 @@ class API_Connection_ManagerTest extends WP_UnitTestCase{
 		$this->greaterThan(1, count($this->api->_get_options()));
 	}
 
-	function test__module_activate(){}
+	function test__module_activate(){
+		$this->api->_module_deactivate( $this->slug );
+		$this->api->_module_activate( $this->slug );
+		$active = $this->api->get_services('active');
+		$inactive = $this->api->get_services('inactive');
 
-	function test__module_deactivate(){}
+		$this->assertArrayHasKey($this->slug, $active);
+		$this->assertArrayNotHasKey($this->slug, $inactive);
+	}
+
+	function test__module_deactivate(){
+		$this->api->_module_deactivate( $this->slug );
+		$inactive = $this->api->get_services('inactive');
+		$active = $this->api->get_services('active');
+
+		$this->assertArrayHasKey($this->slug, $inactive);
+		$this->assertArrayNotHasKey($this->slug, $active);
+	}
 
 	function test__set_refresh_state(){}
 
