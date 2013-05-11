@@ -29,8 +29,21 @@ class API_Con_Mngr_Error extends WP_Error{
 		if($action){
 			$method = "_" . $action;
 			if(method_exists($this, $action))
-				$this->action();
+				$this->$action();
 		}
+	}
+
+	/**
+	 * Return all errors
+	 * @uses array $_SESSION['Api-Con-Errors']
+	 * @return array returns an array of errors
+	 */
+	static public function get_all_errors(){
+		(@count($_SESSION['Api-Con-Errors'])) ?
+			$errors = $_SESSION['Api-Con-Errors'] :
+			$errors = array();
+
+		return $errors;
 	}
 
 	/**
@@ -57,5 +70,21 @@ class API_Con_Mngr_Error extends WP_Error{
 	 */
 	function _die(){
 		die( parent::get_error_message() );
+	}
+
+	/**
+	 * Will set the global errors array, close the current window
+	 * and reload the parent window.
+	 */
+	private function notify_parent(){
+
+		//set global errors array
+		if(!is_array($_SESSION['Api-Con-Errors']))
+			$_SESSION['Api-Con-Errors'] = array();
+		$_SESSION['Api-Con-Errors'][] = $this->get_error_message();
+
+		//print javascript
+		ar_print($_SESSION['Api-Con-Errors']);
+		die("notifiying parent...");
 	}
 }

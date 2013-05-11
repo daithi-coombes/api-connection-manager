@@ -132,7 +132,8 @@ class API_Connection_Manager{
 	 */
 	public function admin_notices(){
 		
-		$errors = @$_SESSION['Api-Con-Errors'];
+		$errors = API_Con_Mngr_Error::get_all_errors();
+
 		if(!$errors)
 				return false;
 		
@@ -210,7 +211,7 @@ class API_Connection_Manager{
 		}
 		
 		if(!$ret)
-			$ret = new WP_Error ('API Connection Manager', "Module not found");
+			$ret = new API_Con_Mngr_Error("Module not found");
 		
 		return $ret;
 			
@@ -227,38 +228,6 @@ class API_Connection_Manager{
 	 */
 	public function get_services( $type='active' ){		
 		return $this->services[$type];
-	}
-	
-	/**
-	 * adds an error to Api-Con-Errors session
-	 * @param  string $msg The error message
-	 * @uses array $_SESSION['Api-Con-Errors']
-	 */
-	static public function error($msg){
-		if(!@$_SESSION['Api-Con-Errors'])
-			$_SESSION['Api-Con-Errors'] = array();
-		$_SESSION['Api-Con-Errors'][] = $msg;
-	}
-	
-	/**
-	 * Returns a WP_Error object.
-	 * 
-	 * Sets the error code to 'API Connection Manager' and returns a constructed 
-	 * WP_Error object. Sets the last_error param to error message.
-	 * 
-	 * @uses API_Connection_Manager::last_error
-	 * @param string $msg The error message
-	 * @return WP_Error 
-	 * @subpackage api-core
-	 */
-	private function _error($msg){
-		
-		//if array of errors format to &gt;li> list
-		if(is_array($msg))
-			$msg = "<ul><li>\n" . implode("</li><li>", $msg) . "</li>\n</ul>\n";
-		
-		$this->last_error = $msg;
-		return new WP_Error('API Connection Manager', $msg);
 	}
 	
 	/**
