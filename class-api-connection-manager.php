@@ -132,7 +132,8 @@ class API_Connection_Manager{
 	 */
 	public function admin_notices(){
 		
-		$errors = API_Con_Mngr_Error::get_all_errors();
+		$error_obj = new API_Con_Mngr_Error();
+		$errors = $error_obj->get_all_errors();
 
 		if(!$errors)
 				return false;
