@@ -9,10 +9,18 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 
 	function setUp(){
 		parent::setUp();
+
+		//set params
 		$this->code = 'API Connection Manager Test';
 		$this->global_key = 'Api-Con-Errors-Test';
-		$this->msg = "Unit test error message";
-		$this->error = new API_Con_Mngr_Error($this->msg, $this->code, $this->error);
+		$this->msgs = array("Unit test error message", "2nd unit test error message");
+
+		//build object
+		$this->error = new API_Con_Mngr_Error(
+			$this->msgs[0], 
+			$this->code, 
+			$this->global_key
+		);
 	}
 
 	function tearDown(){
@@ -20,13 +28,19 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 	}
 
 	function test_add(){
-		$msg = "2nd unit test error message";
-		$this->error->add($msg);
 
+		//add 2nd test message
+		$this->error->add($this->msgs[1]);
+
+		//test global
+		$this->assertSame($this->msgs, $_SESSION[$this->global_key], "session global not updated");
+
+		//test field
+		$this->assertEquals($this->msgs, $this->error->errors[ $this->code ], "WP_Error::errors not updated");
 	}
 
 	function test_get_all_errors(){
-		$this->assertEquals(array($this->msg), $this->error->get_all_errors());
+		
+		$this->assertSame(array($this->msgs[0]), $this->error->get_all_errors());
 	}
-
 }
