@@ -37,12 +37,55 @@ class API_Con_Mngr_Error extends WP_Error{
 	}
 
 
+	public function clear(){
+		unset($_SESSION[ $this->global_key ]);
+		$this->errors = array();
+	}
+
 	public function get_all_errors(){
 
 		//get errors param
-		$errors = $this->errors[ $this->code ];
-		$globals = $_SESSION[ $this->global_key ];
+		(@$this->errors[ $this->code ]) ?
+			$errors = $this->errors[ $this->code ] :
+			$errors = array();
+		(@$_SESSION[ $this->global_key ]) ?
+			$globals = $_SESSION[ $this->global_key ] :
+			$globals = array();
 		$res = array_unique(array_merge($errors, $globals));
+
+		return $res;
+	}
+
+	public function get_error_message($action=false){
+
+		//if action called
+		if($action){
+			$action = "_".$action;
+			if(method_exists($this, $action))
+				return $this->$action();
+		}
+
+		//else return last error
+		return parent::get_error_message();
+	}
+
+	private function _die(){
+
+		$msg = parent::get_error_message();
+		$this->clear();
+
+		throw new API_Con_Mngr_Exception($msg);
+	}
+
+	private function _notify_parent(){
+
+		//default print js
+		$res = "<script type=\"text/javascript\">
+			if(window.opener){
+				window.opener.location.reload();
+				window.close();
+			}
+		</script>";
 
 		return $res;
 	}

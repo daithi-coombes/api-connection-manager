@@ -489,7 +489,7 @@ class API_Connection_Manager{
 		
 		//get dto (will also set the current user)
 		$dto = $this->get_dto();
-		if(is_api_con_error($dto))
+		if(is_wp_error($dto))
 			$dto->get_error_message('die');
 		
 		//if slug setup module
@@ -505,7 +505,7 @@ class API_Connection_Manager{
 				die($err->get_error_message());
 		}
 		else
-			die("Error: " . $dto->slug->get_error_message());		
+			$dto->slug->get_error_message('die');
 		//END BOOTSTRAP
 
 		/**

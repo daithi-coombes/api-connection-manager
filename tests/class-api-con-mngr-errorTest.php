@@ -39,8 +39,35 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 		$this->assertEquals($this->msgs, $this->error->errors[ $this->code ], "WP_Error::errors not updated");
 	}
 
+	function test_clear(){
+		$this->error->clear();
+		$this->assertEquals(array(), $this->error->get_all_errors());	
+	}
+
 	function test_get_all_errors(){
 		
 		$this->assertSame(array($this->msgs[0]), $this->error->get_all_errors());
 	}
+
+	function test_get_error_message(){
+		$this->assertSame($this->msgs[0], $this->error->get_error_message());
+	}
+
+	function test_get_error_message_notify_parent(){
+
+		$res = $this->error->get_error_message('notify_parent');
+		$test = "<script type=\"text/javascript\">
+			if(window.opener){
+				window.opener.location.reload();
+				window.close();
+			}
+		</script>";
+
+		$this->assertEquals($test, $res);
+	}
+
+	function test_get_error_message_die(){
+
+	}
+
 }
