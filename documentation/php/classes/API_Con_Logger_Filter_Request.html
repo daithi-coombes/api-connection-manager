@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>phpDocumentor » \API_Connection_Manager_User</title>
+<title>phpDocumentor » \API_Con_Logger_Filter_Request</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -57,100 +57,42 @@
 </div>
 <ul class="side-nav nav nav-list"><li class="nav-header">
 <i class="icon-custom icon-method"></i> Methods
-                    <ul>
-<li class="method public "><a href="#method___construct" title="__construct :: "><span class="description">__construct()
-        </span><pre>__construct()</pre></a></li>
-<li class="method public "><a href="#method_connect_user" title="connect_user :: Connects the logged in user with the uid for the required module."><span class="description">Connects the logged in user with the uid for the required module.</span><pre>connect_user()</pre></a></li>
-<li class="method public "><a href="#method_dash_menu" title="dash_menu :: "><span class="description">dash_menu()
-        </span><pre>dash_menu()</pre></a></li>
-<li class="method public "><a href="#method_disconnect" title="disconnect :: Disconnect a user from a service"><span class="description">Disconnect a user from a service</span><pre>disconnect()</pre></a></li>
-<li class="method public "><a href="#method_do_shortcode" title="do_shortcode :: Print the user connections"><span class="description">Print the user connections</span><pre>do_shortcode()</pre></a></li>
-</ul>
+                    <ul><li class="method public "><a href="#method_decide" title="decide :: Always returns the integer constant {@link LoggerFilter::DENY}
+regardless of the {@link LoggerLoggingEvent} parameter."><span class="description">Always returns the integer constant {@link LoggerFilter::DENY}
+regardless of the {@link LoggerLoggingEvent} parameter.</span><pre>decide()</pre></a></li></ul>
 </li></ul>
 </div>
 <div class="span8">
-<a id="\API_Connection_Manager_User"></a><ul class="breadcrumb">
+<a id="\API_Con_Logger_Filter_Request"></a><ul class="breadcrumb">
 <li>
 <a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
 </li>
 <li><a href="../namespaces/global.html">global</a></li>
 <li class="active">
-<span class="divider">\</span><a href="../classes/API_Connection_Manager_User.html">API_Connection_Manager_User</a>
+<span class="divider">\</span><a href="../classes/API_Con_Logger_Filter_Request.html">API_Con_Logger_Filter_Request</a>
 </li>
 </ul>
-<div class="element class">
-<p class="short_description">Description of class-api-connection-manager-user</p>
-<div class="details">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>author</th>
-<td><a href="">daithi</a></td>
-</tr>
-<tr>
-<th>package</th>
-<td><a href="../packages/api-connection-manager.html">api-connection-manager</a></td>
-</tr>
-</table>
+<div class="element class"><div class="details">
 <h3>
 <i class="icon-custom icon-method"></i> Methods</h3>
-<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
-<h2>__construct()
-        </h2>
-<pre>__construct() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="method_connect_user"></a><div class="element clickable method public method_connect_user" data-toggle="collapse" data-target=".method_connect_user .collapse">
-<h2>Connects the logged in user with the uid for the required module.</h2>
-<pre>connect_user(<a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a> $dto) </pre>
+<a id="method_decide"></a><div class="element clickable method public method_decide" data-toggle="collapse" data-target=".method_decide .collapse">
+<h2>Always returns the integer constant {@link LoggerFilter::DENY}
+regardless of the {@link LoggerLoggingEvent} parameter.</h2>
+<pre>decide(\LoggerLoggingEvent $event) : \LoggerFilter::DENY</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Is
-called in API_Connection_Manager::_response_listener()</p></div>
-<table class="table table-bordered"><tr>
-<th>global</th>
-<td>API_Connection_Manager $API_Connection_Manager</td>
-</tr></table>
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
-<h4>$dto</h4>
-<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><p>The dto from the provider response</p></div>
+<h4>$event</h4>
+<code>\LoggerLoggingEvent</code><p>The {@link LoggerLoggingEvent} to filter.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\LoggerFilter::DENY</code>Always returns {@link LoggerFilter::DENY}</div>
 </div></div>
 </div>
-<a id="method_dash_menu"></a><div class="element clickable method public method_dash_menu" data-toggle="collapse" data-target=".method_dash_menu .collapse">
-<h2>dash_menu()
-        </h2>
-<pre>dash_menu() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
-<a id="method_disconnect"></a><div class="element clickable method public method_disconnect" data-toggle="collapse" data-target=".method_disconnect .collapse">
-<h2>Disconnect a user from a service</h2>
-<pre>disconnect() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>global</th>
-<td>API_Connection_Manager $API_Connection_Manager</td>
-</tr></table>
 </div></div>
-</div>
-<a id="method_do_shortcode"></a><div class="element clickable method public method_do_shortcode" data-toggle="collapse" data-target=".method_do_shortcode .collapse">
-<h2>Print the user connections</h2>
-<pre>do_shortcode() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>global</th>
-<td>API_Connection_Manager $API_Connection_Manager</td>
-</tr></table>
-</div></div>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="row"><footer class="span12">

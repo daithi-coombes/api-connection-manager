@@ -32,13 +32,13 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">31</span></a></li>
+                <span class="label label-info">28</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul><li>todo 
                 <span class="label label-info">6</span>
 </li></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">2</span></a></li>
+                <span class="label label-info">1</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -61,7 +61,6 @@
                     <ul>
 <li class="method public "><a href="#method___construct" title="__construct :: Loads settings and set default params."><span class="description">Loads settings and set default params.</span><pre>__construct()</pre></a></li>
 <li class="method public "><a href="#method__get_options" title="_get_options :: Get options."><span class="description">Get options.</span><pre>_get_options()</pre></a></li>
-<li class="method public "><a href="#method__get_service_options" title="_get_service_options :: Returns the options for a service."><span class="description">Returns the options for a service.</span><pre>_get_service_options()</pre></a></li>
 <li class="method public "><a href="#method__module_activate" title="_module_activate :: Activate modules."><span class="description">Activate modules.</span><pre>_module_activate()</pre></a></li>
 <li class="method public "><a href="#method__module_deactivate" title="_module_deactivate :: Deactivate modules."><span class="description">Deactivate modules.</span><pre>_module_deactivate()</pre></a></li>
 <li class="method public "><a href="#method__reset_options" title="_reset_options :: Production method"><span class="description">Production method</span><pre>_reset_options()</pre></a></li>
@@ -69,17 +68,14 @@
 <li class="method public "><a href="#method__set_refresh_state" title="_set_refresh_state :: Enable|Disable the use of a refresh token."><span class="description">Enable|Disable the use of a refresh token.</span><pre>_set_refresh_state()</pre></a></li>
 <li class="method public "><a href="#method_admin_notices" title="admin_notices :: Action callback for admin notices."><span class="description">Action callback for admin notices.</span><pre>admin_notices()</pre></a></li>
 <li class="method public "><a href="#method_delete_user" title="delete_user :: Action callback."><span class="description">Action callback.</span><pre>delete_user()</pre></a></li>
-<li class="method public "><a href="#method_error" title="error :: adds an error to Api-Con-Errors session"><span class="description">adds an error to Api-Con-Errors session</span><pre>error()</pre></a></li>
 <li class="method public "><a href="#method_get_current_user" title="get_current_user :: Get the current user the api class is working off."><span class="description">Get the current user the api class is working off.</span><pre>get_current_user()</pre></a></li>
 <li class="method public "><a href="#method_get_dto" title="get_dto :: Parses a http request and returns a stdClass dto."><span class="description">Parses a http request and returns a stdClass dto.</span><pre>get_dto()</pre></a></li>
 <li class="method public "><a href="#method_get_service" title="get_service :: Returns the details for a service."><span class="description">Returns the details for a service.</span><pre>get_service()</pre></a></li>
 <li class="method public "><a href="#method_get_services" title="get_services :: Returns a list of services."><span class="description">Returns a list of services.</span><pre>get_services()</pre></a></li>
-<li class="method public "><a href="#method_log" title="log :: Log an INFO message"><span class="description">Log an INFO message</span><pre>log()</pre></a></li>
 </ul>
 </li>
 <li class="nav-header private">» Private
                     <ul>
-<li class="method private "><a href="#method__error" title="_error :: Returns a WP_Error object."><span class="description">Returns a WP_Error object.</span><pre>_error()</pre></a></li>
 <li class="method private "><a href="#method__get_installed_services" title="_get_installed_services :: Builds an array of all installed modules and sets their params."><span class="description">Builds an array of all installed modules and sets their params.</span><pre>_get_installed_services()</pre></a></li>
 <li class="method private "><a href="#method__service_login_authorize" title="_service_login_authorize :: Authorize login method."><span class="description">Authorize login method.</span><pre>_service_login_authorize()</pre></a></li>
 <li class="method private "><a href="#method__set_option" title="_set_option :: Sets the API's options."><span class="description">Sets the API's options.</span><pre>_set_option()</pre></a></li>
@@ -89,7 +85,6 @@
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
                     <ul>
-<li class="property public "><a href="#property_last_error" title="$last_error :: "><span class="description">The last error made</span><pre>$last_error</pre></a></li>
 <li class="property public "><a href="#property_redirect_uri" title="$redirect_uri :: "><span class="description">The redirect uri</span><pre>$redirect_uri</pre></a></li>
 <li class="property public "><a href="#property_services" title="$services :: "><span class="description">List of all installed services</span><pre>$services</pre></a></li>
 </ul>
@@ -102,10 +97,7 @@
 </ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul>
-<li class="property private "><a href="#property_log_api" title="$log_api :: "><span class="description">The log class</span><pre>$log_api</pre></a></li>
-<li class="property private "><a href="#property_user" title="$user :: "><span class="description">The current user</span><pre>$user</pre></a></li>
-</ul>
+                    <ul><li class="property private "><a href="#property_user" title="$user :: "><span class="description">The current user</span><pre>$user</pre></a></li></ul>
 </li>
 </ul>
 </div>
@@ -179,10 +171,6 @@ submits.</p>
 <td>array $_SESSION['API_Con_Mngr_Module']</td>
 </tr>
 <tr>
-<th>global</th>
-<td>array $_SESSION['Api-Con-Errors']</td>
-</tr>
-<tr>
 <th>package</th>
 <td><a href="../packages/api-connection-manager.html">api-connection-manager</a></td>
 </tr>
@@ -224,31 +212,6 @@ submits.</p>
 <td>api-core</td>
 </tr>
 </table>
-<h3>Returns</h3>
-<div class="subelement response"><code>array</code></div>
-</div></div>
-</div>
-<a id="method__get_service_options"></a><div class="element clickable method public method__get_service_options" data-toggle="collapse" data-target=".method__get_service_options .collapse">
-<h2>Returns the options for a service.</h2>
-<pre>_get_service_options(string $slug) : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered">
-<tr>
-<th>uses</th>
-<td>$this->option_name['services'][$slug]</td>
-</tr>
-<tr>
-<th>subpackage</th>
-<td>api-core</td>
-</tr>
-</table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$slug</h4>
-<code>string</code><p>The services module's index file.</p>
-</div>
 <h3>Returns</h3>
 <div class="subelement response"><code>array</code></div>
 </div></div>
@@ -378,22 +341,6 @@ from site options.</p></div>
 <div class="subelement argument"><h4>$user_id</h4></div>
 </div></div>
 </div>
-<a id="method_error"></a><div class="element clickable method public method_error" data-toggle="collapse" data-target=".method_error .collapse">
-<h2>adds an error to Api-Con-Errors session</h2>
-<pre>error(string $msg) </pre>
-<div class="labels"><span class="label">Static</span></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<table class="table table-bordered"><tr>
-<th>uses</th>
-<td>$_SESSION['Api-Con-Errors']</td>
-</tr></table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$msg</h4>
-<code>string</code><p>The error message</p></div>
-</div></div>
-</div>
 <a id="method_get_current_user"></a><div class="element clickable method public method_get_current_user" data-toggle="collapse" data-target=".method_get_current_user .collapse">
 <h2>Get the current user the api class is working off.</h2>
 <pre>get_current_user() : \WP_User</pre>
@@ -406,7 +353,7 @@ from site options.</p></div>
 </div>
 <a id="method_get_dto"></a><div class="element clickable method public method_get_dto" data-toggle="collapse" data-target=".method_get_dto .collapse">
 <h2>Parses a http request and returns a stdClass dto.</h2>
-<pre>get_dto() : <a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a> | \WP_error</pre>
+<pre>get_dto() : <a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a> | <a href="../classes/API_Con_Mngr_Error.html">\API_Con_Mngr_Error</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>The format of the returned DTO is:</p>
@@ -422,7 +369,7 @@ $res->user = "";</p></div>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response">
-<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><code>\WP_error</code>Returns an error if no service slug found.</div>
+<code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><code><a href="../classes/API_Con_Mngr_Error.html">\API_Con_Mngr_Error</a></code>Returns an error if no service slug found.</div>
 </div></div>
 </div>
 <a id="method_get_service"></a><div class="element clickable method public method_get_service" data-toggle="collapse" data-target=".method_get_service .collapse">
@@ -459,46 +406,6 @@ $res->user = "";</p></div>
 <code>string</code><p>The type of services active|inactive Default active.</p></div>
 <h3>Returns</h3>
 <div class="subelement response"><code>array</code></div>
-</div></div>
-</div>
-<a id="method_log"></a><div class="element clickable method public method_log" data-toggle="collapse" data-target=".method_log .collapse">
-<h2>Log an INFO message</h2>
-<pre>log(string $msg, $level) : \none</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$msg</h4>
-<code>string</code><p>The message to log</p></div>
-<div class="subelement argument"><h4>$level</h4></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>\none</code></div>
-</div></div>
-</div>
-<a id="method__error"></a><div class="element clickable method private method__error" data-toggle="collapse" data-target=".method__error .collapse">
-<h2>Returns a WP_Error object.</h2>
-<pre>_error(string $msg) : \WP_Error</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Sets the error code to 'API Connection Manager' and returns a constructed
-WP_Error object. Sets the last_error param to error message.</p></div>
-<table class="table table-bordered">
-<tr>
-<th>uses</th>
-<td>\API_Connection_Manager::last_error</td>
-</tr>
-<tr>
-<th>subpackage</th>
-<td>api-core</td>
-</tr>
-</table>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$msg</h4>
-<code>string</code><p>The error message</p></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>\WP_Error</code></div>
 </div></div>
 </div>
 <a id="method__get_installed_services"></a><div class="element clickable method private method__get_installed_services" data-toggle="collapse" data-target=".method__get_installed_services .collapse">
@@ -571,12 +478,6 @@ options. Will update the services member with the new options.</p></div>
 </div>
 <h3>
 <i class="icon-custom icon-property"></i> Properties</h3>
-<a id="property_last_error"> </a><div class="element clickable property public property_last_error" data-toggle="collapse" data-target=".property_last_error .collapse">
-<h2>The last error made</h2>
-<pre>$last_error : string</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <a id="property_redirect_uri"> </a><div class="element clickable property public property_redirect_uri" data-toggle="collapse" data-target=".property_redirect_uri .collapse">
 <h2>The redirect uri</h2>
 <pre>$redirect_uri : string</pre>
@@ -607,12 +508,6 @@ options. Will update the services member with the new options.</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property_log_api"> </a><div class="element clickable property private property_log_api" data-toggle="collapse" data-target=".property_log_api .collapse">
-<h2>The log class</h2>
-<pre>$log_api : \Logger</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <a id="property_user"> </a><div class="element clickable property private property_user" data-toggle="collapse" data-target=".property_user .collapse">
 <h2>The current user</h2>
 <pre>$user : \WP_User</pre>
@@ -626,7 +521,7 @@ options. Will update the services member with the new options.</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-04-30T14:13:31+01:00.<br></footer></div>
+            generated on 2013-05-15T14:30:58+01:00.<br></footer></div>
 </div>
 </body>
 </html>
