@@ -61,6 +61,8 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 				window.opener.location.reload();
 				window.close();
 			}
+			else
+				window.location.reload();
 		</script>";
 
 		$this->assertEquals($test, $res);
