@@ -66,8 +66,12 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 		$this->assertEquals($test, $res);
 	}
 
+	/**
+	 * @expectedException Exception
+	 */
 	function test_get_error_message_die(){
 
+		$this->error->get_error_message('die');
 	}
 
 }

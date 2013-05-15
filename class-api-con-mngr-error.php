@@ -74,7 +74,7 @@ class API_Con_Mngr_Error extends WP_Error{
 		$msg = parent::get_error_message();
 		$this->clear();
 
-		throw new API_Con_Mngr_Exception($msg);
+		throw new Exception($msg);
 	}
 
 	private function _notify_parent(){

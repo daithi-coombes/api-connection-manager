@@ -144,7 +144,7 @@ class API_Connection_Manager{
 		foreach($errors as $err)
 			echo "<li>{$err}</li>\n";
 		echo "</ul></div>";
-		unset($_SESSION['Api-Con-Errors']);
+		$errors->clear();
 		return true;
 	}
 	
@@ -496,13 +496,13 @@ class API_Connection_Manager{
 		if(!is_wp_error($dto->slug)){
 			$module = $this->get_service($dto->slug);
 			if(is_wp_error($module))
-				die( $module->get_error_message() );
+				$module->get_error_message('die');
 			$module->parse_dto($dto);
 			$err = $module->check_error($dto->response);
 			
 			//check for error
 			if(is_wp_error($err))
-				die($err->get_error_message());
+				$err->get_error_message('die');
 		}
 		else
 			$dto->slug->get_error_message('die');
@@ -568,7 +568,7 @@ class API_Connection_Manager{
 			//get tokens (this call will set tokens in db for module)
 			$tokens = $module->get_access_token( $dto->response );
 			if(is_wp_error($tokens))
-				$this->error($tokens->get_error_message());
+				$tokens->get_error_message('notify_parent');
 
 			//do callback
 			else{
@@ -703,7 +703,7 @@ class API_Connection_Manager{
 	 * $res->user = "";
 	 * 
 	 * @param array $response An array to parse. Generally a $_REQUEST
-	 * @return stdClass|WP_error Returns an error if no service slug found.
+	 * @return stdClass|API_Con_Mngr_Error Returns an error if no service slug found.
 	 * @subpackage service-method
 	 */
 	public function get_dto(){
@@ -783,7 +783,6 @@ class API_Connection_Manager{
 		
 		//load serivice module's params
 		$params = $this->get_service($res->slug);
-		//if(is_wp_error($params)) die( $params->get_error_message() );
 		return $res;
 	}
 	
