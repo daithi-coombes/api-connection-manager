@@ -3,7 +3,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
 <meta charset="utf-8">
-<title>phpDocumentor » Default</title>
+<title>phpDocumentor » \API_Con_Logger_Filter_Response</title>
 <meta name="author" content="Mike van Riel">
 <meta name="description" content="">
 <link href="../css/template.css" rel="stylesheet" media="all">
@@ -52,70 +52,47 @@
                         </div></noscript>
 <div class="row">
 <div class="span4">
-<div class="btn-group view pull-right" data-toggle="buttons-radio">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
 <button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
 </div>
-<ul class="side-nav nav nav-list">
-<li class="nav-header">
-<i class="icon-map-marker"></i> Packages</li>
-<li>
-<a href="../packages/Default.html" title="Default"><i class="icon-folder-open"></i>Default</a><ul class="nav nav-list nav-packages"></ul>
-</li>
-<li class="nav-header">
-<i class="icon-custom icon-function"></i> Functions</li>
-<li class="function  "><a href="#function_api_con_mngr_dash_menu" title="api_con_mngr_dash_menu :: "><span class="description">api_con_mngr_dash_menu()
-        </span><pre>api_con_mngr_dash_menu</pre></a></li>
-<li class="function  "><a href="#function_usort_reorder" title="usort_reorder :: "><span class="description">usort_reorder()
-        </span><pre>usort_reorder</pre></a></li>
-<li class="nav-header">
-<i class="icon-custom icon-class"></i> Classes</li>
-<li><a href="#API_Con_Logger_Filter_Request" title="">API_Con_Logger_Filter_Request</a></li>
-<li><a href="#API_Con_Logger_Filter_Response" title="">API_Con_Logger_Filter_Response</a></li>
-</ul>
-</div>
-<div class="span8 package-contents">
-<ul class="breadcrumb"><li>
-<a href="../index.html"><i class="icon-folder-open"></i></a><span class="divider">\</span><li class="active"><a href="../packages/Default.html">Default</a></li>
+<ul class="side-nav nav nav-list"><li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul><li class="method public "><a href="#method_decide" title="decide :: Always returns the integer constant {@link LoggerFilter::DENY}
+regardless of the {@link LoggerLoggingEvent} parameter."><span class="description">Always returns the integer constant {@link LoggerFilter::DENY}
+regardless of the {@link LoggerLoggingEvent} parameter.</span><pre>decide()</pre></a></li></ul>
 </li></ul>
-<div class="package-indent">
-<h3>
-<i class="icon-custom icon-function"></i> Functions</h3>
-<a id="function_api_con_mngr_dash_menu"></a><div class="element clickable function  function_api_con_mngr_dash_menu" data-toggle="collapse" data-target=".function_api_con_mngr_dash_menu .collapse">
-<h2>api_con_mngr_dash_menu()
-        </h2>
-<pre>api_con_mngr_dash_menu() </pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="function_usort_reorder"></a><div class="element clickable function  function_usort_reorder" data-toggle="collapse" data-target=".function_usort_reorder .collapse">
-<h2>usort_reorder()
-        </h2>
-<pre>usort_reorder($a, $b) </pre>
+<div class="span8">
+<a id="\API_Con_Logger_Filter_Response"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/API_Con_Logger_Filter_Response.html">API_Con_Logger_Filter_Response</a>
+</li>
+</ul>
+<div class="element class"><div class="details">
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_decide"></a><div class="element clickable method public method_decide" data-toggle="collapse" data-target=".method_decide .collapse">
+<h2>Always returns the integer constant {@link LoggerFilter::DENY}
+regardless of the {@link LoggerLoggingEvent} parameter.</h2>
+<pre>decide(\LoggerLoggingEvent $event) : \LoggerFilter::DENY</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$a</h4></div>
-<div class="subelement argument"><h4>$b</h4></div>
+<div class="subelement argument">
+<h4>$event</h4>
+<code>\LoggerLoggingEvent</code><p>The {@link LoggerLoggingEvent} to filter.</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>\LoggerFilter::DENY</code>Always returns {@link LoggerFilter::DENY}</div>
 </div></div>
 </div>
-<h3>
-<i class="icon-custom icon-class"></i> Classes and interfaces</h3>
-<div id="API_Con_Logger_Filter_Request" class="element ajax clickable class">
-<h1>API_Con_Logger_Filter_Request<a href="../classes/API_Con_Logger_Filter_Request.html">¶</a>
-</h1>
-<p class="short_description"></p>
-<div class="details collapse"></div>
-<a href="../classes/API_Con_Logger_Filter_Request.html" class="more">« More »</a>
-</div>
-<div id="API_Con_Logger_Filter_Response" class="element ajax clickable class">
-<h1>API_Con_Logger_Filter_Response<a href="../classes/API_Con_Logger_Filter_Response.html">¶</a>
-</h1>
-<p class="short_description"></p>
-<div class="details collapse"></div>
-<a href="../classes/API_Con_Logger_Filter_Response.html" class="more">« More »</a>
-</div>
-</div>
+</div></div>
 </div>
 </div>
 <div class="row"><footer class="span12">

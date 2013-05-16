@@ -1,4 +1,9 @@
 <?php
+/**
+ * API_Con_Mngr_Module class file
+ * @package api-connection-manager
+ * @author daithi
+ */
 require_once('vendor/OAuth.php');
 
 if (!class_exists("API_Con_Mngr_Module")):
@@ -205,7 +210,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/** @var string Oauth1 token secret */
 		public $oauth_token_secret = "";
 		
-		/**An array of options for the service.
+		/**
+		 * An array of options for the service.
 		 * @see API_Con_Mngr_Module::construct_options() for details
 		 * @var array 
 		 */
@@ -319,24 +325,27 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * This method checks a response from the service for an error and must
 		 * be declared by your class.
 		 * 
-		 * If you find an error in the response return a WP_Error with the
+		 * If you find an error in the response return a API_Con_Mngr_Error with the
 		 * error string
 		 * 
-		 * @see http://codex.wordpress.org/CLass_Reference/WP_Error
-		 * @uses WP_Error
+		 * @uses API_Con_Mngr_Error
 		 * @param array $response The response in the same format as returned by
 		 * the WP_HTTP class.
-		 * @return mixed Returns false if no error or WP_Error if error found
+		 * @return mixed Returns false if no error or API_Con_Mngr_Error if error found
 		 */
 		abstract public function check_error( array $response );
 		
 		/**
 		 * Makes a request to get an accounts uid. Must return the uid of the
-		 * remote service or WP_Error if none.
+		 * remote service or API_Con_Mngr_Error if none.
 		 * @return string 
 		 */
 		abstract public function get_uid();
 		
+		/**
+		 * Returns the profile for this connected user.
+		 * @return mixed Return false if no profile available
+		 */
 		abstract public function get_profile();
 		
 		/**
@@ -433,13 +442,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/**
 		 * Error handling.
 		 * 
-		 * Will return a WP_Error object with 'API_Con_Mngr_Module' as the code.
+		 * Will return a API_Con_Mngr_Error
 		 * 
 		 * @param string $msg The error message.
-		 * @return \WP_Error 
+		 * @return API_Con_Mngr_Error
 		 */
 		public function error($msg) {
-			return new WP_Error('API_Con_Mngr_Module', "Error: " . $msg);
+			return new API_Con_Mngr_Error($msg);
 		}
 
 		/**
@@ -485,7 +494,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * 
 		 * Clears the session nonce
 		 * 
-		 * @param array $tokens The request tokens
+		 * @param array $params The request parameters
 		 * @return string 
 		 */
 		public function get_authorize_url( $params=array() ) {
@@ -564,7 +573,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		}
 
 		/**
-		 * 
+		 * Gets the login form for custom services
 		 * 
 		 * @todo Create the login form for custom services that require the
 		 * username/password to be collected on the client side.
@@ -748,7 +757,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 				foreach(@$connections[$this->slug] as $_user_id => $_uid)
 					if($_uid==$uid){
 						if(get_userdata($_user_id))
-							return new WP_Error ('API Connection Manager Module', "Sorry that profile is already associated with another account");
+							return new API_Con_Mngr_Error("Sorry that profile is already associated with another account");
 						else
 							unset($connections[$this->slug][$_user_id]);
 					}
@@ -787,7 +796,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//check error code
 			if($response['response']['code']=='500')
-				return new WP_Error('API Connection Manager', $response['response']['message']);
+				return new API_Con_Mngr_Error($response['response']['message']);
 
 			//vars
 			$content_type = strtolower($response['headers']['content-type']);
@@ -811,7 +820,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		/**
 		 * Send requests to the provider.
 		 * 
-		 * @param string $uri The full endpoint url.
+		 * @param string $url The full endpoint url.
 		 * @param string $method Default GET. The http method to user.
 		 * @param array $parameters Optional. An array of parameters in key
 		 * value pairs
@@ -853,10 +862,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 			if(!$errs)
 				$errs = $this->check_error($response);
 			if(is_wp_error($errs)){
-				
-				//get & register error message
-				$msg = addslashes( $errs->get_error_message() );
-				API_Connection_Manager::error($this->Name . ": ".$msg);
 				
 				/**
 				 * @deprecated https://github.com/cityindex/labs.cityindex.com/issues/116
@@ -934,7 +939,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		
 		/**
 		 * Store site wide options, such as client_id and secret etc.
-		 * @param array $options 
+		 * @param array $options Options to set in key value pairs
 		 */
 		public function set_options( array $options ){
 			

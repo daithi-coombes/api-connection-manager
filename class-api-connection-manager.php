@@ -49,14 +49,11 @@ session_start();
  * @todo localization
  * @todo refresh token
  * @global array $_SESSION['API_Con_Mngr_Module']
- * @global array $_SESSION['Api-Con-Errors']
  * @package api-connection-manager
  * @author daithi
  */
 class API_Connection_Manager{
 	
-	/** @var string The last error made */
-	public $last_error = "";
 	/** @var string The redirect uri */
 	public $redirect_uri = "";
 	/** @var array List of all installed services */
@@ -135,7 +132,9 @@ class API_Connection_Manager{
 	 */
 	public function admin_notices(){
 		
-		$errors = @$_SESSION['Api-Con-Errors'];
+		$error_obj = new API_Con_Mngr_Error();
+		$errors = $error_obj->get_all_errors();
+
 		if(!$errors)
 				return false;
 		
@@ -145,7 +144,7 @@ class API_Connection_Manager{
 		foreach($errors as $err)
 			echo "<li>{$err}</li>\n";
 		echo "</ul></div>";
-		unset($_SESSION['Api-Con-Errors']);
+		$error_obj->clear();
 		return true;
 	}
 	
@@ -213,7 +212,7 @@ class API_Connection_Manager{
 		}
 		
 		if(!$ret)
-			$ret = new WP_Error ('API Connection Manager', "Module not found");
+			$ret = new API_Con_Mngr_Error("Module not found");
 		
 		return $ret;
 			
@@ -230,38 +229,6 @@ class API_Connection_Manager{
 	 */
 	public function get_services( $type='active' ){		
 		return $this->services[$type];
-	}
-	
-	/**
-	 * adds an error to Api-Con-Errors session
-	 * @param  string $msg The error message
-	 * @uses array $_SESSION['Api-Con-Errors']
-	 */
-	static public function error($msg){
-		if(!@$_SESSION['Api-Con-Errors'])
-			$_SESSION['Api-Con-Errors'] = array();
-		$_SESSION['Api-Con-Errors'][] = $msg;
-	}
-	
-	/**
-	 * Returns a WP_Error object.
-	 * 
-	 * Sets the error code to 'API Connection Manager' and returns a constructed 
-	 * WP_Error object. Sets the last_error param to error message.
-	 * 
-	 * @uses API_Connection_Manager::last_error
-	 * @param string $msg The error message
-	 * @return WP_Error 
-	 * @subpackage api-core
-	 */
-	private function _error($msg){
-		
-		//if array of errors format to &gt;li> list
-		if(is_array($msg))
-			$msg = "<ul><li>\n" . implode("</li><li>", $msg) . "</li>\n</ul>\n";
-		
-		$this->last_error = $msg;
-		return new WP_Error('API Connection Manager', $msg);
 	}
 	
 	/**
@@ -522,23 +489,23 @@ class API_Connection_Manager{
 		
 		//get dto (will also set the current user)
 		$dto = $this->get_dto();
-		if(is_api_con_error($dto))
+		if(is_wp_error($dto))
 			$dto->get_error_message('die');
 		
 		//if slug setup module
 		if(!is_wp_error($dto->slug)){
 			$module = $this->get_service($dto->slug);
 			if(is_wp_error($module))
-				die( $module->get_error_message() );
+				$module->get_error_message('die');
 			$module->parse_dto($dto);
 			$err = $module->check_error($dto->response);
 			
 			//check for error
 			if(is_wp_error($err))
-				die($err->get_error_message());
+				$err->get_error_message('die');
 		}
 		else
-			die("Error: " . $dto->slug->get_error_message());		
+			$dto->slug->get_error_message('die');
 		//END BOOTSTRAP
 
 		/**
@@ -601,7 +568,7 @@ class API_Connection_Manager{
 			//get tokens (this call will set tokens in db for module)
 			$tokens = $module->get_access_token( $dto->response );
 			if(is_wp_error($tokens))
-				$this->error($tokens->get_error_message());
+				$tokens->get_error_message('notify_parent');
 
 			//do callback
 			else{
@@ -736,7 +703,7 @@ class API_Connection_Manager{
 	 * $res->user = "";
 	 * 
 	 * @param array $response An array to parse. Generally a $_REQUEST
-	 * @return stdClass|WP_error Returns an error if no service slug found.
+	 * @return stdClass|API_Con_Mngr_Error Returns an error if no service slug found.
 	 * @subpackage service-method
 	 */
 	public function get_dto(){
@@ -816,7 +783,6 @@ class API_Connection_Manager{
 		
 		//load serivice module's params
 		$params = $this->get_service($res->slug);
-		//if(is_wp_error($params)) die( $params->get_error_message() );
 		return $res;
 	}
 	
