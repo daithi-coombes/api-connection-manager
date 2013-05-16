@@ -32,13 +32,13 @@
 <a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
                                     Reports <b class="caret"></b></a><ul class="dropdown-menu">
 <li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
-                <span class="label label-info">31</span></a></li>
+                <span class="label label-info">20</span></a></li>
 <li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
                 <ul><li>todo 
                 <span class="label label-info">6</span>
 </li></ul></a></li>
 <li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
-                <span class="label label-info">2</span></a></li>
+                <span class="label label-info">1</span></a></li>
 </ul>
 </li>
 </ul></div>
@@ -70,14 +70,12 @@ be declared by your class.</span><pre>check_error()</pre></a></li>
 <li class="method public "><a href="#method_get_authorize_url" title="get_authorize_url :: Returns the authorize url for oauth1 and oauth2"><span class="description">Returns the authorize url for oauth1 and oauth2</span><pre>get_authorize_url()</pre></a></li>
 <li class="method public "><a href="#method_get_connections" title="get_connections :: Returns the connections array."><span class="description">Returns the connections array.</span><pre>get_connections()</pre></a></li>
 <li class="method public "><a href="#method_get_login_button" title="get_login_button :: Returns a link to login to this service."><span class="description">Returns a link to login to this service.</span><pre>get_login_button()</pre></a></li>
-<li class="method public "><a href="#method_get_login_form" title="get_login_form :: "><span class="description">get_login_form()
-        </span><pre>get_login_form()</pre></a></li>
+<li class="method public "><a href="#method_get_login_form" title="get_login_form :: Gets the login form for custom services"><span class="description">Gets the login form for custom services</span><pre>get_login_form()</pre></a></li>
+<li class="method public "><a href="#method_get_options" title="get_options :: Returns module options such as client_id, scope etc."><span class="description">Returns module options such as client_id, scope etc.</span><pre>get_options()</pre></a></li>
 <li class="method public "><a href="#method_get_params" title="get_params :: Returns array of params for this module and sets the class fields."><span class="description">Returns array of params for this module and sets the class fields.</span><pre>get_params()</pre></a></li>
-<li class="method public "><a href="#method_get_profile" title="get_profile :: "><span class="description">get_profile()
-        </span><pre>get_profile()</pre></a></li>
+<li class="method public "><a href="#method_get_profile" title="get_profile :: Returns the profile for this connected user."><span class="description">Returns the profile for this connected user.</span><pre>get_profile()</pre></a></li>
 <li class="method public "><a href="#method_get_request_token" title="get_request_token :: Get oauth1 request token."><span class="description">Get oauth1 request token.</span><pre>get_request_token()</pre></a></li>
 <li class="method public "><a href="#method_get_uid" title="get_uid :: Makes a request to get an accounts uid."><span class="description">Makes a request to get an accounts uid.</span><pre>get_uid()</pre></a></li>
-<li class="method public "><a href="#method_log" title="log :: Log an INFO message to the log file."><span class="description">Log an INFO message to the log file.</span><pre>log()</pre></a></li>
 <li class="method public "><a href="#method_login" title="login :: Log/ a user with this service."><span class="description">Log/ a user with this service.</span><pre>login()</pre></a></li>
 <li class="method public "><a href="#method_login_connect" title="login_connect :: Set a wp user with this module providers account id."><span class="description">Set a wp user with this module providers account id.</span><pre>login_connect()</pre></a></li>
 <li class="method public "><a href="#method_login_form_callback" title="login_form_callback :: Override this method if you are using a custom service login form"><span class="description">Override this method if you are using a custom service login form</span><pre>login_form_callback()</pre></a></li>
@@ -89,9 +87,8 @@ array.</span><pre>parse_dto()</pre></a></li>
 <li class="method public "><a href="#method_request" title="request :: Send requests to the provider."><span class="description">Send requests to the provider.</span><pre>request()</pre></a></li>
 <li class="method public "><a href="#method_set_connections" title="set_connections :: Sets the connections array."><span class="description">Sets the connections array.</span><pre>set_connections()</pre></a></li>
 <li class="method public "><a href="#method_set_details" title="set_details :: Set this instance details fields such as Name and Description."><span class="description">Set this instance details fields such as Name and Description.</span><pre>set_details()</pre></a></li>
-<li class="method public "><a href="#method_set_options" title="set_options :: "><span class="description">set_options()
-        </span><pre>set_options()</pre></a></li>
-<li class="method public "><a href="#method_set_params" title="set_params :: Set params."><span class="description">Set params.</span><pre>set_params()</pre></a></li>
+<li class="method public "><a href="#method_set_options" title="set_options :: Store site wide options, such as client_id and secret etc."><span class="description">Store site wide options, such as client_id and secret etc.</span><pre>set_options()</pre></a></li>
+<li class="method public "><a href="#method_set_params" title="set_params :: Set user specific params such as access token etc."><span class="description">Set user specific params such as access token etc.</span><pre>set_params()</pre></a></li>
 <li class="method public "><a href="#method_verify_token" title="verify_token :: Make a request to verify a token."><span class="description">Make a request to verify a token.</span><pre>verify_token()</pre></a></li>
 <li class="method public "><a href="#method_wp_login" title="wp_login :: Helper method to login user using an email provided by a service."><span class="description">Helper method to login user using an email provided by a service.</span><pre>wp_login()</pre></a></li>
 </ul>
@@ -100,10 +97,7 @@ array.</span><pre>parse_dto()</pre></a></li>
                     <ul><li class="method protected "><a href="#method_construct_options" title="construct_options :: Builds the options array."><span class="description">Builds the options array.</span><pre>construct_options()</pre></a></li></ul>
 </li>
 <li class="nav-header private">» Private
-                    <ul>
-<li class="method private "><a href="#method_get_options" title="get_options :: Returns module options such as client_id, scope etc."><span class="description">Returns module options such as client_id, scope etc.</span><pre>get_options()</pre></a></li>
-<li class="method private "><a href="#method_get_slug" title="get_slug :: Returns the slug for the current module."><span class="description">Returns the slug for the current module.</span><pre>get_slug()</pre></a></li>
-</ul>
+                    <ul><li class="method private "><a href="#method_get_slug" title="get_slug :: Returns the slug for the current module."><span class="description">Returns the slug for the current module.</span><pre>get_slug()</pre></a></li></ul>
 </li>
 <li class="nav-header">
 <i class="icon-custom icon-property"></i> Properties
@@ -127,7 +121,7 @@ array.</span><pre>parse_dto()</pre></a></li>
 <li class="property public "><a href="#property_oauth_request_token_secret" title="$oauth_request_token_secret :: "><span class="description">Oauth1 request token secret</span><pre>$oauth_request_token_secret</pre></a></li>
 <li class="property public "><a href="#property_oauth_token" title="$oauth_token :: "><span class="description">Oauth1 token</span><pre>$oauth_token</pre></a></li>
 <li class="property public "><a href="#property_oauth_token_secret" title="$oauth_token_secret :: "><span class="description">Oauth1 token secret</span><pre>$oauth_token_secret</pre></a></li>
-<li class="property public "><a href="#property_options" title="$options :: "><span class="description"></span><pre>$options</pre></a></li>
+<li class="property public "><a href="#property_options" title="$options :: An array of options for the service."><span class="description"></span><pre>$options</pre></a></li>
 <li class="property public "><a href="#property_params" title="$params :: "><span class="description">An array of static params</span><pre>$params</pre></a></li>
 <li class="property public "><a href="#property_protocol" title="$protocol :: "><span class="description">The current protocol used (oauth, custom, etc)</span><pre>$protocol</pre></a></li>
 <li class="property public "><a href="#property_redirect_uri" title="$redirect_uri :: "><span class="description">The redirect uri. Mainly used for oauth2</span><pre>$redirect_uri</pre></a></li>
@@ -153,7 +147,6 @@ array.</span><pre>parse_dto()</pre></a></li>
 <li class="nav-header private">» Private
                     <ul>
 <li class="property private "><a href="#property_api" title="$api :: "><span class="description">The main api class</span><pre>$api</pre></a></li>
-<li class="property private "><a href="#property_log_api" title="$log_api :: "><span class="description">The log class</span><pre>$log_api</pre></a></li>
 <li class="property private "><a href="#property_option_name" title="$option_name :: "><span class="description">The prefix for the user meta keys</span><pre>$option_name</pre></a></li>
 </ul>
 </li>
@@ -346,18 +339,12 @@ be declared by your class.</h2>
 <pre>check_error(array $response) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>If you find an error in the response return a WP_Error with the
+<div class="long_description"><p>If you find an error in the response return a API_Con_Mngr_Error with the
 error string</p></div>
-<table class="table table-bordered">
-<tr>
-<th>see</th>
-<td><a href="">\http://codex.wordpress.org/CLass_Reference/WP_Error</a></td>
-</tr>
-<tr>
+<table class="table table-bordered"><tr>
 <th>uses</th>
-<td>\WP_Error</td>
-</tr>
-</table>
+<td>\API_Con_Mngr_Error</td>
+</tr></table>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$response</h4>
@@ -365,12 +352,12 @@ error string</p></div>
 the WP_HTTP class.</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
-<code>mixed</code>Returns false if no error or WP_Error if error found</div>
+<code>mixed</code>Returns false if no error or API_Con_Mngr_Error if error found</div>
 </div></div>
 </div>
 <a id="method_do_callback"></a><div class="element clickable method public method_do_callback" data-toggle="collapse" data-target=".method_do_callback .collapse">
 <h2>Do callback.</h2>
-<pre>do_callback(\stdClass $dto) </pre>
+<pre>do_callback(\stdClass $dto) : mixed</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>This is called from API_Connection_Manager::_response_listener() The
@@ -390,6 +377,9 @@ the module slug set.</p></div>
 <div class="subelement argument">
 <h4>$dto</h4>
 <code><a href="http://php.net/manual/en/class.stdclass.php">\stdClass</a></code><p>The response dto.</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Returns the result of the callback method/function</div>
 </div></div>
 </div>
 <a id="method_do_login"></a><div class="element clickable method public method_do_login" data-toggle="collapse" data-target=".method_do_login .collapse">
@@ -412,16 +402,16 @@ API_Connection_Manager::_service_parse_dto()</p>
 </div>
 <a id="method_error"></a><div class="element clickable method public method_error" data-toggle="collapse" data-target=".method_error .collapse">
 <h2>Error handling.</h2>
-<pre>error(string $msg) : \WP_Error</pre>
+<pre>error(string $msg) : <a href="../classes/API_Con_Mngr_Error.html">\API_Con_Mngr_Error</a></pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Will return a WP_Error object with 'API_Con_Mngr_Module' as the code.</p></div>
+<div class="long_description"><p>Will return a API_Con_Mngr_Error</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$msg</h4>
 <code>string</code><p>The error message.</p></div>
 <h3>Returns</h3>
-<div class="subelement response"><code>\WP_Error</code></div>
+<div class="subelement response"><code><a href="../classes/API_Con_Mngr_Error.html">\API_Con_Mngr_Error</a></code></div>
 </div></div>
 </div>
 <a id="method_get_access_token"></a><div class="element clickable method public method_get_access_token" data-toggle="collapse" data-target=".method_get_access_token .collapse">
@@ -442,7 +432,7 @@ requests results using $this->set_params()</p></div>
 </div>
 <a id="method_get_authorize_url"></a><div class="element clickable method public method_get_authorize_url" data-toggle="collapse" data-target=".method_get_authorize_url .collapse">
 <h2>Returns the authorize url for oauth1 and oauth2</h2>
-<pre>get_authorize_url($params) : string</pre>
+<pre>get_authorize_url(array $params) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Override this method and provide any optional params your service
@@ -451,7 +441,9 @@ spec.</p>
 
 <p>Clears the session nonce</p></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$params</h4></div>
+<div class="subelement argument">
+<h4>$params</h4>
+<code>array</code><p>The request parameters</p></div>
 <h3>Returns</h3>
 <div class="subelement response"><code>string</code></div>
 </div></div>
@@ -472,11 +464,10 @@ spec.</p>
 </div>
 <a id="method_get_login_button"></a><div class="element clickable method public method_get_login_button" data-toggle="collapse" data-target=".method_get_login_button .collapse">
 <h2>Returns a link to login to this service.</h2>
-<pre>get_login_button(string $file, mixed $callback, boolean $die) : string</pre>
+<pre>get_login_button(string $file, mixed $callback) : string</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Builds the link and dies. If the request is for a signin button then
-provide the callback params and the link will be returned.</p></div>
+<div class="long_description"></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$file</h4>
@@ -485,19 +476,13 @@ provide the callback params and the link will be returned.</p></div>
 <h4>$callback</h4>
 <code>mixed</code><p>Optional. Callback func name or array of
 class, method names.</p></div>
-<div class="subelement argument">
-<h4>$die</h4>
-<code>boolean</code><p>Default true. If true and sign on button
-required will die(button_html);</p>
-</div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>string</code>Html anchor</div>
 </div></div>
 </div>
 <a id="method_get_login_form"></a><div class="element clickable method public method_get_login_form" data-toggle="collapse" data-target=".method_get_login_form .collapse">
-<h2>get_login_form()
-        </h2>
+<h2>Gets the login form for custom services</h2>
 <pre>get_login_form() : boolean</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -509,6 +494,16 @@ username/password to be collected on the client side.</td>
 </tr></table>
 <h3>Returns</h3>
 <div class="subelement response"><code>boolean</code></div>
+</div></div>
+</div>
+<a id="method_get_options"></a><div class="element clickable method public method_get_options" data-toggle="collapse" data-target=".method_get_options .collapse">
+<h2>Returns module options such as client_id, scope etc.</h2>
+<pre>get_options() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Sets the fields with their relevant option values.</p></div>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
 </div></div>
 </div>
 <a id="method_get_params"></a><div class="element clickable method public method_get_params" data-toggle="collapse" data-target=".method_get_params .collapse">
@@ -527,11 +522,15 @@ username/password to be collected on the client side.</td>
 </div></div>
 </div>
 <a id="method_get_profile"></a><div class="element clickable method public method_get_profile" data-toggle="collapse" data-target=".method_get_profile .collapse">
-<h2>get_profile()
-        </h2>
-<pre>get_profile() </pre>
+<h2>Returns the profile for this connected user.</h2>
+<pre>get_profile() : mixed</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Return false if no profile available</div>
+</div></div>
 </div>
 <a id="method_get_request_token"></a><div class="element clickable method public method_get_request_token" data-toggle="collapse" data-target=".method_get_request_token .collapse">
 <h2>Get oauth1 request token.</h2>
@@ -553,24 +552,9 @@ username/password to be collected on the client side.</td>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"><p>Must return the uid of the
-remote service or WP_Error if none.</p></div>
+remote service or API_Con_Mngr_Error if none.</p></div>
 <h3>Returns</h3>
 <div class="subelement response"><code>string</code></div>
-</div></div>
-</div>
-<a id="method_log"></a><div class="element clickable method public method_log" data-toggle="collapse" data-target=".method_log .collapse">
-<h2>Log an INFO message to the log file.</h2>
-<pre>log(string $msg, $level) : \None</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"></div>
-<h3>Parameters</h3>
-<div class="subelement argument">
-<h4>$msg</h4>
-<code>string</code><p>The message to log</p></div>
-<div class="subelement argument"><h4>$level</h4></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>\None</code></div>
 </div></div>
 </div>
 <a id="method_login"></a><div class="element clickable method public method_login" data-toggle="collapse" data-target=".method_login .collapse">
@@ -692,12 +676,14 @@ response header content-type</div>
 </div>
 <a id="method_request"></a><div class="element clickable method public method_request" data-toggle="collapse" data-target=".method_request .collapse">
 <h2>Send requests to the provider.</h2>
-<pre>request($url, string $method, array $parameters, boolean $die) : array</pre>
+<pre>request(string $url, string $method, array $parameters, boolean $die) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
 <div class="long_description"></div>
 <h3>Parameters</h3>
-<div class="subelement argument"><h4>$url</h4></div>
+<div class="subelement argument">
+<h4>$url</h4>
+<code>string</code><p>The full endpoint url.</p></div>
 <div class="subelement argument">
 <h4>$method</h4>
 <code>string</code><p>Default GET. The http method to user.</p></div>
@@ -747,8 +733,7 @@ if an error occurs</p></div>
 </div></div>
 </div>
 <a id="method_set_options"></a><div class="element clickable method public method_set_options" data-toggle="collapse" data-target=".method_set_options .collapse">
-<h2>set_options()
-        </h2>
+<h2>Store site wide options, such as client_id and secret etc.</h2>
 <pre>set_options(array $options) </pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -756,12 +741,11 @@ if an error occurs</p></div>
 <h3>Parameters</h3>
 <div class="subelement argument">
 <h4>$options</h4>
-<code>array</code>
-</div>
+<code>array</code><p>Options to set in key value pairs</p></div>
 </div></div>
 </div>
 <a id="method_set_params"></a><div class="element clickable method public method_set_params" data-toggle="collapse" data-target=".method_set_params .collapse">
-<h2>Set params.</h2>
+<h2>Set user specific params such as access token etc.</h2>
 <pre>set_params(array $params) : array</pre>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description">
@@ -834,16 +818,6 @@ Defaults are client_id, client_secret, client_uri</p></div>
 <h3>Returns</h3>
 <div class="subelement response">
 <code>array</code>Returns the full options including requirements</div>
-</div></div>
-</div>
-<a id="method_get_options"></a><div class="element clickable method private method_get_options" data-toggle="collapse" data-target=".method_get_options .collapse">
-<h2>Returns module options such as client_id, scope etc.</h2>
-<pre>get_options() : array</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description">
-<div class="long_description"><p>Sets the fields with their relevant option values.</p></div>
-<h3>Returns</h3>
-<div class="subelement response"><code>array</code></div>
 </div></div>
 </div>
 <a id="method_get_slug"></a><div class="element clickable method private method_get_slug" data-toggle="collapse" data-target=".method_get_slug .collapse">
@@ -978,9 +952,15 @@ Defaults are client_id, client_secret, client_uri</p></div>
 </div>
 <a id="property_options"> </a><div class="element clickable property public property_options" data-toggle="collapse" data-target=".property_options .collapse">
 <h2></h2>
-<pre>$options </pre>
+<pre>$options : array</pre>
 <div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<table class="table table-bordered"><tr>
+<th>see</th>
+<td><a href="class-api-con-mngr-module.html#%5CAPI_Con_Mngr_Module::construct_options()">for details</a></td>
+</tr></table>
+</div></div>
 </div>
 <a id="property_params"> </a><div class="element clickable property public property_params" data-toggle="collapse" data-target=".property_params .collapse">
 <h2>An array of static params</h2>
@@ -1102,12 +1082,6 @@ Defaults are client_id, client_secret, client_uri</p></div>
 <div class="labels"></div>
 <div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
 </div>
-<a id="property_log_api"> </a><div class="element clickable property private property_log_api" data-toggle="collapse" data-target=".property_log_api .collapse">
-<h2>The log class</h2>
-<pre>$log_api : \API_Con_Mngr_Log</pre>
-<div class="labels"></div>
-<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
-</div>
 <a id="property_option_name"> </a><div class="element clickable property private property_option_name" data-toggle="collapse" data-target=".property_option_name .collapse">
 <h2>The prefix for the user meta keys</h2>
 <pre>$option_name : string</pre>
@@ -1121,7 +1095,7 @@ Defaults are client_id, client_secret, client_uri</p></div>
 <div class="row"><footer class="span12">
             Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
             Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
-            generated on 2013-04-30T14:13:31+01:00.<br></footer></div>
+            generated on 2013-05-15T15:06:20+01:00.<br></footer></div>
 </div>
 </body>
 </html>

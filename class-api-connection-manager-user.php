@@ -111,9 +111,7 @@ class API_Connection_Manager_User{
 		global $API_Connection_Manager;
 		$module = $API_Connection_Manager->get_service($dto->slug);
 		$uid = $module->get_uid();
-		$login = $module->login($uid);
-		if(is_wp_error($login))
-			API_Connection_Manager::error($login->get_error_message());
+		$login = $module->login($uid);	//$module::login will set error in global if found
 	}
 	
 	public function dash_menu(){
@@ -144,10 +142,8 @@ class API_Connection_Manager_User{
 					$count++;
 		
 		//don't let user disconnect last connection
-		if($count==1){
-			API_Connection_Manager::error("You cannot disconnect from all providers. At least one must stay connected");
-			return;
-		}
+		if($count==1)
+			return new API_Con_Mngr_Error("You cannot disconnect from all providers. At least one must stay connected");
 		
 		//$meta = get_option("API_Con_Mngr_Module-connections", array());
 		unset($meta[$_REQUEST['slug']][$user_id]);
