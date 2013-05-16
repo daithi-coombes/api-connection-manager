@@ -863,10 +863,6 @@ if (!class_exists("API_Con_Mngr_Module")):
 				$errs = $this->check_error($response);
 			if(is_wp_error($errs)){
 				
-				//get & register error message
-				$msg = addslashes( $errs->get_error_message() );
-				API_Connection_Manager::error($this->Name . ": ".$msg);
-				
 				/**
 				 * @deprecated https://github.com/cityindex/labs.cityindex.com/issues/116
 				$this->set_params(array(
