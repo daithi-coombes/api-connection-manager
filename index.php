@@ -103,7 +103,7 @@ function api_con_log($msg, $level='info'){
   $event->setLocationInformation($location);
 
   // Log it
-  $logger->logEvent($event);
+  @$logger->logEvent($event);
 }
 
 //end Helper functions
