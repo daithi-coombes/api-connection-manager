@@ -875,6 +875,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 				 * 
 				 */
 				
+				$msg = $errs->get_message();
+				
 				//print js to reload calling page
 				if($die)
 					print "
