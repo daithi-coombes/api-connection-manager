@@ -2,7 +2,6 @@
 <project name="API Connection Manager" default="build">
 	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
 		<exec executable="phpunit" failonerror="true">
-			<arg line="-c ${basedir}/phpunit.xml" />
 		</exec>
 	</target>
 	<target name="build" depends="phpunit">
