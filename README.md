@@ -3,6 +3,8 @@ API Connection Manager
 
 Manages connections and requests to 3rd party providers or services.
 
+[![Build Status](http://david-coombes.com:8080/jenkins/job/API%20Connection%20Manager/badge/icon)](http://david-coombes.com:8080/jenkins/job/API%20Connection%20Manager/)
+
 Contributing
 ============
 See [Contributing.md](https://github.com/daithi-coombes/api-connection-manager/blob/master/Contributing.md)
