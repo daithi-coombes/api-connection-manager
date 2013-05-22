@@ -41,8 +41,8 @@
   <apply executable="php" failonerror="true">
    <arg value="-l" />
 
-   <fileset dir="${basedir}/src">
-    <include name="**/*.php" />
+   <fileset dir="${basedir}">
+    <include name="class-api-*.php" />
     <modified />
    </fileset>
 
