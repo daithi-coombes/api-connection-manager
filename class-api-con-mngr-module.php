@@ -643,7 +643,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//$user_id = $this->user->ID;
 			global $API_Connection_Manager;
-			$user_id = $API_Connection_Manager::get_current_user()->ID;
+			$user_id = $API_Connection_Manager->get_current_user()->ID;
 			$key = $this->option_name."-{$this->slug}";
 			$meta = get_user_meta($user_id, $key, true);
 			
