@@ -641,6 +641,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function get_params(){
 			
+			api_con_log("module::get_params", "trace");
+
 			//$user_id = $this->user->ID;
 			global $API_Connection_Manager;
 			$user_id = $API_Connection_Manager->get_current_user()->ID;
