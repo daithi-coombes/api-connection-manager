@@ -54,6 +54,8 @@ function API_Con_Mngr_Autoload($class){
 	@include "{$API_CON_PLUGIN_DIR}/{$filename}";
 }
 spl_autoload_register("API_Con_Mngr_Autoload");
+global $API_Connection_Manager;
+$API_Connection_Manager = new API_Connection_Manager();
 /**
  * end Autoloader 
  */
@@ -117,7 +119,8 @@ function api_con_log($msg, $level='info'){
 require_once( $API_CON_PLUGIN_DIR . "/class-api-connection-manager.php");
 add_action('plugins_loaded', function(){
 	global $API_Connection_Manager;
-	$API_Connection_Manager = new API_Connection_Manager();
+  if(!@get_class($API_Connection_Manager, "API_Connection_Manager"))
+	 $API_Connection_Manager = new API_Connection_Manager();
 	$API_Connection_Manager->_response_listener();
 	
 	/**
