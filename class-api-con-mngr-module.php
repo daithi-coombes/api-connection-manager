@@ -292,6 +292,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 			/**
 			 * bootstrap fields, params and options
 			 */
+			//make sure API_Connection_Manager is construced and global
+			global $API_Connection_Manager;
+			if(!get_class($API_Connection_Manager)=='API_Connection_Manager')
+				$API_Connection_Manager = new API_Connection_Manager();
 			//set slug
 			$this->slug = $this->get_slug();			
 			//load user specific db params (access_tokens etc)
@@ -641,11 +645,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function get_params(){
 			
-			api_con_log("module::get_params", "trace");
-
 			//$user_id = $this->user->ID;
-			global $API_Connection_Manager;
-			$user_id = $API_Connection_Manager->get_current_user()->ID;
+			$user_id = wp_get_current_user()->ID;
 			$key = $this->option_name."-{$this->slug}";
 			$meta = get_user_meta($user_id, $key, true);
 			
@@ -987,7 +988,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//if no user logged as in sign in buttons then return
 			if(empty($this->user))
-				$this->user = API_Connection_Manager::_get_current_user();
+				$this->user = wp_get_current_user();
 			$user_id = $this->user->ID;
 			if($user_id==0 || empty($user_id))
 				return false;
