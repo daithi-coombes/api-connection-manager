@@ -92,7 +92,6 @@ class API_Connection_Manager{
 		$this->redirect_uri = admin_url('admin-ajax.php') . "?" . http_build_query(array(
 			'action' => 'api_con_mngr'
 		));
-		$this->services = $this->_get_installed_services();
 		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
 		
 		//make sure options array is set
@@ -111,6 +110,7 @@ class API_Connection_Manager{
 		/**
 		 * actions
 		 */
+		add_action('init', array(&$this, '_get_installed_services');
 		add_action('delete_user', array(&$this, 'delete_user'));
 		add_action('wpmu_delete_user', array(&$this, 'delete_user'));
 		
@@ -243,7 +243,7 @@ class API_Connection_Manager{
 	 * 
 	 * @return array 
 	 */
-	private function _get_installed_services(){
+	public function _get_installed_services(){
 		
 		api_con_log("Getting installed services...");
 
@@ -320,7 +320,7 @@ class API_Connection_Manager{
 		}
 		
 		//return result
-		return $res;
+		$this->services = $res;
 	}
 	
 	/**
