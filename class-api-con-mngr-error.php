@@ -37,6 +37,8 @@ class API_Con_Mngr_Error extends WP_Error{
 		if(strlen($msg)){
 			$this->add($msg);
 		}
+
+		return $this;
 	}
 
 	/**
