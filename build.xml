@@ -105,10 +105,11 @@
  </target>
 
  <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-  <exec executable="phpcs">
+  <exec executable="phpcs" output="/dev/null">
    <arg value="--report=checkstyle" />
    <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
    <arg value="--standard=WordPress" />
+   <arg value="-vvv" />
    <arg path="${basedir}/index.php" />
    <arg path="${basedir}/class-api-con-logger-filter.php" />
    <arg path="${basedir}/class-api-con-mngr-error.php" />
