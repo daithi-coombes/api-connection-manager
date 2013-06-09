@@ -18,7 +18,6 @@ define('API_CON_MNGR_LOG_ENABLE', true);
 $API_CON_PLUGIN_DIR =  WP_PLUGIN_DIR . "/" . basename(dirname( __FILE__ ));
 $API_CON_PLUGIN_URL =  WP_PLUGIN_URL . "/" . basename(dirname( __FILE__ ));
 
-
 /**
  * WP Core dependencies
  */
@@ -42,6 +41,7 @@ Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 /**
  * end Vendor dependencies 
  */
+
 
 
 /**
