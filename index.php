@@ -81,13 +81,13 @@ function is_api_con_error($thing){
  * @param  string $level Default info. The log level to use
  */
 function api_con_log($msg, $level='info'){
-
-    //check able to log
+  
+  //check able to log
 	if(!defined('API_CON_MNGR_LOG_ENABLE') && !API_CON_MNGR_LOG_ENABLE)
 		return false;
 
   $bt = debug_backtrace();
-  $class = $bt[1]['class'];
+  $class = @$bt[1]['class'];
 
   // Manually construct a logging event
   $logger = Logger::getLogger("{$class}::{$bt[1]['function']}");
@@ -103,11 +103,18 @@ function api_con_log($msg, $level='info'){
   	'file' => $bt[0]['file']
   	));
   $event->setLocationInformation($location);
-
+  
   // Log it
   @$logger->logEvent($event);
 }
 
+//test logger is valid
+$test_log = Logger::getRootLogger();
+foreach(array('request','response') as $appender ){
+  $file = $test_log->getAppender( $appender )->getFile();
+  if(!is_writable(dirname($file)))
+    $api_con_mngr_log_error->add("Unable to write to:<br/> {$request_file}");    
+}
 //end Helper functions
 
 /**
@@ -116,22 +123,18 @@ function api_con_log($msg, $level='info'){
  * Make sure the $API_Connection_Manager is constructed before the dash
  * settings pages are loaded.
  */
-require_once( $API_CON_PLUGIN_DIR . "/class-api-connection-manager.php");
-add_action('plugins_loaded', function(){
-	global $API_Connection_Manager;
-  if(!@get_class($API_Connection_Manager, "API_Connection_Manager"))
-	 $API_Connection_Manager = new API_Connection_Manager();
-	$API_Connection_Manager->_response_listener();
-	
-	/**
-	 * Class depencencies 
-	 */
-	require_once('class-api-connection-manager-setup.php');
-	require_once('class-api-connection-manager-user.php'); //Merge the autoflow settings here
-	/**
-	 * end Class  
-	 */
-});
+global $API_Connection_Manager;
+$API_Connection_Manager = new API_Connection_Manager();
+$API_Connection_Manager->_response_listener();
+
+/**
+ * Class depencencies 
+ */
+require_once('class-api-connection-manager-setup.php');
+require_once('class-api-connection-manager-user.php'); //Merge the autoflow settings here
+/**
+ * end Class  
+ */
 /**
  * end Api Connection Manager 
  */
