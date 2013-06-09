@@ -183,7 +183,7 @@ class API_Connection_Manager{
 	 */
 	public function get_current_user(){
 		global $current_user;
-		$current_user = $this->user = @wp_get_current_user();
+		$current_user = $this->user = wp_get_current_user();
 		return $this->user;
 	}
 	
