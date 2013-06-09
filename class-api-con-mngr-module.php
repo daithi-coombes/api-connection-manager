@@ -68,7 +68,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 	* 
 	* Custom
 	* ======
-	 Params:
+	* Params:
 	*  - $this->endpoint string
 	*  - $this->login_form array
 	*  - $this->login_form_callback()

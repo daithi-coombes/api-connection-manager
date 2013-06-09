@@ -456,6 +456,7 @@ if( !function_exists( 'api_connection_manager_dash' ) ):
 			$dashboard = new API_Connection_Manager_Setup();
 		 * 
 		 */
+		//add_action('init', array(&$api_con_mngr_dash_setup, 'prepare_items'));
 		$api_con_mngr_dash_setup->prepare_items();
 		
 		//get url

@@ -84,16 +84,14 @@ class API_Connection_Manager{
 		require_once( "class-api-con-mngr-module.php" ); //module, header and param classes
 		// end dependencies
 		
-		//get current user first
-		$this->user = $this->get_current_user();
-		
 		//default params
 		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
 		$this->redirect_uri = admin_url('admin-ajax.php') . "?" . http_build_query(array(
 			'action' => 'api_con_mngr'
 		));
-		$this->services = $this->_get_installed_services();
 		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
+		$this->user = $this->get_current_user();
+		$this->services = $this->_get_installed_services();
 		
 		//make sure options array is set
 		$options = $this->_get_options();
@@ -183,7 +181,11 @@ class API_Connection_Manager{
 	 */
 	public function get_current_user(){
 		global $current_user;
-		$current_user = $this->user = @wp_get_current_user();
+		if(!function_exists('wp_get_current_user')) {
+		    require_once(ABSPATH . "wp-includes/pluggable.php"); 
+		}
+		wp_cookie_constants();
+		$current_user = $this->user = wp_get_current_user();
 		return $this->user;
 	}
 	
@@ -243,7 +245,7 @@ class API_Connection_Manager{
 	 * 
 	 * @return array 
 	 */
-	private function _get_installed_services(){
+	public function _get_installed_services(){
 		
 		api_con_log("Getting installed services...");
 
