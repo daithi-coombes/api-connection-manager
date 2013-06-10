@@ -73,14 +73,8 @@
    <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
    <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
    <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-   <arg path="${basedir}/index.php" />
-   <arg path="${basedir}/class-api-con-logger-filter.php" />
-   <arg path="${basedir}/class-api-con-mngr-error.php" />
-   <arg path="${basedir}/class-api-con-mngr-module.php" />
-   <arg path="${basedir}/class-api-con-mngr-view.php" />
-   <arg path="${basedir}/class-api-connection-manager-setup.php" />
-   <arg path="${basedir}/class-api-connection-manager-user.php" />
-   <arg path="${basedir}/class-api-connection-manager.php" />
+   <arg value="--ignore=documentation,images,tests,vendor" />
+   <arg value="${basedir}/" />
   </exec>
  </target>
 
