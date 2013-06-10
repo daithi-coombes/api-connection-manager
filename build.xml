@@ -62,7 +62,14 @@
   <exec executable="phploc">
    <arg value="--log-csv" />
    <arg value="${basedir}/build/logs/phploc.csv" />
-   <arg path="${basedir}/" />
+   <arg path="${basedir}/index.php" />
+   <arg path="${basedir}/class-api-con-logger-filter.php" />
+   <arg path="${basedir}/class-api-con-mngr-error.php" />
+   <arg path="${basedir}/class-api-con-mngr-module.php" />
+   <arg path="${basedir}/class-api-con-mngr-view.php" />
+   <arg path="${basedir}/class-api-connection-manager-setup.php" />
+   <arg path="${basedir}/class-api-connection-manager-user.php" />
+   <arg path="${basedir}/class-api-connection-manager.php" />
   </exec>
  </target>
 
@@ -71,14 +78,28 @@
    <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
    <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
    <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
-   <arg path="${basedir}/" />
+   <arg path="${basedir}/index.php" />
+   <arg path="${basedir}/class-api-con-logger-filter.php" />
+   <arg path="${basedir}/class-api-con-mngr-error.php" />
+   <arg path="${basedir}/class-api-con-mngr-module.php" />
+   <arg path="${basedir}/class-api-con-mngr-view.php" />
+   <arg path="${basedir}/class-api-connection-manager-setup.php" />
+   <arg path="${basedir}/class-api-connection-manager-user.php" />
+   <arg path="${basedir}/class-api-connection-manager.php" />
   </exec>
  </target>
 
  <target name="phpmd"
          description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="phpmd">
-   <arg path="${basedir}/" />
+   <arg path="${basedir}/index.php" />
+   <arg path="${basedir}/class-api-con-logger-filter.php" />
+   <arg path="${basedir}/class-api-con-mngr-error.php" />
+   <arg path="${basedir}/class-api-con-mngr-module.php" />
+   <arg path="${basedir}/class-api-con-mngr-view.php" />
+   <arg path="${basedir}/class-api-connection-manager-setup.php" />
+   <arg path="${basedir}/class-api-connection-manager-user.php" />
+   <arg path="${basedir}/class-api-connection-manager.php" />
    <arg value="xml" />
    <arg value="cleancode" />
    <arg value="--reportfile" />
@@ -88,7 +109,14 @@
 
  <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
   <exec executable="phpmd">
-   <arg path="${basedir}/" />
+   <arg path="${basedir}/index.php" />
+   <arg path="${basedir}/class-api-con-logger-filter.php" />
+   <arg path="${basedir}/class-api-con-mngr-error.php" />
+   <arg path="${basedir}/class-api-con-mngr-module.php" />
+   <arg path="${basedir}/class-api-con-mngr-view.php" />
+   <arg path="${basedir}/class-api-connection-manager-setup.php" />
+   <arg path="${basedir}/class-api-connection-manager-user.php" />
+   <arg path="${basedir}/class-api-connection-manager.php" />
    <arg value="xml" />
    <arg value="${basedir}/build/phpmd.xml" />
    <arg value="--reportfile" />
@@ -100,7 +128,14 @@
          description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="phpcs">
    <arg value="--standard=${basedir}/build/phpcs.xml" />
-   <arg path="${basedir}/" />
+   <arg path="${basedir}/index.php" />
+   <arg path="${basedir}/class-api-con-logger-filter.php" />
+   <arg path="${basedir}/class-api-con-mngr-error.php" />
+   <arg path="${basedir}/class-api-con-mngr-module.php" />
+   <arg path="${basedir}/class-api-con-mngr-view.php" />
+   <arg path="${basedir}/class-api-connection-manager-setup.php" />
+   <arg path="${basedir}/class-api-connection-manager-user.php" />
+   <arg path="${basedir}/class-api-connection-manager.php" />
   </exec>
  </target>
 
@@ -125,7 +160,14 @@
   <exec executable="phpcpd">
    <arg value="--log-pmd" />
    <arg value="${basedir}/build/logs/pmd-cpd.xml" />
-   <arg path="${basedir}/" />
+   <arg path="${basedir}/index.php" />
+   <arg path="${basedir}/class-api-con-logger-filter.php" />
+   <arg path="${basedir}/class-api-con-mngr-error.php" />
+   <arg path="${basedir}/class-api-con-mngr-module.php" />
+   <arg path="${basedir}/class-api-con-mngr-view.php" />
+   <arg path="${basedir}/class-api-connection-manager-setup.php" />
+   <arg path="${basedir}/class-api-connection-manager-user.php" />
+   <arg path="${basedir}/class-api-connection-manager.php" />
   </exec>
  </target>
 
@@ -151,7 +193,14 @@
    <arg value="log" />
    <arg path="${basedir}/build/logs" />
    <arg value="source" />
-   <arg path="${basedir}/" />
+   <arg path="${basedir}/index.php" />
+   <arg path="${basedir}/class-api-con-logger-filter.php" />
+   <arg path="${basedir}/class-api-con-mngr-error.php" />
+   <arg path="${basedir}/class-api-con-mngr-module.php" />
+   <arg path="${basedir}/class-api-con-mngr-view.php" />
+   <arg path="${basedir}/class-api-connection-manager-setup.php" />
+   <arg path="${basedir}/class-api-connection-manager-user.php" />
+   <arg path="${basedir}/class-api-connection-manager.php" />
    <arg value="output" />
    <arg path="${basedir}/build/code-browser" />
   </exec>
