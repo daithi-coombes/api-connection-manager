@@ -120,14 +120,8 @@
    <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
    <arg value="--standard=WordPress" />
    <arg value="-vvv" />
-   <arg path="${basedir}/index.php" />
-   <arg path="${basedir}/class-api-con-logger-filter.php" />
-   <arg path="${basedir}/class-api-con-mngr-error.php" />
-   <arg path="${basedir}/class-api-con-mngr-module.php" />
-   <arg path="${basedir}/class-api-con-mngr-view.php" />
-   <arg path="${basedir}/class-api-connection-manager-setup.php" />
-   <arg path="${basedir}/class-api-connection-manager-user.php" />
-   <arg path="${basedir}/class-api-connection-manager.php" />
+   <arg value="-l" />
+   <arg value="${basedir}/" />
   </exec>
  </target>
 
