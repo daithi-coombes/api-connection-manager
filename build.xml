@@ -91,14 +91,7 @@
 
  <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
   <exec executable="phpmd">
-   <arg path="${basedir}/index.php" />
-   <arg path="${basedir}/class-api-con-logger-filter.php" />
-   <arg path="${basedir}/class-api-con-mngr-error.php" />
-   <arg path="${basedir}/class-api-con-mngr-module.php" />
-   <arg path="${basedir}/class-api-con-mngr-view.php" />
-   <arg path="${basedir}/class-api-connection-manager-setup.php" />
-   <arg path="${basedir}/class-api-connection-manager-user.php" />
-   <arg path="${basedir}/class-api-connection-manager.php" />
+   <arg value="class-api-connection-manager.php,class-api-connection-manager-user.php,class-api-connection-manager-setup.php,class-api-con-mngr-view.php,class-api-con-mngr-module.php,class-api-con-mngr-error.php,class-api-con-logger-filter.php" />
    <arg value="xml" />
    <arg value="${basedir}/build/phpmd.xml" />
    <arg value="--reportfile" />
