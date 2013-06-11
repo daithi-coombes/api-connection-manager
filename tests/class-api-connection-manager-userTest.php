@@ -37,8 +37,8 @@ class API_Connection_Manager_UserTest extends WP_UnitTestCase{
 		);
 		$this->user->disconnect();
 
-		$connection = $module->get_connections()[$this->slug];
-		$this->assertEquals($connection, array());
+		$connection = $module->get_connections();
+		$this->assertEquals($connection[$this->slug], array());
 		$GLOBALS['wp_tests_options']['API_Con_Mngr_Module-connections'] = array(
 			$this->slug => array(1,123456)
 		);
