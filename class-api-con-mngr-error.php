@@ -24,18 +24,18 @@ class API_Con_Mngr_Error extends WP_Error{
 	 * @param string $code       Default 'API Connection Manager'
 	 * @param string $global_key Default 'Api-Con-Errors'
 	 */
-	function __construct($msg='', $code='API Connetion Manager', $global_key='Api-Con-Errors'){
+	function __construct( $msg = '', $code = 'API Connetion Manager', $global_key = 'Api-Con-Errors' ){
 
 		parent::__construct();
 		$this->code = $code;
 		$this->global_key = $global_key;
 
 		//create global
-		if(!@is_array($_SESSION[ $this->global_key ]))
+		if ( !@is_array( $_SESSION[ $this->global_key ] ) )
 			$_SESSION[ $this->global_key ] = array();
 
-		if(strlen($msg)){
-			$this->add($msg);
+		if ( strlen( $msg ) ){
+			$this->add( $msg );
 		}
 
 		return $this;
@@ -46,7 +46,7 @@ class API_Con_Mngr_Error extends WP_Error{
 	 * @uses array WP_Error::errors
 	 * @uses array $_SESSION[ API_Con_Mngr_Error::global_key ]
 	 */
-	public function add($msg, $data=array()){
+	public function add( $msg, $data = array() ){
 		parent::add( $this->code, $msg );
 		$_SESSION[ $this->global_key ][] = $msg;
 	}
@@ -56,7 +56,7 @@ class API_Con_Mngr_Error extends WP_Error{
 	 * @return void
 	 */
 	public function clear(){
-		unset($_SESSION[ $this->global_key ]);
+		unset( $_SESSION[ $this->global_key ] );
 		$this->errors = array();
 	}
 
@@ -67,13 +67,13 @@ class API_Con_Mngr_Error extends WP_Error{
 	public function get_all_errors(){
 
 		//get errors param
-		(@$this->errors[ $this->code ]) ?
+		( @$this->errors[ $this->code ]) ?
 			$errors = $this->errors[ $this->code ] :
 			$errors = array();
-		(@$_SESSION[ $this->global_key ]) ?
+		( @$_SESSION[ $this->global_key ] ) ?
 			$globals = $_SESSION[ $this->global_key ] :
 			$globals = array();
-		$res = array_unique(array_merge($errors, $globals));
+		$res = array_unique( array_merge( $errors, $globals ) );
 
 		return $res;
 	}
@@ -83,12 +83,12 @@ class API_Con_Mngr_Error extends WP_Error{
 	 * @param  boolean $action Default false. The private method to call.
 	 * @return string          The first error message
 	 */
-	public function get_error_message($action=false){
+	public function get_error_message( $action = false ){
 
 		//if action called
-		if($action){
-			$action = "_".$action;
-			if(method_exists($this, $action))
+		if ( $action ){
+			$action = '_' . $action;
+			if ( method_exists( $this, $action ) )
 				return $this->$action();
 		}
 
@@ -104,7 +104,7 @@ class API_Con_Mngr_Error extends WP_Error{
 		$msg = parent::get_error_message();
 		$this->clear();
 
-		throw new Exception($msg);
+		throw new Exception( $msg );
 	}
 
 	/**
@@ -113,14 +113,14 @@ class API_Con_Mngr_Error extends WP_Error{
 	private function _notify_parent(){
 
 		//default print js
-		$res = "<script type=\"text/javascript\">
-			if(window.opener){
+		$res = '<script type="text/javascript">
+			if (window.opener){
 				window.opener.location.reload();
 				window.close();
 			}
 			else
 				window.location.reload();
-		</script>";
+		</script>';
 
 		return $res;
 	}

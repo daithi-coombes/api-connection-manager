@@ -29,7 +29,7 @@ class API_Con_Mngr_View{
 	/** @var array An array of header string to be printed */
 	public $headers = array();
 	/** @var string The full html to be printed */
-	private $html = "";
+	private $html = '';
 	/** @var string The location of the bootstrap root */
 	private $bootstrap_root;
 	
@@ -39,7 +39,7 @@ class API_Con_Mngr_View{
 	function __construct(){
 		
 		//set default params
-		$this->bootstrap_root = WP_PLUGIN_URL . "/" . basename(dirname( __FILE__ )) . "/vendor/bootstrap";
+		$this->bootstrap_root = WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) ) . '/vendor/bootstrap';
 	}
 	
 	/**
@@ -47,13 +47,13 @@ class API_Con_Mngr_View{
 	 * @return string
 	 */
 	public function get_head(){
-		return "<!DOCTYPE HTML>
+		return '<!DOCTYPE HTML>
 		<html>
 		<head>
-			<title>" . get_bloginfo('name') . " :: API Connection Manager</title>
-			<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-			<link rel=\"stylesheet\" href=\"{$this->bootstrap_root}/css/bootstrap.min.css\" media=\"screen\"/>
-			<style type=\"text/css\">
+			<title>' . get_bloginfo( 'name' ) . ' :: API Connection Manager</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+			<link rel="stylesheet" href="' . $this->bootstrap_root . '/css/bootstrap.min.css" media="screen"/>
+			<style type="text/css">
 				body{
 					margin: 40px auto;
 				}
@@ -72,7 +72,7 @@ class API_Con_Mngr_View{
 				}
 			</style>
 		</head>
-		<body>";
+		<body>';
 	}
 	
 	/**
@@ -80,11 +80,11 @@ class API_Con_Mngr_View{
 	 * @return string
 	 */
 	public function get_body(){
-		return "<div class=\"container-fluid\">
-				<h1>" . get_bloginfo('name') . "</h1>
+		return '<div class="container-fluid">
+				<h1>' . get_bloginfo( 'name' ) . '</h1>
 				<h3>API Connection Manager</h3>
-				". implode("\n", $this->body) . "
-			</div>";
+				' . implode( '\n', $this->body ) . '
+			</div>';
 	}
 	
 	/**
@@ -92,15 +92,15 @@ class API_Con_Mngr_View{
 	 * @return string 
 	 */
 	public function get_footer(){
-		return "
-			<script src=\"http://code.jquery.com/jquery.js\" type=\"text/javascript\"></script>
-			<script src=\"{$this->bootstrap_root}/js/bootstrap.min.js\" type=\"text/javascript\"></script>
-			<script src=\"{$this->bootstrap_root}/js/ReactiveRaven-jqBootstrapValidation-d66d033/jqBootstrapValidation.js\" type=\"text/javascript\"></script>
-				<script type=\"text/javascript\">
-					$(function () { $('input,select,textarea').not('[type=submit]').jqBootstrapValidation(); } );
+		return '
+			<script src="http://code.jquery.com/jquery.js" type="text/javascript"></script>
+			<script src="' . $this->bootstrap_root . '/js/bootstrap.min.js" type="text/javascript"></script>
+			<script src="' . $this->bootstrap_root . '/js/ReactiveRaven-jqBootstrapValidation-d66d033/jqBootstrapValidation.js" type="text/javascript"></script>
+				<script type="text/javascript">
+					$(function () { $(\'input,select,textarea\').not(\'[type=submit]\').jqBootstrapValidation(); } );
 				</script>
 			</body>
-		</html>";
+		</html>';
 	}
 	
 	/**
@@ -108,11 +108,11 @@ class API_Con_Mngr_View{
 	 * @param boolean $die Default true. Whether to die or return html
 	 * @return string 
 	 */
-	public function get_html( $die=true ){
+	public function get_html( $die = true ){
 		
 		//print any headers
-		foreach($this->headers as $header)
-			header($header);
+		foreach ( $this->headers as $header )
+			header( $header );
 		
 		//build html
 		$this->html .= $this->get_head();
@@ -120,8 +120,8 @@ class API_Con_Mngr_View{
 		$this->html .= $this->get_footer();
 		
 		//print or return html
-		if($die)
-			die($this->html);
+		if ( $die )
+			die( $this->html );
 		return $this->html;
 	}
 	

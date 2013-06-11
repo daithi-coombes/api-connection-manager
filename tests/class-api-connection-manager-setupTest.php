@@ -30,7 +30,7 @@ class API_Connection_Manager_SetupTest extends WP_UnitTestCase{
 	}
 
 	function test___construct_wp_list(){
-		$this->setup->__construct_wp_list();
+		$this->setup->construct_wp_list();
 		$this->assertEquals(array(
 			'plural' => 'services',
 			'singular' => 'service',
