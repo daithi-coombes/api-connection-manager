@@ -85,7 +85,7 @@
  <target name="phpmd"
          description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="phpmd">
-   <arg value="class-api-connection-manager.php,class-api-connection-manager-user.php,class-api-connection-manager-setup.php,class-api-con-mngr-view.php,class-api-con-mngr-module.php,class-api-con-mngr-error.php,class-api-con-logger-filter.php" />
+   <arg value="class-api-connection-manager.php" />
    <arg value="xml" />
    <arg value="cleancode" />
    <arg value="--reportfile" />
