@@ -6,7 +6,7 @@
  */
 require_once('vendor/OAuth.php');
 
-if (!class_exists("API_Con_Mngr_Module")):
+if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 	/**
 	* Modules should extend this class.
 	* e.g.:
@@ -151,23 +151,23 @@ if (!class_exists("API_Con_Mngr_Module")):
 	abstract class API_Con_Mngr_Module {
 
 		/** @var string Oauth2 access token */
-		public $access_token = "";
+		public $access_token = '';
 		
 		/** @var string The oauth2 access type parameter */
-		public $access_type = "";
+		public $access_type = '';
 	
 		/** @var string The img tag to the module button, or module name as
 		 * type default*/
-		public $button = "";
+		public $button = '';
 		
 		/** @var string The callback url */
-		public $callback_url = "";
+		public $callback_url = '';
 		
 		/** @var string The client id. Mainly used for oauth2 */
-		public $client_id = "";
+		public $client_id = '';
 		
 		/** @var string The client secret. Mainly used for oauth2  */
-		public $client_secret = "";
+		public $client_secret = '';
 		
 		/** @var integer The connection timeout */
 		public $connecttimeout = 30;
@@ -179,7 +179,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $Description;
 
 		/** @var string The uri for displaying a login link */
-		public $login_uri = "";
+		public $login_uri = '';
 
 		/** @var mxied Flag Default false. If login form required then set as an
 		 * array with the necessary param=>vals as key=>pairs.
@@ -187,7 +187,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $login_form = false;
 		
 		/** @var string The name of the module */
-		public $Name = "";
+		public $Name = '';
 
 		/** @var string Oauth1. The consumer key */
 		public $oauth_consumer_key;
@@ -196,19 +196,19 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $oauth_consumer_secret;
 		
 		/** @var string Oauth1. The nonce for this instance of the module */
-		public $oauth_nonce = "";
+		public $oauth_nonce = '';
 		
 		/** @var string Oauth1 request token */
-		public $oauth_request_token = "";
+		public $oauth_request_token = '';
 		
 		/** @var string Oauth1 request token secret */
-		public $oauth_request_token_secret = "";
+		public $oauth_request_token_secret = '';
 
 		/** @var string Oauth1 token */
-		public $oauth_token = "";
+		public $oauth_token = '';
 
 		/** @var string Oauth1 token secret */
-		public $oauth_token_secret = "";
+		public $oauth_token_secret = '';
 		
 		/**
 		 * An array of options for the service.
@@ -221,13 +221,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $params = array();
 
 		/** @var string The current protocol used (oauth, custom, etc) */
-		public $protocol = "";
+		public $protocol = '';
 
 		/** @var string The redirect uri. Mainly used for oauth2 */
-		public $redirect_uri = "";
+		public $redirect_uri = '';
 		
 		/** @var string The scope parameter, usually for oauth2 */
-		public $scope = "";
+		public $scope = '';
 		
 		/** @var boolean Flag whether server allows sessions or not. Some
 		 * modules need sessions and will be disabled on servers without 
@@ -235,10 +235,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $sessions = false;
 		
 		/** @var OAuthSignatureMethod_HMAC_SHA1 The signature encoding method */
-		public $sha1_method = "";
+		public $sha1_method = '';
 
 		/** @var string The slug of the current login */
-		public $slug = "";
+		public $slug = '';
 
 		/** @var boolean Verify SSL Cert. */
 		public $ssl_verifypeer = FALSE;
@@ -247,7 +247,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $timeout = 30;
 
 		/** @var string The token */
-		public $token = "";
+		public $token = '';
 
 		/** @var string The authorize url */
 		public $url_authorize;
@@ -256,7 +256,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $url_access_token;
 		
 		/** @var string The request token url */
-		public $url_request_token = "";
+		public $url_request_token = '';
 
 		/** @var string The url to verify an access token */
 		public $url_verify_token;
@@ -265,13 +265,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public $use_nonce = true;
 		
 		/** @var string The user agent to send with requests */
-		public $useragent = "TwitterOAuth v0.2.0-beta2";
+		public $useragent = 'TwitterOAuth v0.2.0-beta2';
 
 		/** @var WP_User The current user. Makes static call to the api core
 		 *	method to build user from cookies & wp authentication
 		 * @uses API_Connection_Manager::_get_current_user()
 		 */
-		public $user='';
+		public $user = '';
 		
 		/** @var array An array of additional headers */
 		protected $headers = array();
@@ -280,7 +280,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 		private $api;
 		
 		/** @var string The prefix for the user meta keys */
-		private $option_name = "API_Con_Mngr_Module";
+		private $option_name = 'API_Con_Mngr_Module';
 		
 		/**
 		 * Make sure you call this from your child class.
@@ -294,7 +294,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 			 */
 			//make sure API_Connection_Manager is construced and global
 			global $API_Connection_Manager;
-			if(!get_class($API_Connection_Manager)=='API_Connection_Manager')
+			if ( !get_class( $API_Connection_Manager ) == 'API_Connection_Manager' )
 				$API_Connection_Manager = new API_Connection_Manager();
 			//set slug
 			$this->slug = $this->get_slug();			
@@ -306,19 +306,19 @@ if (!class_exists("API_Con_Mngr_Module")):
 			//load stored options
 			//if sessions enabled (default is true)
 			$id = session_id();
-			if(!$id || $id=="")
+			if ( !$id || $id == '' )
 				$this->sessions = false;			
 			//get button
-			$parts = explode("/", $this->slug);
-			$button = "/api-con-mngr-modules/{$parts[0]}/button.png";
-			if(file_exists(WP_PLUGIN_DIR . $button))
-				$this->button = "<img src=\"" . WP_PLUGIN_URL . "{$button}\" alt=\"{$this->Name}\" width=\"80\"/>";
+			$parts = explode( '/', $this->slug );
+			$button = '/api-con-mngr-modules/' . $parts[0] . '/button.png';
+			if ( file_exists( WP_PLUGIN_DIR . $button ) )
+				$this->button = '<img src="' . WP_PLUGIN_URL . $button . '" alt="' . $this->Name . '" width="80"/>';
 			//end bootstrap
 			
 			//if oauth1 build oauthConsumer
-			if($this->protocol=='oauth1'){
-				$this->consumer = new OAuthConsumer($this->oauth_consumer_key, $this->oauth_consumer_secret, $this->callback_url);
-				if($this->sha1_method)
+			if ( $this->protocol == 'oauth1' ){
+				$this->consumer = new OAuthConsumer( $this->oauth_consumer_key, $this->oauth_consumer_secret, $this->callback_url );
+				if ( $this->sha1_method )
 					$this->sha1_method = new OAuthSignatureMethod_HMAC_SHA1();
 				else $this->sha1_method = new OAuthSignatureMethod_PLAINTEXT();
 			}
@@ -374,28 +374,28 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function do_callback( stdClass $dto ) {
 			
-			if(!$dto->callback)
+			if ( !$dto->callback )
 				return;
 			$callback = $dto->callback;
 			
 			//load file parse callback
 			require_once( $callback['file'] );
-			$callback['func'] = unserialize( stripslashes($callback['callback']));
+			$callback['func'] = unserialize( stripslashes( $callback['callback'] ) );
 			
 			//call a method
-			if(is_array($callback['func'])){
+			if ( is_array( $callback['func'] ) ){
 				$class = $callback['func'][0];
 				$method = $callback['func'][1];
 				$obj = new $class();
-				$ret = $obj->$method($dto);
+				$ret = $obj->$method( $dto );
 			}
 
 			//call a function
-			else{
+			else {
 				$func = $callback['func'];
-				$ret = $func($dto);
+				$ret = $func( $dto );
 			}
-			unset($_SESSION['API_Con_Mngr_Module']['callback']);
+			unset( $_SESSION['API_Con_Mngr_Module']['callback'] );
 			return $ret;
 		}
 
@@ -413,18 +413,17 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param array $params Array of params in key value pairs
 		 * @return OAuthRequest Returns an oauth request object 
 		 */
-		public function oauth_sign_request( $url, $method='GET', $params=array()){
+		public function oauth_sign_request( $url, $method = 'GET', $params = array() ){
 			
-			$token = new OAuthConsumer($this->oauth_token, $this->oauth_token_secret, $this->callback_url);
-			if(@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']){
+			$token = new OAuthConsumer( $this->oauth_token, $this->oauth_token_secret, $this->callback_url );
+			if (@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'])
 				$params['oauth_nonce'] = $_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'];
-			}
 			
-			$request = OAuthRequest::from_consumer_and_token($this->consumer, $token, $method, $url, $params);
-			$request->sign_request($this->sha1_method, $this->consumer, $token);
-			if(!@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']){
-				$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] = $request->get_parameter('oauth_nonce');
-			}
+			$request = OAuthRequest::from_consumer_and_token( $this->consumer, $token, $method, $url, $params );
+			$request->sign_request( $this->sha1_method, $this->consumer, $token );
+			if ( !@$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] )
+				$_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] = $request->get_parameter( 'oauth_nonce' );
+			
 			return $request;
 		}
 		
@@ -451,8 +450,8 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $msg The error message.
 		 * @return API_Con_Mngr_Error
 		 */
-		public function error($msg) {
-			return new API_Con_Mngr_Error($msg);
+		public function error( $msg ) {
+			return new API_Con_Mngr_Error( $msg );
 		}
 
 		/**
@@ -463,29 +462,33 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		public function get_access_token( array $response ){
 			
-			switch($this->protocol){
-				
+			switch ( $this->protocol ){
 				case 'oauth1': 
-					$res = $this->request( $this->url_access_token, "POST", $response, FALSE);
+					$res = $this->request( $this->url_access_token, 'POST', $response, FALSE );
 					break;
 				
 				case 'oauth2':
 					//make request for access tokens
-					$res = $this->request( $this->url_access_token, "POST", array(
-						'grant_type' => 'authorization_code',
-						'client_id' => $this->client_id,
-						'client_secret' => $this->client_secret,
-						'code' => $response['code'],
-						'redirect_uri' => $this->redirect_uri
-					), false );
+					$res = $this->request(
+						$this->url_access_token, 
+						'POST',
+						array(
+							'grant_type' => 'authorization_code',
+							'client_id' => $this->client_id,
+							'client_secret' => $this->client_secret,
+							'code' => $response['code'],
+							'redirect_uri' => $this->redirect_uri,
+						), 
+						false 
+					);
 					break;
 			}
 			
 			//parse response and set tokens in db
-			$res = $this->parse_response($res);
-			if(is_wp_error($res)) return $res;
-			$tokens = (array) $res;
-			$params = $this->set_params($tokens);
+			$res = $this->parse_response( $res );
+			if ( is_wp_error( $res ) ) return $res;
+			$tokens = ( array ) $res;
+			$params = $this->set_params( $tokens );
 			return $tokens;
 		}
 		
@@ -501,19 +504,21 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param array $params The request parameters
 		 * @return string 
 		 */
-		public function get_authorize_url( $params=array() ) {
+		public function get_authorize_url( $params = array() ) {
 			
-			switch($this->protocol){
-				
+			switch ( $this->protocol ){
 				//oauth1
 				case 'oauth1':
-					$params = array_merge(array(
-						'oauth_consumer_key' => $this->oauth_consumer_key,
-						'oauth_token' => $params['oauth_token']		//dropbox uses oauth_token (make sure nobody needs oauth_request_token)
-					), $params);
+					$params = array_merge(
+						array(
+							'oauth_consumer_key' => $this->oauth_consumer_key,
+							'oauth_token' => $params['oauth_token'],		//dropbox uses oauth_token (make sure nobody needs oauth_request_token)
+						), 
+						$params
+					);
 					//$url = $this->
 					
-					return $this->url_authorize . "?" . http_build_query($params);
+					return $this->url_authorize . '?' . http_build_query( $params );
 					break;
 				//end oauth1
 				
@@ -521,11 +526,14 @@ if (!class_exists("API_Con_Mngr_Module")):
 				case 'oauth2':
 					
 					//fields
-					$fields = array_merge($params, array(
-						'client_id' => $this->client_id,	//oauth2 required
-						'response_type' => 'code'			//oauth2 required
-					));
-					return $this->url_authorize . "?" . http_build_query($fields);
+					$fields = array_merge(
+						$params, 
+						array(
+							'client_id' => $this->client_id,	//oauth2 required
+							'response_type' => 'code',			//oauth2 required
+						)
+					);
+					return $this->url_authorize . '?' . http_build_query( $fields );
 					break;
 				//end oauth2
 			}
@@ -540,13 +548,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return array Returns an empty array if no connections.
 		 */
 		public function get_connections(){
-			$option_name = "{$this->option_name}-connections";
+			$option_name = $this->option_name . '-connections';
 			//multisite install
-			if(is_multisite())
-				$connections = get_site_option($option_name, array());
-			else{
-				$connections = get_option($option_name, array());
-			}
+			if ( is_multisite() )
+				$connections = get_site_option( $option_name, array() );
+			else
+				$connections = get_option( $option_name, array() );
+
 			return $connections;
 		}
 		
@@ -558,21 +566,23 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * class, method names.
 		 * @return string Html anchor
 		 */
-		public function get_login_button( $file='', $callback=''){
+		public function get_login_button( $file = '', $callback = '' ){
 			
 			//nonce
 			global $API_Connection_Manager;
 
 			//using sessions
-			$url = $API_Connection_Manager->redirect_uri . "&login=true&slug=" . urlencode($this->slug);
+			$url = $API_Connection_Manager->redirect_uri . '&login=true&slug=' . urlencode( $this->slug );
 			
-			if(is_array($callback))
-				$clbk = serialize(array(
-					get_class($callback[0]),
-					$callback[1]
-				));
-			else $clbk = serialize($callback);
-			$url .= "&file=" .urlencode($file) . "&callback=" . urlencode($clbk);
+			if ( is_array( $callback ) )
+				$clbk = serialize(
+					array(
+						get_class( $callback[0] ),
+						$callback[1],
+					)
+				);
+			else $clbk = serialize( $callback );
+			$url .= '&file=' . urlencode( $file ) . '&callback=' . urlencode( $clbk );
 			return $url;
 		}
 
@@ -586,52 +596,52 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function get_login_form(){
 			
 			//if no form params return
-			if(!is_array($this->login_form) && !count($this->login_form))
+			if ( !is_array( $this->login_form ) && !count( $this->login_form ) )
 				return false;
 			
 			//view class
 			$view = new API_Con_Mngr_View();
 			
 			//work out return url
-			(!@$this->login_form['endpoint']) ? 
+			( !@$this->login_form['endpoint'] ) ? 
 				$url = $this->redirect_uri:
 				$url = $this->login_form['endpoint'];
 			
 			//work out method
-			(!@$this->login_form['method']) ?
-				$method = "post":
+			( !@$this->login_form['method'] ) ?
+				$method = 'post':
 				$method = $this->login_form['method'];
 			
 			//build and return form
-			$view->body[] = "
-				<p class=\"lead\">
-					Please enter your login details for {$this->Name}
+			$view->body[] = '
+				<p class="lead">
+					Please enter your login details for ' . $this->Name . '
 				</p>
-				<form method=\"{$method}\" action=\"{$url}\" class=\"form-horizontal\">
+				<form method="' . $method . '" action="' . $url . '" class="form-horizontal">
 					<fieldset>
-						<input type=\"hidden\" name=\"slug\" value=\"{$this->slug}\"/>
-						<input type=\"hidden\" name=\"login\" value=\"do_login\"/>\n";
+						<input type="hidden" name="slug" value="' . $this->slug . '"/>
+						<input type="hidden" name="login" value="do_login"/>';
 			
 			//add fields
-			foreach($this->login_form['fields'] as $type=>$name)
-				$view->body[] .= "
-					<div class=\"control-group\">
-						<label class=\"control-label\" for=\"api-con-login-{$name}\">
-							{$name}</label>
-						<div class=\"controls\">
-							<input type=\"{$type}\" name=\"{$name}\" id=\"api-con-login-{$name}\" placeholder=\"{$name}\"/>
+			foreach ( $this->login_form['fields'] as $type => $name )
+				$view->body[] .= '
+					<div class="control-group">
+						<label class="control-label" for="api-con-login-' . $name . '">
+							' . $name . '</label>
+						<div class="controls">
+							<input type=' . $type . ' name="' . $name . '" id="api-con-login-' . $name . '" placeholder="' . $name . '"/>
 						</div>
 					</div>
-					";
+					';
 			
 			//submit btn
-			$view->body[] = "
-				<div class=\"control-group\">
-					<div class=\"controls\">
-						<button type=\"submit\" class=\"btn\">Sign In</button>
+			$view->body[] = '
+				<div class="control-group">
+					<div class="controls">
+						<button type="submit" class="btn">Sign In</button>
 					</div>
 				</div>
-			</form>\n";
+			</form>';
 			
 			//return html
 			return $view->get_html();
@@ -647,13 +657,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 			
 			//$user_id = $this->user->ID;
 			$user_id = wp_get_current_user()->ID;
-			$key = $this->option_name."-{$this->slug}";
-			$meta = get_user_meta($user_id, $key, true);
+			$key = $this->option_name . '-' . $this->slug;
+			$meta = get_user_meta( $user_id, $key, true );
 			
-			if(is_array($meta))
-				foreach($meta as $key=>$val)
-					if(isset($this->{$key}))
-						$this->{$key} = $val;
+			if ( is_array( $meta ) )
+				foreach ( $meta as $key => $val )
+					if ( isset( $this->$key ) )
+						$this->$key = $val;
 			
 			return $meta;
 		}
@@ -665,22 +675,24 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $method Default GET. The http method to use.
 		 * @return array
 		 */
-		public function get_request_token( $method='GET' ) {
+		public function get_request_token( $method = 'GET' ) {
 			
 			//clear any redundant params before getting authorize url
-			$this->set_params(array(
-				'oauth_token' => null,
-				'oauth_token_secret' => null,
-				'token' => null
-			));
+			$this->set_params(
+				array(
+					'oauth_token' => null,
+					'oauth_token_secret' => null,
+					'token' => null,
+				)
+			);
 			
 			//unset nonce
-			unset($_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce']);
+			unset( $_SESSION['API_Con_Mngr_Module'][$this->slug]['nonce'] );
 			$_SESSION['API_Con_Mngr_Module']['slug'] = $this->slug;
 			
 			//make request
-			$res = $this->request($this->url_request_token, $method);
-			$ret = $this->parse_response($res);
+			$res = $this->request( $this->url_request_token, $method );
+			$ret = $this->parse_response( $res );
 			
 			//store tokens and return
 			$_SESSION[$this->option_name][$this->slug]['params'] = $ret;
@@ -703,31 +715,29 @@ if (!class_exists("API_Con_Mngr_Module")):
 			$connections = $this->get_connections();
 			
 			//if logged in user then connect account
-			if($this->user->ID)
-				return $this->login_connect($this->user->ID, $uid);
+			if ( $this->user->ID )
+				return $this->login_connect( $this->user->ID, $uid );
 			
 			//else look for user in connections array and log them in
-			else{
+			else {
 				//get list of users for this slug
 				$data = @$connections[$this->slug];
 
-				if(count($data))
-					foreach($data as $user_id => $service_id)
-
-						if(@$uid==@$service_id){
-
+				if ( count( $data ) )
+					foreach ( $data as $user_id => $service_id )
+						if ( @$uid == @$service_id ){
 							//get user
 							$user = get_userdata( $user_id );
-							if(!$user || (!get_class($user)=="WP_User"))
+							if ( !$user || ( !get_class( $user ) == 'WP_User' ) )
 								continue;
 
 							//login
 							wp_set_current_user( $user->data->ID );
 							wp_set_auth_cookie( $user->data->ID );
-							do_action('wp_login', $user->data->user_login, $user);
+							do_action( 'wp_login', $user->data->user_login, $user );
 
 							//redirect to admin page
-							wp_redirect(admin_url() . "admin.php?page=api-connection-manager-user");
+							wp_redirect( admin_url() . 'admin.php?page=api-connection-manager-user' );
 							exit();
 						}
 			}
@@ -750,24 +760,24 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $user_id The wordpress user id
 		 * @param string $uid This module providers account id
 		 */
-		public function login_connect($user_id, $uid){
+		public function login_connect( $user_id, $uid ){
 			
 			$connections = $this->get_connections();
 
 			/**
 			 * check if provider account is already in use
 			 */
-			if(count(@$connections[$this->slug]) && is_array($connections[$this->slug]))
-				foreach(@$connections[$this->slug] as $_user_id => $_uid)
-					if($_uid==$uid){
-						if(get_userdata($_user_id))
-							return new API_Con_Mngr_Error("Sorry that profile is already associated with another account");
+			if ( count( @$connections[$this->slug] ) && is_array( $connections[$this->slug] ) )
+				foreach ( @$connections[$this->slug] as $_user_id => $_uid )
+					if ( $_uid == $uid ){
+						if ( get_userdata( $_user_id ) )
+							return new API_Con_Mngr_Error( 'Sorry that profile is already associated with another account' );
 						else
 							unset($connections[$this->slug][$_user_id]);
 					}
 			
 			$connections[$this->slug][$user_id] = (string) $uid;
-			$this->set_connections($connections);
+			$this->set_connections( $connections );
 			return true;
 		}
 		
@@ -778,10 +788,10 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param stdClass $dto
 		 * @deprecated
 		 */
-		public function parse_dto(stdClass $dto) {
+		public function parse_dto( stdClass $dto ) {
 			//looks for fields that are in dto response
-			foreach ($dto->response as $key => $val)
-				if (isset($this->$key))
+			foreach ( $dto->response as $key => $val )
+				if ( isset( $this->$key ) )
 					$this->$key = $val;
 		}
 
@@ -793,29 +803,29 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return mixed Will return either an array or object based on the
 		 * response header content-type
 		 */
-		public function parse_response(  $response=array() ){
+		public function parse_response(  $response = array() ){
 			
-			if(is_wp_error($response))
+			if ( is_wp_error( $response ) )
 				return $response;
 			
 			//check error code
-			if($response['response']['code']=='500')
-				return new API_Con_Mngr_Error($response['response']['message']);
+			if ( $response['response']['code'] == '500' )
+				return new API_Con_Mngr_Error( $response['response']['message'] );
 
 			//vars
-			$content_type = strtolower($response['headers']['content-type']);
+			$content_type = strtolower( $response['headers']['content-type'] );
 			$ret = array();
 			
 			//parse string
-			if(
-				(strpos($content_type, "text/html") !== false) ||
-				(strpos($content_type, "text/plain") !== false) ||
-				(strpos($content_type, "application/x-www-form-urlencoded") !== false)
-			) parse_str($response['body'], $ret);
+			if (
+				( strpos( $content_type, 'text/html' ) !== false ) ||
+				( strpos( $content_type, 'text/plain' ) !== false ) ||
+				( strpos( $content_type, 'application/x-www-form-urlencoded' ) !== false )
+			) parse_str( $response['body'], $ret );
 			
 			//default to json
 			else
-				$ret = json_decode($response['body']);
+				$ret = json_decode( $response['body'] );
 			
 			//return result
 			return $ret;
@@ -832,77 +842,65 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * if an error occurs
 		 * @return array Returns the response array in the WP_HTTP format. 
 		 */
-		public function request($url, $method='GET', $parameters = array(), $die=true) {
+		public function request( $url, $method = 'GET', $parameters = array(), $die = true ) {
 			
 			global $current_user;
 			
 			//vars
 			$current_user = wp_get_current_user();
 			$connections = $this->get_connections();
-			$method = strtoupper($method);
-			$errs=false;
+			$method = strtoupper( $method );
+			$errs = false;
 			
 			//make request
-			switch ($method) {
+			switch ( $method ) {
 				case 'POST':
-					$params = array('body'=>$parameters,'headers'=>$this->headers);
-					$response = wp_remote_post($url, $params);
+					$params = array( 'body' => $parameters, 'headers' => $this->headers );
+					$response = wp_remote_post( $url, $params );
 					break;
 				default:
 					
-					if(count($parameters))
-						$url .= "?" . http_build_query($parameters);
-					$response = wp_remote_get($url, array('headers' => $this->headers));
+					if ( count( $parameters ) )
+						$url .= '?' . http_build_query( $parameters );
+					$response = wp_remote_get( $url, array( 'headers' => $this->headers ) );
 					break;
 			}//end request
 			
 			//if http body
-			if(is_wp_error($response))
+			if ( is_wp_error( $response ) )
 				$errs = $response;
-			elseif(is_wp_error($response['body']))
+			elseif ( is_wp_error( $response['body'] ) )
 				$errs = $response['body'];
 			
 			//check for errors
-			if(!$errs)
-				$errs = $this->check_error($response);
-			if(is_wp_error($errs)){
-				
-				/**
-				 * @deprecated https://github.com/cityindex/labs.cityindex.com/issues/116
-				$this->set_params(array(
-					'access_token' => false
-				));
-				if(@$current_user->ID){
-					unset($connections[$this->slug][$current_user->ID]);
-					$this->set_connections($connections);
-				}
-				 * 
-				 */
-				
+			if ( !$errs )
+				$errs = $this->check_error( $response );
+
+			if ( is_wp_error( $errs ) ){				
 				$msg = $errs->get_error_message();
 				
 				//print js to reload calling page
-				if($die)
-					print "
+				if ( $die )
+					print '
 						<script>
-							alert('{$msg}');
-							if(window.opener){
+							alert(\'' . $msg . '\');
+							if (window.opener){
 								window.opener.location.reload();
 								window.close();
 							}else
 								window.location.href = document.referrer;
 						</script>
-						";
+						';
 				else
-					print "
+					print '
 						<script>
-							alert('{$msg}');
-							if(window.opener){
-								window.opener.location.href = '{$_SESSION['api-con-mngr-referer']}';
+							alert(\'' . $msg . '\');
+							if ( window.opener ){
+								window.opener.location.href = \'' . $_SESSION['api-con-mngr-referer'] . '\';
 								window.close();
 							}else
-								window.location.href = '{$_SESSION['api-con-mngr-referer']}';
-						</script>";
+								window.location.href = \'' . $_SESSION['api-con-mngr-referer'] . '\';
+						</script>';
 			}
 			
 			//return response
@@ -919,11 +917,11 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @return array $connections
 		 */
 		public function set_connections( $connections ){
-			$option_name = "{$this->option_name}-connections";
-			if(is_multisite())
-				update_site_option($option_name, $connections);
-			else{
-				update_option($option_name, $connections);
+			$option_name = $this->option_name . 'connections';
+			if ( is_multisite() )
+				update_site_option( $option_name, $connections );
+			else {
+				update_option( $option_name, $connections );
 			}
 			return $connections;
 		}
@@ -937,9 +935,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function set_details( array $data ){
 			
 			//if param is a field
-			foreach ($data as $key => $val)
-				if (isset($this->{$key}))
-					$this->{$key} = $val;
+			foreach ( $data as $key => $val )
+				if ( isset( $this->$key ) )
+					$this->$key = $val;
 
 		}
 		
@@ -950,21 +948,21 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function set_options( array $options ){
 			
 			//set fields
-			foreach($options as $key=>$val)
+			foreach ( $options as $key => $val )
 				$this->$key = $val;
 			
 			//multisite install
-			if(is_multisite())
-				$options_db = get_site_option($this->option_name, array());
+			if ( is_multisite() )
+				$options_db = get_site_option( $this->option_name, array() );
 			else
-				$options_db = get_option($this->option_name, array());
+				$options_db = get_option( $this->option_name, array() );
 			$options_db[$this->slug] = $options;
 			
 			//write to db
-			if(is_multisite())
-				update_site_option($this->option_name, $options_db);
+			if ( is_multisite() )
+				update_site_option( $this->option_name, $options_db );
 			else
-				update_option($this->option_name, $options_db);
+				update_option( $this->option_name, $options_db );
 			
 			return $options;
 		}
@@ -978,34 +976,34 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * module
 		 * @return array Returns the new params db values.
 		 */
-		public function set_params(array $params) {
+		public function set_params( array $params ) {
 			
 			global $wpdb;
 			
 			//set fields
-			foreach($params as $key=>$val)
+			foreach ( $params as $key => $val )
 				$this->$key = $val;
 			
 			//if no user logged as in sign in buttons then return
-			if(empty($this->user))
+			if ( empty( $this->user ) )
 				$this->user = wp_get_current_user();
 			$user_id = $this->user->ID;
-			if($user_id==0 || empty($user_id))
+			if ( $user_id == 0 || empty( $user_id ) )
 				return false;
 			
 			//vars
-			$option_name = $this->option_name."-{$this->slug}";
+			$option_name = $this->option_name . '-' . $this->slug;
 			$meta = $this->get_params(); //get_user_meta($user_id, $this->option_name."-{$this->slug}", true);
 			
-			foreach($params as $key=>$val)
+			foreach ( $params as $key => $val )
 				$meta[$key] = $val;
 			
 			/**
 			 * manually update user_meta 
 			 */
-			update_user_meta($user_id, $option_name, $meta);
+			update_user_meta( $user_id, $option_name, $meta );
 			/**
-			if($wpdb->get_row("SELECT * FROM {$wpdb->usermeta} WHERE user_id={$user_id} AND meta_key='{$option_name}'"))
+			if ($wpdb->get_row("SELECT * FROM {$wpdb->usermeta} WHERE user_id={$user_id} AND meta_key='{$option_name}'"))
 				$wpdb->update($wpdb->usermeta, array(
 					'meta_value' => serialize($meta)
 				), array(
@@ -1034,21 +1032,20 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param string $email The email to use
 		 * @param string $redirect Default will redirect to admin_url()
 		 */
-		public function wp_login( $email, $redirect='' ){
+		public function wp_login( $email, $redirect = '' ){
 			
-			$user_id = email_exists($email);
-			if(empty($redirect)) $redirect = admin_url();
+			$user_id = email_exists( $email );
+			if ( empty( $redirect ) ) $redirect = admin_url();
 			
 			//if no email match
-			if(!$user_id){
-				die("Sorry the email <em>{$email}</em> is not on our system");
-			}
+			if ( !$user_id )
+				die( 'Sorry the email <em>{$email}</em> is not on our system' );
 			
 			//
-			$user = get_userdata($user_id);
+			$user = get_userdata( $user_id );
 			wp_set_current_user( $user->data->ID );
 			wp_set_auth_cookie( $user->data->ID );
-			wp_redirect("{$redirect}");
+			wp_redirect( $redirect );
 			die();
 		}
 		
@@ -1071,15 +1068,13 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 * @param array $options An array of options
 		 * @return array Returns the full options including requirements 
 		 */
-		protected function construct_options( $options=array() ){
-			
-			switch($this->protocol){
-				
+		protected function construct_options( $options = array() ){			
+			switch ( $this->protocol ){
 				//oauth1 defaults
 				case 'oauth1':
 					$defaults = array(
 						'oauth_consumer_key' => '%s',
-						'oauth_consumer_secret' => '%s'
+						'oauth_consumer_secret' => '%s',
 					);
 					break;
 				
@@ -1087,7 +1082,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 					$defaults = array(
 						'client_id' => '%s',
 						'client_secret' => '%s',
-						'redirect_uri' => '%s'
+						'redirect_uri' => '%s',
 					);
 					break;
 				
@@ -1096,7 +1091,7 @@ if (!class_exists("API_Con_Mngr_Module")):
 					break;
 			}
 			
-			$this->options = array_merge($defaults, $options);
+			$this->options = array_merge( $defaults, $options );
 			return $this->options;
 		}
 		
@@ -1108,29 +1103,27 @@ if (!class_exists("API_Con_Mngr_Module")):
 		public function get_options(){
 			
 			//multisite install
-			if(is_multisite())
-				$options_db = get_site_option($this->option_name, array());
+			if ( is_multisite() )
+				$options_db = get_site_option( $this->option_name, array() );
 			else
-				$options_db = get_option($this->option_name, array());
+				$options_db = get_option( $this->option_name, array() );
 			
 			//get module options or return default array
-			(!@$options_db[$this->slug]) ? 
+			( !@$options_db[$this->slug] ) ? 
 				$options = array():
 				$options = $options_db[$this->slug];
 			
 			//set redirect_uri
-			$redirect = admin_url('admin-ajax.php') . "?" . http_build_query(array(
-				'action' => 'api_con_mngr'
-			));
+			$redirect = admin_url( 'admin-ajax.php' ) . '?' . http_build_query( array( 'action' => 'api_con_mngr', ) );
 			
-			if(@empty($options['redirect_uri']))
+			if ( @empty( $options['redirect_uri'] ) )
 				$options['redirect_uri'] = $redirect;
-			if(@empty($options['callback_url']))
+			if ( @empty( $options['callback_url'] ) )
 				$options['callback_url'] = $redirect;
 			//end redirect uri
 			
 			//set fields and return options
-			foreach($options as $key=>$val)
+			foreach ($options as $key => $val )
 				$this->$key = $val;
 			return $options;
 		}
@@ -1142,10 +1135,9 @@ if (!class_exists("API_Con_Mngr_Module")):
 		 */
 		private function get_slug(){
 			$reflector = new ReflectionClass( $this );
-			$path =  dirname($reflector->getFileName());
-			$parts = explode(DIRECTORY_SEPARATOR, $path);
-			return array_pop($parts) . "/" . "index.php";
+			$path = dirname( $reflector->getFileName() );
+			$parts = explode( DIRECTORY_SEPARATOR, $path );
+			return array_pop( $parts ) . '/' . 'index.php';
 		}
 	}
-	
 endif;

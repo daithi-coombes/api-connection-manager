@@ -124,6 +124,7 @@
    <arg value="--standard=WordPress" />
    <arg value="-vvv" />
    <arg value="-l" />
+   <arg value="-n" />
    <arg path="${basedir}/class-api-con-logger-filter.php" />
    <arg path="${basedir}/class-api-con-mngr-error.php" />
    <arg path="${basedir}/class-api-con-mngr-module.php" />
