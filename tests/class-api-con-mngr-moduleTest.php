@@ -20,7 +20,7 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 		//sign in user
 		$this->user = wp_signon(array(
 			'user_login' => 'admin',
-			'user_password' => 'password'));
+			'user_password' => 'a'));
 		$this->module->user = $this->user;
 		wp_set_current_user($this->user->ID);
 	}

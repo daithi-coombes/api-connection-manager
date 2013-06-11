@@ -4,7 +4,7 @@
  <!-- <target name="build"
    depends="prepare,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb"/> -->
  <target name="build"
-   depends="prepare,lint,phploc,pdepend,phpmd,phpmd-ci,phpcs-ci,phpcpd"/>
+   depends="prepare,lint,phploc,pdepend,phpmd,phpmd-ci,phpcs-ci,phpunit,phpcpd"/>
 
  <target name="debug"
    depends="clean,prepare,phpmd"/>
