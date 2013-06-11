@@ -45,10 +45,20 @@
   <mkdir dir="${basedir}/build/pdepend"/>
   <mkdir dir="${basedir}/build/phpdox"/>
   <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
+  <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/tests"/>
+  <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/vendor"/>
   <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager">
     <fileset dir="${basedir}">
       <include name="class-api-con*"/>
+      <include name="index.php"/>
     </fileset>
+  </copy>
+  <copy file="${basedir}/build/log4net-config.xml" todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
+  <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/tests">
+    <fileset dir="tests"/>
+  </copy>
+  <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/vendor">
+    <fileset dir="vendor"/>
   </copy>
  </target>
 
