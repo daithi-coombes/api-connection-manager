@@ -106,7 +106,7 @@
  <target name="phpcs"
          description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
   <exec executable="phpcs">
-   <arg value="--standard=${basedir}/build/phpcs.xml" />
+   <arg value="--standard=WordPress" />
    <arg path="${basedir}/index.php" />
    <arg path="${basedir}/class-api-con-logger-filter.php" />
    <arg path="${basedir}/class-api-con-mngr-error.php" />
