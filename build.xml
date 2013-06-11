@@ -34,7 +34,7 @@
   <delete dir="${basedir}/build/coverage"/>
   <delete dir="${basedir}/build/logs"/>
   <delete dir="${basedir}/build/pdepend"/>
-  <delete file="${basedir}/build/phpmd.xml"/>
+  <delete dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
  </target>
 
  <target name="prepare" depends="clean" description="Prepare for build">
@@ -45,7 +45,11 @@
   <mkdir dir="${basedir}/build/pdepend"/>
   <mkdir dir="${basedir}/build/phpdox"/>
   <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
-  <copy file="${basedir}/index.php" todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
+  <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager">
+    <fileset dir="${basedir}">
+      <include name="class-api-con*"/>
+    </fileset>
+  </copy>
  </target>
 
  <target name="lint" description="Perform syntax check of sourcecode files">
