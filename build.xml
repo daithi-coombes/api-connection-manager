@@ -6,6 +6,9 @@
  <target name="build"
    depends="prepare,lint,phploc,pdepend,phpmd,phpmd-ci,phpcs-ci,phpcpd,phpunit"/>
 
+ <target name="debug"
+   depends="clean,prepare,phpmd"/>
+
  <target name="build-parallel"
    depends="prepare,lint,tools-parallel,phpunit"/>
 
