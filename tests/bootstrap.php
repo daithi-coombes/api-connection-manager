@@ -4,7 +4,6 @@ ob_start();
 
 //enter in your google app details in config.php
 require_once('config.php');
-require_once('/var/www/cityindex.loc/labs.cityindex.com/httpdocs/wp-content/plugins/api-connection-manager/class-api-connection-manager.php');
 
 //change this to your path
 $path = '/var/www/wordpress.loc/foo/wordpress-tests/includes/bootstrap.php';
