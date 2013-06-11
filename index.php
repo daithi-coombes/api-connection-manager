@@ -55,6 +55,7 @@ function API_Con_Mngr_Autoload($class){
 }
 spl_autoload_register("API_Con_Mngr_Autoload");
 require_once('class-api-connection-manager.php'); //hack: jenkins ant is not finding this through autoloader!
+require_once('class-api-con-mngr-error.php'); //hack: jenkins ant is not finding this through autoloader!
 global $API_Connection_Manager;
 $API_Connection_Manager = new API_Connection_Manager();
 /**
