@@ -9,6 +9,7 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 
 	function setUp(){
 		parent::setUp();
+		require_once('../class-api-con-mngr-error.php');
 
 		//set params
 		$this->code = 'API Connection Manager Test';
