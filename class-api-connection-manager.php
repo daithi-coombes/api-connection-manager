@@ -259,8 +259,8 @@ class API_Connection_Manager{
 		$plugins_dir = @opendir( $plugin_root );
 		$slugs = array();
 		if ( $plugins_dir ){
-			while( ( $file = readdir( $plugins_dir ) ) !== false ){
-				if ( $file == "." || $file == ".." ) continue;
+			while ( ( $file = readdir( $plugins_dir ) ) !== false ){
+				if ( $file == '.' || $file == '..' ) continue;
 				if ( is_readable( $plugin_root . '/' . $file . '/index.php' ) )
 					$slugs[] = $file . '/index.php';
 			}
@@ -552,7 +552,6 @@ class API_Connection_Manager{
 				$module->do_callback( $dto );
 			}
 			// end saving the access token
-
 		}
 		//end oauth1 service response
 		
@@ -561,7 +560,6 @@ class API_Connection_Manager{
 		 * Normally should only happen when $_REQUEST['code'] is recieved
 		 */
 		elseif ( @$module->protocol=='oauth2' ){
-			
 			//get tokens (this call will set tokens in db for module)
 			$tokens = $module->get_access_token( $dto->response );
 			if ( is_wp_error( $tokens ) )
@@ -628,7 +626,7 @@ class API_Connection_Manager{
 	 * @param array $vars Associative array of param name=>value pairs.
 	 * @return string 
 	 */
-	private function _url_query_append( $url, $vars=array() ){
+	private function _url_query_append( $url, $vars = array() ){
 		
 		//vars
 		$url = parse_url( $url );
@@ -766,7 +764,7 @@ class API_Connection_Manager{
 		
 		//look for params in sessions
 		if ( @is_array( $_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] ) ){
-			foreach ( $_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] as $key=>$val )
+			foreach ( $_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] as $key => $val )
 				$res->response[$key] = $val;
 			unset( $_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] );
 		}
