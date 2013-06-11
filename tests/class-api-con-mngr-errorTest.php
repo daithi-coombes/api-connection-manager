@@ -57,7 +57,7 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 
 		$res = $this->error->get_error_message('notify_parent');
 		$test = "<script type=\"text/javascript\">
-			if(window.opener){
+			if (window.opener){
 				window.opener.location.reload();
 				window.close();
 			}

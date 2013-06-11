@@ -2,3 +2,4 @@ log4net-config.xml
 tests/config.php
 *.sublime-project
 *.sublime-workspace
+build/
