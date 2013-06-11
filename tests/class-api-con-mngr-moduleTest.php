@@ -145,7 +145,8 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 		$GLOBALS['wp_tests_options']['API_Con_Mngr_Module-connections'] = $connections;
 
     	$this->module->set_connections($connections);
-		$this->assertEquals($connections['foo/index.php'], $this->module->get_connections()['foo/index.php']);
+    	$connection = $this->module->get_connections();
+		$this->assertEquals($connections['foo/index.php'], $connection['foo/index.php']);
 	}
 
 	function test_set_details(){
