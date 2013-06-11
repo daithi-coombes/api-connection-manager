@@ -55,15 +55,15 @@ session_start();
 class API_Connection_Manager{
 	
 	/** @var string The redirect uri */
-	public $redirect_uri = "";
+	public $redirect_uri = '';
 	/** @var array List of all installed services */
 	public $services = array();
 	/** @var string The location of the submodules dir */
-	protected $dir_sub = "";
+	protected $dir_sub = '';
 	/** @var string The name of the options var for this api */
-	protected $option_name = "api-connection-manager";
+	protected $option_name = 'api-connection-manager';
 	/** @var string The url to the submodules dir */
-	protected $url_sub = "";
+	protected $url_sub = '';
 	/** @var WP_User The current user */
 	private $user;
 	
@@ -81,44 +81,44 @@ class API_Connection_Manager{
 		/**
 		 * dependencies 
 		 */
-		require_once( "class-api-con-mngr-module.php" ); //module, header and param classes
+		require_once( 'class-api-con-mngr-module.php' ); //module, header and param classes
 		// end dependencies
 		
 		//default params
-		$this->dir_sub = WP_PLUGIN_DIR . "/api-con-mngr-modules";
-		$this->redirect_uri = admin_url('admin-ajax.php') . "?" . http_build_query(array(
-			'action' => 'api_con_mngr'
-		));
-		$this->url_sub = WP_PLUGIN_URL . "/api-con-mngr-modules";
+		$this->dir_sub = WP_PLUGIN_DIR . '/api-con-mngr-modules';
+		$this->redirect_uri = admin_url( 'admin-ajax.php' ) . '?' . http_build_query(
+			array( 'action' => 'api_con_mngr', )
+		);
+		$this->url_sub = WP_PLUGIN_URL . '/api-con-mngr-modules';
 		$this->user = $this->get_current_user();
 		$this->services = $this->_get_installed_services();
 		
 		//make sure options array is set
 		$options = $this->_get_options();
-		if(!@$options['services'])
+		if ( !@$options['services'] )
 			$options['services'] = array();
-		if(!@$options['active'])
+		if ( !@$options['active'] )
 			$options['active'] = array();
-		if(!@$options['inactive'])
+		if ( !@$options['inactive'] )
 			$options['inactive'] = array();
-		$this->_set_option($options);
+		$this->_set_option( $options );
 		
 		//check for errors
-		add_action('admin_notices', array(&$this, 'admin_notices'));
+		add_action( 'admin_notices', array( &$this, 'admin_notices', ) );
 		
 		/**
 		 * actions
 		 */
-		add_action('delete_user', array(&$this, 'delete_user'));
-		add_action('wpmu_delete_user', array(&$this, 'delete_user'));
+		add_action( 'delete_user', array( &$this, 'delete_user', ) );
+		add_action( 'wpmu_delete_user', array( &$this, 'delete_user', ) );
 		
 		/**
 		 * Check if logout request 
 		 */
-		if(@$_REQUEST['api-con-mngr-logout'])
-			$this->_service_logout( urldecode($_REQUEST['service']) );
+		if ( @$_REQUEST['api-con-mngr-logout'] )
+			$this->_service_logout( urldecode( $_REQUEST['service'] ) );
 
-		api_con_log("API_Connection_Manager constructed");
+		api_con_log( 'API_Connection_Manager constructed' );
 		
 	} //end construct()
 	
@@ -133,15 +133,15 @@ class API_Connection_Manager{
 		$error_obj = new API_Con_Mngr_Error();
 		$errors = $error_obj->get_all_errors();
 
-		if(!$errors)
+		if ( !$errors )
 				return false;
 		
-		print "<div id=\"message\" class=\"error\">
+		print '<div id="message" class="error">
 			<h2>API Connection Manager</h2>
-			<ul>";
-		foreach($errors as $err)
-			echo "<li>{$err}</li>\n";
-		echo "</ul></div>";
+			<ul>';
+		foreach ( $errors as $err )
+			echo '<li>' . $err . '</li>\n';
+		echo '</ul></div>';
 		$error_obj->clear();
 		return true;
 	}
@@ -154,25 +154,25 @@ class API_Connection_Manager{
 	 */
 	public function delete_user( $user_id ){
 		
-		$option_name = "API_Con_Mngr_Module-connections";
-		if(is_multisite())
-			$connections = get_site_option($option_name, array());
+		$option_name = 'API_Con_Mngr_Module-connections';
+		if ( is_multisite() )
+			$connections = get_site_option( $option_name, array() );
 		else
-			$connections = get_option($option_name, array());
+			$connections = get_option( $option_name, array() );
 		
 		//look through all slugs
-		foreach($connections as $slug => $connection)
-			foreach($connection as $_user => $uid)
-				if($_user==$user_id){
-					unset($connections[$slug][$_user]);
-					if(!count($connections[$slug]))
-						unset($connections[$slug]);
+		foreach ( $connections as $slug => $connection )
+			foreach ( $connection as $_user => $uid )
+				if ( $_user==$user_id ){
+					unset( $connections[$slug][$_user] );
+					if ( !count( $connections[$slug] ) )
+						unset( $connections[$slug] );
 				}
 				
-		if(is_multisite())
-			update_site_option($option_name, $connections);
+		if ( is_multisite() )
+			update_site_option( $option_name, $connections );
 		else
-			update_option($option_name, $connections);
+			update_option( $option_name, $connections );
 	}
 	
 	/**
@@ -181,8 +181,8 @@ class API_Connection_Manager{
 	 */
 	public function get_current_user(){
 		global $current_user;
-		if(!function_exists('wp_get_current_user')) {
-		    require_once(ABSPATH . "wp-includes/pluggable.php"); 
+		if ( !function_exists( 'wp_get_current_user' ) ) {
+		    require_once( ABSPATH . 'wp-includes/pluggable.php' ); 
 		}
 		wp_cookie_constants();
 		$current_user = $this->user = wp_get_current_user();
@@ -203,18 +203,18 @@ class API_Connection_Manager{
 		$ret = null;
 		
 		//look in active
-		foreach($this->services['active'] as $index_file => $service)
-			if($index_file==$slug)
+		foreach ( $this->services['active'] as $index_file => $service )
+			if ( $index_file==$slug )
 				$ret = $service;
 		
 		//look in inactive
-		foreach($this->services['inactive'] as $index_file => $service){
-			if($index_file==$slug)
+		foreach ( $this->services['inactive'] as $index_file => $service ){
+			if ( $index_file==$slug )
 				$ret = $service;
 		}
 		
-		if(!$ret)
-			$ret = new API_Con_Mngr_Error("Module not found");
+		if ( !$ret )
+			$ret = new API_Con_Mngr_Error( 'Module not found' );
 		
 		return $ret;
 			
@@ -247,49 +247,48 @@ class API_Connection_Manager{
 	 */
 	public function _get_installed_services(){
 		
-		api_con_log("Getting installed services...");
+		api_con_log( 'Getting installed services...' );
 
-		require_once( ABSPATH . "/wp-admin/includes/plugin.php" );
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 		$wp_plugins = array();
 		$plugin_root = $this->dir_sub;
 		
 		/**
 		 * Get list of plugin index files 
 		 */
-		$plugins_dir = @ opendir( $plugin_root );
+		$plugins_dir = @opendir( $plugin_root );
 		$slugs = array();
-		if($plugins_dir){
+		if ( $plugins_dir ){
 			
-			while( ($file=readdir($plugins_dir)) !==false ){
-				if($file=="." || $file=="..") continue;
-				if(is_readable("{$plugin_root}/{$file}/index.php"))
-					$slugs[] = "{$file}/index.php";
+			while( ( $file=readdir( $plugins_dir ) ) !==false ){
+				if ( $file=="." || $file==".." ) continue;
+				if ( is_readable( $plugin_root . '/' . $file . '/index.php' ) )
+					$slugs[] = $file . '/index.php';
 			}
-			closedir($plugins_dir);
+			closedir( $plugins_dir );
 		} //end list of plugin files
 		
-		if ( empty($slugs) )
+		if ( empty( $slugs ) )
 			return array(
 				'active' => array(),
-				'inactive' => array()
+				'inactive' => array(),
 			);
 		
 		/**
 		 * Build array of API_Con_Mngr_Module classes
 		 */
 		foreach ( $slugs as $slug ) {
-			
 			/**
 			 * Use API_Con_Mngr_Module 
 			 */
 			//load index file
-			unset($module);
-			include("{$plugin_root}/{$slug}");
-			if(!isset($module))
+			unset( $module );
+			include( $plugin_root . '/' . $slug );
+			if ( !isset( $module ) )
 				continue;
 			
 			//set params
-			$plugin_data = get_plugin_data("{$plugin_root}/{$slug}", false, false); //Do not apply markup/translate as it'll be cached.
+			$plugin_data = get_plugin_data( $plugin_root . '/' . $slug, false, false ); //Do not apply markup/translate as it'll be cached.
 			$module->set_params( $plugin_data );
 			$wp_plugins[$module->slug] = $module;
 			//end use API_Con_Mngr_Module
@@ -299,23 +298,23 @@ class API_Connection_Manager{
 		//build return array
 		$res = array(
 			'active' => array(),
-			'inactive' => $wp_plugins
+			'inactive' => $wp_plugins,
 		);
 		
 		//get active/inactive service slugs
 		$api_options = $this->_get_options();
-		(is_array(@$api_options['active'])) ?
+		( is_array( @$api_options['active'] ) ) ?
 			$active = $api_options['active'] :
 			$active = array();
-		(is_array(@$api_options['active'])) ?
+		( is_array( @$api_options['active'] ) ) ?
 			$inactive = $api_options['inactive'] :
 			$inactive = array();
 		
 		//remove active plugins from list
-		foreach($active as $slug){
-			if(array_key_exists($slug, $wp_plugins)){
+		foreach ( $active as $slug ){
+			if ( array_key_exists( $slug, $wp_plugins ) ){
 				$res['active'][$slug] = $wp_plugins[$slug];
-				unset($res['inactive'][$slug]);
+				unset( $res['inactive'][$slug] );
 			}
 			
 			//disable if sessions required
@@ -337,10 +336,10 @@ class API_Connection_Manager{
 	public function _get_options(){
 		
 		//multisite install
-		if(is_multisite())
-			$options = get_site_option($this->option_name, array());
+		if ( is_multisite() )
+			$options = get_site_option( $this->option_name, array() );
 		else
-			$options = get_option($this->option_name, array());
+			$options = get_option( $this->option_name, array() );
 		
 		return $options;
 	}
@@ -355,39 +354,39 @@ class API_Connection_Manager{
 	public function _module_activate( $slugs ){
 		
 		//make sure its an array we're dealing with
-		if(!is_array($slugs))
-			$slugs = array($slugs);
+		if ( !is_array( $slugs ) )
+			$slugs = array( $slugs );
 		
 		//vars
 		$options = $this->_get_options();
 		$services = $this->services;
-		$all = array_merge($services['active'], $services['inactive']);
+		$all = array_merge( $services['active'], $services['inactive'] );
 		$active = $options['active'];
 		$inactive = $options['inactive'];
 		
 		//remove slugs from inactive array
-		foreach($inactive as $key => $slug)
-			if(in_array($slug, $slugs))
-				unset($inactive[$key]);
+		foreach ( $inactive as $key => $slug )
+			if ( in_array($slug, $slugs ) )
+				unset( $inactive[$key] );
 		
 		//add slugs to active array
-		foreach($slugs as $slug)
-			if(!in_array($slug, $active))
+		foreach ( $slugs as $slug )
+			if ( !in_array( $slug, $active ) )
 				$active[] = $slug;
 		
 		//re-order services
 		$this->services['active'] = array();
 		$this->services['inactive'] = array();
-		foreach($all as $slug => $data)
-			if(in_array($slug, $active, false))
+		foreach ( $all as $slug => $data )
+			if ( in_array( $slug, $active, false ) )
 				$this->services['active'][$slug] = $data;
-			elseif(in_array($slug, $inactive))
+			elseif ( in_array( $slug, $inactive ) )
 				$this->services['inactive'][$slug] = $data;
 			
 		$options['active'] = $active;
 		$options['inactive'] = $inactive;
 		
-		$options = $this->_set_option($options);
+		$options = $this->_set_option( $options );
 	}
 	
 	/**
@@ -400,39 +399,39 @@ class API_Connection_Manager{
 	public function _module_deactivate( $slugs ){
 		
 		//make sure its an array we're dealing with
-		if(!is_array($slugs))
-			$slugs = array($slugs);
+		if ( !is_array( $slugs ) )
+			$slugs = array( $slugs );
 		
 		//vars
 		$options = $this->_get_options();
 		$services = $this->services;
-		$all = array_merge($services['active'], $services['inactive']);
+		$all = array_merge( $services['active'], $services['inactive'] );
 		$active = $options['active'];
 		$inactive = $options['inactive'];
 		
 		//remove slugs from active array
-		foreach($active as $key => $slug)
-			if(in_array($slug, $slugs))
-				unset($active[$key]);
+		foreach ( $active as $key => $slug )
+			if ( in_array( $slug, $slugs ) )
+				unset( $active[$key] );
 		
 		//add slugs to inactive array
-		foreach($slugs as $slug)
-			if(!in_array($slug, $inactive))
+		foreach ( $slugs as $slug )
+			if ( !in_array( $slug, $inactive ) )
 				$inactive[] = $slug;
 		
 		//re-order services
 		$this->services['active'] = array();
 		$this->services['inactive'] = array();
-		foreach($all as $slug => $data)
-			if(in_array($slug, $active, false))
+		foreach ( $all as $slug => $data )
+			if ( in_array( $slug, $active, false ))
 				$this->services['active'][$slug] = $data;
-			elseif(in_array($slug, $inactive))
+			elseif ( in_array( $slug, $inactive ) )
 				$this->services['inactive'][$slug] = $data;
 			
 		$options['active'] = $active;
 		$options['inactive'] = $inactive;
 		
-		$options = $this->_set_option($options);
+		$options = $this->_set_option( $options );
 	}
 	
 	/**
@@ -443,10 +442,10 @@ class API_Connection_Manager{
 	public function _reset_options(){
 		$option_name = "API_Con_Mngr_Module-connections";
 		//multisite install
-		if(is_multisite())
-			$connections = update_site_option($option_name, array());
+		if ( is_multisite() )
+			$connections = update_site_option( $option_name, array() );
 		else
-			$connections = update_option($option_name, array());
+			$connections = update_option( $option_name, array() );
 	}
 	
 	/**
@@ -466,8 +465,8 @@ class API_Connection_Manager{
 		 * BOOTSTRAP
 		 */
 		//make sure admin ajax call
-		if(
-			!defined('DOING_AJAX') || 
+		if (
+			!defined( 'DOING_AJAX' ) || 
 			true!==DOING_AJAX ||
 			$_GET['action']!='api_con_mngr'
 		) return;
@@ -478,36 +477,36 @@ class API_Connection_Manager{
 		 * when the email forms are submited, this flag if set to false will
 		 * stop api-con from reprocessing request tokens for access tokens.
 		 */
-		if(@$_REQUEST['api-con-mngr']=='false')
+		if ( @$_REQUEST['api-con-mngr']=='false' )
 			return false;
 		//end Process flag
 		
 		//if reseting options
-		if(@$_GET['api-action']=='reset'){
+		if ( @$_GET['api-action']=='reset' ){
 			$this->_reset_options();
-			die("Options reset");
+			die( 'Options reset' );
 		}
 		//end if reseting options
 		
 		//get dto (will also set the current user)
 		$dto = $this->get_dto();
-		if(is_wp_error($dto))
-			$dto->get_error_message('die');
+		if ( is_wp_error( $dto ) )
+			$dto->get_error_message( 'die' );
 		
 		//if slug setup module
-		if(!is_wp_error($dto->slug)){
-			$module = $this->get_service($dto->slug);
-			if(is_wp_error($module))
-				$module->get_error_message('die');
-			$module->parse_dto($dto);
-			$err = $module->check_error($dto->response);
+		if ( !is_wp_error( $dto->slug ) ){
+			$module = $this->get_service( $dto->slug );
+			if ( is_wp_error( $module ) )
+				$module->get_error_message( 'die' );
+			$module->parse_dto( $dto );
+			$err = $module->check_error( $dto->response );
 			
 			//check for error
-			if(is_wp_error($err))
-				$err->get_error_message('die');
+			if ( is_wp_error( $err ) )
+				$err->get_error_message( 'die' );
 		}
 		else
-			$dto->slug->get_error_message('die');
+			$dto->slug->get_error_message( 'die' );
 		//END BOOTSTRAP
 
 		/**
@@ -516,15 +515,15 @@ class API_Connection_Manager{
 		 * register callbacks
 		 * redirect to authorize url
 		 */
-		if(@$dto->response['login']){
+		if ( @$dto->response['login'] ){
 			
 			//has a custom login form been submited?
-			if($dto->response['login']=='do_login'){
+			if ( $dto->response['login']=='do_login' ){
 				$dto->response['session'] = $module->login_form_callback( $dto );
 				$module->do_callback( $dto );
 			}
 			//do we need to print a login form?
-			elseif($module->login_form)
+			elseif ( $module->login_form )
 				$module->get_login_form();	//this call will print form and die()
 			
 			//login authorize
@@ -536,12 +535,12 @@ class API_Connection_Manager{
 		/**
 		 * oauth1 service response
 		 */
-		elseif($module->protocol == 'oauth1'){
+		elseif ( $module->protocol == 'oauth1' ){
 			
 			/**
 			 * Get the access_token 
 			 */
-			if(@$dto->response['oauth_token']){
+			if ( @$dto->response['oauth_token'] ){
 				$module->oauth_token = $dto->response['oauth_token'];
 				$module->oauth_token_secret = @$dto->response['oauth_token_secret'];
 				$module->oauth_token_verifier = @$dto->response['oauth_token_verifier'];
@@ -565,12 +564,12 @@ class API_Connection_Manager{
 		 * oauth2 service response.
 		 * Normally should only happen when $_REQUEST['code'] is recieved
 		 */
-		elseif(@$module->protocol=="oauth2"){
+		elseif ( @$module->protocol=='oauth2' ){
 			
 			//get tokens (this call will set tokens in db for module)
 			$tokens = $module->get_access_token( $dto->response );
-			if(is_wp_error($tokens))
-				$tokens->get_error_message('notify_parent');
+			if ( is_wp_error( $tokens ) )
+				$tokens->get_error_message( 'notify_parent' );
 
 			//do callback
 			else{
@@ -590,7 +589,7 @@ class API_Connection_Manager{
 		//default print js
 		?>
 		<script type="text/javascript">
-			if(window.opener){
+			if (window.opener){
 				window.opener.location.reload();
 				window.close();
 			}
@@ -617,12 +616,12 @@ class API_Connection_Manager{
 		
 		//vars
 		$user_id = $this->user->ID;
-		$user_options = get_user_meta($user_id, $this->option_name, true);
+		$user_options = get_user_meta( $user_id, $this->option_name, true );
 		
-		foreach($slugs as $slug => $state)
+		foreach ( $slugs as $slug => $state )
 			$user_options[$slug]['refresh_on'] = $state;
 		
-		update_user_meta($user_id, $this->option_name, $user_options);
+		update_user_meta( $user_id, $this->option_name, $user_options );
 		
 	}
 	
@@ -638,11 +637,11 @@ class API_Connection_Manager{
 		//vars
 		$url = parse_url($url);
 		$query_vars = array();
-		parse_str(@$url['query'], $query_vars);
-		$query_vars = array_merge($query_vars, $vars);
+		parse_str( @$url['query'], $query_vars );
+		$query_vars = array_merge( $query_vars, $vars );
 		//build and return new string
-		return "{$url['scheme']}://{$url['host']}{$url['path']}"
-			. "?" . http_build_query($query_vars);
+		return $url['scheme'] . '://' . $url['host'] . $url['path']
+			. '?' . http_build_query( $query_vars );
 	}
 	
 	/**
@@ -658,7 +657,7 @@ class API_Connection_Manager{
 		//set referer, in case error reported mid authentication
 		$_SESSION['api-con-mngr-referer'] = $_SERVER['HTTP_REFERER'];
 		
-		switch($module->protocol){
+		switch ( $module->protocol ){
 			
 			//oauth1
 			case 'oauth1':
@@ -671,7 +670,7 @@ class API_Connection_Manager{
 				$_SESSION['API_Con_Mngr_Module']['slug'] = $dto->response['slug'];
 
 				//redirect to url and exit
-				header("Location: {$url}");
+				header( 'Location: ' . $url );
 				exit;
 			//end oauth1
 			
@@ -679,7 +678,7 @@ class API_Connection_Manager{
 			case 'oauth2':
 				
 				$url = $module->get_authorize_url();
-				header("Location: {$url}");
+				header( 'Location: ' . $url );
 				
 				break;
 			//end oauth2
@@ -690,7 +689,7 @@ class API_Connection_Manager{
 			//end custom service
 		}
 		
-		die("Connecting to {$dto->slug} ...");
+		die( 'Connecting to ' . $dto->slug . ' ...' );
 	}
 	
 	/**
@@ -701,8 +700,8 @@ class API_Connection_Manager{
 	 * $res = new stdClass();
 	 * $res->response = array();	//the $_REQUEST array
 	 * $res->callback = stdClass;	//the plugin callback if any
-	 * $res->slug = "";
-	 * $res->user = "";
+	 * $res->slug = '';
+	 * $res->user = '';
 	 * 
 	 * @param array $response An array to parse. Generally a $_REQUEST
 	 * @return stdClass|API_Con_Mngr_Error Returns an error if no service slug found.
@@ -712,17 +711,17 @@ class API_Connection_Manager{
 
 		//if $_REQUEST remove vars
 		$response = $_REQUEST;
-		unset($response['action']);
+		unset( $response['action'] );
 
 		/**
 		 * get module slug
 		 */
-		if(@$_REQUEST['slug'])
-			$slug = urldecode($_REQUEST['slug']);
-		elseif(@$_SESSION['API_Con_Mngr_Module']['slug'])
+		if ( @$_REQUEST['slug'] )
+			$slug = urldecode( $_REQUEST['slug'] );
+		elseif ( @$_SESSION['API_Con_Mngr_Module']['slug'])
 			$slug = $_SESSION['API_Con_Mngr_Module']['slug'];
 		else
-			return new API_Con_Mngr_Error("Error: No slug found");
+			return new API_Con_Mngr_Error( 'Error: No slug found' );
 		
 		$_SESSION['API_Con_Mngr_Module']['slug'] = $slug;
 		//end get module slug
@@ -730,10 +729,10 @@ class API_Connection_Manager{
 		/**
 		 * set callback
 		 */
-		if(@$_REQUEST['file'] && @$_REQUEST['callback']){
+		if ( @$_REQUEST['file'] && @$_REQUEST['callback'] ){
 			$callback = array(
 				'file' => @$_REQUEST['file'],
-				'callback' => @$_REQUEST['callback']
+				'callback' => @$_REQUEST['callback'],
 			);
 			$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
 		}
@@ -743,11 +742,11 @@ class API_Connection_Manager{
 		 * get callback 
 		 */
 		else{
-			if(@$_REQUEST['callback']){
-				$callback = stripslashes(urldecode($_REQUEST['callback']));
+			if ( @$_REQUEST['callback'] ){
+				$callback = stripslashes( urldecode( $_REQUEST['callback'] ) );
 				$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] = $callback;
 			}
-			elseif(@$_SESSION['API_Con_Mngr_Module'][$slug]['callback']){
+			elseif ( @$_SESSION['API_Con_Mngr_Module'][$slug]['callback'] ){
 				$callback = $_SESSION['API_Con_Mngr_Module'][$slug]['callback'];
 			}
 			else
@@ -763,28 +762,28 @@ class API_Connection_Manager{
 		$res->user = $this->get_current_user();
 		
 		//what ever vars are left is the services response struct
-		foreach($response as $key=>$val)
-			$res->response[ urldecode($key) ] = urldecode(stripslashes($val));
+		foreach ( $response as $key=>$val )
+			$res->response[ urldecode($key) ] = urldecode( stripslashes( $val ) );
 		
 		//make sure state is always exact same.
-		if(@$response['state'])
+		if ( @$response['state'] )
 			$res->response['state'] = $response['state'];
 		
 		//look for params in sessions
-		if(@is_array($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'])){
-			foreach($_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] as $key=>$val)
+		if ( @is_array( $_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] ) ){
+			foreach ( $_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] as $key=>$val)
 				$res->response[$key] = $val;
-			unset($_SESSION['API_Con_Mngr_Module'][$res->slug]['params']);
+			unset( $_SESSION['API_Con_Mngr_Module'][$res->slug]['params'] );
 		}
 		
 		//unset sessions
 		//unset($_SESSION['API_Con_Mngr_Module']['slug']);
-		unset($_SESSION['callback']); //dev code - clear deprecated sessions
-		unset($_SESSION['API_Con_Mngr_Module']['callback']); //dev code - clear deprecated sessions
-		unset($_SESSION['headers']);
+		unset( $_SESSION['callback'] ); //dev code - clear deprecated sessions
+		unset( $_SESSION['API_Con_Mngr_Module']['callback'] ); //dev code - clear deprecated sessions
+		unset( $_SESSION['headers'] );
 		
 		//load serivice module's params
-		$params = $this->get_service($res->slug);
+		$params = $this->get_service( $res->slug );
 		return $res;
 	}
 	
@@ -801,9 +800,9 @@ class API_Connection_Manager{
 	private function _set_option( array $options ){
 		
 		//multisite install
-		if(is_multisite())
-			update_site_option($this->option_name, $options);
+		if ( is_multisite() )
+			update_site_option( $this->option_name, $options );
 		else
-			update_option($this->option_name, $options);
+			update_option( $this->option_name, $options );
 	}	
 }
