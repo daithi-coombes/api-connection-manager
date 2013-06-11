@@ -44,6 +44,8 @@
   <mkdir dir="${basedir}/build/logs"/>
   <mkdir dir="${basedir}/build/pdepend"/>
   <mkdir dir="${basedir}/build/phpdox"/>
+  <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
+  <copy file="${basedir}/index.php" todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
  </target>
 
  <target name="lint" description="Perform syntax check of sourcecode files">
