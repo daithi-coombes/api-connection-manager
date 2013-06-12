@@ -4,7 +4,7 @@
  <!-- <target name="build"
    depends="prepare,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpcpd,phpdox,phpunit,phpcb"/> -->
  <target name="build"
-   depends="prepare,lint,phploc,pdepend,phpmd,phpmd-ci,phpcs-ci,phpcpd"/>
+   depends="prepare,lint,phploc,pdepend,phpmd,phpmd-ci,phpcs-ci,phpunit,phpcpd"/>
 
  <target name="debug"
    depends="clean,prepare,phpmd"/>
@@ -34,7 +34,7 @@
   <delete dir="${basedir}/build/coverage"/>
   <delete dir="${basedir}/build/logs"/>
   <delete dir="${basedir}/build/pdepend"/>
-  <delete file="${basedir}/build/phpmd.xml"/>
+  <delete dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
  </target>
 
  <target name="prepare" depends="clean" description="Prepare for build">
@@ -44,6 +44,24 @@
   <mkdir dir="${basedir}/build/logs"/>
   <mkdir dir="${basedir}/build/pdepend"/>
   <mkdir dir="${basedir}/build/phpdox"/>
+  <!--
+  <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
+  <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/tests"/>
+  <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/vendor"/>
+  <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager">
+    <fileset dir="${basedir}">
+      <include name="class-api-con*"/>
+      <include name="index.php"/>
+    </fileset>
+  </copy>
+  <copy file="${basedir}/build/log4net-config.xml" todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
+  <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/tests">
+    <fileset dir="tests"/>
+  </copy>
+  <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/vendor">
+    <fileset dir="vendor"/>
+  </copy>
+-->
  </target>
 
  <target name="lint" description="Perform syntax check of sourcecode files">

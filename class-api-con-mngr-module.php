@@ -4,7 +4,8 @@
  * @package api-connection-manager
  * @author daithi
  */
-require_once('vendor/OAuth.php');
+if ( !class_exists( 'OAuthException' ) )	//hack for jenkins-phpunit bug. 'Fatal error: Cannot redeclare class OAuthException'
+	require_once('vendor/OAuth.php');
 
 if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 	/**
