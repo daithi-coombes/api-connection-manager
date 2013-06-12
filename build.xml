@@ -44,6 +44,7 @@
   <mkdir dir="${basedir}/build/logs"/>
   <mkdir dir="${basedir}/build/pdepend"/>
   <mkdir dir="${basedir}/build/phpdox"/>
+  <!--
   <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager"/>
   <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/tests"/>
   <mkdir dir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/vendor"/>
@@ -60,6 +61,7 @@
   <copy todir="${basedir}/../../wordpress/wp-content/plugins/api-connection-manager/vendor">
     <fileset dir="vendor"/>
   </copy>
+-->
  </target>
 
  <target name="lint" description="Perform syntax check of sourcecode files">
