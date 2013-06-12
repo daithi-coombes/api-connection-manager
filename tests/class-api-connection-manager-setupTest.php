@@ -24,7 +24,7 @@ class API_Connection_Manager_SetupTest extends WP_UnitTestCase{
 		//sign in user
 		$this->user = wp_signon(array(
 			'user_login' => 'admin',
-			'user_password' => 'a'));
+			'user_password' => 'password'));
 		wp_set_current_user($this->user->ID);
 		error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT);
 	}

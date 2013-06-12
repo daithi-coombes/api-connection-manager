@@ -18,7 +18,7 @@ class API_Con_Mngr_ViewTest extends WP_UnitTestCase{
 		//sign in user
 		$this->user = wp_signon(array(
 			'user_login' => 'admin',
-			'user_password' => 'a'));
+			'user_password' => 'password'));
 		wp_set_current_user($this->user->ID);
 	}
 
