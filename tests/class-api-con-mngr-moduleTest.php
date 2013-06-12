@@ -20,7 +20,7 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 		//sign in user
 		$this->user = wp_signon(array(
 			'user_login' => 'admin',
-			'user_password' => 'password'));
+			'user_password' => 'a'));
 		$this->module->user = $this->user;
 		wp_set_current_user($this->user->ID);
 	}
@@ -83,10 +83,6 @@ class API_Con_Mngr_ModuleTest extends WP_UnitTestCase{
 
 	function test_get_params(){
 
-		$user = wp_signon(array(
-			'user_login' => 'admin',
-			'user_password' => 'password'));
-		$this->module->user = $user;
 		$params = $this->module->set_params(array(
 			'access_token' => 'foo',
 			'refresh_token' => 'bar'));
