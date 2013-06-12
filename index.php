@@ -12,8 +12,8 @@
  */
 
 //boostrap
-error_reporting(0);
-ini_set('display_errors',0);
+error_reporting(E_ALL ^ E_STRICT);
+ini_set('display_errors',1);
 define('API_CON_MNGR_LOG_ENABLE', true);
 $API_CON_PLUGIN_DIR =  WP_PLUGIN_DIR . "/" . basename(dirname( __FILE__ ));
 $API_CON_PLUGIN_URL =  WP_PLUGIN_URL . "/" . basename(dirname( __FILE__ ));
