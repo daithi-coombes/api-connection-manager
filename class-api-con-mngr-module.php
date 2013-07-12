@@ -846,13 +846,13 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		public function request( $url, $method = 'GET', $parameters = array(), $die = true ) {
 			
 			global $current_user;
-			
+
 			//vars
 			$current_user = wp_get_current_user();
 			$connections = $this->get_connections();
 			$method = strtoupper( $method );
 			$errs = false;
-			
+
 			//make request
 			switch ( $method ) {
 				case 'POST':
@@ -866,7 +866,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 					$response = wp_remote_get( $url, array( 'headers' => $this->headers ) );
 					break;
 			}//end request
-			
+
 			//if http body
 			if ( is_wp_error( $response ) )
 				$errs = $response;
@@ -881,27 +881,37 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 				$msg = $errs->get_error_message();
 				
 				//print js to reload calling page
-				if ( $die )
+				if ( $die ){
 					print '
 						<script>
 							alert(\'' . $msg . '\');
 							if (window.opener){
 								window.opener.location.reload();
 								window.close();
-							}else
+							}else if(self==top)
 								window.location.href = document.referrer;
+							else
+								document.write(\'' . $msg . '\');
 						</script>
 						';
-				else
+					die();
+				}
+				else{
 					print '
 						<script>
 							alert(\'' . $msg . '\');
+					';
+					if(@$_SESSION['api-con-mngr-referer'])
+						print '
 							if ( window.opener ){
 								window.opener.location.href = \'' . $_SESSION['api-con-mngr-referer'] . '\';
 								window.close();
-							}else
+							}else if(self==top)
 								window.location.href = \'' . $_SESSION['api-con-mngr-referer'] . '\';
+						';
+					print '
 						</script>';
+				}
 			}
 			
 			//return response
