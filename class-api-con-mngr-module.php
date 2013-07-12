@@ -844,7 +844,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		 * @return array Returns the response array in the WP_HTTP format. 
 		 */
 		public function request( $url, $method = 'GET', $parameters = array(), $die = true ) {
-
+			
 			global $current_user;
 
 			//vars
@@ -882,7 +882,6 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 				
 				//print js to reload calling page
 				if ( $die ){
-					
 					print '
 						<script>
 							alert(\'' . $msg . '\');
@@ -895,18 +894,24 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 								document.write(\'' . $msg . '\');
 						</script>
 						';
-					}
+					die();
+				}
 				else{
 					print '
 						<script>
 							alert(\'' . $msg . '\');
+					';
+					if(@$_SESSION['api-con-mngr-referer'])
+						print '
 							if ( window.opener ){
 								window.opener.location.href = \'' . $_SESSION['api-con-mngr-referer'] . '\';
 								window.close();
-							}else
+							}else if(self==top)
 								window.location.href = \'' . $_SESSION['api-con-mngr-referer'] . '\';
+						';
+					print '
 						</script>';
-					}
+				}
 			}
 			
 			//return response
