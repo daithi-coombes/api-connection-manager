@@ -46,7 +46,6 @@ class API_Connection_Manager_User{
 			print '<p>You must be logged in to connect to services</p>';
 			return;
 		}
-		api_con_log( $meta );
 		
 		//loop through modules
 		foreach ( $modules as $slug => $module ){
