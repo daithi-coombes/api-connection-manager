@@ -46,9 +46,10 @@ class API_Connection_Manager_User{
 			print '<p>You must be logged in to connect to services</p>';
 			return;
 		}
-		
+
 		//loop through modules
 		foreach ( $modules as $slug => $module ){
+
 			/**
 			 * get status icon and params
 			 */
@@ -84,7 +85,7 @@ class API_Connection_Manager_User{
 			else
 				$html .= '<p>You are not connected to ' . $module->Name . '</p>
 					<p><a href="' . $module->get_login_button( __FILE__, array( &$this, 'connect_user', false, ) ) . '" target="_new">
-						Connect your wordpress account with {$module->Name}</a>';
+						Connect your wordpress account with ' . $module->Name . '</a>';
 					
 			//close container
 			$html .= '	</div>

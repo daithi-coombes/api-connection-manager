@@ -714,7 +714,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		public function login( $uid ){
 			
 			$connections = $this->get_connections();
-			
+
 			//if logged in user then connect account
 			if ( $this->user->ID )
 				return $this->login_connect( $this->user->ID, $uid );
@@ -742,6 +742,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 							exit();
 						}
 			}
+			
 			return false;
 		}
 		
@@ -779,6 +780,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			
 			$connections[$this->slug][$user_id] = (string) $uid;
 			$this->set_connections( $connections );
+			
 			return true;
 		}
 		
@@ -928,7 +930,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		 * @return array $connections
 		 */
 		public function set_connections( $connections ){
-			$option_name = $this->option_name . 'connections';
+			$option_name = $this->option_name . '-connections';
 			if ( is_multisite() )
 				update_site_option( $option_name, $connections );
 			else {
