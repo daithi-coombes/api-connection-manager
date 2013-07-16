@@ -692,7 +692,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			$_SESSION['API_Con_Mngr_Module']['slug'] = $this->slug;
 			
 			//make request
-			$res = $this->request( $this->url_request_token, $method );
+			$res = $this->request( $this->url_request_token, $method, null, false );
 			$ret = $this->parse_response( $res );
 			
 			//store tokens and return
@@ -855,19 +855,28 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			$method = strtoupper( $method );
 			$errs = false;
 
+			//is connected
+			if( !in_array($this->slug, $connections) && $die ){
+				$html = '<p>You are not connected to ' . $this->Name . '</p>
+					<p><a href="' . $this->get_login_button( __FILE__, array( &$this, 'connect_user', false, ) ) . '" target="_new">
+						Connect your wordpress account with ' . $this->Name . '</a>';
+				die( $html );
+			}
+
 			//make request
-			switch ( $method ) {
-				case 'POST':
-					$params = array( 'body' => $parameters, 'headers' => $this->headers );
-					$response = wp_remote_post( $url, $params );
-					break;
-				default:
-					
-					if ( count( $parameters ) )
-						$url .= '?' . http_build_query( $parameters );
-					$response = wp_remote_get( $url, array( 'headers' => $this->headers ) );
-					break;
-			}//end request
+			else
+				switch ( $method ) {
+					case 'POST':
+						$params = array( 'body' => $parameters, 'headers' => $this->headers );
+						$response = wp_remote_post( $url, $params );
+						break;
+					default:
+						
+						if ( count( $parameters ) )
+							$url .= '?' . http_build_query( $parameters );
+						$response = wp_remote_get( $url, array( 'headers' => $this->headers ) );
+						break;
+				}//end request
 
 			//if http body
 			if ( is_wp_error( $response ) )
@@ -886,6 +895,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 				if ( $die ){
 					print '
 						<script>
+							var msg = \'' . $msg . '\';
 							alert(\'' . $msg . '\');
 							if (window.opener){
 								window.opener.location.reload();

@@ -33,6 +33,7 @@ class API_Connection_Manager_User{
 		$current_user = wp_get_current_user();
 		$count = 1;
 		$html = "<div>\n";
+
 		if ( is_multisite() )
 			$meta = get_site_option( 'API_Con_Mngr_Module-connections', array() );
 		else
@@ -86,7 +87,7 @@ class API_Connection_Manager_User{
 				$html .= '<p>You are not connected to ' . $module->Name . '</p>
 					<p><a href="' . $module->get_login_button( __FILE__, array( &$this, 'connect_user', false, ) ) . '" target="_new">
 						Connect your wordpress account with ' . $module->Name . '</a>';
-					
+			
 			//close container
 			$html .= '	</div>
 					</div>
@@ -95,7 +96,7 @@ class API_Connection_Manager_User{
 		}
 		//end loop through modules
 		
-		print wp_kses_post( $html );
+		print $html;
 	}
 	
 	/**

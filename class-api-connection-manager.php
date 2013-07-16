@@ -466,7 +466,7 @@ class API_Connection_Manager{
 		if (
 			!defined( 'DOING_AJAX' ) || 
 			true !== DOING_AJAX ||
-			$_GET['action'] != 'api_con_mngr'
+			@$_GET['action'] != 'api_con_mngr'
 		) return;
 		
 		/**
