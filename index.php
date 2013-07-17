@@ -14,7 +14,7 @@
 //boostrap
 error_reporting(E_ALL ^ E_STRICT);
 ini_set('display_errors',1);
-define('API_CON_MNGR_LOG_ENABLE', true);
+define('API_CON_MNGR_LOG_ENABLE', false);
 $API_CON_PLUGIN_DIR =  WP_PLUGIN_DIR . "/" . basename(dirname( __FILE__ ));
 $API_CON_PLUGIN_URL =  WP_PLUGIN_URL . "/" . basename(dirname( __FILE__ ));
 
@@ -85,7 +85,7 @@ function is_api_con_error($thing){
 function api_con_log($msg, $level='info'){
   
   //check able to log
-	if(!defined('API_CON_MNGR_LOG_ENABLE') && !API_CON_MNGR_LOG_ENABLE)
+	if(!defined('API_CON_MNGR_LOG_ENABLE') || !API_CON_MNGR_LOG_ENABLE)
 		return false;
 
   $bt = debug_backtrace();
@@ -113,6 +113,9 @@ function api_con_log($msg, $level='info'){
 //test logger is valid
 $test_log = Logger::getRootLogger();
 foreach(array('request','response') as $appender ){
+  if(!defined('API_CON_MNGR_LOG_ENABLE') || !API_CON_MNGR_LOG_ENABLE)
+    continue;
+  
   $file = $test_log->getAppender( $appender )->getFile();
   if(!is_writable(dirname($file))){
     $api_con_mngr_log_error = new API_Con_Mngr_Error();
