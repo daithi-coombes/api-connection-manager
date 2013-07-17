@@ -35,7 +35,7 @@ class API_Con_Mngr_Error extends WP_Error{
 			$_SESSION[ $this->global_key ] = array();
 
 		if ( strlen( $msg ) ){
-			$this->add( $msg );
+			$this->add_error( $msg );
 		}
 
 		return $this;
