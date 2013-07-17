@@ -27,10 +27,10 @@ class API_Con_Mngr_ErrorTest extends WP_UnitTestCase{
 		unset($_SESSION[ $this->global_key ]);
 	}
 
-	function test_add(){
+	function test_add_error(){
 
 		//add 2nd test message
-		$this->error->add($this->msgs[1]);
+		$this->error->add_error($this->msgs[1]);
 
 		//test global
 		$this->assertSame($this->msgs, $_SESSION[$this->global_key], "session global not updated");
