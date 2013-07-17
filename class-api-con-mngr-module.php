@@ -1063,7 +1063,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			
 			//if no email match
 			if ( !$user_id )
-				die( 'Sorry the email <em>{$email}</em> is not on our system' );
+				die( __('Sorry the email <em>{$email}</em> is not on our system') );
 			
 			//
 			$user = get_userdata( $user_id );
