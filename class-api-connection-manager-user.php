@@ -43,8 +43,8 @@ class API_Connection_Manager_User{
 		
 		//check user is logged in
 		if ( !is_user_logged_in() ){
-			print '<h3>API Connection Manager Error</h3>';
-			print '<p>You must be logged in to connect to services</p>';
+			print '<h3>' . __( 'API Connection Manager Error' ) . '</h3>';
+			print '<p>' . __( 'You must be logged in to connect to services' ) . '</p>';
 			return;
 		}
 
@@ -84,9 +84,9 @@ class API_Connection_Manager_User{
 						<input type="submit" value="Disconnect"/>
 					</form>';
 			else
-				$html .= '<p>You are not connected to ' . $module->Name . '</p>
+				$html .= '<p>' . __( 'You are not connected to ' . $module->Name ) . '</p>
 					<p><a href="' . $module->get_login_button( __FILE__, array( &$this, 'connect_user', false, ) ) . '" target="_new">
-						Connect your wordpress account with ' . $module->Name . '</a>';
+						' . __( 'Connect your wordpress account with ' . $module->Name ) . '</a>';
 			
 			//close container
 			$html .= '	</div>
