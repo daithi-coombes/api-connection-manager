@@ -682,7 +682,7 @@ class API_Connection_Manager{
 			//end custom service
 		}
 		
-		die( 'Connecting to ' . $dto->slug . ' ...' );
+		die( __('Connecting to ' . $dto->slug . ' ...') );
 	}
 	
 	/**
