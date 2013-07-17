@@ -381,8 +381,8 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			
 			//load file parse callback
 			require_once( $callback['file'] );
-			$callback['func'] = unserialize( stripslashes( $callback['callback'] ) );
-			
+			$callback['func'] = unserialize( trim(urldecode( $callback['callback'] ) ) );
+
 			//call a method
 			if ( is_array( $callback['func'] ) ){
 				$class = $callback['func'][0];
@@ -855,16 +855,17 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			$method = strtoupper( $method );
 			$errs = false;
 
-			//is connected
+			/** is connected
 			if( !in_array($this->slug, $connections) && $die ){
 				$html = '<p>You are not connected to ' . $this->Name . '</p>
 					<p><a href="' . $this->get_login_button( __FILE__, array( &$this, 'connect_user', false, ) ) . '" target="_new">
 						Connect your wordpress account with ' . $this->Name . '</a>';
 				die( $html );
 			}
+			*/
 
 			//make request
-			else
+			//else
 				switch ( $method ) {
 					case 'POST':
 						$params = array( 'body' => $parameters, 'headers' => $this->headers );
