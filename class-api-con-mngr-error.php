@@ -46,7 +46,7 @@ class API_Con_Mngr_Error extends WP_Error{
 	 * @uses array WP_Error::errors
 	 * @uses array $_SESSION[ API_Con_Mngr_Error::global_key ]
 	 */
-	public function add( $msg, $data = array() ){
+	public function add_error( $msg ){
 		parent::add( $this->code, $msg );
 		$_SESSION[ $this->global_key ][] = $msg;
 	}
