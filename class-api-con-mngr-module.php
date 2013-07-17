@@ -381,8 +381,8 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			
 			//load file parse callback
 			require_once( $callback['file'] );
-			$callback['func'] = unserialize( stripslashes( $callback['callback'] ) );
-			
+			$callback['func'] = unserialize( trim(urldecode( $callback['callback'] ) ) );
+
 			//call a method
 			if ( is_array( $callback['func'] ) ){
 				$class = $callback['func'][0];
@@ -692,7 +692,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			$_SESSION['API_Con_Mngr_Module']['slug'] = $this->slug;
 			
 			//make request
-			$res = $this->request( $this->url_request_token, $method );
+			$res = $this->request( $this->url_request_token, $method, null, false );
 			$ret = $this->parse_response( $res );
 			
 			//store tokens and return
@@ -714,7 +714,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		public function login( $uid ){
 			
 			$connections = $this->get_connections();
-			
+
 			//if logged in user then connect account
 			if ( $this->user->ID )
 				return $this->login_connect( $this->user->ID, $uid );
@@ -742,6 +742,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 							exit();
 						}
 			}
+			
 			return false;
 		}
 		
@@ -779,6 +780,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			
 			$connections[$this->slug][$user_id] = (string) $uid;
 			$this->set_connections( $connections );
+			
 			return true;
 		}
 		
@@ -853,19 +855,29 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 			$method = strtoupper( $method );
 			$errs = false;
 
+			/** is connected
+			if( !in_array($this->slug, $connections) && $die ){
+				$html = '<p>You are not connected to ' . $this->Name . '</p>
+					<p><a href="' . $this->get_login_button( __FILE__, array( &$this, 'connect_user', false, ) ) . '" target="_new">
+						Connect your wordpress account with ' . $this->Name . '</a>';
+				die( $html );
+			}
+			*/
+
 			//make request
-			switch ( $method ) {
-				case 'POST':
-					$params = array( 'body' => $parameters, 'headers' => $this->headers );
-					$response = wp_remote_post( $url, $params );
-					break;
-				default:
-					
-					if ( count( $parameters ) )
-						$url .= '?' . http_build_query( $parameters );
-					$response = wp_remote_get( $url, array( 'headers' => $this->headers ) );
-					break;
-			}//end request
+			//else
+				switch ( $method ) {
+					case 'POST':
+						$params = array( 'body' => $parameters, 'headers' => $this->headers );
+						$response = wp_remote_post( $url, $params );
+						break;
+					default:
+						
+						if ( count( $parameters ) )
+							$url .= '?' . http_build_query( $parameters );
+						$response = wp_remote_get( $url, array( 'headers' => $this->headers ) );
+						break;
+				}//end request
 
 			//if http body
 			if ( is_wp_error( $response ) )
@@ -884,6 +896,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 				if ( $die ){
 					print '
 						<script>
+							var msg = \'' . $msg . '\';
 							alert(\'' . $msg . '\');
 							if (window.opener){
 								window.opener.location.reload();
@@ -928,7 +941,7 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		 * @return array $connections
 		 */
 		public function set_connections( $connections ){
-			$option_name = $this->option_name . 'connections';
+			$option_name = $this->option_name . '-connections';
 			if ( is_multisite() )
 				update_site_option( $option_name, $connections );
 			else {
