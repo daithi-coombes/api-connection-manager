@@ -33,6 +33,7 @@ class API_Connection_Manager_User{
 		$current_user = wp_get_current_user();
 		$count = 1;
 		$html = "<div>\n";
+
 		if ( is_multisite() )
 			$meta = get_site_option( 'API_Con_Mngr_Module-connections', array() );
 		else
@@ -46,10 +47,10 @@ class API_Connection_Manager_User{
 			print '<p>You must be logged in to connect to services</p>';
 			return;
 		}
-		api_con_log( $meta );
-		
+
 		//loop through modules
 		foreach ( $modules as $slug => $module ){
+
 			/**
 			 * get status icon and params
 			 */
@@ -85,8 +86,8 @@ class API_Connection_Manager_User{
 			else
 				$html .= '<p>You are not connected to ' . $module->Name . '</p>
 					<p><a href="' . $module->get_login_button( __FILE__, array( &$this, 'connect_user', false, ) ) . '" target="_new">
-						Connect your wordpress account with {$module->Name}</a>';
-					
+						Connect your wordpress account with ' . $module->Name . '</a>';
+			
 			//close container
 			$html .= '	</div>
 					</div>
@@ -95,11 +96,11 @@ class API_Connection_Manager_User{
 		}
 		//end loop through modules
 		
-		print wp_kses_post( $html );
+		print $html;
 	}
 	
 	/**
-	 * Connects the logged in user with the uid for the required module. Is
+	 * Callback. Connects the logged in user with the uid for the required module. Is
 	 * called in API_Connection_Manager::_response_listener()
 	 * 
 	 * @global API_Connection_Manager $API_Connection_Manager
