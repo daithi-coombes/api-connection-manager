@@ -116,7 +116,7 @@ foreach(array('request','response') as $appender ){
   $file = $test_log->getAppender( $appender )->getFile();
   if(!is_writable(dirname($file))){
     $api_con_mngr_log_error = new API_Con_Mngr_Error();
-    $api_con_mngr_log_error->add_error("Unable to write to:<br/> {$request_file}");    
+    $api_con_mngr_log_error->add_error("Unable to write to:<br/> {$file}");    
   }
 }
 //end Helper functions
