@@ -482,7 +482,7 @@ class API_Connection_Manager{
 		//if reseting options
 		if ( @$_GET['api-action'] == 'reset' ){
 			$this->_reset_options();
-			die( 'Options reset' );
+			die( __('Options reset') );
 		}
 		//end if reseting options
 		
