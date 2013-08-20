@@ -51,6 +51,7 @@ Logger::configure(dirname(__FILE__).'/log4net-config.xml');
  */
 function API_Con_Mngr_Autoload($class){
 	global $API_CON_PLUGIN_DIR;
+  var_dump($class);
 	$class_name = "class-" . strtolower( str_replace("_", "-", $class));
 	$filename = "{$class_name}.php";
 	@include "{$API_CON_PLUGIN_DIR}/{$filename}";
