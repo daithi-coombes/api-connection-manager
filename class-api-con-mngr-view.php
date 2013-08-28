@@ -83,7 +83,7 @@ class API_Con_Mngr_View{
 		return '<div class="container-fluid">
 				<h1>' . get_bloginfo( 'name' ) . '</h1>
 				<h3>API Connection Manager</h3>
-				' . implode( '\n', $this->body ) . '
+				' . implode( ' ', $this->body ) . '
 			</div>';
 	}
 	
