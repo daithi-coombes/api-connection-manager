@@ -324,6 +324,7 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		//set module fields
 		if( !is_wp_error( $module ) )
 			$module->set_options( $options );
+		
 	}
 	
 	/**
