@@ -431,7 +431,11 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 		if ( 'api-connection-manager-setup' != @$_GET['page'] )
 			if ( 'api-connection-manager-service' != @$_GET['page'] )
 				return;
-		$action = @$_REQUEST['action'];
+
+		if(@$_REQUEST['action'])
+			$action = @$_REQUEST['action'];
+		if(@$_REQUEST['action2'])
+			$action = @$_REQUEST['action2'];
 		if ( method_exists( $this, $action ) )
 			$this->$action();
 	}
