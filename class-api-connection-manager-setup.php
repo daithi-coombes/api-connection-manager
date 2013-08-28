@@ -236,7 +236,7 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 					No options for this service
 					</div>';
 			}
-			$html .= '</li>\n';
+			$html .= '</li>';
 		}
 		
 		return $html . '</ul>';
@@ -525,7 +525,7 @@ if ( !function_exists( 'api_connection_manager_dash_options' ) ):
 			<h2>Api Connection Manager - Service Options</h2>
 			<h3>The redirect uri for this installation is: <em><?php echo wp_kses_post( $redirect_uri ); ?></em></h3>
 			<ul>
-				<?php echo wp_kses_post( $api_con_mngr_dash_setup->get_service_options() ); ?>
+				<?php echo $api_con_mngr_dash_setup->get_service_options(); ?>
 			</ul>
 		<?php
 	}
