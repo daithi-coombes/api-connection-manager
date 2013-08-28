@@ -200,7 +200,7 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 				//start form
 				$html .= '<form method="post">
 					<input type="hidden" name="action" value="save_service"/>
-					<input type="hidden" name="service" value=' . $slug . '/>
+					<input type="hidden" name="service" value="' . $slug . '"/>
 					<ul>';
 				
 				//add option inputs
