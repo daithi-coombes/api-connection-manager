@@ -439,8 +439,6 @@ class API_Connection_Manager_Setup extends WP_List_Table{
 
 		if ( method_exists( $this, $action ) )
 			$this->$action();
-		else
-			print '<b>Unkown action: ' . $action . '</b>';
 	}
 }
 
@@ -481,7 +479,7 @@ if ( !function_exists( 'api_connection_manager_dash' ) ):
 		<h2><div id="icon-users" class="icon32"></div><?php _e( 'AutoFlow Wordpress Login Framework', 'autoflow' ); ?></h2>
 		<ul class="subsubsub">
 			<li class="all"><a <?php if ( 'all' == @$_GET['module_status'] || !@$_GET['module_status'] ) echo wp_kses_post( ' class="current"' ); ?> 
-					href="<?php echo esc_url( $url ); ?>&module_status=all">All <span class="count">(<?php echo wp_kses( $api_con_mngr_dash_setup->total ); ?>)</span></a> |</li>
+					href="<?php echo esc_url( $url ); ?>&module_status=all">All <span class="count">(<?php echo __( $api_con_mngr_dash_setup->total ); ?>)</span></a> |</li>
 
 			<li class="active"><a <?php if ( 'active' == $_GET['module_status'] ) echo ' class="current"' ?> 
 					href="<?php echo esc_url( $url ); ?>&module_status=active">Active <span class="count">(<?php echo wp_kses_post( $api_con_mngr_dash_setup->total_active ); ?>)</span></a> |</li>
