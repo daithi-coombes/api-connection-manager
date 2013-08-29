@@ -12,7 +12,7 @@
  */
 
 //boostrap
-error_reporting(E_ALL ^ E_STRICT);
+error_reporting(E_ALL & ~(E_STRICT | E_NOTICE));
 ini_set('display_errors',1);
 define('API_CON_MNGR_LOG_ENABLE', false);
 $API_CON_PLUGIN_DIR =  WP_PLUGIN_DIR . "/" . basename(dirname( __FILE__ ));
