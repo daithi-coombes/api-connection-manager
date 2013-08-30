@@ -51,7 +51,7 @@ require_once('class-api-con-mngr-error.php'); //hack: jenkins ant is not finding
  */
 function API_Con_Mngr_Autoload($class){
 	global $API_CON_PLUGIN_DIR;
-  $class_name = str_replace("_", "-", $class);
+  $class_name = preg_replace('/-/', '/_/', $class);
   $class_name = strtolower( $class_name );
 	$filename = "class-{$class_name}.php";
 	@include "{$API_CON_PLUGIN_DIR}/{$filename}";
