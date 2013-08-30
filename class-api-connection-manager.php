@@ -438,6 +438,61 @@ class API_Connection_Manager{
 	 * @return [type] [description]
 	 */
 	public function _reset_options(){
+
+		//"SELECT meta_value FROM wp_sitemeta WHERE meta_key = 'api-connection-manager' AND site_id = 1"
+		
+		/**
+		 * tables where data is stored
+		 *
+		 * wp_usermeta:
+		 * 	meta_key: API_Con_Mngr_Module-{$slug}
+		 * 	meta_val: hash{ connection info for user }
+		 * 	user_id: int( user_id connections belong to )
+		 *
+		 * wp_sitemeta:
+		 * 	meta_key: API_Con_Mngr_Module
+		 * 	meta_value: hash( client_id, client_secret, endpoints )
+		 * 	meta_key: API_Con_Mngr_Module-connections
+		 * 	meta_value: hash( $user_id:$slug:$profile_id )
+		 *
+		 * wp_options:
+		 * 	meta_key: API_Con_Mngr_Module-connections
+		 * 	meta_value: hash( $user_id:$slug:$profile_id )
+		 *
+		 * wp_16_options:
+		 * 	meta_key: API_Con_Mngr_Module-connections
+		 * 	meta_value: hash( $user_id:$slug:$profile_id )
+		 */
+		
+
+		global $wpdb;
+
+		//clear usermeta
+		$usermeta = $wpdb->query("
+			DELETE FROM {$wpdb->usermeta}
+			WHERE `umeta_id` IN (
+				SELECT * FROM (
+					SELECT `umeta_id` FROM {$wpdb->usermeta}
+					WHERE `meta_key`
+					LIKE 'API_Con_Mngr_Module%'
+				) AS p
+			)
+		", ARRAY_N );
+
+		//clear sitemeta
+		$sitemeta = $wpdb->query("
+			DELETE FROM {$wpdb->sitemeta}
+			WHERE `meta_id` IN (
+				SELECT * FROM (
+					SELECT `meta_id` from {$wpdb->sitemeta}
+					WHERE `meta_key`
+					LIKE 'API_Con_Mngr_Module%'
+				) AS p
+			)
+		");
+		var_dump($wpdb);
+		die();
+
 		$option_name = 'API_Con_Mngr_Module-connections';
 		//multisite install
 		if ( is_multisite() )
