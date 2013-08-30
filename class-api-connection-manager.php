@@ -490,15 +490,20 @@ class API_Connection_Manager{
 				) AS p
 			)
 		");
+
+		//clear options
+		$sitemeta = $wpdb->query("
+			DELETE FROM {$wpdb->options}
+			WHERE `option_id` IN (
+				SELECT * FROM (
+					SELECT `option_id` from {$wpdb->options}
+					WHERE `option_name`
+					LIKE 'API_Con_Mngr_Module%'
+				) AS p
+			)
+		");
 		var_dump($wpdb);
 		die();
-
-		$option_name = 'API_Con_Mngr_Module-connections';
-		//multisite install
-		if ( is_multisite() )
-			$connections = update_site_option( $option_name, array() );
-		else
-			$connections = update_option( $option_name, array() );
 	}
 	
 	/**
