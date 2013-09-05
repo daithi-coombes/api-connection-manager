@@ -277,9 +277,6 @@ class API_Connection_Manager{
 		 * Build array of API_Con_Mngr_Module classes
 		 */
 		foreach ( $slugs as $slug ) {
-			/**
-			 * Use API_Con_Mngr_Module 
-			 */
 			//load index file
 			unset( $module );
 			include( $plugin_root . '/' . $slug );
@@ -290,7 +287,7 @@ class API_Connection_Manager{
 			$plugin_data = get_plugin_data( $plugin_root . '/' . $slug, false, false ); //Do not apply markup/translate as it'll be cached.
 			$module->set_params( $plugin_data );
 			$wp_plugins[$module->slug] = $module;
-			//end use API_Con_Mngr_Module
+			
 		}//end build of plugin[data]
 		
 		//build return array
