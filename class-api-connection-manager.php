@@ -140,7 +140,7 @@ class API_Connection_Manager{
 			<h2>API Connection Manager</h2>
 			<ul>';
 		foreach ( $errors as $err )
-			echo '<li>' . $err . '</li>\n';
+			echo '<li>' . $err . '</li>';
 		echo '</ul></div>';
 		$error_obj->clear();
 		return true;
