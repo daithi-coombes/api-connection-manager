@@ -34,6 +34,13 @@ class API_Connection_Manager_User{
 		$count = 1;
 		$html = "<div>\n";
 
+		if ( is_super_admin() ){
+			$base_url = network_admin_url( 'admin.php' );
+
+			print '|<a href="' . $base_url . '?page=api-connection-manager-setup">Service Management</a>| ';
+			print '|<a href="' . $base_url . '?page=api-connection-manager-service">Service Options</a>|';
+		}
+
 		if ( is_multisite() )
 			$meta = get_site_option( 'API_Con_Mngr_Module-connections', array() );
 		else
