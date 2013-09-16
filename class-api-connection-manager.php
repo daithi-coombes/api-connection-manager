@@ -617,6 +617,7 @@ class API_Connection_Manager{
 		 * Normally should only happen when $_REQUEST['code'] is recieved
 		 */
 		elseif ( @$module->protocol == 'oauth2' ){
+			
 			//get tokens (this call will set tokens in db for module)
 			$tokens = $module->get_access_token( $dto->response );
 			if ( is_wp_error( $tokens ) )
