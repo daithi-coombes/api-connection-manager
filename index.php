@@ -38,6 +38,7 @@ require_once( $API_CON_PLUGIN_DIR . "/vendor/OAuth.php");
 include_once(dirname(__FILE__).'/vendor/log4php/Logger.php');
 require_once( $API_CON_PLUGIN_DIR . "/class-api-con-logger-filter.php");
 require_once('class-api-connection-manager.php'); //hack: jenkins ant is not finding this through autoloader!
+require_once('class-api-con-mngr-view.php'); //hack: jenkins ant is not finding this through autoloader!
 require_once('class-api-con-mngr-error.php'); //hack: jenkins ant is not finding this through autoloader!
 @Logger::configure(dirname(__FILE__).'/log4net-config.xml');
 /**
@@ -50,8 +51,9 @@ require_once('class-api-con-mngr-error.php'); //hack: jenkins ant is not finding
  * Autoloader 
  */
 function API_Con_Mngr_Autoload($class){
+  return;
 	global $API_CON_PLUGIN_DIR;
-  $class_name = preg_replace('/-/', '/_/', $class);
+  $class_name = preg_replace('-', '_', $class);
   $class_name = strtolower( $class_name );
 	$filename = "class-{$class_name}.php";
 	@include "{$API_CON_PLUGIN_DIR}/{$filename}";
