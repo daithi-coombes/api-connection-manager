@@ -712,7 +712,6 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		 * neither then will return false
 		 */
 		public function login( $uid ){
-			
 			$connections = $this->get_connections();
 
 			//if logged in user then connect account
@@ -764,8 +763,10 @@ if ( !class_exists( 'API_Con_Mngr_Module' ) ):
 		 */
 		public function login_connect( $user_id, $uid ){
 			
-			$connections = $this->get_connections();
+			if ( !$uid )
+				return new API_Con_Mngr_Error( 'Invalid UID (' . $uid . ') passed for module: ' . $this->Name );
 
+			$connections = $this->get_connections();
 			/**
 			 * check if provider account is already in use
 			 */

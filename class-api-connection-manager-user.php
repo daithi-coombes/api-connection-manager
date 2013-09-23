@@ -117,7 +117,7 @@ class API_Connection_Manager_User{
 		
 		global $API_Connection_Manager;
 		$module = $API_Connection_Manager->get_service( $dto->slug );
-		$uid = $module->get_uid();
+		$uid = $module->get_uid( $dto );
 		$login = $module->login( $uid );	//$module::login will set error in global if found
 	}
 	
