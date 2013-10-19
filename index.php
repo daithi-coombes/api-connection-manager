@@ -9,7 +9,7 @@
   Version: 0.1
   Author: Daithi Coombes
   Author URI: http://david-coombes.com
- */
+*/
 
 //boostrap
 error_reporting(E_ALL & ~(E_STRICT | E_NOTICE));
